@@ -1,0 +1,27 @@
+Zombie Murderer Animation List
+
+frame: 0030-0059 backpedal (loop)
+frame: 0090-0116 murderer death
+frame: 0120-0159 get hit from behind
+frame: 0165-0209 get hit from front
+frame: 0215-0249 get hit from left
+frame: 0255-0289 get hit from right
+frame: 0329-0363 idle (loop)
+frame: 0405-0464 jump
+frame: 0470-0526 roar
+frame: 0553-0576 run (loop)
+frame: 0629-0648 shuffle left (loop)
+frame: 0694-0713 shuffle right (loop)
+frame: 0740-0784 slash
+frame: 0795-0804 slash start
+frame: 0833-0862 slash loop (loop)
+frame: 0891-0905 slash end
+frame: 0959-1008 sneak (loop)
+frame: 1060-1179 spawn
+frame: 1214-1243 strafe left (loop)
+frame: 1309-1338 strafe right (loop)
+frame: 1375-1420 throw knife
+frame: 1459-1488 walk (loop)
+
+
+
