@@ -20,7 +20,7 @@
 ## How to try the game
 
 - Clone or download the Build folder
-- Launch `Spooky.exe`
+- Launch `Mobattack.exe`
 
 ![Archer](Archer.png)
 
