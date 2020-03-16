@@ -26,10 +26,10 @@
 
 ## About the game
 
-This project is my journey from "Yes I think I know what Unity looks like" to "I made a thing". So it is not the cleanest but I am fairly proud that it exists.
+This project is my journey from "Yes I think I know what Unity looks like" to "Look, it doesn't crash". So it is not the cleanest but I am fairly proud that it exists.
 Of course I plan to continue to iterate on it to make it really playable and not just a personnal tech demo.
 
-This game is made in Unity, with the initial help of the course _[Skeletons vs Zombies MOBA With Multiplayer in Unity](https://www.packtpub.com/application-development/skeletons-vs-zombies-moba-multiplayer-unity-video "Packt store page")_ by [Devslopes](https://devslopes.com/ "Devslopes homepage"). This course really kickstarted the project, since it teached me the basics and had quality models and animations ready to use _(made by [Bitgem](https://shop.bitgem3d.com/collections/bitgem "Bitgem Collection store page"))_.
+This game is made in Unity, with the initial help of the course _[Skeletons vs Zombies MOBA With Multiplayer in Unity](https://www.packtpub.com/application-development/skeletons-vs-zombies-moba-multiplayer-unity-video "Packt store page")_ by [Devslopes](https://devslopes.com/ "Devslopes homepage"). This course really kickstarted the project, since it taught me the basics and had quality models and animations ready to use _(made by [Bitgem](https://shop.bitgem3d.com/collections/bitgem "Bitgem Collection store page"))_.
 
 ![Mage](Mage.png)
 
@@ -38,9 +38,13 @@ This game is made in Unity, with the initial help of the course _[Skeletons vs Z
 - A map to play on, made with multiple levels of **Prefabs** for easy changes if needed.
 - Animated Characters, via their **Animator Controller**.
 
+---
+
 - Characters/_Agents_ moving on a **Navigation Mesh**.
 - Tuning the movement speed so that the characters do not appear to slide _too much_ on the ground.
 - Relatively complex models simplified on the Navigation Mesh with **Obstacles** or simple **Box Colliders**.
+
+---
 
 - Use of **Canvas** for the health bars, the damage/heal numbers, and the minimap.
 - Use of the **Image Fill** parameter for the health bars.
@@ -54,10 +58,16 @@ This game is made in Unity, with the initial help of the course _[Skeletons vs Z
 - **Post Processing** to look better, with **Bloom**, **Depth Of Field**, **Ambient Occlusion**, a light **Vignette**, and **Color Grading**.
 - A _(too)_ simple **auto-focus** script that doesn't look good up close since it doesn't account for the Aperture and Focal Length.
 
+---
+
 - Characters with a **basic attack loop** all using the same script.
 - Basic attack loop can shoot **projectiles**, damage **a target**, or damage a target and **others in range**.
 - Use of the **Animation** itself to tell when to damage or launch projectile.
 
+---
+
 - Characters can **die**, triggering a Dead state and spawning an inactive corpse that does the dying animation in their place while they are waiting behind the Spawn to the left of the map. Then, they spawn back in 10 seconds.
+
+---
 
 - Unfinished spell on the mage, shooting multiple small projectiles that should each target the closest character. Right now it only targets the last character targeted.
