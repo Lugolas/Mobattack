@@ -11,6 +11,10 @@ public class MinimapToken : MonoBehaviour
   void Start()
   {
     portraitName = GetComponentsInParent<Transform>()[1].gameObject.name;
+    if (portraitName.Length > 7 && portraitName.Substring(portraitName.Length - 7) == "(Clone)")
+    {
+      portraitName = portraitName.Substring(0, portraitName.Length - 7);
+    }
     if (portraitName != "" && portraitName != null)
     {
       portrait = (Texture)Resources.Load("Tokens/" + portraitName + "Token");
@@ -21,7 +25,7 @@ public class MinimapToken : MonoBehaviour
         material.SetTexture("_EmissionMap", portrait);
       }
     }
-    gameObject.GetComponent<MeshRenderer> ().enabled = true;
+    gameObject.GetComponent<MeshRenderer>().enabled = true;
   }
 
   // Update is called once per frame

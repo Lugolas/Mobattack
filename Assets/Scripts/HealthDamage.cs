@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
+using UnityEngine.Networking;
 
-public class HealthDamage : MonoBehaviour
+public class HealthDamage : NetworkBehaviour
 {
   private Animator anim;
+  private UnityEngine.AI.NavMeshAgent navAgent;
+
   public int maxHealth = 200;
   private float respawnTime = 10;
+  [SyncVar]
   private float deathTime = -1;
+  [SyncVar]
   public int currentHealth;
-  public bool isDead = false;
+  [SyncVar]
+  public bool isDead = true;
   private BaseMoveAttacc baseMoveAttacc;
   public Transform waitingForRespawnPoint;
   public Transform RespawnPoint;
@@ -25,10 +32,30 @@ public class HealthDamage : MonoBehaviour
   public string playerName;
   private GameObject canvas;
   public bool spawning = false;
+  public string playerNumber = "";
 
   // Start is called before the first frame update
   void Start()
   {
+    navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
+
+    if (!waitingForRespawnPoint)
+    {
+      GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
+      if (spawnPoint)
+      {
+        waitingForRespawnPoint = spawnPoint.transform;
+      }
+    }
+    if (!RespawnPoint)
+    {
+      GameObject spawns = GameObject.Find("Spawns");
+      if (spawns)
+      {
+        RespawnPoint = spawns.transform.Find("RespawnPoint" + playerNumber);
+      }
+    }
+
     baseMoveAttacc = GetComponent<BaseMoveAttacc>();
     canvas = GameObject.Find("Canvas");
 
@@ -49,6 +76,7 @@ public class HealthDamage : MonoBehaviour
     if (isDead && deathTime != -1 && Time.time >= deathTime + respawnTime)
     {
       Spawn();
+      respawnTime = 10;
     }
     if (playerHeader)
     {
@@ -57,7 +85,7 @@ public class HealthDamage : MonoBehaviour
       playerHealthBar.fillAmount = (float)currentHealth / maxHealth;
     }
 
-    if (Input.GetKeyDown(KeyCode.X))
+    if (Input.GetKeyDown(KeyCode.V))
     {
       TakeDamage(Random.Range(1, 200));
     }
@@ -73,8 +101,19 @@ public class HealthDamage : MonoBehaviour
     else if (spawning && isDead)
     {
       spawning = false;
-      isDead = false;
+      CmdUpdateDeathStatus(false);
     }
+  }
+
+  [Command]
+  void CmdUpdateDeathStatus(bool deathStatus)
+  {
+    RpcUpdateDeathStatus(deathStatus);
+  }
+  [ClientRpc]
+  void RpcUpdateDeathStatus(bool deathStatus)
+  {
+    isDead = deathStatus;
   }
 
   void playerHeaderInstantiate()
@@ -105,7 +144,12 @@ public class HealthDamage : MonoBehaviour
     if (!isDead)
     {
       DamagePopUpController.CreateDamagePopUp(damageAmount.ToString(), transform, "red");
-      currentHealth -= damageAmount;
+      // currentHealth -= damageAmount;
+
+      if (isServer)
+      {
+        CmdTakeDamage(damageAmount);
+      }
 
       if (currentHealth <= 0)
       {
@@ -116,9 +160,28 @@ public class HealthDamage : MonoBehaviour
     }
   }
 
+  [Command]
+  void CmdTakeDamage(int damageAmount)
+  {
+    RpcUpdateDamage(currentHealth - damageAmount);
+  }
+
+  [ClientRpc]
+  void RpcUpdateDamage(int newHealth)
+  {
+    currentHealth = newHealth;
+    if (currentHealth <= 0)
+    {
+      currentHealth = 0;
+      if (!isDead)
+        Die();
+    }
+  }
+
   void Spawn()
   {
-    transform.position = RespawnPoint.position;
+    // transform.position = RespawnPoint.position;
+    navAgent.Warp(RespawnPoint.position);
     anim.SetTrigger("Spawn");
     deathTime = -1;
     currentHealth = maxHealth;
@@ -140,6 +203,35 @@ public class HealthDamage : MonoBehaviour
 
   void Die()
   {
+    CmdDie();
+    // currentHealth = 0;
+    // if (playerHeader)
+    //   Destroy(playerHeader);
+    // GameObject playerCorpse = Instantiate(playerCorpsePrefab);
+    // playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
+    // playerCorpse.transform.rotation = transform.rotation;
+    // Destroy(playerCorpse, 60);
+    // CmdUpdateDeathStatus(true);
+    // deathTime = Time.time;
+    // // anim.SetTrigger("Die");
+    // if (baseMoveAttacc)
+    // {
+    //   baseMoveAttacc.stopMoving();
+    // }
+    // if (waitingForRespawnPoint)
+    // {
+    //   navAgent.Warp(waitingForRespawnPoint.position);
+    //   transform.rotation = waitingForRespawnPoint.rotation;
+    // }
+  }
+  [Command]
+  void CmdDie()
+  {
+    RpcDie();
+  }
+  [ClientRpc]
+  void RpcDie()
+  {
     currentHealth = 0;
     if (playerHeader)
       Destroy(playerHeader);
@@ -147,7 +239,7 @@ public class HealthDamage : MonoBehaviour
     playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
     playerCorpse.transform.rotation = transform.rotation;
     Destroy(playerCorpse, 60);
-    isDead = true;
+    CmdUpdateDeathStatus(true);
     deathTime = Time.time;
     // anim.SetTrigger("Die");
     if (baseMoveAttacc)
@@ -156,8 +248,14 @@ public class HealthDamage : MonoBehaviour
     }
     if (waitingForRespawnPoint)
     {
-      transform.position = waitingForRespawnPoint.position;
+      navAgent.Warp(waitingForRespawnPoint.position);
       transform.rotation = waitingForRespawnPoint.rotation;
     }
   }
+  void OnDisable()
+  {
+    if (playerHeader)
+      Destroy(playerHeader);
+  }
+
 }

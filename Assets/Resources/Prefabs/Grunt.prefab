@@ -262,10 +262,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7904236314534656406}
+  - component: {fileID: 7863440168643732655}
   - component: {fileID: 8841598036988829515}
   - component: {fileID: 2780896548525759505}
   - component: {fileID: 2308360209127949585}
   - component: {fileID: 3028814391901185421}
+  - component: {fileID: 6744749406428343638}
+  - component: {fileID: 4765575574274166690}
   m_Layer: 10
   m_Name: Grunt
   m_TagString: Character
@@ -290,6 +293,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7863440168643732655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904236314534553014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804eea166e6fe9442a7f9149e55a0657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientId: 0
 --- !u!136 &8841598036988829515
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -318,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   currentHealth: 0
-  isDead: 0
+  isDead: 1
   waitingForRespawnPoint: {fileID: 0}
   RespawnPoint: {fileID: 0}
   playerHeaderPrefab: {fileID: 1822804655241396782, guid: f1ffbf2479a6d4d43927ea59b6c51e70,
@@ -327,6 +343,7 @@ MonoBehaviour:
     type: 3}
   playerName: Grunt
   spawning: 0
+  playerNumber: 
 --- !u!195 &2308360209127949585
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -370,6 +387,61 @@ MonoBehaviour:
   rapidFireballAmount: 2
   baseAttackType: 1
   baseAttackDamage: 50
+--- !u!114 &6744749406428343638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904236314534553014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &4765575574274166690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904236314534553014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!1001 &5020414696511352975
 PrefabInstance:
   m_ObjectHideFlags: 0

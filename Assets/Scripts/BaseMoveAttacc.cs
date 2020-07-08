@@ -1,14 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BaseMoveAttacc : MonoBehaviour
+public class BaseMoveAttacc : NetworkBehaviour
 {
+  [SyncVar]
   public Transform targetedEnemy = null;
   private bool enemyClicked;
   private bool animatingAttack = false;
   private bool animatingRapidFire = false;
   private Animator anim;
+
+  [SyncVar]
+  public Vector3 navigationTarget = Vector3.zero;
+  [SyncVar]
+  public Transform navigationTargetMovable = null;
+  [SyncVar]
+  public bool hasNavigationTarget = false;
+  [SyncVar]
+  public bool isNavigationTargetMovable = false;
   private UnityEngine.AI.NavMeshAgent navAgent;
   public float shootDistance = 10f;
   public Transform FireballSpawnPoint = null;
@@ -20,7 +31,7 @@ public class BaseMoveAttacc : MonoBehaviour
   public int rapidFireballAmount = 2;
   private float nextFire;
   private float nextSpell;
-  private bool disabled = true;
+  private bool disabled = false;
   private FireMomentListener fireMomentListener;
   private MageRapidFire mageRapidFire;
   private bool timetoFireFired = false;
@@ -29,6 +40,7 @@ public class BaseMoveAttacc : MonoBehaviour
   private string nameOfCharacter;
   private float timeBetweenShots = 1.15f;
   private float timeBetweenSpells = 1.15f;
+  private bool rightClicked = false;
   // private int fireballDamage = 25;
   public enum BaseAttackType
   {
@@ -59,30 +71,55 @@ public class BaseMoveAttacc : MonoBehaviour
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
   }
 
-  void Update()
+  [Command]
+  void CmdSetPoint(Vector3 point)
+  {
+    hasNavigationTarget = true;
+    navigationTarget = point;
+    isNavigationTargetMovable = false;
+  }
+
+  // [Command]
+  // void CmdSetTarget(Transform target)
+  // {
+  //   hasNavigationTarget = true;
+  //   navigationTargetMovable = target;
+  //   isNavigationTargetMovable = true;
+  // }
+  void LateUpdate()
   {
     if (!disabled)
     {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit hit;
-
-      if (Input.GetButton("Fire2") && !healthDamage.isDead)
+      if (navigationTargetMovable && navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead)
       {
-        if (Physics.Raycast(ray, out hit, 2500))
-        {
-          if (hit.collider.CompareTag("Character") && hit.collider.name != nameOfCharacter)
-          {
-            targetedEnemy = hit.transform;
-            enemyClicked = true;
-          }
-          else
-          {
-            run();
-            enemyClicked = false;
-            navAgent.destination = hit.point;
-            navAgent.isStopped = false;
-          }
-        }
+        navigationTargetMovable = null;
+      }
+      // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      // RaycastHit hit;
+
+      // if (Input.GetButton("Fire2") && !healthDamage.isDead)
+      // {
+      //   rightClicked = true;
+      //   if (Physics.Raycast(ray, out hit, 2500))
+      //   {
+      //     if (hit.collider.CompareTag("Character") && hit.collider.name != nameOfCharacter)
+      //     {
+      //       targetedEnemy = hit.transform;
+      //       enemyClicked = true;
+      //     }
+      //     else
+      //     {
+      //       CmdSetPoint(hit.point);
+      //     }
+      //   }
+      // }
+
+      if (hasNavigationTarget && !isNavigationTargetMovable && !healthDamage.isDead)
+      {
+        enemyClicked = false;
+        navAgent.destination = navigationTarget;
+        run();
+        navAgent.isStopped = false;
       }
 
       if (Input.GetKeyDown(KeyCode.A) && !healthDamage.isDead)
@@ -182,7 +219,7 @@ public class BaseMoveAttacc : MonoBehaviour
         }
       }
 
-      if (enemyClicked)
+      if (hasNavigationTarget && isNavigationTargetMovable && !healthDamage.isDead)
       {
         StartCoroutine("MoveAndShoot");
       }
@@ -197,6 +234,7 @@ public class BaseMoveAttacc : MonoBehaviour
           else
           {
             running = 0;
+            hasNavigationTarget = false;
           }
         }
       }
@@ -273,36 +311,49 @@ public class BaseMoveAttacc : MonoBehaviour
 
   IEnumerator MoveAndShoot()
   {
-    if (targetedEnemy == null)
-    {
-      yield return null;
-    }
-    navAgent.destination = targetedEnemy.position;
-
-    if (navAgent.pathPending)
+    if (healthDamage.isDead)
     {
       yield return null;
     }
 
-    if (navAgent.remainingDistance > shootDistance || double.IsInfinity(navAgent.remainingDistance))
+    targetedEnemy = navigationTargetMovable;
+    if (targetedEnemy && !targetedEnemy.GetComponent<HealthDamage>().isDead)
     {
-      navAgent.isStopped = false;
-      run();
+      navAgent.destination = targetedEnemy.position;
+
+      if (navAgent.pathPending)
+      {
+        yield return null;
+      }
+
+      if (navAgent.remainingDistance > shootDistance || double.IsInfinity(navAgent.remainingDistance))
+      {
+        navAgent.isStopped = false;
+        run();
+      }
+      else
+      {
+        transform.LookAt(targetedEnemy);
+        navAgent.isStopped = true;
+        running = 0;
+        Fire();
+        // StartCoroutine("Fire");
+      }
+
+      yield return null;
     }
     else
     {
-      transform.LookAt(targetedEnemy);
-      navAgent.isStopped = true;
-      running = 0;
-      Fire();
-      // StartCoroutine("Fire");
+      stopMoving();
     }
-
-    yield return null;
   }
 
   void Fire()
   {
+    if (healthDamage.isDead)
+    {
+      return;
+    }
     // if (attacking == false && (Time.time > nextFire))
     if (animatingAttack == false && attacking == false && (Time.time > nextFire))
     {
@@ -313,6 +364,10 @@ public class BaseMoveAttacc : MonoBehaviour
 
   void Spell()
   {
+    if (healthDamage.isDead)
+    {
+      return;
+    }
     if (animatingAttack == false && attacking == false && (Time.time > nextSpell))
     {
       attacking = true;
@@ -322,6 +377,10 @@ public class BaseMoveAttacc : MonoBehaviour
 
   void run()
   {
+    if (healthDamage.isDead)
+    {
+      return;
+    }
     running = 1;
     StopCoroutine("Fire");
     attacking = false;
@@ -332,6 +391,7 @@ public class BaseMoveAttacc : MonoBehaviour
     running = 0;
     attacking = false;
     // StopCoroutine("Fire");
+    hasNavigationTarget = false;
     navAgent.destination = transform.position;
     navAgent.isStopped = true;
   }

@@ -112,8 +112,6 @@ public class DamageCollider : MonoBehaviour
 
   void OnCollisionStay(Collision collision)
   {
-    Debug.Log("WIIHOUUWIIHOUU");
-    Debug.Log(collision.gameObject.name);
     GameObject collidedCharacter = Tools.FindObjectOrParentWithTag(collision.gameObject, "Character");
 
     if (collidedCharacter != null && collidedCharacter.name != nameOfAttacker)
