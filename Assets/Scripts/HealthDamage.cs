@@ -39,6 +39,10 @@ public class HealthDamage : NetworkBehaviour
   {
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
 
+    // isDead = true;
+    // deathTime = Time.time;
+    // respawnTime = 0;
+
     if (!waitingForRespawnPoint)
     {
       GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
@@ -84,6 +88,13 @@ public class HealthDamage : NetworkBehaviour
       playerHeader.transform.position = new Vector2(playerHeaderScreenPosition.x, playerHeaderScreenPosition.y + 75);
       playerHealthBar.fillAmount = (float)currentHealth / maxHealth;
     }
+    else
+    {
+      // if (!isDead)
+      // {
+      //   playerHeaderInstantiate();
+      // }
+    }
 
     if (Input.GetKeyDown(KeyCode.V))
     {
@@ -118,8 +129,49 @@ public class HealthDamage : NetworkBehaviour
 
   void playerHeaderInstantiate()
   {
+    // Debug.Log("Trying to Instantiate PlayerHeader");
+    // if (isServer)
+    // {
+    //   Debug.Log("About to really do it because I am the host :)");
+    //   CmdPlayerHeaderInstantiate();
+    // }
+    // else
+    //   Debug.Log("Can't quite manage because I am a lowly client :(");
     Vector2 playerHeaderScreenPosition = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z));
     playerHeader = Instantiate(playerHeaderPrefab);
+    playerHeader.transform.SetParent(canvas.transform, false);
+    playerHeader.transform.position = new Vector2(playerHeaderScreenPosition.x, playerHeaderScreenPosition.y + 75);
+
+    playerHeaderBars = playerHeader.GetComponentsInChildren<Image>();
+    if (playerHeaderBars[0].name == "HealthBar")
+    {
+      playerHealthBar = playerHeaderBars[0];
+      playerManaBar = playerHeaderBars[1];
+    }
+    else
+    {
+      playerHealthBar = playerHeaderBars[1];
+      playerManaBar = playerHeaderBars[0];
+    }
+
+    playerHeaderText = playerHeader.GetComponentsInChildren<TextMeshProUGUI>()[0];
+    playerHeaderText.text = playerName;
+  }
+
+  [Command]
+  void CmdPlayerHeaderInstantiate()
+  {
+    Debug.Log("One step closer to doing it");
+    RpcPlayerHeaderInstantiate();
+  }
+  [ClientRpc]
+  void RpcPlayerHeaderInstantiate()
+  {
+    Debug.Log("Here I go guys watch out");
+
+    Vector2 playerHeaderScreenPosition = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z));
+    playerHeader = Instantiate(playerHeaderPrefab);
+    Debug.Log("I mean I just did it right?");
     playerHeader.transform.SetParent(canvas.transform, false);
     playerHeader.transform.position = new Vector2(playerHeaderScreenPosition.x, playerHeaderScreenPosition.y + 75);
 
@@ -181,11 +233,24 @@ public class HealthDamage : NetworkBehaviour
   void Spawn()
   {
     // transform.position = RespawnPoint.position;
+    if (isServer)
+    {
+      CmdSpawn();
+    }
+  }
+  [Command]
+  void CmdSpawn()
+  {
+    RpcSpawn();
+    RpcPlayerHeaderInstantiate();
+  }
+  [ClientRpc]
+  void RpcSpawn()
+  {
     navAgent.Warp(RespawnPoint.position);
     anim.SetTrigger("Spawn");
     deathTime = -1;
     currentHealth = maxHealth;
-    playerHeaderInstantiate();
   }
   void ReceiveHealing(int healingAmount)
   {
@@ -203,7 +268,10 @@ public class HealthDamage : NetworkBehaviour
 
   void Die()
   {
-    CmdDie();
+    if (isServer)
+    {
+      CmdDie();
+    }
     // currentHealth = 0;
     // if (playerHeader)
     //   Destroy(playerHeader);
