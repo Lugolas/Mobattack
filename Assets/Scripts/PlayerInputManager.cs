@@ -7,6 +7,7 @@ public class PlayerInputManager : NetworkBehaviour
 {
   int characterIndex;
   // Index of the right character in the array of the children of the CharactersManager
+  public GameObject targetPointer;
   [SyncVar]
   public GameObject character;
   [SyncVar]
@@ -74,12 +75,14 @@ public class PlayerInputManager : NetworkBehaviour
           if (hit.collider.CompareTag("Character") && hit.collider.name != character.name)
           {
             target = hit.transform.gameObject;
+
             // targetedEnemy = hit.transform;
             // enemyClicked = true;
             CmdAttack(target.name);
           }
           else
           {
+            Instantiate(targetPointer, new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z), new Quaternion());
             CmdMoveTo(hit.point);
           }
         }
