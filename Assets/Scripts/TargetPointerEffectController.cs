@@ -32,9 +32,6 @@ public class TargetPointerEffectController : MonoBehaviour
       {
         float t = (Time.time - startTime) / duration;
         alphaRatio = Mathf.SmoothStep(1f, 0f, t);
-        Debug.Log(initialAlphaValue);
-        Debug.Log(alphaRatio);
-        Debug.Log(initialAlphaValue * alphaRatio);
         materials[0].color = new Color(materials[0].color.r, materials[0].color.g, materials[0].color.b, initialAlphaValue * alphaRatio);
       }
     }

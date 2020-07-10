@@ -19,6 +19,9 @@ public class PlayerInputManager : NetworkBehaviour
   bool hasCharacter = false;
   bool disable = false;
 
+  bool moveClickDown = false;
+  Vector3 moveClickPosition = Vector3.zero;
+
   // click -> send to server position and index
   // Start is called before the first frame update
   void Start()
@@ -82,10 +85,19 @@ public class PlayerInputManager : NetworkBehaviour
           }
           else
           {
-            Instantiate(targetPointer, new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z), new Quaternion());
+            moveClickDown = true;
+            moveClickPosition = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z);
             CmdMoveTo(hit.point);
           }
         }
+      }
+    }
+    else
+    {
+      if (moveClickDown)
+      {
+        moveClickDown = false;
+        Instantiate(targetPointer, moveClickPosition, new Quaternion());
       }
     }
     // }
