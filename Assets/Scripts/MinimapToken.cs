@@ -21,7 +21,7 @@ public class MinimapToken : MonoBehaviour
       GetComponent<Renderer>().GetMaterials(materials);
       foreach (Material material in materials)
       {
-        material.SetTexture("_MainTex", portrait);
+        material.SetTexture("_BaseMap", portrait);
         material.SetTexture("_EmissionMap", portrait);
       }
     }

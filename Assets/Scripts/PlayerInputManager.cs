@@ -21,6 +21,8 @@ public class PlayerInputManager : NetworkBehaviour
 
   bool moveClickDown = false;
   Vector3 moveClickPosition = Vector3.zero;
+  List<Material> outlinedCharacterMaterials = new List<Material>();
+  string outlinedCharacterName = null;
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -64,6 +66,79 @@ public class PlayerInputManager : NetworkBehaviour
     }
     // if (!isLocalPlayer)
     // {
+    Ray rayMouse = Camera.main.ScreenPointToRay(Input.mousePosition);
+    RaycastHit hitMouse;
+
+    if (Physics.Raycast(rayMouse, out hitMouse, 2500))
+    {
+      if (hitMouse.collider.CompareTag("Character"))
+      {
+        Debug.Log("This is a character.");
+        if (character && hitMouse.collider.name != character.name)
+        {
+          Debug.Log("That is not mine.");
+          if (outlinedCharacterName == null)
+          {
+            Debug.Log("And I don't have a character outlined, so I get one.");
+            Renderer[] targetRenderers;
+            targetRenderers = hitMouse.collider.GetComponentsInChildren<Renderer>();
+            foreach (Renderer targetRenderer in targetRenderers)
+            {
+              List<Material> targetMaterials = new List<Material>();
+              targetRenderer.GetMaterials(targetMaterials);
+              foreach (Material targetMaterial in targetMaterials)
+              {
+                targetMaterial.SetFloat("Vector1_Intensity", 1f);
+                outlinedCharacterMaterials.Add(targetMaterial);
+              }
+              outlinedCharacterName = hitMouse.collider.name;
+            }
+          }
+          else
+          {
+            Debug.Log("But I have a character outlined.");
+            if (outlinedCharacterName != hitMouse.collider.name)
+            {
+              Debug.Log("This is a different one, so I change between them.");
+              foreach (Material outlinedCharacterMaterial in outlinedCharacterMaterials)
+              {
+                outlinedCharacterMaterial.SetFloat("Vector1_Intensity", 0f);
+              }
+              Renderer[] targetRenderers;
+              targetRenderers = hitMouse.collider.GetComponentsInChildren<Renderer>();
+              foreach (Renderer targetRenderer in targetRenderers)
+              {
+                List<Material> targetMaterials = new List<Material>();
+                targetRenderer.GetMaterials(targetMaterials);
+                foreach (Material targetMaterial in targetMaterials)
+                {
+                  targetMaterial.SetFloat("Vector1_Intensity", 1f);
+                  outlinedCharacterMaterials.Add(targetMaterial);
+                }
+                outlinedCharacterName = hitMouse.collider.name;
+              }
+            }
+          }
+        }
+      }
+      else
+      {
+        Debug.Log("This is NOT a character.");
+        if (outlinedCharacterName != null)
+        {
+          Debug.Log("And I still have a character outlined, so I reset it.");
+          foreach (var outlinedCharacterMaterial in outlinedCharacterMaterials)
+          {
+            outlinedCharacterMaterial.SetFloat("Vector1_Intensity", 0f);
+          }
+          outlinedCharacterMaterials.Clear();
+          outlinedCharacterName = null;
+        }
+      }
+    }
+
+
+
     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     RaycastHit hit;
 
