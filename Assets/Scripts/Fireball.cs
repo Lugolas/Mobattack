@@ -65,6 +65,7 @@ public class Fireball : MonoBehaviour
   {
     if (!hasHit)
     {
+      Debug.Log(collision.gameObject.tag);
       GameObject objectHit = Tools.FindObjectOrParentWithTag(collision.gameObject, "Character");
       if (objectHit && objectHit.name != attackerName)
       {

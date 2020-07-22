@@ -7377,6 +7377,16 @@ PrefabInstance:
       propertyPath: m_UpdateWhenOffscreen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4959643090377661807, guid: c33aca8d3a7acee47b1d98e445003264,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 140d6533864174f4e825731968715fc0, type: 2}
+    - target: {fileID: 5141109519502085255, guid: c33aca8d3a7acee47b1d98e445003264,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 9107996613011031942, guid: c33aca8d3a7acee47b1d98e445003264,
         type: 3}
       propertyPath: m_LocalPosition.x

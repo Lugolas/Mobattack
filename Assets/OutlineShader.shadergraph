@@ -16,19 +16,19 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"29bcb498-e9f6-4fed-8707-6f11bdc4311b\"\n    },\n    \"m_Name\": \"Emission Color\",\n    \"m_DefaultReferenceName\": \"Color_C0746A0\",\n    \"m_OverrideReferenceName\": \"_EmissionColor\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.20000000298023225,\n        \"g\": 0.20000000298023225,\n        \"b\": 0.20000000298023225,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"29bcb498-e9f6-4fed-8707-6f11bdc4311b\"\n    },\n    \"m_Name\": \"Emission Color\",\n    \"m_DefaultReferenceName\": \"Color_C0746A0\",\n    \"m_OverrideReferenceName\": \"EmissionColor\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.20000000298023225,\n        \"g\": 0.20000000298023225,\n        \"b\": 0.20000000298023225,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
         },
         {
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"29086170-1694-4af7-bb94-2ca335f0ca0a\"\n    },\n    \"m_Name\": \"Outline Color\",\n    \"m_DefaultReferenceName\": \"Color_9B1283AB\",\n    \"m_OverrideReferenceName\": \"\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.0,\n        \"g\": 0.9529411792755127,\n        \"b\": 1.0,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"29086170-1694-4af7-bb94-2ca335f0ca0a\"\n    },\n    \"m_Name\": \"Outline Color\",\n    \"m_DefaultReferenceName\": \"Color_9B1283AB\",\n    \"m_OverrideReferenceName\": \"OutlineColor\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.0,\n        \"g\": 0.9529411792755127,\n        \"b\": 1.0,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
         },
         {
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"e8dfcdba-ccf2-4771-b9d0-e55cd2aa1903\"\n    },\n    \"m_Name\": \"Outline Intensity\",\n    \"m_DefaultReferenceName\": \"Vector1_21B1F55A\",\n    \"m_OverrideReferenceName\": \"Vector1_Intensity\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 1,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 0.0,\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"e8dfcdba-ccf2-4771-b9d0-e55cd2aa1903\"\n    },\n    \"m_Name\": \"Outline Intensity\",\n    \"m_DefaultReferenceName\": \"Vector1_21B1F55A\",\n    \"m_OverrideReferenceName\": \"OutlineIntensity\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 1,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 0.0,\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
         }
     ],
     "m_SerializedKeywords": [],

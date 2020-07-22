@@ -16,7 +16,7 @@ public class CorpseEmissiveDim : MonoBehaviour
     foreach (Material material in materials)
     {
       float h, s, v;
-      Color.RGBToHSV(material.GetColor("_EmissionColor"), out h, out s, out v);
+      Color.RGBToHSV(material.GetColor("EmissionColor"), out h, out s, out v);
       colorsHSV.Add(new Vector3(h, s, v));
       values.Add(v);
     }
@@ -28,7 +28,7 @@ public class CorpseEmissiveDim : MonoBehaviour
     {
       for (int i = 0; i < materials.Count; i++)
       {
-        materials[i].SetColor("_EmissionColor", Color.HSVToRGB(colorsHSV[i].x, colorsHSV[i].y, corpseController.lifeRatio * values[i]));
+        materials[i].SetColor("EmissionColor", Color.HSVToRGB(colorsHSV[i].x, colorsHSV[i].y, corpseController.lifeRatio * values[i]));
       }
     }
   }

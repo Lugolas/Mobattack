@@ -16,9 +16,13 @@ public class CorpseController : MonoBehaviour
   private float startDimTime = -1;
   private float startDigTime = -1;
   private float startPosition;
+  private int CHARACTER_DEAD_LAYER = 15;
+
 
   void Start()
   {
+    Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
+
     startTime = Time.time;
     minimum = 0;
     maximum = 1;

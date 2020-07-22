@@ -26,13 +26,16 @@ public class HealthDamage : NetworkBehaviour
   public GameObject playerCorpsePrefab;
   private GameObject playerHeader;
   private Image[] playerHeaderBars;
-  private Image playerHealthBar;
+  public Image playerHealthBar;
   private Image playerManaBar;
   private TextMeshProUGUI playerHeaderText;
   public string playerName;
   private GameObject canvas;
   public bool spawning = false;
   public string playerNumber = "";
+  private int CHARACTER_LAYER = 10;
+  private int CHARACTER_DEAD_LAYER = 15;
+
 
   // Start is called before the first frame update
   void Start()
@@ -77,6 +80,14 @@ public class HealthDamage : NetworkBehaviour
   // Update is called once per frame
   void Update()
   {
+    // if (isDead && gameObject.layer == CHARACTER_LAYER)
+    // {
+    //   Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
+    // }
+    // else if (!isDead && gameObject.layer == CHARACTER_DEAD_LAYER)
+    // {
+    //   Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
+    // }
     if (isDead && deathTime != -1 && Time.time >= deathTime + respawnTime)
     {
       Spawn();
@@ -250,6 +261,7 @@ public class HealthDamage : NetworkBehaviour
     navAgent.Warp(RespawnPoint.position);
     anim.SetTrigger("Spawn");
     deathTime = -1;
+    Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
     currentHealth = maxHealth;
   }
   void ReceiveHealing(int healingAmount)
@@ -268,6 +280,7 @@ public class HealthDamage : NetworkBehaviour
 
   void Die()
   {
+
     if (isServer)
     {
       CmdDie();
@@ -300,6 +313,7 @@ public class HealthDamage : NetworkBehaviour
   [ClientRpc]
   void RpcDie()
   {
+    Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
     currentHealth = 0;
     if (playerHeader)
       Destroy(playerHeader);

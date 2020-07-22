@@ -118,7 +118,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.7
-  m_BaseOffset: 0
+  m_BaseOffset: 0.17
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1059099916
@@ -1258,6 +1258,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.660758
       objectReference: {fileID: 0}
+    - target: {fileID: 8716439891088669505, guid: 3ddde4f5062e3d54e97d941214f2b632,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 075fc5654e58bcb498adffa079aba00e, type: 2}
+    - target: {fileID: 8716439891088669507, guid: 3ddde4f5062e3d54e97d941214f2b632,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 075fc5654e58bcb498adffa079aba00e, type: 2}
+    - target: {fileID: 8716439891088669509, guid: 3ddde4f5062e3d54e97d941214f2b632,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 075fc5654e58bcb498adffa079aba00e, type: 2}
+    - target: {fileID: 8716439891088669511, guid: 3ddde4f5062e3d54e97d941214f2b632,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 075fc5654e58bcb498adffa079aba00e, type: 2}
+    - target: {fileID: 8716439891091679365, guid: 3ddde4f5062e3d54e97d941214f2b632,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 075fc5654e58bcb498adffa079aba00e, type: 2}
+    - target: {fileID: 8716439891091679367, guid: 3ddde4f5062e3d54e97d941214f2b632,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 075fc5654e58bcb498adffa079aba00e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ddde4f5062e3d54e97d941214f2b632, type: 3}
 --- !u!1 &932682482500699118 stripped

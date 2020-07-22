@@ -32,6 +32,10 @@ public class PlayerInputManager : NetworkBehaviour
     {
       disable = true;
     }
+    else
+    {
+
+    }
   }
 
   [Command]
@@ -49,6 +53,8 @@ public class PlayerInputManager : NetworkBehaviour
       {
         character = charac.gameObject;
         charac.gameObject.GetComponent<CharacterManager>().clientId = clientId;
+        if (isLocalPlayer)
+          charac.gameObject.tag = "PlayerCharacter";
         hasCharacter = true;
       }
     }
@@ -71,15 +77,13 @@ public class PlayerInputManager : NetworkBehaviour
 
     if (Physics.Raycast(rayMouse, out hitMouse, 2500))
     {
-      if (hitMouse.collider.CompareTag("Character"))
+      if (hitMouse.collider.CompareTag("Character") || hitMouse.collider.CompareTag("PlayerCharacter") || hitMouse.collider.CompareTag("TeamCharacter") || hitMouse.collider.CompareTag("EnemyCharacter"))
       {
-        Debug.Log("This is a character.");
-        if (character && hitMouse.collider.name != character.name)
+        if (character)
+        // if (character && hitMouse.collider.name != character.name)
         {
-          Debug.Log("That is not mine.");
           if (outlinedCharacterName == null)
           {
-            Debug.Log("And I don't have a character outlined, so I get one.");
             Renderer[] targetRenderers;
             targetRenderers = hitMouse.collider.GetComponentsInChildren<Renderer>();
             foreach (Renderer targetRenderer in targetRenderers)
@@ -88,7 +92,7 @@ public class PlayerInputManager : NetworkBehaviour
               targetRenderer.GetMaterials(targetMaterials);
               foreach (Material targetMaterial in targetMaterials)
               {
-                targetMaterial.SetFloat("Vector1_Intensity", 1f);
+                targetMaterial.SetFloat("OutlineIntensity", 1f);
                 outlinedCharacterMaterials.Add(targetMaterial);
               }
               outlinedCharacterName = hitMouse.collider.name;
@@ -96,13 +100,11 @@ public class PlayerInputManager : NetworkBehaviour
           }
           else
           {
-            Debug.Log("But I have a character outlined.");
             if (outlinedCharacterName != hitMouse.collider.name)
             {
-              Debug.Log("This is a different one, so I change between them.");
               foreach (Material outlinedCharacterMaterial in outlinedCharacterMaterials)
               {
-                outlinedCharacterMaterial.SetFloat("Vector1_Intensity", 0f);
+                outlinedCharacterMaterial.SetFloat("OutlineIntensity", 0f);
               }
               Renderer[] targetRenderers;
               targetRenderers = hitMouse.collider.GetComponentsInChildren<Renderer>();
@@ -112,7 +114,7 @@ public class PlayerInputManager : NetworkBehaviour
                 targetRenderer.GetMaterials(targetMaterials);
                 foreach (Material targetMaterial in targetMaterials)
                 {
-                  targetMaterial.SetFloat("Vector1_Intensity", 1f);
+                  targetMaterial.SetFloat("OutlineIntensity", 1f);
                   outlinedCharacterMaterials.Add(targetMaterial);
                 }
                 outlinedCharacterName = hitMouse.collider.name;
@@ -123,13 +125,11 @@ public class PlayerInputManager : NetworkBehaviour
       }
       else
       {
-        Debug.Log("This is NOT a character.");
         if (outlinedCharacterName != null)
         {
-          Debug.Log("And I still have a character outlined, so I reset it.");
           foreach (var outlinedCharacterMaterial in outlinedCharacterMaterials)
           {
-            outlinedCharacterMaterial.SetFloat("Vector1_Intensity", 0f);
+            outlinedCharacterMaterial.SetFloat("OutlineIntensity", 0f);
           }
           outlinedCharacterMaterials.Clear();
           outlinedCharacterName = null;
@@ -150,7 +150,7 @@ public class PlayerInputManager : NetworkBehaviour
       {
         if (character)
         {
-          if (hit.collider.CompareTag("Character") && hit.collider.name != character.name)
+          if ((hit.collider.CompareTag("Character") || hit.collider.CompareTag("EnemyCharacter")) && hit.collider.name != character.name)
           {
             target = hit.transform.gameObject;
 

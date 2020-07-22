@@ -9,6 +9,9 @@ TagManager:
   - Fireball
   - FakeFloor
   - PlayerCam
+  - PlayerCharacter
+  - TeamCharacter
+  - EnemyCharacter
   layers:
   - Default
   - TransparentFX
@@ -24,8 +27,8 @@ TagManager:
   - Projectile
   - Minimap
   - SFX
-  - 
-  - 
+  - Entrance
+  - CharacterDead
   - 
   - 
   - 

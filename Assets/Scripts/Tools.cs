@@ -7,19 +7,41 @@ public class Tools : MonoBehaviour
   public static GameObject FindObjectOrParentWithTag(GameObject childObject, string tag)
   {
     Transform t = childObject.transform;
-    if (t.tag == tag)
+
+    if (tag == "Character" && t.tag == tag)
+    {
+      if (t.tag == "PlayerCharacter" || t.tag == "TeamCharacter" || t.tag == "EnemyCharacter")
+      {
+        return t.gameObject;
+      }
+    }
+    else if (t.tag == tag)
     {
       return t.gameObject;
     }
     else
     {
-      while (t.parent != null)
+      if (tag == "Character")
       {
-        if (t.parent.tag == tag)
+        while (t.parent != null)
         {
-          return t.parent.gameObject;
+          if (t.parent.tag == "PlayerCharacter" || t.parent.tag == "TeamCharacter" || t.parent.tag == "EnemyCharacter" || t.parent.tag == "Character")
+          {
+            return t.parent.gameObject;
+          }
+          t = t.parent.transform;
         }
-        t = t.parent.transform;
+      }
+      else
+      {
+        while (t.parent != null)
+        {
+          if (t.parent.tag == tag)
+          {
+            return t.parent.gameObject;
+          }
+          t = t.parent.transform;
+        }
       }
     }
     return null; // Could not find a parent with given tag.
@@ -43,5 +65,25 @@ public class Tools : MonoBehaviour
 
     return bestTarget;
   }
+
+  public static void SetLayerRecursively(GameObject obj, int newLayer)
+  {
+    if (null == obj)
+    {
+      return;
+    }
+
+    obj.layer = newLayer;
+
+    foreach (Transform child in obj.transform)
+    {
+      if (null == child)
+      {
+        continue;
+      }
+      SetLayerRecursively(child.gameObject, newLayer);
+    }
+  }
+
 
 }
