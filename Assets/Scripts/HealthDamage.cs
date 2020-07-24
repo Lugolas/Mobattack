@@ -33,6 +33,7 @@ public class HealthDamage : NetworkBehaviour
   private GameObject canvas;
   public bool spawning = false;
   public string playerNumber = "";
+  private int SPAWNING_LAYER = 9;
   private int CHARACTER_LAYER = 10;
   private int CHARACTER_DEAD_LAYER = 15;
 
@@ -124,6 +125,7 @@ public class HealthDamage : NetworkBehaviour
     {
       spawning = false;
       CmdUpdateDeathStatus(false);
+      Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
     }
   }
 
@@ -172,17 +174,13 @@ public class HealthDamage : NetworkBehaviour
   [Command]
   void CmdPlayerHeaderInstantiate()
   {
-    Debug.Log("One step closer to doing it");
     RpcPlayerHeaderInstantiate();
   }
   [ClientRpc]
   void RpcPlayerHeaderInstantiate()
   {
-    Debug.Log("Here I go guys watch out");
-
     Vector2 playerHeaderScreenPosition = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z));
     playerHeader = Instantiate(playerHeaderPrefab);
-    Debug.Log("I mean I just did it right?");
     playerHeader.transform.SetParent(canvas.transform, false);
     playerHeader.transform.position = new Vector2(playerHeaderScreenPosition.x, playerHeaderScreenPosition.y + 75);
 
@@ -261,7 +259,7 @@ public class HealthDamage : NetworkBehaviour
     navAgent.Warp(RespawnPoint.position);
     anim.SetTrigger("Spawn");
     deathTime = -1;
-    Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
+    Tools.SetLayerRecursively(gameObject, SPAWNING_LAYER);
     currentHealth = maxHealth;
   }
   void ReceiveHealing(int healingAmount)

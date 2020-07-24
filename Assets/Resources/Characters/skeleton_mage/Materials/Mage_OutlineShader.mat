@@ -39,6 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - OutlineIntensity: 0
     - Vector1_21B1F55A: 0
     - Vector1_5A5904FA: 0
     - Vector1_Intensity: 0
@@ -46,5 +47,7 @@ Material:
     m_Colors:
     - Color_9B1283AB: {r: 0, g: 0.89161634, b: 1, a: 0}
     - Color_C0746A0: {r: 0.6, g: 0.6, b: 0.6, a: 0}
+    - EmissionColor: {r: 0.70199996, g: 0.70199996, b: 0.70199996, a: 0}
+    - OutlineColor: {r: 0, g: 0.9529412, b: 1, a: 0}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

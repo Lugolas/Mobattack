@@ -7,15 +7,15 @@ public class Tools : MonoBehaviour
   public static GameObject FindObjectOrParentWithTag(GameObject childObject, string tag)
   {
     Transform t = childObject.transform;
-
-    if (tag == "Character" && t.tag == tag)
+    if (tag == "Character")
     {
       if (t.tag == "PlayerCharacter" || t.tag == "TeamCharacter" || t.tag == "EnemyCharacter")
       {
         return t.gameObject;
       }
     }
-    else if (t.tag == tag)
+
+    if (t.tag == tag)
     {
       return t.gameObject;
     }

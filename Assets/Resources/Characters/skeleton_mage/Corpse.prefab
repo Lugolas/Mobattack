@@ -46,16 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeRatio: 1
   digRatio: 1
-  minimum: 0
-  maximum: 1
-  durationBeforeDim: 1
-  durationDim: 2.5
-  durationDig: 15
-  digDistance: -5
-  startTime: -1
-  startDimTime: -1
-  startDigTime: -1
-  startPosition: 0
 --- !u!1 &2406972137254799900
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,10 +235,11 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd2bbabb96a363340ba2e6644f5e4c95, type: 2}
+  - {fileID: 2100000, guid: 140d6533864174f4e825731968715fc0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1213,10 +1204,11 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd2bbabb96a363340ba2e6644f5e4c95, type: 2}
+  - {fileID: 2100000, guid: 140d6533864174f4e825731968715fc0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2383,8 +2375,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3937289799607962049}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 0.17254902, g: 0.8980393, b: 1, a: 1}
   m_Intensity: 5
   m_Range: 1.37

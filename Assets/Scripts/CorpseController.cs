@@ -16,7 +16,7 @@ public class CorpseController : MonoBehaviour
   private float startDimTime = -1;
   private float startDigTime = -1;
   private float startPosition;
-  private int CHARACTER_DEAD_LAYER = 15;
+  private int CHARACTER_DEAD_LAYER = 9;
 
 
   void Start()

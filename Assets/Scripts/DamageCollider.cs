@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,11 +55,9 @@ public class DamageCollider : MonoBehaviour
     if (colliders.Length > 0)
     {
       state = ColliderState.Colliding;
-
       foreach (Collider collider in colliders)
       {
         GameObject collidedCharacter = Tools.FindObjectOrParentWithTag(collider.gameObject, "Character");
-
         if (collidedCharacter != null && collidedCharacter.name != nameOfAttacker && !nameOfCollidersAlreadyChecked.Contains(collidedCharacter.name))
         {
           nameOfCollidersAlreadyChecked.Add(collidedCharacter.name);
