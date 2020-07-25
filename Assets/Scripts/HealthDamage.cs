@@ -26,6 +26,7 @@ public class HealthDamage : NetworkBehaviour
   public GameObject playerCorpsePrefab;
   private GameObject playerHeader;
   private Image[] playerHeaderBars;
+  public Image playerHealthManaFrame;
   public Image playerHealthBar;
   private Image playerManaBar;
   private TextMeshProUGUI playerHeaderText;
@@ -33,6 +34,7 @@ public class HealthDamage : NetworkBehaviour
   private GameObject canvas;
   public bool spawning = false;
   public string playerNumber = "";
+  private bool isPlayerHeaderVisible = false;
   private int SPAWNING_LAYER = 9;
   private int CHARACTER_LAYER = 10;
   private int CHARACTER_DEAD_LAYER = 15;
@@ -156,19 +158,14 @@ public class HealthDamage : NetworkBehaviour
     playerHeader.transform.position = new Vector2(playerHeaderScreenPosition.x, playerHeaderScreenPosition.y + 75);
 
     playerHeaderBars = playerHeader.GetComponentsInChildren<Image>();
-    if (playerHeaderBars[0].name == "HealthBar")
-    {
-      playerHealthBar = playerHeaderBars[0];
-      playerManaBar = playerHeaderBars[1];
-    }
-    else
-    {
-      playerHealthBar = playerHeaderBars[1];
-      playerManaBar = playerHeaderBars[0];
-    }
 
-    playerHeaderText = playerHeader.GetComponentsInChildren<TextMeshProUGUI>()[0];
+    playerHealthManaFrame = playerHeaderBars[0];
+    playerHealthBar = playerHeaderBars[1];
+    playerManaBar = playerHeaderBars[2];
+
+    playerHeaderText = playerHeader.GetComponentInChildren<TextMeshProUGUI>();
     playerHeaderText.text = playerName;
+    isPlayerHeaderVisible = true;
   }
 
   [Command]
@@ -198,6 +195,7 @@ public class HealthDamage : NetworkBehaviour
 
     playerHeaderText = playerHeader.GetComponentsInChildren<TextMeshProUGUI>()[0];
     playerHeaderText.text = playerName;
+    isPlayerHeaderVisible = true;
   }
 
   public void TakeDamage(int damageAmount)
@@ -251,7 +249,7 @@ public class HealthDamage : NetworkBehaviour
   void CmdSpawn()
   {
     RpcSpawn();
-    RpcPlayerHeaderInstantiate();
+    RpcPlayerHeaderToggle();
   }
   [ClientRpc]
   void RpcSpawn()
@@ -313,8 +311,8 @@ public class HealthDamage : NetworkBehaviour
   {
     Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
     currentHealth = 0;
-    if (playerHeader)
-      Destroy(playerHeader);
+    if (isPlayerHeaderVisible)
+      playerHeaderToggle();
     GameObject playerCorpse = Instantiate(playerCorpsePrefab);
     playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
     playerCorpse.transform.rotation = transform.rotation;
@@ -332,6 +330,21 @@ public class HealthDamage : NetworkBehaviour
       transform.rotation = waitingForRespawnPoint.rotation;
     }
   }
+
+  void playerHeaderToggle()
+  {
+    playerHealthManaFrame.enabled = !playerHealthManaFrame.enabled;
+    playerHealthBar.enabled = !playerHealthBar.enabled;
+    playerManaBar.enabled = !playerManaBar.enabled;
+    playerHeaderText.enabled = !playerHeaderText.enabled;
+  }
+
+  [ClientRpc]
+  void RpcPlayerHeaderToggle()
+  {
+    playerHeaderToggle();
+  }
+
   void OnDisable()
   {
     if (playerHeader)

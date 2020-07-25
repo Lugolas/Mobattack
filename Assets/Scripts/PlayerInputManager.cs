@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Cinemachine;
 
 public class PlayerInputManager : NetworkBehaviour
 {
@@ -54,7 +55,10 @@ public class PlayerInputManager : NetworkBehaviour
         character = charac.gameObject;
         charac.gameObject.GetComponent<CharacterManager>().clientId = clientId;
         if (isLocalPlayer)
+        {
           charac.gameObject.tag = "PlayerCharacter";
+          GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = character.transform;
+        }
         hasCharacter = true;
       }
     }
