@@ -21,7 +21,7 @@ public class HealthDamage : NetworkBehaviour
   public bool isDead = true;
   private BaseMoveAttacc baseMoveAttacc;
   public Transform waitingForRespawnPoint;
-  public Transform RespawnPoint;
+  public Transform respawnPoint;
   public GameObject playerHeaderPrefab;
   public GameObject playerCorpsePrefab;
   private GameObject playerHeader;
@@ -38,12 +38,15 @@ public class HealthDamage : NetworkBehaviour
   private int SPAWNING_LAYER = 9;
   private int CHARACTER_LAYER = 10;
   private int CHARACTER_DEAD_LAYER = 15;
+  private CharacterManager characterManager;
 
 
   // Start is called before the first frame update
   void Start()
   {
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
+
+    characterManager = GetComponent<CharacterManager>();
 
     // isDead = true;
     // deathTime = Time.time;
@@ -57,12 +60,23 @@ public class HealthDamage : NetworkBehaviour
         waitingForRespawnPoint = spawnPoint.transform;
       }
     }
-    if (!RespawnPoint)
+    if (!respawnPoint)
     {
       GameObject spawns = GameObject.Find("Spawns");
       if (spawns)
       {
-        RespawnPoint = spawns.transform.Find("RespawnPoint" + playerNumber);
+        Transform teamSpawn = spawns.transform.Find("Team" + characterManager.team);
+
+        RespawnPointManager[] teamRespawnPoints = teamSpawn.GetComponentsInChildren<RespawnPointManager>();
+        foreach (RespawnPointManager teamRespawnPoint in teamRespawnPoints)
+        {
+          if (teamRespawnPoint.characterName == "")
+          {
+            teamRespawnPoint.characterName = gameObject.name;
+            respawnPoint = teamRespawnPoint.transform;
+            break;
+          }
+        }
       }
     }
 
@@ -254,7 +268,7 @@ public class HealthDamage : NetworkBehaviour
   [ClientRpc]
   void RpcSpawn()
   {
-    navAgent.Warp(RespawnPoint.position);
+    navAgent.Warp(respawnPoint.position);
     anim.SetTrigger("Spawn");
     deathTime = -1;
     Tools.SetLayerRecursively(gameObject, SPAWNING_LAYER);
