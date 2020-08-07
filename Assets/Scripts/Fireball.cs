@@ -19,6 +19,7 @@ public class Fireball : MonoBehaviour
   private float startRotationZ;
   private float journeyLength;
   private bool hasHit = false;
+  public float accelerationRate = -1;
   void Start()
   {
     startTime = Time.time;
@@ -44,18 +45,24 @@ public class Fireball : MonoBehaviour
     // Set our position as a fraction of the distance between the markers.
     // transform.position = Vector3.Lerp(startPosition, target.position, fractionOfJourney);
     // transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, Mathf.Lerp(startRotationZ, 14400, fractionOfJourney));
+    Vector3 rotateAmount = Vector3.zero;
 
-    Vector3 direction = target.position - rb.position;
-
-    direction.y += 1;
-
-    direction.Normalize();
-
-    Vector3 rotateAmount = Vector3.Cross(direction, transform.forward);
+    if (target != null)
+    {
+      Vector3 direction = target.position - rb.position;
+      direction.y += 1;
+      direction.Normalize();
+      rotateAmount = Vector3.Cross(direction, transform.forward);
+    }
 
     rb.angularVelocity = -rotateAmount * rotateSpeed;
-
     rb.velocity = transform.forward * movementSpeed;
+
+    if (accelerationRate > 1)
+    {
+      movementSpeed *= accelerationRate;
+      rotateSpeed *= accelerationRate;
+    }
     // float newZRotation = Mathf.Lerp(0, 14400, 10000);
     // Debug.Log(newZRotation);
     // rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, newZRotation);
@@ -65,7 +72,6 @@ public class Fireball : MonoBehaviour
   {
     if (!hasHit)
     {
-      Debug.Log(collision.gameObject.tag);
       GameObject objectHit = Tools.FindObjectOrParentWithTag(collision.gameObject, "Character");
       if (objectHit && objectHit.name != attackerName)
       {
@@ -78,7 +84,7 @@ public class Fireball : MonoBehaviour
         {
           trail.emitting = false;
         }
-
+        target = null;
         Destroy(sc);
         hasHit = true;
         InflictsDamage(collision);
@@ -88,11 +94,11 @@ public class Fireball : MonoBehaviour
           // GameObject burst = Instantiate(FireballBurst, collision.GetContact(0).point, transform.rotation) as GameObject;
 
           Destroy(burst, 2f);
-          Destroy(gameObject, 2.1f);
+          Destroy(gameObject, 5.5f);
         }
         else
         {
-          Destroy(gameObject, 5);
+          Destroy(gameObject, 5.5f);
           for (int i = 0; i < transform.childCount; i++)
           {
             Destroy(transform.GetChild(i).gameObject);

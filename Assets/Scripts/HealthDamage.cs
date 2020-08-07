@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
 using UnityEngine.Networking;
+using Cinemachine;
 
 public class HealthDamage : NetworkBehaviour
 {
@@ -39,6 +40,8 @@ public class HealthDamage : NetworkBehaviour
   private int CHARACTER_LAYER = 10;
   private int CHARACTER_DEAD_LAYER = 15;
   private CharacterManager characterManager;
+  private CinemachineVirtualCamera virtualCamera;
+  public GameObject playerCorpse;
 
 
   // Start is called before the first frame update
@@ -47,6 +50,8 @@ public class HealthDamage : NetworkBehaviour
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
 
     characterManager = GetComponent<CharacterManager>();
+
+    virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
 
     // isDead = true;
     // deathTime = Time.time;
@@ -118,10 +123,7 @@ public class HealthDamage : NetworkBehaviour
     }
     else
     {
-      // if (!isDead)
-      // {
-      //   playerHeaderInstantiate();
-      // }
+      // playerHeaderInstantiate();
     }
 
     if (Input.GetKeyDown(KeyCode.V))
@@ -180,6 +182,7 @@ public class HealthDamage : NetworkBehaviour
     playerHeaderText = playerHeader.GetComponentInChildren<TextMeshProUGUI>();
     playerHeaderText.text = playerName;
     isPlayerHeaderVisible = true;
+    // characterManager.assignTeam();
   }
 
   [Command]
@@ -269,6 +272,9 @@ public class HealthDamage : NetworkBehaviour
   void RpcSpawn()
   {
     navAgent.Warp(respawnPoint.position);
+    transform.rotation = respawnPoint.rotation;
+    if (characterManager.player)
+      characterManager.player.GetComponent<PlayerInputManager>().cameraOnCharacter();
     anim.SetTrigger("Spawn");
     deathTime = -1;
     Tools.SetLayerRecursively(gameObject, SPAWNING_LAYER);
@@ -327,10 +333,13 @@ public class HealthDamage : NetworkBehaviour
     currentHealth = 0;
     if (isPlayerHeaderVisible)
       playerHeaderToggle();
-    GameObject playerCorpse = Instantiate(playerCorpsePrefab);
+    playerCorpse = Instantiate(playerCorpsePrefab);
     playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
     playerCorpse.transform.rotation = transform.rotation;
+    if (characterManager.player)
+      characterManager.player.GetComponent<PlayerInputManager>().cameraOnCorpse();
     Destroy(playerCorpse, 60);
+    isDead = true;
     CmdUpdateDeathStatus(true);
     deathTime = Time.time;
     // anim.SetTrigger("Die");
@@ -351,6 +360,7 @@ public class HealthDamage : NetworkBehaviour
     playerHealthBar.enabled = !playerHealthBar.enabled;
     playerManaBar.enabled = !playerManaBar.enabled;
     playerHeaderText.enabled = !playerHeaderText.enabled;
+    // characterManager.assignTeam();
   }
 
   [ClientRpc]

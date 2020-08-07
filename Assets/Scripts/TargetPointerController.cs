@@ -7,7 +7,7 @@ public class TargetPointerController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    Destroy(gameObject, 2);
+    Destroy(gameObject, 1);
   }
 
   // Update is called once per frame

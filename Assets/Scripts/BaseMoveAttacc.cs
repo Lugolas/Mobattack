@@ -122,12 +122,12 @@ public class BaseMoveAttacc : NetworkBehaviour
         navAgent.isStopped = false;
       }
 
-      if (Input.GetKeyDown(KeyCode.A) && !healthDamage.isDead)
-      {
-        navAgent.isStopped = true;
-        running = 0;
-        Spell();
-      }
+      // if (Input.GetKeyDown(KeyCode.A) && !healthDamage.isDead)
+      // {
+      //   navAgent.isStopped = true;
+      //   running = 0;
+      //   Spell();
+      // }
 
       // Debug.Log(mageRapidFire.firstFireballFire);
       // Debug.Log(firstFireballFired);

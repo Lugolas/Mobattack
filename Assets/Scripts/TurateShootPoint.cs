@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TurateShootPoint : MonoBehaviour
 {
+  public GameObject target;
+  public GameObject fireballPrefab;
   // Start is called before the first frame update
   void Start()
   {
@@ -14,5 +16,10 @@ public class TurateShootPoint : MonoBehaviour
   void Update()
   {
 
+  }
+  public void fire()
+  {
+    GameObject fireball = Instantiate(fireballPrefab, transform.position, transform.rotation) as GameObject;
+    fireball.GetComponent<Fireball>().target = target.transform;
   }
 }

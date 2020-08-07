@@ -43,6 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &1989092611226361099
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,6 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &2434561164425563421
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &3127500400957235422
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &3890714717901568066
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &6696737710156427318
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &6716339719578358569
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +319,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &7134767697054530103
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +334,7 @@ GameObject:
   - component: {fileID: 7134767697054530106}
   - component: {fileID: 7134767697054530101}
   - component: {fileID: 7034457785435371418}
+  - component: {fileID: 6241781517849017784}
   m_Layer: 0
   m_Name: Turate
   m_TagString: Untagged
@@ -404,6 +426,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.62, y: 3.73, z: 0.72}
   m_Center: {x: 0.00000047683716, y: 1.2138906, z: 0.00000059604645}
+--- !u!114 &6241781517849017784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134767697054530103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcc08e4973bafc41a7c60727e68f915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballPrefab: {fileID: 6512867169236615124, guid: 02e5f47054827484cb3dcdb8e5622557,
+    type: 3}
+  target: {fileID: 0}
 --- !u!1 &7941922085200484781
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +484,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &8079240423929207624
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}
 --- !u!1 &8331064601212529566
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,3 +576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2183b24b44677419d13f662d19e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  fireballPrefab: {fileID: 6512867169236615124, guid: 8c3b808a13acced44994d81d91e5d27e,
+    type: 3}

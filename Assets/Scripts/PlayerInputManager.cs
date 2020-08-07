@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -24,6 +24,12 @@ public class PlayerInputManager : NetworkBehaviour
   Vector3 moveClickPosition = Vector3.zero;
   List<Material> outlinedCharacterMaterials = new List<Material>();
   string outlinedCharacterName = null;
+  int currentZoomIndex;
+  float[] zoomLevels = { 5, 10, 15, 20, 25 };
+  public CinemachineVirtualCamera virtualCamera;
+  private bool isCameraOnCharacter = false;
+  GameObject teamPanel;
+  TeamButtonsController teamButtons;
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -35,8 +41,17 @@ public class PlayerInputManager : NetworkBehaviour
     }
     else
     {
-
+      teamPanel = GameObject.Find("TeamPanel");
+      if (teamPanel)
+      {
+        teamButtons = teamPanel.GetComponent<TeamButtonsController>();
+        if (teamButtons)
+        {
+          teamButtons.visible(true);
+        }
+      }
     }
+    currentZoomIndex = zoomLevels.Length - 2;
   }
 
   [Command]
@@ -47,22 +62,40 @@ public class PlayerInputManager : NetworkBehaviour
   [ClientRpc]
   void RpcSetupCharacter(int clientId)
   {
-    BaseMoveAttacc[] characs = GameObject.Find("CharactersManager").GetComponentsInChildren<BaseMoveAttacc>();
-    foreach (BaseMoveAttacc charac in characs)
+    if (teamPanel)
     {
-      if (!hasCharacter && charac.gameObject.GetComponent<CharacterManager>().clientId == -1)
+      if (teamButtons && teamButtons.chosenTeam != -1)
       {
-        character = charac.gameObject;
-        charac.gameObject.GetComponent<CharacterManager>().clientId = clientId;
-        if (isLocalPlayer)
+        BaseMoveAttacc[] characs = GameObject.Find("CharactersManager").GetComponentsInChildren<BaseMoveAttacc>();
+        foreach (BaseMoveAttacc charac in characs)
         {
-          charac.gameObject.tag = "PlayerCharacter";
-          GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = character.transform;
+          CharacterManager characterManager = charac.gameObject.GetComponent<CharacterManager>();
+          if (!hasCharacter && characterManager.clientId == -1 && characterManager.team == teamButtons.chosenTeam)
+          {
+            character = charac.gameObject;
+            characterManager.clientId = clientId;
+            characterManager.player = gameObject;
+            if (isLocalPlayer)
+            {
+              charac.gameObject.tag = "PlayerCharacter";
+              virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+              virtualCamera.Follow = character.transform;
+              isCameraOnCharacter = true;
+            }
+            hasCharacter = true;
+          }
         }
-        hasCharacter = true;
+        hasSetupCharacter = true;
+        teamButtons.visible(false);
       }
     }
-    hasSetupCharacter = true;
+  }
+
+  void OnDisable()
+  {
+    character.GetComponent<CharacterManager>().clientId = -1;
+    character.GetComponent<CharacterManager>().player = null;
+    character.GetComponent<CharacterManager>().isPlayerCharacter = false;
   }
 
   // Update is called once per frame
@@ -141,7 +174,32 @@ public class PlayerInputManager : NetworkBehaviour
       }
     }
 
+    if (Input.GetAxis("Mouse ScrollWheel") != 0)
+    {
+      if (Input.GetAxis("Mouse ScrollWheel") > 0)
+      {
+        if (currentZoomIndex > 0)
+        {
+          currentZoomIndex--;
+        }
+      }
+      if (Input.GetAxis("Mouse ScrollWheel") < 0)
+      {
+        if (currentZoomIndex < zoomLevels.Length - 1)
+        {
+          currentZoomIndex++;
+        }
+      }
 
+      if (virtualCamera)
+      {
+        CinemachineComponentBase componentBase = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+        if (componentBase is CinemachineFramingTransposer)
+        {
+          (componentBase as CinemachineFramingTransposer).m_CameraDistance = zoomLevels[currentZoomIndex]; // your value
+        }
+      }
+    }
 
     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     RaycastHit hit;
@@ -179,7 +237,28 @@ public class PlayerInputManager : NetworkBehaviour
         Instantiate(targetPointer, moveClickPosition, new Quaternion());
       }
     }
-    // }
+  }
+
+  public void cameraOnCorpse()
+  {
+    if (character)
+    {
+      HealthDamage healthDamage = character.GetComponent<HealthDamage>();
+      if (healthDamage)
+      {
+        virtualCamera.Follow = healthDamage.playerCorpse.transform;
+        isCameraOnCharacter = false;
+      }
+    }
+  }
+
+  public void cameraOnCharacter()
+  {
+    if (character)
+    {
+      virtualCamera.Follow = character.transform;
+      isCameraOnCharacter = true;
+    }
   }
 
   [Command]

@@ -10,6 +10,7 @@ public class CharacterManager : NetworkBehaviour
   public int clientId = -1;
   [SyncVar]
   public int team = 0;
+  public GameObject player;
   public int playerCharacterTeam;
   public bool isPlayerCharacter = false;
   GameObject charactersManager;
@@ -36,7 +37,7 @@ public class CharacterManager : NetworkBehaviour
     }
   }
 
-  void assignTeam()
+  public void assignTeam()
   {
     Color color;
     if (isPlayerCharacter)
