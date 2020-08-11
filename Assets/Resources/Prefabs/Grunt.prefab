@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 3028814391901185421}
   - component: {fileID: 6744749406428343638}
   - component: {fileID: 4765575574274166690}
+  - component: {fileID: 1451784686}
   m_Layer: 10
   m_Name: Grunt
   m_TagString: Character
@@ -306,6 +307,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientId: -1
+  team: 2
+  player: {fileID: 0}
+  playerCharacterTeam: 0
+  isPlayerCharacter: 0
 --- !u!136 &8841598036988829515
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -316,8 +321,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.15
-  m_Height: 2.3
+  m_Radius: 1.333333
+  m_Height: 3.37
   m_Direction: 1
   m_Center: {x: 0, y: 1.15, z: 0}
 --- !u!114 &2780896548525759505
@@ -334,16 +339,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   currentHealth: 0
-  isDead: 0
+  isDead: 1
   waitingForRespawnPoint: {fileID: 0}
-  RespawnPoint: {fileID: 0}
+  respawnPoint: {fileID: 0}
   playerHeaderPrefab: {fileID: 1822804655241396782, guid: f1ffbf2479a6d4d43927ea59b6c51e70,
     type: 3}
   playerCorpsePrefab: {fileID: 8077179037632364479, guid: 4dc70baa9a61ce847bec1e3bf4d3e588,
     type: 3}
+  playerHealthManaFrame: {fileID: 0}
+  playerHealthBar: {fileID: 0}
   playerName: Grunt
   spawning: 0
   playerNumber: 
+  playerCorpse: {fileID: 0}
 --- !u!195 &2308360209127949585
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -446,6 +454,22 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!54 &1451784686
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904236314534553014}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 3
 --- !u!1001 &5020414696511352975
 PrefabInstance:
   m_ObjectHideFlags: 0

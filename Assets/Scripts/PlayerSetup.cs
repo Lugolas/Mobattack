@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerSetup : NetworkBehaviour {
+public class PlayerSetup : NetworkBehaviour
+{
   private NetworkTransformChild characterNetworkTransform;
   [SyncVar]
   private GameObject character;
@@ -11,7 +12,8 @@ public class PlayerSetup : NetworkBehaviour {
   private GameObject charactersManager;
 
   // Start is called before the first frame update
-  void Start () {
+  void Start()
+  {
     // charactersManager = GameObject.Find("CharactersManager");
 
     // if (hasAuthority)
@@ -21,7 +23,8 @@ public class PlayerSetup : NetworkBehaviour {
   }
 
   // Update is called once per frame
-  void Update () {
+  void Update()
+  {
     // if (hasAuthority)
     // {
     //   if (charactersManager)
@@ -46,62 +49,71 @@ public class PlayerSetup : NetworkBehaviour {
     // }
   }
 
-  void Init () {
-    characterNetworkTransform = GetComponent<NetworkTransformChild> ();
+  void Init()
+  {
+    characterNetworkTransform = GetComponent<NetworkTransformChild>();
 
     bool willInstantiate = true;
 
-    CharacterManager[] managers = charactersManager.GetComponentsInChildren<CharacterManager> ();
+    CharacterManager[] managers = charactersManager.GetComponentsInChildren<CharacterManager>();
 
-    foreach (CharacterManager manager in managers) {
-      if (manager.clientId == connectionToClient.connectionId) {
+    foreach (CharacterManager manager in managers)
+    {
+      if (manager.clientId == connectionToClient.connectionId)
+      {
         willInstantiate = false;
         character = manager.gameObject;
       }
     }
-    if (willInstantiate) {
-      InstantiateCharacter ((connectionToClient.connectionId % 4) + 1);
+    if (willInstantiate)
+    {
+      InstantiateCharacter((connectionToClient.connectionId % 4) + 1);
     }
 
   }
 
-  void InstantiateCharacter (int characterID) {
+  void InstantiateCharacter(int characterID)
+  {
     GameObject characterPrefab = null;
-    switch (characterID) {
+    switch (characterID)
+    {
       case 1:
-        characterPrefab = Resources.Load<GameObject> ("Prefabs/Mage");
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Mage");
         break;
       case 2:
-        characterPrefab = Resources.Load<GameObject> ("Prefabs/Grunt");
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Grunt");
         break;
       case 3:
-        characterPrefab = Resources.Load<GameObject> ("Prefabs/Archer");
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Archer");
         break;
       case 4:
-        characterPrefab = Resources.Load<GameObject> ("Prefabs/Murderer");
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Murderer");
         break;
     }
-    if (characterPrefab) {
-      Debug.Log ("WHAT");
-      Debug.Log (characterPrefab);
-      character = Instantiate (characterPrefab, transform);
-      Debug.Log (character);
-      Debug.Log (character.GetComponent<CharacterManager> ());
-      Debug.Log (character.GetComponent<CharacterManager> ().clientId);
-      character.GetComponent<CharacterManager> ().clientId = connectionToClient.connectionId;
+    if (characterPrefab)
+    {
+      Debug.Log("WHAT");
+      Debug.Log(characterPrefab);
+      character = Instantiate(characterPrefab, transform);
+      Debug.Log(character);
+      Debug.Log(character.GetComponent<CharacterManager>());
+      Debug.Log(character.GetComponent<CharacterManager>().clientId);
+      character.GetComponent<CharacterManager>().clientId = connectionToClient.connectionId;
 
-      CmdSpawnCharacter (character);
-      RpcSyncCharacter (character);
+      CmdSpawnCharacter(character);
+      RpcSyncCharacter(character);
     }
   }
 
   [Command]
-  void CmdSpawnCharacter (GameObject characterToSpawn) {
-    NetworkServer.Spawn (character);
+  void CmdSpawnCharacter(GameObject characterToSpawn)
+  {
+    NetworkServer.Spawn(character);
   }
 
   [ClientRpc]
-  void RpcSyncCharacter (GameObject characterToSync) {
+  void RpcSyncCharacter(GameObject characterToSync)
+  {
     character = characterToSync;
   }
 }

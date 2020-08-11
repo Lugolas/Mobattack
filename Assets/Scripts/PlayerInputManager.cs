@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Networking;
-using Cinemachine;
 
 public class PlayerInputManager : NetworkBehaviour
 {
@@ -29,7 +29,7 @@ public class PlayerInputManager : NetworkBehaviour
   public CinemachineVirtualCamera virtualCamera;
   private bool isCameraOnCharacter = false;
   GameObject teamPanel;
-  TeamButtonsController teamButtons;
+  SelectionButtonsController teamButtons;
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -44,7 +44,7 @@ public class PlayerInputManager : NetworkBehaviour
       teamPanel = GameObject.Find("TeamPanel");
       if (teamPanel)
       {
-        teamButtons = teamPanel.GetComponent<TeamButtonsController>();
+        teamButtons = teamPanel.GetComponent<SelectionButtonsController>();
         if (teamButtons)
         {
           teamButtons.visible(true);
@@ -57,45 +57,105 @@ public class PlayerInputManager : NetworkBehaviour
   [Command]
   void CmdSetupCharacter()
   {
+    GameObject characterPrefab = null;
+    switch (teamButtons.chosenCharacter)
+    {
+      default:
+      case 1:
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Mage");
+        break;
+      case 2:
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Grunt");
+        break;
+      case 3:
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Archer");
+        break;
+      case 4:
+        characterPrefab = Resources.Load<GameObject>("Prefabs/Murderer");
+        break;
+    }
+    if (characterPrefab)
+    {
+      GameObject currentCharacter = Instantiate(characterPrefab, new Vector3(0, 2, 0), new Quaternion());
+      CharacterManager characterManager = currentCharacter.GetComponent<CharacterManager>();
+      HealthDamage healthDamage = currentCharacter.GetComponent<HealthDamage>();
+
+      characterManager.clientId = connectionToClient.connectionId;
+      characterManager.player = gameObject;
+      characterManager.team = teamButtons.chosenTeam;
+      if (teamButtons.chosenName != "")
+      {
+        healthDamage.playerName = teamButtons.chosenName;
+      }
+
+      NetworkServer.Spawn(currentCharacter);
+    }
     RpcSetupCharacter(connectionToClient.connectionId);
   }
+
   [ClientRpc]
   void RpcSetupCharacter(int clientId)
   {
-    if (teamPanel)
+    GameObject charactersManager = GameObject.Find("CharactersManager");
+    if (charactersManager)
     {
-      if (teamButtons && teamButtons.chosenTeam != -1)
+      CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
+      foreach (CharacterManager characterManager in characterManagers)
       {
-        BaseMoveAttacc[] characs = GameObject.Find("CharactersManager").GetComponentsInChildren<BaseMoveAttacc>();
-        foreach (BaseMoveAttacc charac in characs)
+        if (characterManager.clientId == clientId)
         {
-          CharacterManager characterManager = charac.gameObject.GetComponent<CharacterManager>();
-          if (!hasCharacter && characterManager.clientId == -1 && characterManager.team == teamButtons.chosenTeam)
+          character = characterManager.gameObject;
+          if (isLocalPlayer)
           {
-            character = charac.gameObject;
-            characterManager.clientId = clientId;
-            characterManager.player = gameObject;
-            if (isLocalPlayer)
-            {
-              charac.gameObject.tag = "PlayerCharacter";
-              virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-              virtualCamera.Follow = character.transform;
-              isCameraOnCharacter = true;
-            }
-            hasCharacter = true;
+            character.tag = "PlayerCharacter";
+            virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+            virtualCamera.Follow = character.transform;
+            isCameraOnCharacter = true;
           }
+          hasCharacter = true;
+          hasSetupCharacter = true;
+          break;
         }
-        hasSetupCharacter = true;
-        teamButtons.visible(false);
       }
     }
+
+    // if (teamPanel)
+    // {
+    //   if (teamButtons && teamButtons.selectionComplete)
+    //   {
+    //     // BaseMoveAttacc[] characs = GameObject.Find("CharactersManager").GetComponentsInChildren<BaseMoveAttacc>();
+    //     // foreach (BaseMoveAttacc charac in characs)
+    //     // {
+    //     //   CharacterManager characterManager = charac.gameObject.GetComponent<CharacterManager>();
+    //     //   if (!hasCharacter && characterManager.clientId == -1 && characterManager.team == teamButtons.chosenTeam)
+    //     //   {
+    //     //     character = charac.gameObject;
+    //     //     characterManager.clientId = clientId;
+    //     //     characterManager.player = gameObject;
+    //     //     if (isLocalPlayer)
+    //     //     {
+    //     //       charac.gameObject.tag = "PlayerCharacter";
+    //     //       virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+    //     //       virtualCamera.Follow = character.transform;
+    //     //       isCameraOnCharacter = true;
+    //     //     }
+    //     //     hasCharacter = true;
+    //     //   }
+    //     // }
+    //     // hasSetupCharacter = true;
+    //   }
+    // }
   }
+
 
   void OnDisable()
   {
-    character.GetComponent<CharacterManager>().clientId = -1;
-    character.GetComponent<CharacterManager>().player = null;
-    character.GetComponent<CharacterManager>().isPlayerCharacter = false;
+    if (character)
+    {
+      character.GetComponent<CharacterManager>().clientId = -1;
+      character.GetComponent<CharacterManager>().player = null;
+      character.GetComponent<CharacterManager>().isPlayerCharacter = false;
+    }
   }
 
   // Update is called once per frame
@@ -103,7 +163,7 @@ public class PlayerInputManager : NetworkBehaviour
   {
     if (disable)
       return;
-    if (!hasSetupCharacter)
+    if (!hasSetupCharacter && teamPanel && teamButtons && teamButtons.selectionComplete)
     {
       CmdSetupCharacter();
     }
@@ -289,6 +349,7 @@ public class PlayerInputManager : NetworkBehaviour
       }
     }
   }
+
   [Command]
   void CmdMoveTo(Vector3 point)
   {

@@ -71,7 +71,7 @@ public class CharacterManager : NetworkBehaviour
     rendererPointer.GetMaterials(materialPointers);
     foreach (Material materialPointer in materialPointers)
     {
-      materialPointer.SetColor("_EmissionColor", color);
+      materialPointer.SetColor("_BaseColor", color);
     }
 
     // Change Outline Color

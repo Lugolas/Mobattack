@@ -26,6 +26,7 @@ public class MinimapToken : MonoBehaviour
       }
     }
     gameObject.GetComponent<MeshRenderer>().enabled = true;
+    gameObject.layer = 12;
   }
 
   // Update is called once per frame

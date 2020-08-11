@@ -73,7 +73,8 @@ public class Tools : MonoBehaviour
       return;
     }
 
-    obj.layer = newLayer;
+    if (obj.layer != 12)
+      obj.layer = newLayer;
 
     foreach (Transform child in obj.transform)
     {

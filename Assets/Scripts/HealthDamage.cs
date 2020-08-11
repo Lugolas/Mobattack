@@ -13,7 +13,7 @@ public class HealthDamage : NetworkBehaviour
   private UnityEngine.AI.NavMeshAgent navAgent;
 
   public int maxHealth = 200;
-  private float respawnTime = 10;
+  private float respawnTime = 0;
   [SyncVar]
   private float deathTime = -1;
   [SyncVar]
@@ -26,6 +26,8 @@ public class HealthDamage : NetworkBehaviour
   public GameObject playerHeaderPrefab;
   public GameObject playerCorpsePrefab;
   private GameObject playerHeader;
+  private MeshRenderer tokenPointer;
+  private MeshRenderer minimapToken;
   private Image[] playerHeaderBars;
   public Image playerHealthManaFrame;
   public Image playerHealthBar;
@@ -47,15 +49,18 @@ public class HealthDamage : NetworkBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    tokenPointer = GetComponentInChildren<TokenPointer>().GetComponent<MeshRenderer>();
+    minimapToken = GetComponentInChildren<MinimapToken>().GetComponent<MeshRenderer>();
+
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
 
     characterManager = GetComponent<CharacterManager>();
 
     virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
 
-    // isDead = true;
-    // deathTime = Time.time;
-    // respawnTime = 0;
+    isDead = true;
+    deathTime = Time.time;
+    respawnTime = 0;
 
     if (!waitingForRespawnPoint)
     {
@@ -266,7 +271,7 @@ public class HealthDamage : NetworkBehaviour
   void CmdSpawn()
   {
     RpcSpawn();
-    RpcPlayerHeaderToggle();
+    RpcPlayerHeaderToggle(true);
   }
   [ClientRpc]
   void RpcSpawn()
@@ -332,7 +337,7 @@ public class HealthDamage : NetworkBehaviour
     Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
     currentHealth = 0;
     if (isPlayerHeaderVisible)
-      playerHeaderToggle();
+      playerHeaderToggle(false);
     playerCorpse = Instantiate(playerCorpsePrefab);
     playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
     playerCorpse.transform.rotation = transform.rotation;
@@ -354,19 +359,21 @@ public class HealthDamage : NetworkBehaviour
     }
   }
 
-  void playerHeaderToggle()
+  void playerHeaderToggle(bool state)
   {
-    playerHealthManaFrame.enabled = !playerHealthManaFrame.enabled;
-    playerHealthBar.enabled = !playerHealthBar.enabled;
-    playerManaBar.enabled = !playerManaBar.enabled;
-    playerHeaderText.enabled = !playerHeaderText.enabled;
+    playerHealthManaFrame.enabled = state;
+    playerHealthBar.enabled = state;
+    playerManaBar.enabled = state;
+    playerHeaderText.enabled = state;
+    tokenPointer.enabled = state;
+    minimapToken.enabled = state;
     // characterManager.assignTeam();
   }
 
   [ClientRpc]
-  void RpcPlayerHeaderToggle()
+  void RpcPlayerHeaderToggle(bool state)
   {
-    playerHeaderToggle();
+    playerHeaderToggle(state);
   }
 
   void OnDisable()

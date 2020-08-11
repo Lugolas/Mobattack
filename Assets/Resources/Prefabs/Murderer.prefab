@@ -53,6 +53,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientId: -1
+  team: 1
+  player: {fileID: 0}
+  playerCharacterTeam: 0
+  isPlayerCharacter: 0
 --- !u!136 &1573093556
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -63,8 +67,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.575
-  m_Height: 1.5
+  m_Radius: 0.75
+  m_Height: 2.27
   m_Direction: 1
   m_Center: {x: 0, y: 0.925, z: 0}
 --- !u!114 &1573093550
@@ -106,16 +110,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 350
   currentHealth: 0
-  isDead: 0
+  isDead: 1
   waitingForRespawnPoint: {fileID: 0}
-  RespawnPoint: {fileID: 0}
+  respawnPoint: {fileID: 0}
   playerHeaderPrefab: {fileID: 1822804655241396782, guid: f1ffbf2479a6d4d43927ea59b6c51e70,
     type: 3}
   playerCorpsePrefab: {fileID: 1990420877405516395, guid: 477bc3fb257b696449b12f365685c559,
     type: 3}
+  playerHealthManaFrame: {fileID: 0}
+  playerHealthBar: {fileID: 0}
   playerName: Murderer
   spawning: 0
   playerNumber: 
+  playerCorpse: {fileID: 0}
 --- !u!195 &1573093554
 NavMeshAgent:
   m_ObjectHideFlags: 0
