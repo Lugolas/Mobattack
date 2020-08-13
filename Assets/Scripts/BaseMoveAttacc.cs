@@ -40,7 +40,6 @@ public class BaseMoveAttacc : NetworkBehaviour
   private string nameOfCharacter;
   private float timeBetweenShots = 1.15f;
   private float timeBetweenSpells = 1.15f;
-  private bool rightClicked = false;
   // private int fireballDamage = 25;
   public enum BaseAttackType
   {

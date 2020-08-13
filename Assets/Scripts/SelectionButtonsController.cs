@@ -87,6 +87,20 @@ public class SelectionButtonsController : MonoBehaviour
     {
       rectMask.enabled = state;
     }
+
+    Toggle[] toggles;
+    toggles = GetComponentsInChildren<Toggle>();
+    foreach (Toggle toggle in toggles)
+    {
+      toggle.enabled = state;
+    }
+
+    ToggleGroup[] toggleGroups;
+    toggleGroups = GetComponentsInChildren<ToggleGroup>();
+    foreach (ToggleGroup toggleGroup in toggleGroups)
+    {
+      toggleGroup.enabled = state;
+    }
   }
   // Start is called before the first frame update
   void Start()

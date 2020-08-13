@@ -28,6 +28,7 @@ public class PlayerInputManager : NetworkBehaviour
   float[] zoomLevels = { 5, 10, 15, 20, 25 };
   public CinemachineVirtualCamera virtualCamera;
   private bool isCameraOnCharacter = false;
+  public Transform waitingForRespawnPoint;
   GameObject teamPanel;
   SelectionButtonsController teamButtons;
 
@@ -42,6 +43,16 @@ public class PlayerInputManager : NetworkBehaviour
     else
     {
       teamPanel = GameObject.Find("TeamPanel");
+
+      if (!waitingForRespawnPoint)
+      {
+        GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
+        if (spawnPoint)
+        {
+          waitingForRespawnPoint = spawnPoint.transform;
+        }
+      }
+
       if (teamPanel)
       {
         teamButtons = teamPanel.GetComponent<SelectionButtonsController>();
@@ -76,7 +87,7 @@ public class PlayerInputManager : NetworkBehaviour
     }
     if (characterPrefab)
     {
-      GameObject currentCharacter = Instantiate(characterPrefab, new Vector3(0, 2, 0), new Quaternion());
+      GameObject currentCharacter = Instantiate(characterPrefab, waitingForRespawnPoint.position, waitingForRespawnPoint.rotation);
       CharacterManager characterManager = currentCharacter.GetComponent<CharacterManager>();
       HealthDamage healthDamage = currentCharacter.GetComponent<HealthDamage>();
 

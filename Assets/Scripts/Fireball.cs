@@ -20,6 +20,7 @@ public class Fireball : MonoBehaviour
   private float journeyLength;
   private bool hasHit = false;
   public float accelerationRate = -1;
+  bool initiatedSelfDestruction;
   void Start()
   {
     startTime = Time.time;
@@ -36,6 +37,25 @@ public class Fireball : MonoBehaviour
   }
   void Update()
   {
+    if (target)
+    {
+      HealthDamage healthDamage = target.GetComponent<HealthDamage>();
+      if (healthDamage && healthDamage.isDead)
+      {
+        target = null;
+        if (ps)
+        {
+          var em = ps.emission;
+          em.enabled = false;
+        }
+        if (trail)
+        {
+          trail.emitting = false;
+        }
+        Destroy(gameObject, 5.1f);
+        initiatedSelfDestruction = true;
+      }
+    }
     // Distance moved equals elapsed time times speed..
     float distCovered = (Time.time - startTime) * movementSpeed;
 

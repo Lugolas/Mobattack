@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 8561935011015126599}
   - component: {fileID: 4407042874099692930}
   - component: {fileID: 8557357581799014138}
+  - component: {fileID: 1179987062}
   m_Layer: 10
   m_Name: Mage
   m_TagString: Character
@@ -499,6 +500,22 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!54 &1179987062
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685658393}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.5
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 3
 --- !u!95 &3121428245569655642
 Animator:
   serializedVersion: 3
