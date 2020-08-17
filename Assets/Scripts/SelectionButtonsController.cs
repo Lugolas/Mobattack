@@ -11,15 +11,26 @@ public class SelectionButtonsController : MonoBehaviour
   public string chosenName = "";
   private TMP_InputField nameInput;
   public bool selectionComplete = false;
+  GameObject charactersManager;
 
   public void endSelection()
   {
     bool isSelectionValid = true;
-    if (chosenTeam <= 0 && chosenCharacter <= 0)
+    chosenName = nameInput.text;
+
+    CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
+    foreach (CharacterManager characterManager in characterManagers)
+    {
+      if (characterManager.name == chosenName)
+      {
+        isSelectionValid = false;
+      }
+    }
+
+    if (chosenTeam <= 0 || chosenCharacter <= 0 || chosenName.Length < 1)
     {
       isSelectionValid = false;
     }
-    chosenName = nameInput.text;
 
     if (isSelectionValid)
     {
@@ -102,10 +113,12 @@ public class SelectionButtonsController : MonoBehaviour
       toggleGroup.enabled = state;
     }
   }
+
   // Start is called before the first frame update
   void Start()
   {
     visible(false);
+    charactersManager = GameObject.Find("CharactersManager");
     Transform nameInputTransform = transform.Find("CharacterName");
     if (nameInputTransform)
     {

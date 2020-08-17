@@ -31,6 +31,9 @@ public class PlayerInputManager : NetworkBehaviour
   public Transform waitingForRespawnPoint;
   GameObject teamPanel;
   SelectionButtonsController teamButtons;
+  float hasTriedToSetupCharacter;
+  GameObject charactersManager;
+  int clientIdLast;
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -42,7 +45,9 @@ public class PlayerInputManager : NetworkBehaviour
     }
     else
     {
+      charactersManager = GameObject.Find("CharactersManager");
       teamPanel = GameObject.Find("TeamPanel");
+      hasTriedToSetupCharacter = Time.time;
 
       if (!waitingForRespawnPoint)
       {
@@ -66,10 +71,17 @@ public class PlayerInputManager : NetworkBehaviour
   }
 
   [Command]
-  void CmdSetupCharacter()
+  void CmdFinishSetupCharacter(string chosenName)
+  {
+    RpcSetupCharacter(chosenName);
+  }
+
+  [Command]
+  void CmdSetupCharacter(int chosenCharacter, int chosenTeam, string chosenName)
   {
     GameObject characterPrefab = null;
-    switch (teamButtons.chosenCharacter)
+
+    switch (chosenCharacter)
     {
       default:
       case 1:
@@ -87,35 +99,35 @@ public class PlayerInputManager : NetworkBehaviour
     }
     if (characterPrefab)
     {
-      GameObject currentCharacter = Instantiate(characterPrefab, waitingForRespawnPoint.position, waitingForRespawnPoint.rotation);
-      CharacterManager characterManager = currentCharacter.GetComponent<CharacterManager>();
-      HealthDamage healthDamage = currentCharacter.GetComponent<HealthDamage>();
+      GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
+      GameObject character = Instantiate(characterPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+      CharacterManager characterManager = character.GetComponent<CharacterManager>();
+      HealthDamage healthDamage = character.GetComponent<HealthDamage>();
 
       characterManager.clientId = connectionToClient.connectionId;
       characterManager.player = gameObject;
-      characterManager.team = teamButtons.chosenTeam;
-      if (teamButtons.chosenName != "")
-      {
-        healthDamage.playerName = teamButtons.chosenName;
-      }
+      characterManager.team = chosenTeam;
+      healthDamage.playerName = chosenName;
 
-      NetworkServer.Spawn(currentCharacter);
+      NetworkServer.Spawn(character);
+      RpcSetupCharacter(chosenName);
     }
-    RpcSetupCharacter(connectionToClient.connectionId);
   }
 
   [ClientRpc]
-  void RpcSetupCharacter(int clientId)
+  void RpcSetupCharacter(string characterName)
   {
-    GameObject charactersManager = GameObject.Find("CharactersManager");
+    charactersManager = GameObject.Find("CharactersManager");
     if (charactersManager)
     {
-      CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
-      foreach (CharacterManager characterManager in characterManagers)
+      HealthDamage[] healthDamages = charactersManager.GetComponentsInChildren<HealthDamage>();
+      foreach (HealthDamage healthDamage in healthDamages)
       {
-        if (characterManager.clientId == clientId)
+        if (healthDamage.playerName == characterName)
         {
-          character = characterManager.gameObject;
+          character = healthDamage.gameObject;
+          character.GetComponent<CharacterManager>().player = gameObject;
+
           if (isLocalPlayer)
           {
             character.tag = "PlayerCharacter";
@@ -123,6 +135,7 @@ public class PlayerInputManager : NetworkBehaviour
             virtualCamera.Follow = character.transform;
             isCameraOnCharacter = true;
           }
+
           hasCharacter = true;
           hasSetupCharacter = true;
           break;
@@ -167,6 +180,10 @@ public class PlayerInputManager : NetworkBehaviour
       character.GetComponent<CharacterManager>().player = null;
       character.GetComponent<CharacterManager>().isPlayerCharacter = false;
     }
+    if (teamButtons)
+    {
+      teamButtons.visible(false);
+    }
   }
 
   // Update is called once per frame
@@ -174,9 +191,23 @@ public class PlayerInputManager : NetworkBehaviour
   {
     if (disable)
       return;
-    if (!hasSetupCharacter && teamPanel && teamButtons && teamButtons.selectionComplete)
+    if (!hasSetupCharacter && teamPanel && teamButtons && teamButtons.selectionComplete && Time.time >= (hasTriedToSetupCharacter + 0.5))
     {
-      CmdSetupCharacter();
+      CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
+      bool alreadySetup = false;
+      foreach (CharacterManager characterManager in characterManagers)
+      {
+        if (characterManager.gameObject.GetComponent<HealthDamage>().playerName == teamButtons.chosenName)
+        {
+          alreadySetup = true;
+          CmdFinishSetupCharacter(teamButtons.chosenName);
+        }
+      }
+      if (!alreadySetup)
+      {
+        hasTriedToSetupCharacter = Time.time;
+        CmdSetupCharacter(teamButtons.chosenCharacter, teamButtons.chosenTeam, teamButtons.chosenName);
+      }
     }
     // if (!isLocalPlayer)
     // {
@@ -325,7 +356,7 @@ public class PlayerInputManager : NetworkBehaviour
 
   public void cameraOnCharacter()
   {
-    if (character)
+    if (character && virtualCamera)
     {
       virtualCamera.Follow = character.transform;
       isCameraOnCharacter = true;

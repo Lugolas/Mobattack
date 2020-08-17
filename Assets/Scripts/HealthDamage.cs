@@ -33,6 +33,7 @@ public class HealthDamage : NetworkBehaviour
   public Image playerHealthBar;
   private Image playerManaBar;
   private TextMeshProUGUI playerHeaderText;
+  [SyncVar]
   public string playerName;
   private GameObject canvas;
   public bool spawning = false;
@@ -276,14 +277,17 @@ public class HealthDamage : NetworkBehaviour
   [ClientRpc]
   void RpcSpawn()
   {
-    navAgent.Warp(respawnPoint.position);
-    transform.rotation = respawnPoint.rotation;
-    if (characterManager.player)
-      characterManager.player.GetComponent<PlayerInputManager>().cameraOnCharacter();
-    anim.SetTrigger("Spawn");
-    deathTime = -1;
-    Tools.SetLayerRecursively(gameObject, SPAWNING_LAYER);
-    currentHealth = maxHealth;
+    if (respawnPoint)
+    {
+      navAgent.Warp(respawnPoint.position);
+      transform.rotation = respawnPoint.rotation;
+      if (characterManager.player)
+        characterManager.player.GetComponent<PlayerInputManager>().cameraOnCharacter();
+      anim.SetTrigger("Spawn");
+      deathTime = -1;
+      Tools.SetLayerRecursively(gameObject, SPAWNING_LAYER);
+      currentHealth = maxHealth;
+    }
   }
   void ReceiveHealing(int healingAmount)
   {
