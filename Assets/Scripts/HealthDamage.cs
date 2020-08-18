@@ -365,12 +365,15 @@ public class HealthDamage : NetworkBehaviour
 
   void playerHeaderToggle(bool state)
   {
-    playerHealthManaFrame.enabled = state;
-    playerHealthBar.enabled = state;
-    playerManaBar.enabled = state;
-    playerHeaderText.enabled = state;
-    tokenPointer.enabled = state;
-    minimapToken.enabled = state;
+    if (playerHealthManaFrame && playerHealthBar && playerManaBar && playerHeaderText && tokenPointer && minimapToken)
+    {
+      playerHealthManaFrame.enabled = state;
+      playerHealthBar.enabled = state;
+      playerManaBar.enabled = state;
+      playerHeaderText.enabled = state;
+      tokenPointer.enabled = state;
+      minimapToken.enabled = state;
+    }
     // characterManager.assignTeam();
   }
 

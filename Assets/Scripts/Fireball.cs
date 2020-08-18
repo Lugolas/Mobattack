@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 public class Fireball : MonoBehaviour
 {
   public int damage = 25;
-  public string attackerName;
+  public GameObject attacker;
   public Transform target;
   public GameObject FireballBurst;
 
@@ -93,7 +93,7 @@ public class Fireball : MonoBehaviour
     if (!hasHit)
     {
       GameObject objectHit = Tools.FindObjectOrParentWithTag(collision.gameObject, "Character");
-      if (objectHit && objectHit.name != attackerName)
+      if (objectHit && objectHit != attacker)
       {
         if (ps)
         {

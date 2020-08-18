@@ -89,10 +89,27 @@ public class BaseMoveAttacc : NetworkBehaviour
   {
     if (!disabled)
     {
+      Debug.Log("--------------------------------------------------------------------------------------------");
+      Debug.Log("navigationTargetMovable " + navigationTargetMovable);
+      if (navigationTargetMovable)
+      {
+        Debug.Log("navigationTargetMovable.gameObject " + navigationTargetMovable.gameObject);
+        if (navigationTargetMovable.gameObject)
+        {
+          Debug.Log("navigationTargetMovable.gameObject.GetComponent<HealthDamage>() " + navigationTargetMovable.gameObject.GetComponent<HealthDamage>());
+          if (navigationTargetMovable.gameObject.GetComponent<HealthDamage>())
+          {
+            Debug.Log("navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead " + navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead);
+          }
+        }
+      }
       if (navigationTargetMovable && navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead)
       {
         navigationTargetMovable = null;
       }
+      Debug.Log("navigationTargetMovable " + navigationTargetMovable);
+      Debug.Log("--------------------------------------------------------------------------------------------");
+
       // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       // RaycastHit hit;
 
@@ -145,7 +162,7 @@ public class BaseMoveAttacc : NetworkBehaviour
             rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y + Random.Range(-25, 25), rotation.eulerAngles.z);
             GameObject fireball = Instantiate(FireballRapidPrefab, FireballSpawnPoint.position, rotation) as GameObject;
             // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
-            fireball.GetComponent<Fireball>().attackerName = nameOfCharacter;
+            fireball.GetComponent<Fireball>().attacker = gameObject;
             if (targetedEnemy)
             {
               fireball.GetComponent<Fireball>().target = targetedEnemy;
@@ -173,7 +190,7 @@ public class BaseMoveAttacc : NetworkBehaviour
             rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y + Random.Range(-25, 25), rotation.eulerAngles.z);
             GameObject fireball = Instantiate(FireballRapidPrefab, FireballSpawnPoint.position, rotation) as GameObject;
             // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
-            fireball.GetComponent<Fireball>().attackerName = nameOfCharacter;
+            fireball.GetComponent<Fireball>().attacker = gameObject;
             if (targetedEnemy)
             {
               fireball.GetComponent<Fireball>().target = targetedEnemy;
@@ -207,7 +224,7 @@ public class BaseMoveAttacc : NetworkBehaviour
             {
               GameObject fireball = Instantiate(FireballPrefab, FireballSpawnPoint.position, transform.rotation) as GameObject;
               // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
-              fireball.GetComponent<Fireball>().attackerName = nameOfCharacter;
+              fireball.GetComponent<Fireball>().attacker = gameObject;
               fireball.GetComponent<Fireball>().target = targetedEnemy;
             }
             break;
@@ -316,8 +333,15 @@ public class BaseMoveAttacc : NetworkBehaviour
     }
 
     targetedEnemy = navigationTargetMovable;
-    if (targetedEnemy && !targetedEnemy.GetComponent<HealthDamage>().isDead)
+    // Debug.Log("ça avance");
+    // Debug.Log("navigationTargetMovable " + navigationTargetMovable);
+    // Debug.Log("targetedEnemy " + targetedEnemy);
+    // Debug.Log("targetedEnemy.gameObject " + targetedEnemy.gameObject);
+    // Debug.Log("targetedEnemy.GetComponent<HealthDamage>() " + targetedEnemy.gameObject.GetComponent<HealthDamage>());
+    // Debug.Log("targetedEnemy.GetComponent<HealthDamage>().isDead " + targetedEnemy.gameObject.GetComponent<HealthDamage>().isDead);
+    if (targetedEnemy && !targetedEnemy.gameObject.GetComponent<HealthDamage>().isDead)
     {
+      // Debug.Log("On en est là");
       navAgent.destination = targetedEnemy.position;
 
       if (navAgent.pathPending)
@@ -327,11 +351,13 @@ public class BaseMoveAttacc : NetworkBehaviour
 
       if (navAgent.remainingDistance > shootDistance || double.IsInfinity(navAgent.remainingDistance))
       {
+        // Debug.Log("PIYAYOYIDOLIPEEEEEEEEEEEEEEEEEEEE");
         navAgent.isStopped = false;
         run();
       }
       else
       {
+        // Debug.Log("HEYOOOOOOOOOOOOOOOOOOOOOOOO");
         transform.LookAt(targetedEnemy);
         navAgent.isStopped = true;
         running = 0;

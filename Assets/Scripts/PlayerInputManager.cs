@@ -314,13 +314,14 @@ public class PlayerInputManager : NetworkBehaviour
       {
         if (character)
         {
-          if ((hit.collider.CompareTag("Character") || hit.collider.CompareTag("EnemyCharacter")) && hit.collider.name != character.name)
+          if ((hit.collider.CompareTag("Character") || hit.collider.CompareTag("EnemyCharacter")) && hit.collider != character)
           {
             target = hit.transform.gameObject;
-
-            // targetedEnemy = hit.transform;
-            // enemyClicked = true;
-            CmdAttack(target.name);
+            HealthDamage targetInfo = target.GetComponent<HealthDamage>();
+            if (targetInfo)
+            {
+              CmdAttack(targetInfo.playerName);
+            }
           }
           else
           {
@@ -382,11 +383,20 @@ public class PlayerInputManager : NetworkBehaviour
         {
           // if (!target)
           // {
-          target = GameObject.Find("CharactersManager").transform.Find(name).gameObject;
+          GameObject characters = GameObject.Find("CharactersManager");
+          HealthDamage[] maybeTargets = characters.GetComponentsInChildren<HealthDamage>();
+          foreach (HealthDamage maybeTarget in maybeTargets)
+          {
+            if (maybeTarget.playerName == name)
+            {
+              target = maybeTarget.gameObject;
+              moveScript.hasNavigationTarget = true;
+              moveScript.navigationTargetMovable = target.transform;
+              moveScript.isNavigationTargetMovable = true;
+              break;
+            }
+          }
           // }
-          moveScript.hasNavigationTarget = true;
-          moveScript.navigationTargetMovable = target.transform;
-          moveScript.isNavigationTargetMovable = true;
         }
       }
     }
