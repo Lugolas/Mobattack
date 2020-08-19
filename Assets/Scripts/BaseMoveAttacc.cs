@@ -40,6 +40,7 @@ public class BaseMoveAttacc : NetworkBehaviour
   private string nameOfCharacter;
   private float timeBetweenShots = 1.15f;
   private float timeBetweenSpells = 1.15f;
+  HealthDamage test;
   // private int fireballDamage = 25;
   public enum BaseAttackType
   {
@@ -89,26 +90,12 @@ public class BaseMoveAttacc : NetworkBehaviour
   {
     if (!disabled)
     {
-      Debug.Log("--------------------------------------------------------------------------------------------");
-      Debug.Log("navigationTargetMovable " + navigationTargetMovable);
-      if (navigationTargetMovable)
-      {
-        Debug.Log("navigationTargetMovable.gameObject " + navigationTargetMovable.gameObject);
-        if (navigationTargetMovable.gameObject)
-        {
-          Debug.Log("navigationTargetMovable.gameObject.GetComponent<HealthDamage>() " + navigationTargetMovable.gameObject.GetComponent<HealthDamage>());
-          if (navigationTargetMovable.gameObject.GetComponent<HealthDamage>())
-          {
-            Debug.Log("navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead " + navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead);
-          }
-        }
-      }
       if (navigationTargetMovable && navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead)
       {
         navigationTargetMovable = null;
       }
-      Debug.Log("navigationTargetMovable " + navigationTargetMovable);
-      Debug.Log("--------------------------------------------------------------------------------------------");
+      // Debug.Log("navigationTargetMovable " + navigationTargetMovable);
+      // Debug.Log("--------------------------------------------------------------------------------------------");
 
       // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       // RaycastHit hit;

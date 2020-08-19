@@ -50,6 +50,19 @@ public class HealthDamage : NetworkBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    GameObject charactersManager = GameObject.Find("CharactersManager");
+    if (charactersManager)
+    {
+      HealthDamage[] characters = charactersManager.GetComponentsInChildren<HealthDamage>();
+      foreach (HealthDamage character in characters)
+      {
+        if (character.currentHealth > 0)
+        {
+          character.isDead = false;
+        }
+      }
+    }
+
     tokenPointer = GetComponentInChildren<TokenPointer>().GetComponent<MeshRenderer>();
     minimapToken = GetComponentInChildren<MinimapToken>().GetComponent<MeshRenderer>();
 
@@ -103,6 +116,7 @@ public class HealthDamage : NetworkBehaviour
     {
       anim = GetComponentInChildren<Animator>();
     }
+
   }
 
   // Update is called once per frame
@@ -148,7 +162,10 @@ public class HealthDamage : NetworkBehaviour
     else if (spawning && isDead)
     {
       spawning = false;
-      CmdUpdateDeathStatus(false);
+      if (isServer)
+      {
+        CmdUpdateDeathStatus(false);
+      }
       Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
     }
   }
@@ -309,6 +326,7 @@ public class HealthDamage : NetworkBehaviour
     if (isServer)
     {
       CmdDie();
+      CmdUpdateDeathStatus(true);
     }
     // currentHealth = 0;
     // if (playerHeader)
@@ -349,7 +367,6 @@ public class HealthDamage : NetworkBehaviour
       characterManager.player.GetComponent<PlayerInputManager>().cameraOnCorpse();
     Destroy(playerCorpse, 60);
     isDead = true;
-    CmdUpdateDeathStatus(true);
     deathTime = Time.time;
     // anim.SetTrigger("Die");
     if (baseMoveAttacc)

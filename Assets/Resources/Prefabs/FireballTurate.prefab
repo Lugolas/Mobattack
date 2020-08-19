@@ -4859,10 +4859,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
-  attackerName: 
+  attacker: {fileID: 0}
   target: {fileID: 0}
   FireballBurst: {fileID: 662745458172566627, guid: c4fa48f034b6dc34891cfc1a1c225519,
     type: 3}
+  useLifeTimeLimit: 1
+  lifeTimeLimit: 15
   rotateSpeed: 1
   movementSpeed: 1.5
   accelerationRate: 1.01

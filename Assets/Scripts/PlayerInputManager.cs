@@ -347,7 +347,7 @@ public class PlayerInputManager : NetworkBehaviour
     if (character)
     {
       HealthDamage healthDamage = character.GetComponent<HealthDamage>();
-      if (healthDamage)
+      if (healthDamage && virtualCamera)
       {
         virtualCamera.Follow = healthDamage.playerCorpse.transform;
         isCameraOnCharacter = false;

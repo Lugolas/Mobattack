@@ -7,6 +7,8 @@ public class Fireball : MonoBehaviour
   public GameObject attacker;
   public Transform target;
   public GameObject FireballBurst;
+  public bool useLifeTimeLimit = false;
+  public float lifeTimeLimit = 15;
 
   public float rotateSpeed = 200.0f;
   public float movementSpeed = 5.0f;
@@ -33,10 +35,28 @@ public class Fireball : MonoBehaviour
     sc = GetComponent<SphereCollider>();
     rb = GetComponent<Rigidbody>();
 
+    if (useLifeTimeLimit)
+    {
+      Destroy(gameObject, lifeTimeLimit);
+    }
     // Physics.IgnoreLayerCollision(9, 10);
   }
   void Update()
   {
+    if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction)
+    {
+      target = null;
+      if (ps)
+      {
+        var em = ps.emission;
+        em.enabled = false;
+      }
+      if (trail)
+      {
+        trail.emitting = false;
+      }
+      initiatedSelfDestruction = true;
+    }
     if (target)
     {
       HealthDamage healthDamage = target.GetComponent<HealthDamage>();
