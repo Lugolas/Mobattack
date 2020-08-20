@@ -45,11 +45,13 @@ public class HealthDamage : NetworkBehaviour
   private CharacterManager characterManager;
   private CinemachineVirtualCamera virtualCamera;
   public GameObject playerCorpse;
+  GameController gameController;
 
 
   // Start is called before the first frame update
   void Start()
   {
+    gameController = Tools.getGameController();
     GameObject charactersManager = GameObject.Find("CharactersManager");
     if (charactersManager)
     {
@@ -381,6 +383,17 @@ public class HealthDamage : NetworkBehaviour
     if (characterManager.player)
       characterManager.player.GetComponent<PlayerInputManager>().cameraOnCorpse();
     Destroy(playerCorpse, 60);
+    if (gameController)
+    {
+      if (characterManager.team == 1)
+      {
+        gameController.team2Score++;
+      }
+      else if (characterManager.team == 2)
+      {
+        gameController.team1Score++;
+      }
+    }
     isDead = true;
     deathTime = Time.time;
     // anim.SetTrigger("Die");

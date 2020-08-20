@@ -1032,7 +1032,7 @@ GameObject:
   - component: {fileID: 7134767697054530101}
   - component: {fileID: 7034457785435371418}
   - component: {fileID: 6241781517849017784}
-  m_Layer: 16
+  m_Layer: 9
   m_Name: Turate
   m_TagString: Untagged
   m_Icon: {fileID: 0}

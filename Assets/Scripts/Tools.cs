@@ -66,6 +66,17 @@ public class Tools : MonoBehaviour
     return bestTarget;
   }
 
+  public static GameController getGameController()
+  {
+    GameObject gameManager = GameObject.Find("GameManager");
+    GameController gameController = null;
+    if (gameManager)
+    {
+      gameController = gameManager.GetComponent<GameController>();
+    }
+    return gameController;
+  }
+
   public static void SetLayerRecursively(GameObject obj, int newLayer)
   {
     if (null == obj)

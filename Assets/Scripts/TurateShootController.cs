@@ -14,6 +14,7 @@ public class TurateShootController : MonoBehaviour
   public bool collapseTrigger = false;
   bool hasCollapsed = false;
   public GameObject[] parts;
+  GameController gameController;
 
   // Start is called before the first frame update
   void Start()
@@ -21,12 +22,26 @@ public class TurateShootController : MonoBehaviour
     shootPoints = GetComponentsInChildren<TurateShootPoint>();
     Physics.IgnoreLayerCollision(9, 16, true);
     Physics.IgnoreLayerCollision(10, 16, true);
-
+    gameController = Tools.getGameController();
   }
 
   // Update is called once per frame
   void Update()
   {
+    if (gameController)
+    {
+      Debug.Log("PIMPRENELLE");
+      if (gameController.scorer != -1 && gameController.scorer != team)
+      {
+        collapseTrigger = true;
+        Debug.Log("PINPON");
+      }
+    }
+    else
+    {
+      gameController = Tools.getGameController();
+    }
+
     if (collapseTrigger && !hasCollapsed)
     {
       collapse();
@@ -36,6 +51,7 @@ public class TurateShootController : MonoBehaviour
   void collapse()
   {
     hasCollapsed = true;
+    collapseTrigger = false;
 
     MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
     meshRenderer.enabled = false;
