@@ -265,6 +265,11 @@ public class HealthDamage : NetworkBehaviour
     RpcUpdateDamage(currentHealth - damageAmount);
   }
 
+  void CmdReceiveHealing(int healingAmount)
+  {
+    RpcUpdateDamage(currentHealth + healingAmount);
+  }
+
   [ClientRpc]
   void RpcUpdateDamage(int newHealth)
   {
@@ -274,6 +279,11 @@ public class HealthDamage : NetworkBehaviour
       currentHealth = 0;
       if (!isDead)
         Die();
+    }
+
+    if (currentHealth >= maxHealth)
+    {
+      currentHealth = maxHealth;
     }
   }
 
@@ -306,12 +316,17 @@ public class HealthDamage : NetworkBehaviour
       currentHealth = maxHealth;
     }
   }
-  void ReceiveHealing(int healingAmount)
+  public void ReceiveHealing(int healingAmount)
   {
     if (!isDead)
     {
       DamagePopUpController.CreateDamagePopUp(healingAmount.ToString(), transform, "green");
-      currentHealth += healingAmount;
+      // currentHealth += healingAmount;
+
+      if (isServer)
+      {
+        CmdReceiveHealing(healingAmount);
+      }
 
       if (currentHealth >= maxHealth)
       {

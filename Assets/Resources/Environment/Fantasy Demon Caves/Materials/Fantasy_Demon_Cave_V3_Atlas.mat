@@ -174,6 +174,7 @@ Material:
     - Vector1_8AE485D6: 164.3
     - Vector1_9641D6BF: 0.44
     - Vector1_98EA20A4: 0.54
+    - Vector1_A5168ABF: 1
     - Vector1_AA518C16: 1
     - Vector1_E001E675: 0.6666666
     - Vector1_FC61685B: 0.3333333
@@ -245,6 +246,7 @@ Material:
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!114 &5199906838391384437
 MonoBehaviour:
   m_ObjectHideFlags: 11

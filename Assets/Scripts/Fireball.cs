@@ -9,6 +9,7 @@ public class Fireball : MonoBehaviour
   public GameObject FireballBurst;
   public bool useLifeTimeLimit = false;
   public float lifeTimeLimit = 15;
+  public bool heals = false;
 
   public float rotateSpeed = 200.0f;
   public float movementSpeed = 5.0f;
@@ -110,7 +111,7 @@ public class Fireball : MonoBehaviour
 
   void OnCollisionEnter(Collision collision)
   {
-    if (!hasHit)
+    if (!hasHit && !initiatedSelfDestruction)
     {
       GameObject objectHit = Tools.FindObjectOrParentWithTag(collision.gameObject, "Character");
       if (objectHit && objectHit != attacker)
@@ -127,7 +128,15 @@ public class Fireball : MonoBehaviour
         target = null;
         Destroy(sc);
         hasHit = true;
-        InflictsDamage(collision);
+        initiatedSelfDestruction = true;
+        if (heals)
+        {
+          InflictsHealing(collision);
+        }
+        else
+        {
+          InflictsDamage(collision);
+        }
         if (FireballBurst)
         {
           GameObject burst = Instantiate(FireballBurst, transform.position, transform.rotation) as GameObject;
@@ -154,6 +163,15 @@ public class Fireball : MonoBehaviour
     if (hp)
     {
       hp.TakeDamage(damage);
+    }
+  }
+
+  void InflictsHealing(Collision collision)
+  {
+    HealthDamage hp = collision.gameObject.GetComponent<HealthDamage>();
+    if (hp)
+    {
+      hp.ReceiveHealing(damage);
     }
   }
 }

@@ -5,38 +5,73 @@ using UnityEngine;
 public class TurateShootController : MonoBehaviour
 {
   TurateShootPoint[] shootPoints;
-  public GameObject fireballPrefab;
   public GameObject target;
+  bool fireballsBehaviour;
+  bool HEAL = true;
+  bool HURT = false;
+  public int team;
   private List<GameObject> alreadyShotAt = new List<GameObject>();
+  public bool collapseTrigger = false;
+  bool hasCollapsed = false;
+  public GameObject[] parts;
 
   // Start is called before the first frame update
   void Start()
   {
     shootPoints = GetComponentsInChildren<TurateShootPoint>();
+    Physics.IgnoreLayerCollision(9, 16, true);
+    Physics.IgnoreLayerCollision(10, 16, true);
+
   }
 
   // Update is called once per frame
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.P))
+    if (collapseTrigger && !hasCollapsed)
     {
+      collapse();
     }
   }
+
+  void collapse()
+  {
+    hasCollapsed = true;
+
+    MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+    meshRenderer.enabled = false;
+
+    BoxCollider boxCollider = GetComponent<BoxCollider>();
+    boxCollider.enabled = false;
+
+    foreach (GameObject part in parts)
+    {
+      part.SetActive(true);
+    }
+  }
+
   void OnTriggerEnter(Collider collider)
   {
     if (Tools.FindObjectOrParentWithTag(collider.gameObject, "Character"))
     {
-      Debug.Log("Hey");
       if (!alreadyShotAt.Contains(collider.gameObject))
       {
-        Debug.Log("Shoot");
         target = collider.gameObject;
         alreadyShotAt.Add(target);
+        CharacterManager targetManager = target.GetComponent<CharacterManager>();
+
+        if (targetManager && targetManager.team == team)
+        {
+          fireballsBehaviour = HEAL;
+        }
+        else
+        {
+          fireballsBehaviour = HURT;
+        }
 
         foreach (TurateShootPoint shootPoint in shootPoints)
         {
           // shootPoint.target = target;
-          shootPoint.fire(target);
+          shootPoint.fire(target, fireballsBehaviour);
         }
       }
     }

@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     Physics.IgnoreLayerCollision(11, 11, true);
     Physics.IgnoreLayerCollision(11, 12, true);
     Physics.IgnoreLayerCollision(11, 13, true);
+    Physics.IgnoreLayerCollision(9, 16, true);
   }
 
   // Update is called once per frame

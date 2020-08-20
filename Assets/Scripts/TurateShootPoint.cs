@@ -5,7 +5,10 @@ using UnityEngine;
 public class TurateShootPoint : MonoBehaviour
 {
   public GameObject target;
-  public GameObject fireballPrefab;
+  public GameObject fireballPrefabHurt;
+  public GameObject fireballPrefabHeal;
+  bool HURT = false;
+  bool HEAL = true;
 
   // Let's have a 0.5s timer or something
   float targetChangeTime;
@@ -25,14 +28,22 @@ public class TurateShootPoint : MonoBehaviour
       target = null;
     }
   }
-  public void fire(GameObject newTarget)
+  public void fire(GameObject newTarget, bool fireballBehaviour)
   {
-    // Debug.Log(gameObject.name + " shoot at " + target.name);
-    // Debug.Log(fireballPrefabr.name);
     if (target != newTarget)
     {
       target = newTarget;
       targetChangeTime = Time.time;
+
+      GameObject fireballPrefab;
+      if (fireballBehaviour == HEAL)
+      {
+        fireballPrefab = fireballPrefabHeal;
+      }
+      else
+      {
+        fireballPrefab = fireballPrefabHurt;
+      }
 
       GameObject fireball = Instantiate(fireballPrefab, transform.position, transform.rotation) as GameObject;
       fireball.GetComponent<Fireball>().target = target.transform;
