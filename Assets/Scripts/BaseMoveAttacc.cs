@@ -22,6 +22,7 @@ public class BaseMoveAttacc : NetworkBehaviour
   public bool isNavigationTargetMovable = false;
   private UnityEngine.AI.NavMeshAgent navAgent;
   public float shootDistance = 10f;
+  public float distanceAcceptability = 1.0f;
   public Transform FireballSpawnPoint = null;
   public GameObject FireballPrefab = null;
   public GameObject FireballRapidPrefab = null;
@@ -40,6 +41,7 @@ public class BaseMoveAttacc : NetworkBehaviour
   private string nameOfCharacter;
   private float timeBetweenShots = 1.15f;
   private float timeBetweenSpells = 1.15f;
+  bool withinShootDistance = false;
   HealthDamage test;
   // private int fireballDamage = 25;
   public enum BaseAttackType
@@ -320,15 +322,8 @@ public class BaseMoveAttacc : NetworkBehaviour
     }
 
     targetedEnemy = navigationTargetMovable;
-    // Debug.Log("ça avance");
-    // Debug.Log("navigationTargetMovable " + navigationTargetMovable);
-    // Debug.Log("targetedEnemy " + targetedEnemy);
-    // Debug.Log("targetedEnemy.gameObject " + targetedEnemy.gameObject);
-    // Debug.Log("targetedEnemy.GetComponent<HealthDamage>() " + targetedEnemy.gameObject.GetComponent<HealthDamage>());
-    // Debug.Log("targetedEnemy.GetComponent<HealthDamage>().isDead " + targetedEnemy.gameObject.GetComponent<HealthDamage>().isDead);
     if (targetedEnemy && !targetedEnemy.gameObject.GetComponent<HealthDamage>().isDead)
     {
-      // Debug.Log("On en est là");
       navAgent.destination = targetedEnemy.position;
 
       if (navAgent.pathPending)
@@ -336,15 +331,21 @@ public class BaseMoveAttacc : NetworkBehaviour
         yield return null;
       }
 
-      if (navAgent.remainingDistance > shootDistance || double.IsInfinity(navAgent.remainingDistance))
+      float acceptableDistance = shootDistance;
+      if (withinShootDistance)
       {
-        // Debug.Log("PIYAYOYIDOLIPEEEEEEEEEEEEEEEEEEEE");
+        acceptableDistance = shootDistance + distanceAcceptability;
+      }
+
+      if (navAgent.remainingDistance > acceptableDistance || double.IsInfinity(navAgent.remainingDistance))
+      {
+        withinShootDistance = false;
         navAgent.isStopped = false;
         run();
       }
       else
       {
-        // Debug.Log("HEYOOOOOOOOOOOOOOOOOOOOOOOO");
+        withinShootDistance = true;
         transform.LookAt(targetedEnemy);
         navAgent.isStopped = true;
         running = 0;

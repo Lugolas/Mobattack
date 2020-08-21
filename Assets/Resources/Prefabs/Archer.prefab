@@ -170,7 +170,8 @@ MonoBehaviour:
   navigationTargetMovable: {fileID: 0}
   hasNavigationTarget: 0
   isNavigationTargetMovable: 0
-  shootDistance: 35
+  shootDistance: 25
+  distanceAcceptability: 10
   FireballSpawnPoint: {fileID: 7025054901090674947}
   FireballPrefab: {fileID: 6512867169236615124, guid: 3e065da2da46a7c409a611781e1c2eb6,
     type: 3}

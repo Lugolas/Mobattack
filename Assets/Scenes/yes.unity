@@ -335,6 +335,7 @@ MonoBehaviour:
   team2Score: 0
   team1ScoredLimit: 0
   team2ScoredLimit: 0
+  winner: -1
 --- !u!1 &242852593
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278706468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.46, z: 29.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1848137819}
@@ -1168,7 +1169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &749023239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1195,7 +1196,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749023238}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1454,7 +1455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189366080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.46, z: -206.898}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1417898542}
@@ -1586,6 +1587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1272898741}
   - component: {fileID: 1272898742}
+  - component: {fileID: 1272898743}
   m_Layer: 5
   m_Name: EndPanel
   m_TagString: Untagged
@@ -1622,6 +1624,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272898740}
   m_CullTransparentMesh: 0
+--- !u!114 &1272898743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272898740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f8927e3a847a84f86f587357ea4711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winImage: {fileID: 2080648029}
+  losImage: {fileID: 749023238}
 --- !u!1 &1275106200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,13 +1729,13 @@ GameObject:
   - component: {fileID: 1417898542}
   - component: {fileID: 1417898544}
   - component: {fileID: 1417898543}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: VictoryPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1417898542
 Transform:
   m_ObjectHideFlags: 0
@@ -1746,7 +1762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ad92a0022cc364f95d216ec7db493a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasTouched: 0
 --- !u!65 &1417898544
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2214,13 +2229,13 @@ GameObject:
   - component: {fileID: 1848137819}
   - component: {fileID: 1848137821}
   - component: {fileID: 1848137820}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: VictoryPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1848137819
 Transform:
   m_ObjectHideFlags: 0
@@ -2247,7 +2262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ad92a0022cc364f95d216ec7db493a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasTouched: 0
 --- !u!65 &1848137821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2625,7 +2639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2080648030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2652,7 +2666,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2080648029}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 

@@ -219,7 +219,7 @@ public class PlayerInputManager : NetworkBehaviour
     Ray rayMouse = Camera.main.ScreenPointToRay(Input.mousePosition);
     RaycastHit hitMouse;
 
-    if (Physics.Raycast(rayMouse, out hitMouse, 2500))
+    if (Physics.Raycast(rayMouse, out hitMouse, 2500, layerMask))
     {
       if (hitMouse.collider.CompareTag("Character") || hitMouse.collider.CompareTag("PlayerCharacter") || hitMouse.collider.CompareTag("TeamCharacter") || hitMouse.collider.CompareTag("EnemyCharacter"))
       {
@@ -322,16 +322,20 @@ public class PlayerInputManager : NetworkBehaviour
         {
           if (character && hit.collider.gameObject != character)
           {
-            GameObject characterHit = Tools.FindObjectOrParentWithTag(hit.collider.gameObject, "Character");
+            CharacterManager characterHit = hit.collider.gameObject.GetComponent<CharacterManager>();
             if (characterHit)
             {
-              target = hit.transform.gameObject;
-              HealthDamage targetInfo = target.GetComponent<HealthDamage>();
-              if (targetInfo)
+              CharacterManager myCharacterManager = character.GetComponent<CharacterManager>();
+              if (myCharacterManager && characterHit.team != myCharacterManager.team)
               {
-                CmdAttack(targetInfo.playerName);
+                target = hit.transform.gameObject;
+                HealthDamage targetInfo = target.GetComponent<HealthDamage>();
+                if (targetInfo)
+                {
+                  CmdAttack(targetInfo.playerName);
+                }
+                break;
               }
-              break;
             }
             else
             {
@@ -341,7 +345,6 @@ public class PlayerInputManager : NetworkBehaviour
               break;
             }
           }
-
         }
       }
       // rightClicked = true;

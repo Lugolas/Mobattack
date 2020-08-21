@@ -11,16 +11,19 @@ public class CharacterManager : NetworkBehaviour
   [SyncVar]
   public int team = 0;
   public GameObject player;
-  public int playerCharacterTeam;
+  public static int playerCharacterTeam;
   public bool isPlayerCharacter = false;
   GameObject charactersManager;
   bool teamsChanged = true;
   private Color playerGreen = new Color(73 / 255, 255 / 255, 106 / 255);
   private Color teammateBlue = new Color(106 / 255, 73 / 255, 255 / 255);
   private Color enemyRed = new Color(255 / 255, 106 / 255, 73 / 255);
+  private float updateDelay = 1;
+  private float lastUpdate;
 
   void Start()
   {
+    lastUpdate = Time.time;
     charactersManager = GameObject.Find("CharactersManager");
     if (charactersManager)
     {
@@ -31,9 +34,10 @@ public class CharacterManager : NetworkBehaviour
   void Update()
   {
     checkTeamStatus();
-    if (teamsChanged)
+    if (teamsChanged || Time.time >= (lastUpdate + updateDelay))
     {
       assignTeam();
+      lastUpdate = Time.time;
     }
   }
 
