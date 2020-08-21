@@ -33,7 +33,10 @@ public class PlayerInputManager : NetworkBehaviour
   SelectionButtonsController teamButtons;
   float hasTriedToSetupCharacter;
   GameObject charactersManager;
+  int GROUND_LAYER = 8;
+  int ENVIRONMENT_NO_RAY_LAYER = 17;
   int clientIdLast;
+  int layerMask;
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -45,6 +48,8 @@ public class PlayerInputManager : NetworkBehaviour
     }
     else
     {
+      layerMask = 1 << ENVIRONMENT_NO_RAY_LAYER;
+      layerMask = ~layerMask;
       charactersManager = GameObject.Find("CharactersManager");
       teamPanel = GameObject.Find("TeamPanel");
       hasTriedToSetupCharacter = Time.time;
@@ -304,33 +309,42 @@ public class PlayerInputManager : NetworkBehaviour
     }
 
     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    RaycastHit hit;
+    // RaycastHit hit;
 
     if (Input.GetButton("Fire2"))
     // if (Input.GetButton("Fire2") && !healthDamage.isDead)
     {
-      // rightClicked = true;
-      if (Physics.Raycast(ray, out hit, 2500))
+      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMask);
+      if (hits.Length > 0)
       {
-        if (character)
+        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+        foreach (RaycastHit hit in hits)
         {
-          if ((hit.collider.CompareTag("Character") || hit.collider.CompareTag("EnemyCharacter")) && hit.collider != character)
+          if (character && hit.collider.gameObject != character)
           {
-            target = hit.transform.gameObject;
-            HealthDamage targetInfo = target.GetComponent<HealthDamage>();
-            if (targetInfo)
+            GameObject characterHit = Tools.FindObjectOrParentWithTag(hit.collider.gameObject, "Character");
+            if (characterHit)
             {
-              CmdAttack(targetInfo.playerName);
+              target = hit.transform.gameObject;
+              HealthDamage targetInfo = target.GetComponent<HealthDamage>();
+              if (targetInfo)
+              {
+                CmdAttack(targetInfo.playerName);
+              }
+              break;
+            }
+            else
+            {
+              moveClickDown = true;
+              moveClickPosition = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z);
+              CmdMoveTo(hit.point);
+              break;
             }
           }
-          else
-          {
-            moveClickDown = true;
-            moveClickPosition = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z);
-            CmdMoveTo(hit.point);
-          }
+
         }
       }
+      // rightClicked = true;
     }
     else
     {
