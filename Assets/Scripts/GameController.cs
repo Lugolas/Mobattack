@@ -10,9 +10,11 @@ public class GameController : NetworkBehaviour
   [SyncVar]
   public int team2Score = 0;
   [SyncVar]
-  int scoreLimit = 1;
+  int scoreLimit = 5;
   [SyncVar]
-  public int scorer = -1;
+  public bool team1ScoredLimit = false;
+  [SyncVar]
+  public bool team2ScoredLimit = false;
   // Start is called before the first frame update
   void Start()
   {
@@ -22,16 +24,13 @@ public class GameController : NetworkBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (scorer == -1)
+    if (team1Score >= scoreLimit)
     {
-      if (team1Score >= scoreLimit)
-      {
-        scorer = 1;
-      }
-      else if (team2Score >= scoreLimit)
-      {
-        scorer = 2;
-      }
+      team1ScoredLimit = true;
+    }
+    if (team2Score >= scoreLimit)
+    {
+      team2ScoredLimit = true;
     }
   }
 }

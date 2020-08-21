@@ -30,11 +30,19 @@ public class TurateShootController : MonoBehaviour
   {
     if (gameController)
     {
-      Debug.Log("PIMPRENELLE");
-      if (gameController.scorer != -1 && gameController.scorer != team)
+      if (team == 1)
       {
-        collapseTrigger = true;
-        Debug.Log("PINPON");
+        if (gameController.team2ScoredLimit)
+        {
+          collapseTrigger = true;
+        }
+      }
+      else
+      {
+        if (gameController.team1ScoredLimit)
+        {
+          collapseTrigger = true;
+        }
       }
     }
     else

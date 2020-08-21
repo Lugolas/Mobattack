@@ -161,14 +161,14 @@ public class HealthDamage : NetworkBehaviour
     {
       spawning = true;
     }
-    else if (spawning && isDead)
+    else if (spawning)
     {
       spawning = false;
+      Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
       if (isServer)
       {
         CmdUpdateDeathStatus(false);
       }
-      Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
     }
   }
 
@@ -340,7 +340,7 @@ public class HealthDamage : NetworkBehaviour
   void Die()
   {
 
-    if (isServer)
+    if (isServer && !isDead && transform.position != waitingForRespawnPoint.position)
     {
       CmdDie();
       CmdUpdateDeathStatus(true);
@@ -373,38 +373,41 @@ public class HealthDamage : NetworkBehaviour
   [ClientRpc]
   void RpcDie()
   {
-    Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
-    currentHealth = 0;
-    if (isPlayerHeaderVisible)
-      playerHeaderToggle(false);
-    playerCorpse = Instantiate(playerCorpsePrefab);
-    playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
-    playerCorpse.transform.rotation = transform.rotation;
-    if (characterManager.player)
-      characterManager.player.GetComponent<PlayerInputManager>().cameraOnCorpse();
-    Destroy(playerCorpse, 60);
-    if (gameController)
+    if (!isDead && transform.position != waitingForRespawnPoint.position)
     {
-      if (characterManager.team == 1)
+      Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
+      currentHealth = 0;
+      if (isPlayerHeaderVisible)
+        playerHeaderToggle(false);
+      playerCorpse = Instantiate(playerCorpsePrefab);
+      playerCorpse.transform.position = transform.position - new Vector3(0, 0.2f, 0);
+      playerCorpse.transform.rotation = transform.rotation;
+      if (characterManager.player)
+        characterManager.player.GetComponent<PlayerInputManager>().cameraOnCorpse();
+      Destroy(playerCorpse, 60);
+      if (gameController)
       {
-        gameController.team2Score++;
+        if (characterManager.team == 1)
+        {
+          gameController.team2Score++;
+        }
+        else if (characterManager.team == 2)
+        {
+          gameController.team1Score++;
+        }
       }
-      else if (characterManager.team == 2)
+      isDead = true;
+      deathTime = Time.time;
+      // anim.SetTrigger("Die");
+      if (baseMoveAttacc)
       {
-        gameController.team1Score++;
+        baseMoveAttacc.stopMoving();
       }
-    }
-    isDead = true;
-    deathTime = Time.time;
-    // anim.SetTrigger("Die");
-    if (baseMoveAttacc)
-    {
-      baseMoveAttacc.stopMoving();
-    }
-    if (waitingForRespawnPoint)
-    {
-      navAgent.Warp(waitingForRespawnPoint.position);
-      transform.rotation = waitingForRespawnPoint.rotation;
+      if (waitingForRespawnPoint)
+      {
+        navAgent.Warp(waitingForRespawnPoint.position);
+        transform.rotation = waitingForRespawnPoint.rotation;
+      }
     }
   }
 
