@@ -2,7 +2,7 @@
 
 > Main learning project. Has been started from scratch multiple times.
 
-![Game](Game.png)
+![Game](Game.PNG)
 
 ## How to play
 
@@ -21,7 +21,7 @@ _Only Host_
 - **Heal All**: C
 - **Damage All**: V
 
-![Grunt](Grunt.png)
+![Grunt](Grunt.PNG)
 
 ## How to try the game
 
@@ -43,7 +43,7 @@ _Only Host_
 - Then other players can click on _Find Internet Match_
 - And finally click on _Join Match:_ followed by the chosen match name
 
-![Archer](Archer.png)
+![Archer](Archer.PNG)
 
 ## About the game
 
@@ -53,7 +53,7 @@ So now I plan on reusing a lot of it for a real Tower Defense project right arou
 
 This game is made in [Unity](https://unity.com/ "Unity homepage"), with the initial help of the course _[Skeletons vs Zombies MOBA With Multiplayer in Unity](https://www.packtpub.com/application-development/skeletons-vs-zombies-moba-multiplayer-unity-video "Packt store page")_ by [Devslopes](https://devslopes.com/ "Devslopes homepage"). This course really kickstarted the project, since it taught me some basics and had quality models and animations ready to use _(made by [Bitgem](https://shop.bitgem3d.com/collections/bitgem "Bitgem Collection store page"))_.
 
-![Mage](Mage.png)
+![Mage](Mage.PNG)
 
 ### Features
 
@@ -79,7 +79,7 @@ This game is made in [Unity](https://unity.com/ "Unity homepage"), with the init
 - Use of overhead **Cameras**, **RenderTextures** and **Masks** for the minimap.
 - Use of several **Buttons** and an **Input Field** for the character selection screen.
 
-![Murderer](Murderer.png)
+![Murderer](Murderer.PNG)
 
 - **Particle Effects** for projectiles.
 - **Trails** for some projectiles and weapon swings.
@@ -104,4 +104,4 @@ This game is made in [Unity](https://unity.com/ "Unity homepage"), with the init
   - to progressively **change the color** of the emission texture of the map based on **world position**. It is also lightly applied on the ground texture.
 - Customization of the **renderer parameters** to display the character's **silhouette when hidden** by other objects.
 
-![Map Overview](GameOverview.png)
+![Map Overview](GameOverview.PNG)
