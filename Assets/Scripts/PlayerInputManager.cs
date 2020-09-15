@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Networking;
 
 public class PlayerInputManager : NetworkBehaviour
@@ -21,6 +22,7 @@ public class PlayerInputManager : NetworkBehaviour
   bool disable = false;
 
   bool moveClickDown = false;
+  bool createClickDown = false;
   Vector3 moveClickPosition = Vector3.zero;
   List<Material> outlinedCharacterMaterials = new List<Material>();
   string outlinedCharacterName = null;
@@ -33,10 +35,16 @@ public class PlayerInputManager : NetworkBehaviour
   SelectionButtonsController teamButtons;
   float hasTriedToSetupCharacter;
   GameObject charactersManager;
+  string TEMP_NAME = "Pouette";
   int GROUND_LAYER = 8;
   int ENVIRONMENT_NO_RAY_LAYER = 17;
   int clientIdLast;
-  int layerMask;
+  int layerMaskGround;
+  int layerMaskMove;
+  Vector3 turretCreationPoint;
+  GameObject turretPrefab;
+  GameObject enemyManager;
+  GameObject previewTurret;
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -48,8 +56,11 @@ public class PlayerInputManager : NetworkBehaviour
     }
     else
     {
-      layerMask = 1 << ENVIRONMENT_NO_RAY_LAYER;
-      layerMask = ~layerMask;
+      layerMaskGround = LayerMask.GetMask(LayerMask.LayerToName(GROUND_LAYER));
+      // layerMaskGround = 1 << GROUND_LAYER;
+      layerMaskMove = 1 << ENVIRONMENT_NO_RAY_LAYER;
+      layerMaskMove = ~layerMaskMove;
+      enemyManager = GameObject.Find("EnemyManager");
       charactersManager = GameObject.Find("CharactersManager");
       teamPanel = GameObject.Find("TeamPanel");
       hasTriedToSetupCharacter = Time.time;
@@ -71,6 +82,8 @@ public class PlayerInputManager : NetworkBehaviour
           teamButtons.visible(true);
         }
       }
+
+      turretPrefab = Resources.Load<GameObject>("Prefabs/Turret");
     }
     currentZoomIndex = zoomLevels.Length - 2;
   }
@@ -86,22 +99,25 @@ public class PlayerInputManager : NetworkBehaviour
   {
     GameObject characterPrefab = null;
 
-    switch (chosenCharacter)
-    {
-      default:
-      case 1:
-        characterPrefab = Resources.Load<GameObject>("Prefabs/Mage");
-        break;
-      case 2:
-        characterPrefab = Resources.Load<GameObject>("Prefabs/Grunt");
-        break;
-      case 3:
-        characterPrefab = Resources.Load<GameObject>("Prefabs/Archer");
-        break;
-      case 4:
-        characterPrefab = Resources.Load<GameObject>("Prefabs/Murderer");
-        break;
-    }
+    characterPrefab = Resources.Load<GameObject>("Prefabs/Characters/Sphere");
+
+    // switch (chosenCharacter)
+    // {
+    //   default:
+    //   case 1:
+    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Mage");
+    //     break;
+    //   case 2:
+    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Grunt");
+    //     break;
+    //   case 3:
+    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Archer");
+    //     break;
+    //   case 4:
+    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Murderer");
+    //     break;
+    // }
+
     if (characterPrefab)
     {
       GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
@@ -196,22 +212,22 @@ public class PlayerInputManager : NetworkBehaviour
   {
     if (disable)
       return;
-    if (!hasSetupCharacter && teamPanel && teamButtons && teamButtons.selectionComplete && Time.time >= (hasTriedToSetupCharacter + 0.5))
+    if (!hasSetupCharacter)
     {
       CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
       bool alreadySetup = false;
       foreach (CharacterManager characterManager in characterManagers)
       {
-        if (characterManager.gameObject.GetComponent<HealthDamage>().playerName == teamButtons.chosenName)
+        if (characterManager.gameObject.GetComponent<HealthDamage>().playerName == TEMP_NAME)
         {
           alreadySetup = true;
-          CmdFinishSetupCharacter(teamButtons.chosenName);
+          CmdFinishSetupCharacter(TEMP_NAME);
         }
       }
       if (!alreadySetup)
       {
         hasTriedToSetupCharacter = Time.time;
-        CmdSetupCharacter(teamButtons.chosenCharacter, teamButtons.chosenTeam, teamButtons.chosenName);
+        CmdSetupCharacter(1, 1, TEMP_NAME);
       }
     }
     // if (!isLocalPlayer)
@@ -219,7 +235,7 @@ public class PlayerInputManager : NetworkBehaviour
     Ray rayMouse = Camera.main.ScreenPointToRay(Input.mousePosition);
     RaycastHit hitMouse;
 
-    if (Physics.Raycast(rayMouse, out hitMouse, 2500, layerMask))
+    if (Physics.Raycast(rayMouse, out hitMouse, 2500, layerMaskMove))
     {
       if (hitMouse.collider.CompareTag("Character") || hitMouse.collider.CompareTag("PlayerCharacter") || hitMouse.collider.CompareTag("TeamCharacter") || hitMouse.collider.CompareTag("EnemyCharacter"))
       {
@@ -308,13 +324,53 @@ public class PlayerInputManager : NetworkBehaviour
       }
     }
 
-    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    // RaycastHit hit;
+
+    if (Input.GetButton("Fire1"))
+    {
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskGround);
+
+      if (hits.Length > 0)
+      {
+        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+        foreach (RaycastHit hit in hits)
+        {
+          turretCreationPoint = hit.point;
+          if (!createClickDown)
+          {
+            previewTurret = Instantiate(turretPrefab, turretCreationPoint, new Quaternion());
+          }
+          createClickDown = true;
+
+          if (previewTurret)
+          {
+            previewTurret.transform.position = hit.point;
+          }
+          break;
+        }
+      }
+    }
+    else
+    {
+      if (createClickDown)
+      {
+        createClickDown = false;
+
+        previewTurret.GetComponentInChildren<NavMeshObstacle>().enabled = true;
+        previewTurret = null;
+        EnemyController[] enemies = enemyManager.GetComponentsInChildren<EnemyController>();
+        foreach (EnemyController enemy in enemies)
+        {
+          enemy.refreshDestination();
+        }
+      }
+    }
 
     if (Input.GetButton("Fire2"))
     // if (Input.GetButton("Fire2") && !healthDamage.isDead)
     {
-      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMask);
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskMove);
       if (hits.Length > 0)
       {
         System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));

@@ -34,10 +34,7 @@ public class BaseMoveAttacc : NetworkBehaviour
   private float nextSpell;
   private bool disabled = false;
   private FireMomentListener fireMomentListener;
-  private MageRapidFire mageRapidFire;
   private bool timetoFireFired = false;
-  private bool firstFireballFired = false;
-  private bool secondFireballFired = false;
   private string nameOfCharacter;
   private float timeBetweenShots = 1.15f;
   private float timeBetweenSpells = 1.15f;
@@ -63,7 +60,6 @@ public class BaseMoveAttacc : NetworkBehaviour
       nameOfCharacter = character.name;
     }
     fireMomentListener = GetComponentInChildren<FireMomentListener>();
-    mageRapidFire = GetComponentInChildren<MageRapidFire>();
     healthDamage = GetComponent<HealthDamage>();
     anim = GetComponent<Animator>();
     if (!anim)
@@ -134,64 +130,7 @@ public class BaseMoveAttacc : NetworkBehaviour
       //   Spell();
       // }
 
-      // Debug.Log(mageRapidFire.firstFireballFire);
       // Debug.Log(firstFireballFired);
-      if (mageRapidFire && mageRapidFire.firstFireballFire && !mageRapidFire.secondFireballFire && firstFireballFired == false && attacking)
-      {
-        mageRapidFire.firstFireballFire = false;
-        firstFireballFired = true;
-        secondFireballFired = mageRapidFire.secondFireballFire;
-        nextSpell = Time.time + timeBetweenSpells;
-
-        if (FireballSpawnPoint && FireballRapidPrefab)
-        {
-          for (int i = 1; i <= rapidFireballAmount; i++)
-          {
-            Quaternion rotation = FireballSpawnPoint.rotation;
-            rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y + Random.Range(-25, 25), rotation.eulerAngles.z);
-            GameObject fireball = Instantiate(FireballRapidPrefab, FireballSpawnPoint.position, rotation) as GameObject;
-            // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
-            fireball.GetComponent<Fireball>().attacker = gameObject;
-            if (targetedEnemy)
-            {
-              fireball.GetComponent<Fireball>().target = targetedEnemy;
-            }
-            else
-            {
-              fireball.GetComponent<Fireball>().target = transform;
-            }
-          }
-        }
-
-      }
-
-      if (mageRapidFire && mageRapidFire.secondFireballFire && secondFireballFired == false && attacking)
-      {
-        mageRapidFire.secondFireballFire = false;
-        firstFireballFired = mageRapidFire.firstFireballFire;
-        secondFireballFired = true;
-
-        if (FireballSpawnPoint && FireballRapidPrefab)
-        {
-          for (int i = 1; i <= rapidFireballAmount; i++)
-          {
-            Quaternion rotation = FireballSpawnPoint.rotation;
-            rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y + Random.Range(-25, 25), rotation.eulerAngles.z);
-            GameObject fireball = Instantiate(FireballRapidPrefab, FireballSpawnPoint.position, rotation) as GameObject;
-            // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
-            fireball.GetComponent<Fireball>().attacker = gameObject;
-            if (targetedEnemy)
-            {
-              fireball.GetComponent<Fireball>().target = targetedEnemy;
-            }
-            else
-            {
-              fireball.GetComponent<Fireball>().target = transform;
-            }
-          }
-        }
-
-      }
 
       if (fireMomentListener && fireMomentListener.timeToFire && targetedEnemy && timetoFireFired == false && attacking)
       {
@@ -267,24 +206,6 @@ public class BaseMoveAttacc : NetworkBehaviour
       {
         animatingAttack = false;
         timetoFireFired = false;
-      }
-
-      if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("RapidFire"))
-      {
-        animatingRapidFire = true;
-      }
-      else if (animatingRapidFire && attacking)
-      {
-        attacking = false;
-        animatingRapidFire = false;
-        firstFireballFired = false;
-        secondFireballFired = false;
-      }
-      else
-      {
-        animatingRapidFire = false;
-        firstFireballFired = false;
-        secondFireballFired = false;
       }
     }
   }

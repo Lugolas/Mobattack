@@ -26,7 +26,6 @@ public class HealthDamage : NetworkBehaviour
   public GameObject playerHeaderPrefab;
   public GameObject playerCorpsePrefab;
   private GameObject playerHeader;
-  private MeshRenderer tokenPointer;
   private MeshRenderer minimapToken;
   private Image[] playerHeaderBars;
   public Image playerHealthManaFrame;
@@ -65,9 +64,6 @@ public class HealthDamage : NetworkBehaviour
       }
     }
 
-    tokenPointer = GetComponentInChildren<TokenPointer>().GetComponent<MeshRenderer>();
-    minimapToken = GetComponentInChildren<MinimapToken>().GetComponent<MeshRenderer>();
-
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
 
     characterManager = GetComponent<CharacterManager>();
@@ -88,22 +84,25 @@ public class HealthDamage : NetworkBehaviour
     }
     if (!respawnPoint)
     {
-      GameObject spawns = GameObject.Find("Spawns");
-      if (spawns)
-      {
-        Transform teamSpawn = spawns.transform.Find("Team" + characterManager.team);
+      GameObject spawn = GameObject.Find("Spawn");
+      respawnPoint = spawn.transform;
 
-        RespawnPointManager[] teamRespawnPoints = teamSpawn.GetComponentsInChildren<RespawnPointManager>();
-        foreach (RespawnPointManager teamRespawnPoint in teamRespawnPoints)
-        {
-          if (teamRespawnPoint.characterName == "")
-          {
-            teamRespawnPoint.characterName = gameObject.name;
-            respawnPoint = teamRespawnPoint.transform;
-            break;
-          }
-        }
-      }
+      // GameObject spawns = GameObject.Find("Spawns");
+      // if (spawns)
+      // {
+      //   Transform teamSpawn = spawns.transform.Find("Team" + characterManager.team);
+
+      //   RespawnPointManager[] teamRespawnPoints = teamSpawn.GetComponentsInChildren<RespawnPointManager>();
+      //   foreach (RespawnPointManager teamRespawnPoint in teamRespawnPoints)
+      //   {
+      //     if (teamRespawnPoint.characterName == "")
+      //     {
+      //       teamRespawnPoint.characterName = gameObject.name;
+      //       respawnPoint = teamRespawnPoint.transform;
+      //       break;
+      //     }
+      //   }
+      // }
     }
 
     baseMoveAttacc = GetComponent<BaseMoveAttacc>();
@@ -413,14 +412,12 @@ public class HealthDamage : NetworkBehaviour
 
   void playerHeaderToggle(bool state)
   {
-    if (playerHealthManaFrame && playerHealthBar && playerManaBar && playerHeaderText && tokenPointer && minimapToken)
+    if (playerHealthManaFrame && playerHealthBar && playerManaBar && playerHeaderText)
     {
       playerHealthManaFrame.enabled = state;
       playerHealthBar.enabled = state;
       playerManaBar.enabled = state;
       playerHeaderText.enabled = state;
-      tokenPointer.enabled = state;
-      minimapToken.enabled = state;
     }
     // characterManager.assignTeam();
   }

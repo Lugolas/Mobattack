@@ -340,7 +340,6 @@ MonoBehaviour:
   clientId: -1
   team: 2
   player: {fileID: 0}
-  playerCharacterTeam: 0
   isPlayerCharacter: 0
 --- !u!136 &6858087961539482922
 CapsuleCollider:
@@ -550,20 +549,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToFire: 0
---- !u!114 &1676215016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 472318434158532635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e06e81ff220dcb740b7263b9f19a59a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstFireballFire: 0
-  secondFireballFire: 0
 --- !u!1 &1118105557882854651
 GameObject:
   m_ObjectHideFlags: 0
@@ -7535,15 +7520,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4781188930233797064}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &472318434158532635 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4959643090374545875, guid: c33aca8d3a7acee47b1d98e445003264,
-    type: 3}
-  m_PrefabInstance: {fileID: 4781188930233797064}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7023465818394856354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2531707931080753770, guid: c33aca8d3a7acee47b1d98e445003264,
+    type: 3}
+  m_PrefabInstance: {fileID: 4781188930233797064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &472318434158532635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4959643090374545875, guid: c33aca8d3a7acee47b1d98e445003264,
     type: 3}
   m_PrefabInstance: {fileID: 4781188930233797064}
   m_PrefabAsset: {fileID: 0}

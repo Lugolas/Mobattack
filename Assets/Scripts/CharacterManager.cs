@@ -66,18 +66,6 @@ public class CharacterManager : NetworkBehaviour
     if (healthBar)
       healthBar.color = color;
 
-    // Change Token Pointer Color
-    GameObject pointer;
-    pointer = gameObject.GetComponentInChildren<TokenPointer>().gameObject;
-    Renderer rendererPointer;
-    rendererPointer = pointer.GetComponent<Renderer>();
-    List<Material> materialPointers = new List<Material>();
-    rendererPointer.GetMaterials(materialPointers);
-    foreach (Material materialPointer in materialPointers)
-    {
-      materialPointer.SetColor("_BaseColor", color);
-    }
-
     // Change Outline Color
     Renderer[] renderers;
     renderers = gameObject.GetComponentsInChildren<Renderer>();
