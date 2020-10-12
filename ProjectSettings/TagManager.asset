@@ -12,6 +12,9 @@ TagManager:
   - PlayerCharacter
   - TeamCharacter
   - EnemyCharacter
+  - Building
+  - Range
+  - Space
   layers:
   - Default
   - TransparentFX
@@ -31,7 +34,7 @@ TagManager:
   - CharacterDead
   - Turate
   - EnvironmentNoRay
-  - 
+  - OnlyCheckRay
   - 
   - 
   - 

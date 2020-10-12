@@ -7,12 +7,24 @@ public class EnemyController : MonoBehaviour
 {
   private Animator anim;
   NavMeshAgent navAgent;
+  HealthSimple health;
+  HealthSimple objectiveHealth;
+  GameObject objectiveObject;
   Vector3 objective;
   GameObject enemyManager;
   // Start is called before the first frame update
   void Start()
   {
-    enemyManager = GameObject.Find("EnemyManager");
+    GameObject objectiveObject = GameObject.Find("EnemyObjective");
+
+    if (objectiveObject)
+    {
+      objective = objectiveObject.transform.position;
+      objectiveHealth = objectiveObject.GetComponent<HealthSimple>();
+    }
+
+    health = GetComponent<HealthSimple>();
+    enemyManager = GameObject.Find("EnemiesManager");
     transform.parent = enemyManager.transform;
     anim = GetComponent<Animator>();
     if (!anim)
@@ -20,11 +32,7 @@ public class EnemyController : MonoBehaviour
       anim = GetComponentInChildren<Animator>();
     }
     navAgent = GetComponent<NavMeshAgent>();
-    GameObject objectiveObject = GameObject.Find("EnemyObjective");
-    if (objectiveObject)
-    {
-      objective = objectiveObject.transform.position;
-    }
+
     navAgent.destination = objective;
     navAgent.isStopped = false;
     anim.SetBool("IsRunning", true);
@@ -37,19 +45,15 @@ public class EnemyController : MonoBehaviour
     {
       anim.SetBool("IsRunning", false);
       Destroy(gameObject);
+
+      objectiveHealth.TakeDamage(health.currentHealth);
     }
   }
 
   public void refreshDestination()
   {
-    if (navAgent.SetDestination(objective))
-    {
-      Debug.Log("oui");
-    }
-    else
-    {
-      Debug.Log("non --------------------------------------------------------");
-    }
+    navAgent.SetDestination(objective);
+
     navAgent.isStopped = false;
   }
 }

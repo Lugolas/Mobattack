@@ -23,7 +23,10 @@ public class Fireball : MonoBehaviour
   private float journeyLength;
   private bool hasHit = false;
   public float accelerationRate = -1;
+  public MoneyManager characterWallet;
   bool initiatedSelfDestruction;
+  public TurretCanonController emitter;
+
   void Start()
   {
     startTime = Time.time;
@@ -58,25 +61,39 @@ public class Fireball : MonoBehaviour
       }
       initiatedSelfDestruction = true;
     }
-    if (target)
+    if (target && !initiatedSelfDestruction)
     {
-      HealthDamage healthDamage = target.GetComponent<HealthDamage>();
+      HealthSimple healthDamage = target.GetComponent<HealthSimple>();
       if (healthDamage && healthDamage.isDead)
       {
-        target = null;
-        if (ps)
-        {
-          var em = ps.emission;
-          em.enabled = false;
-        }
-        if (trail)
-        {
-          trail.emitting = false;
-        }
-        Destroy(gameObject, 5.1f);
-        initiatedSelfDestruction = true;
+        if (emitter.target)
+          target = emitter.target.transform;
+        else
+          target = null;
+        // THIS IS FOR WHEN THE FIREBALL KILLED THE TARGET, NOT WHEN THE TARGET IS DEAD
+        // target = null;
+        // if (ps)
+        // {
+        //   var em = ps.emission;
+        //   em.enabled = false;
+        // }
+        // if (trail)
+        // {
+        //   trail.emitting = false;
+        // }
+        // Destroy(gameObject, 5.1f);
+        // initiatedSelfDestruction = true;
       }
     }
+
+    if (!target && !initiatedSelfDestruction)
+    {
+      if (emitter.target)
+        target = emitter.target.transform;
+      else
+        target = null;
+    }
+
     // Distance moved equals elapsed time times speed..
     float distCovered = (Time.time - startTime) * movementSpeed;
 
@@ -109,11 +126,11 @@ public class Fireball : MonoBehaviour
     // rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, newZRotation);
   }
 
-  void OnCollisionEnter(Collision collision)
+  void OnTriggerEnter(Collider collider)
   {
     if (!hasHit && !initiatedSelfDestruction)
     {
-      GameObject objectHit = Tools.FindObjectOrParentWithTag(collision.gameObject, "Character");
+      GameObject objectHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "Character");
       if (objectHit && objectHit != attacker)
       {
         if (ps)
@@ -131,11 +148,12 @@ public class Fireball : MonoBehaviour
         initiatedSelfDestruction = true;
         if (heals)
         {
-          InflictsHealing(collision);
+          InflictsHealing(collider);
         }
         else
         {
-          InflictsDamage(collision);
+          Tools.InflictDamage(collider.transform, damage, characterWallet);
+          emitter.targetUpdateWanted = true;
         }
         if (FireballBurst)
         {
@@ -157,18 +175,18 @@ public class Fireball : MonoBehaviour
     }
   }
 
-  void InflictsDamage(Collision collision)
+  void InflictsDamage(Collider collider)
   {
-    HealthDamage hp = collision.gameObject.GetComponent<HealthDamage>();
+    HealthSimple hp = collider.gameObject.GetComponent<HealthSimple>();
     if (hp)
     {
       hp.TakeDamage(damage);
     }
   }
 
-  void InflictsHealing(Collision collision)
+  void InflictsHealing(Collider collider)
   {
-    HealthDamage hp = collision.gameObject.GetComponent<HealthDamage>();
+    HealthSimple hp = collider.gameObject.GetComponent<HealthSimple>();
     if (hp)
     {
       hp.ReceiveHealing(damage);

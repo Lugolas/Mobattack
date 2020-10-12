@@ -43,6 +43,7 @@ public class HealthDamage : NetworkBehaviour
   private int CHARACTER_DEAD_LAYER = 15;
   private CharacterManager characterManager;
   private CinemachineVirtualCamera virtualCamera;
+  private CinemachineVirtualCamera verticalCamera;
   public GameObject playerCorpse;
   GameController gameController;
 
@@ -68,7 +69,8 @@ public class HealthDamage : NetworkBehaviour
 
     characterManager = GetComponent<CharacterManager>();
 
-    virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+    virtualCamera = GameObject.Find("CameraInitiale").GetComponent<CinemachineVirtualCamera>();
+    verticalCamera = GameObject.Find("CameraVerticale").GetComponent<CinemachineVirtualCamera>();
 
     isDead = true;
     deathTime = Time.time;
@@ -123,18 +125,18 @@ public class HealthDamage : NetworkBehaviour
   // Update is called once per frame
   void Update()
   {
-    // if (isDead && gameObject.layer == CHARACTER_LAYER)
-    // {
-    //   Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
-    // }
-    // else if (!isDead && gameObject.layer == CHARACTER_DEAD_LAYER)
-    // {
-    //   Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
-    // }
+    if (isDead && gameObject.layer == CHARACTER_LAYER)
+    {
+      Tools.SetLayerRecursively(gameObject, CHARACTER_DEAD_LAYER);
+    }
+    else if (!isDead && gameObject.layer == CHARACTER_DEAD_LAYER)
+    {
+      Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
+    }
     if (isDead && deathTime != -1 && Time.time >= deathTime + respawnTime)
     {
       Spawn();
-      respawnTime = 10;
+      respawnTime = 5;
     }
     if (playerHeader)
     {
@@ -164,10 +166,7 @@ public class HealthDamage : NetworkBehaviour
     {
       spawning = false;
       Tools.SetLayerRecursively(gameObject, CHARACTER_LAYER);
-      if (isServer)
-      {
-        CmdUpdateDeathStatus(false);
-      }
+      isDead = false;
     }
   }
 
@@ -290,21 +289,6 @@ public class HealthDamage : NetworkBehaviour
 
   void Spawn()
   {
-    // transform.position = RespawnPoint.position;
-    if (isServer)
-    {
-      CmdSpawn();
-    }
-  }
-  [Command]
-  void CmdSpawn()
-  {
-    RpcSpawn();
-    RpcPlayerHeaderToggle(true);
-  }
-  [ClientRpc]
-  void RpcSpawn()
-  {
     if (respawnPoint)
     {
       navAgent.Warp(respawnPoint.position);
@@ -316,7 +300,9 @@ public class HealthDamage : NetworkBehaviour
       Tools.SetLayerRecursively(gameObject, SPAWNING_LAYER);
       currentHealth = maxHealth;
     }
+    playerHeaderToggle(true);
   }
+
   public void ReceiveHealing(int healingAmount)
   {
     if (!isDead)

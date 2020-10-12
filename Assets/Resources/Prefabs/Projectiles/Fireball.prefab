@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 436772883819142380}
   - component: {fileID: 3817380292577328241}
   - component: {fileID: -1319910218991985476}
-  - component: {fileID: -9045355500135358233}
   m_Layer: 11
   m_Name: Fireball
   m_TagString: Fireball
@@ -4772,7 +4771,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 3805c12a466908b4cace312a699954b3, type: 2}
-  - {fileID: 2100000, guid: 3805c12a466908b4cace312a699954b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4842,7 +4840,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6512867169236615124}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.15
@@ -4860,13 +4858,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
-  attackerName: 
+  attacker: {fileID: 0}
   target: {fileID: 0}
   FireballBurst: {fileID: 662745458172566627, guid: c4fa48f034b6dc34891cfc1a1c225519,
     type: 3}
+  useLifeTimeLimit: 1
+  lifeTimeLimit: 20
+  heals: 0
   rotateSpeed: 200
   movementSpeed: 5
   accelerationRate: -1
+  masterWallet: {fileID: 0}
 --- !u!114 &-1319910218991985476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4900,25 +4902,3 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
---- !u!114 &-9045355500135358233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6512867169236615124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1

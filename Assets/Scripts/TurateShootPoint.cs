@@ -7,7 +7,6 @@ public class TurateShootPoint : MonoBehaviour
   public GameObject target;
   public GameObject fireballPrefabHurt;
   public GameObject fireballPrefabHeal;
-  bool HURT = false;
   bool HEAL = true;
 
   // Let's have a 0.5s timer or something

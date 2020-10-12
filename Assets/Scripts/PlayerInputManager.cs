@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class PlayerInputManager : NetworkBehaviour
@@ -10,25 +12,22 @@ public class PlayerInputManager : NetworkBehaviour
   int characterIndex;
   // Index of the right character in the array of the children of the CharactersManager
   public GameObject targetPointer;
-  [SyncVar]
   public GameObject character;
-  [SyncVar]
   public GameObject target;
 
-  [SyncVar]
   bool hasSetupCharacter = false;
-  [SyncVar]
   bool hasCharacter = false;
   bool disable = false;
 
   bool moveClickDown = false;
-  bool createClickDown = false;
+  bool createModeOn = false;
   Vector3 moveClickPosition = Vector3.zero;
   List<Material> outlinedCharacterMaterials = new List<Material>();
   string outlinedCharacterName = null;
   int currentZoomIndex;
-  float[] zoomLevels = { 5, 10, 15, 20, 25 };
+  float[] zoomLevels = { 5, 10, 15, 20, 25, 30 };
   public CinemachineVirtualCamera virtualCamera;
+  public CinemachineVirtualCamera verticalCamera;
   private bool isCameraOnCharacter = false;
   public Transform waitingForRespawnPoint;
   GameObject teamPanel;
@@ -37,14 +36,25 @@ public class PlayerInputManager : NetworkBehaviour
   GameObject charactersManager;
   string TEMP_NAME = "Pouette";
   int GROUND_LAYER = 8;
-  int ENVIRONMENT_NO_RAY_LAYER = 17;
+  int UI_LAYER = 5;
   int clientIdLast;
-  int layerMaskGround;
-  int layerMaskMove;
+  public LayerMask layerMaskGround;
+  public LayerMask layerMaskMove;
+  public LayerMask layerMaskCheck;
   Vector3 turretCreationPoint;
   GameObject turretPrefab;
   GameObject enemyManager;
   GameObject previewTurret;
+  TurretPlayerLink previewTurretPlayerLink;
+  TurretSpaceCheck previewTurretSpaceCheck;
+  bool isCameraVertical = false;
+  CheckInfo checking;
+  GraphicRaycaster raycaster;
+  PointerEventData pointerEventData;
+  EventSystem eventSystem;
+  SpellController spellController;
+  bool fire2Down = false;
+
 
   // click -> send to server position and index
   // Start is called before the first frame update
@@ -56,10 +66,8 @@ public class PlayerInputManager : NetworkBehaviour
     }
     else
     {
-      layerMaskGround = LayerMask.GetMask(LayerMask.LayerToName(GROUND_LAYER));
-      // layerMaskGround = 1 << GROUND_LAYER;
-      layerMaskMove = 1 << ENVIRONMENT_NO_RAY_LAYER;
-      layerMaskMove = ~layerMaskMove;
+      raycaster = GameObject.Find("Canvas").GetComponent<GraphicRaycaster>();
+      eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
       enemyManager = GameObject.Find("EnemyManager");
       charactersManager = GameObject.Find("CharactersManager");
       teamPanel = GameObject.Find("TeamPanel");
@@ -83,115 +91,44 @@ public class PlayerInputManager : NetworkBehaviour
         }
       }
 
-      turretPrefab = Resources.Load<GameObject>("Prefabs/Turret");
+      turretPrefab = Resources.Load<GameObject>("Prefabs/Turrets/Turret");
     }
     currentZoomIndex = zoomLevels.Length - 2;
   }
 
-  [Command]
-  void CmdFinishSetupCharacter(string chosenName)
-  {
-    RpcSetupCharacter(chosenName);
-  }
-
-  [Command]
-  void CmdSetupCharacter(int chosenCharacter, int chosenTeam, string chosenName)
+  void SetupCharacter(string characterName)
   {
     GameObject characterPrefab = null;
 
     characterPrefab = Resources.Load<GameObject>("Prefabs/Characters/Sphere");
 
-    // switch (chosenCharacter)
-    // {
-    //   default:
-    //   case 1:
-    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Mage");
-    //     break;
-    //   case 2:
-    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Grunt");
-    //     break;
-    //   case 3:
-    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Archer");
-    //     break;
-    //   case 4:
-    //     characterPrefab = Resources.Load<GameObject>("Prefabs/Murderer");
-    //     break;
-    // }
-
     if (characterPrefab)
     {
       GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
-      GameObject character = Instantiate(characterPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+      character = Instantiate(characterPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
       CharacterManager characterManager = character.GetComponent<CharacterManager>();
       HealthDamage healthDamage = character.GetComponent<HealthDamage>();
+      spellController = character.GetComponent<SpellController>();
 
       characterManager.clientId = connectionToClient.connectionId;
       characterManager.player = gameObject;
-      characterManager.team = chosenTeam;
-      healthDamage.playerName = chosenName;
+      healthDamage.playerName = characterName;
 
-      NetworkServer.Spawn(character);
-      RpcSetupCharacter(chosenName);
-    }
-  }
-
-  [ClientRpc]
-  void RpcSetupCharacter(string characterName)
-  {
-    charactersManager = GameObject.Find("CharactersManager");
-    if (charactersManager)
-    {
-      HealthDamage[] healthDamages = charactersManager.GetComponentsInChildren<HealthDamage>();
-      foreach (HealthDamage healthDamage in healthDamages)
+      if (isLocalPlayer)
       {
-        if (healthDamage.playerName == characterName)
-        {
-          character = healthDamage.gameObject;
-          character.GetComponent<CharacterManager>().player = gameObject;
-
-          if (isLocalPlayer)
-          {
-            character.tag = "PlayerCharacter";
-            virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-            virtualCamera.Follow = character.transform;
-            isCameraOnCharacter = true;
-          }
-
-          hasCharacter = true;
-          hasSetupCharacter = true;
-          break;
-        }
+        character.tag = "PlayerCharacter";
+        virtualCamera = GameObject.Find("CameraInitiale").GetComponent<CinemachineVirtualCamera>();
+        verticalCamera = GameObject.Find("CameraVerticale").GetComponent<CinemachineVirtualCamera>();
+        virtualCamera.Follow = character.transform;
+        verticalCamera.Follow = character.transform;
+        CameraZoomUpdate();
+        isCameraOnCharacter = true;
       }
+
+      hasCharacter = true;
+      hasSetupCharacter = true;
     }
-
-    // if (teamPanel)
-    // {
-    //   if (teamButtons && teamButtons.selectionComplete)
-    //   {
-    //     // BaseMoveAttacc[] characs = GameObject.Find("CharactersManager").GetComponentsInChildren<BaseMoveAttacc>();
-    //     // foreach (BaseMoveAttacc charac in characs)
-    //     // {
-    //     //   CharacterManager characterManager = charac.gameObject.GetComponent<CharacterManager>();
-    //     //   if (!hasCharacter && characterManager.clientId == -1 && characterManager.team == teamButtons.chosenTeam)
-    //     //   {
-    //     //     character = charac.gameObject;
-    //     //     characterManager.clientId = clientId;
-    //     //     characterManager.player = gameObject;
-    //     //     if (isLocalPlayer)
-    //     //     {
-    //     //       charac.gameObject.tag = "PlayerCharacter";
-    //     //       virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-    //     //       virtualCamera.Follow = character.transform;
-    //     //       isCameraOnCharacter = true;
-    //     //     }
-    //     //     hasCharacter = true;
-    //     //   }
-    //     // }
-    //     // hasSetupCharacter = true;
-    //   }
-    // }
   }
-
 
   void OnDisable()
   {
@@ -215,20 +152,9 @@ public class PlayerInputManager : NetworkBehaviour
     if (!hasSetupCharacter)
     {
       CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
-      bool alreadySetup = false;
-      foreach (CharacterManager characterManager in characterManagers)
-      {
-        if (characterManager.gameObject.GetComponent<HealthDamage>().playerName == TEMP_NAME)
-        {
-          alreadySetup = true;
-          CmdFinishSetupCharacter(TEMP_NAME);
-        }
-      }
-      if (!alreadySetup)
-      {
-        hasTriedToSetupCharacter = Time.time;
-        CmdSetupCharacter(1, 1, TEMP_NAME);
-      }
+
+      hasTriedToSetupCharacter = Time.time;
+      SetupCharacter(TEMP_NAME);
     }
     // if (!isLocalPlayer)
     // {
@@ -314,103 +240,125 @@ public class PlayerInputManager : NetworkBehaviour
         }
       }
 
-      if (virtualCamera)
+      CameraZoomUpdate();
+    }
+
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+      if (isCameraVertical)
       {
-        CinemachineComponentBase componentBase = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBase is CinemachineFramingTransposer)
-        {
-          (componentBase as CinemachineFramingTransposer).m_CameraDistance = zoomLevels[currentZoomIndex]; // your value
-        }
+        isCameraVertical = false;
+        virtualCamera.enabled = true;
+      }
+      else
+      {
+        isCameraVertical = true;
+        virtualCamera.enabled = false;
       }
     }
 
-
-    if (Input.GetButton("Fire1"))
+    if (spellController)
     {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskGround);
-
-      if (hits.Length > 0)
+      if (Input.GetKeyDown(KeyCode.A))
       {
-        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-        foreach (RaycastHit hit in hits)
+        spellController.Spell1();
+      }
+      if (Input.GetKeyDown(KeyCode.Z))
+      {
+        spellController.Spell2();
+      }
+      if (Input.GetKeyDown(KeyCode.E))
+      {
+        spellController.Spell3();
+      }
+
+      if (Input.GetButton("Fire1"))
+      {
+        if (!spellController.Fire1())
         {
-          turretCreationPoint = hit.point;
-          if (!createClickDown)
+          bool UIHit = false;
+
+          pointerEventData = new PointerEventData(eventSystem);
+          pointerEventData.position = Input.mousePosition;
+
+          List<RaycastResult> results = new List<RaycastResult>();
+          raycaster.Raycast(pointerEventData, results);
+          foreach (RaycastResult result in results)
           {
-            previewTurret = Instantiate(turretPrefab, turretCreationPoint, new Quaternion());
+            UIHit = true;
           }
-          createClickDown = true;
-
-          if (previewTurret)
+          if (!UIHit)
           {
-            previewTurret.transform.position = hit.point;
-          }
-          break;
-        }
-      }
-    }
-    else
-    {
-      if (createClickDown)
-      {
-        createClickDown = false;
-
-        previewTurret.GetComponentInChildren<NavMeshObstacle>().enabled = true;
-        previewTurret = null;
-        EnemyController[] enemies = enemyManager.GetComponentsInChildren<EnemyController>();
-        foreach (EnemyController enemy in enemies)
-        {
-          enemy.refreshDestination();
-        }
-      }
-    }
-
-    if (Input.GetButton("Fire2"))
-    // if (Input.GetButton("Fire2") && !healthDamage.isDead)
-    {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskMove);
-      if (hits.Length > 0)
-      {
-        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-        foreach (RaycastHit hit in hits)
-        {
-          if (character && hit.collider.gameObject != character)
-          {
-            CharacterManager characterHit = hit.collider.gameObject.GetComponent<CharacterManager>();
-            if (characterHit)
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskCheck);
+            if (hits.Length > 0)
             {
-              CharacterManager myCharacterManager = character.GetComponent<CharacterManager>();
-              if (myCharacterManager && characterHit.team != myCharacterManager.team)
+              System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+              foreach (RaycastHit hit in hits)
               {
-                target = hit.transform.gameObject;
-                HealthDamage targetInfo = target.GetComponent<HealthDamage>();
-                if (targetInfo)
+                CheckInfo checkableHit = hit.collider.gameObject.GetComponent<CheckInfo>();
+                if (checkableHit)
                 {
-                  CmdAttack(targetInfo.playerName);
+                  if (checking != checkableHit)
+                  {
+                    if (checking)
+                    {
+                      checking.StopCheck();
+                    }
+                    checking = checkableHit;
+                    checkableHit.Check();
+                  }
+                  break;
                 }
-                break;
+                else
+                {
+                  if (hit.collider.gameObject.layer == UI_LAYER)
+                  {
+                    break;
+                  }
+                  if (hit.collider.gameObject.layer == GROUND_LAYER)
+                  {
+                    if (checking)
+                    {
+                      checking.StopCheck();
+                      checking = null;
+                    }
+                    break;
+                  }
+                }
               }
             }
-            else
-            {
-              moveClickDown = true;
-              moveClickPosition = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z);
-              CmdMoveTo(hit.point);
-              break;
-            }
           }
         }
       }
-      // rightClicked = true;
-    }
-    else
-    {
-      if (moveClickDown)
+
+      if (Input.GetButton("Fire2"))
       {
-        moveClickDown = false;
-        Instantiate(targetPointer, moveClickPosition, new Quaternion());
+        fire2Down = true;
+        spellController.Fire2(fire2Down);
+      }
+      else if (fire2Down)
+      {
+        fire2Down = false;
+        spellController.Fire2(fire2Down);
+      }
+    }
+  }
+
+  void CameraZoomUpdate()
+  {
+    if (virtualCamera)
+    {
+      CinemachineComponentBase componentBase = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+      if (componentBase is CinemachineFramingTransposer)
+      {
+        (componentBase as CinemachineFramingTransposer).m_CameraDistance = zoomLevels[currentZoomIndex]; // your value
+      }
+
+      CinemachineComponentBase componentBaseVertical = verticalCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+      if (componentBaseVertical is CinemachineFramingTransposer)
+      {
+        (componentBaseVertical as CinemachineFramingTransposer).m_CameraDistance = zoomLevels[currentZoomIndex] + 5; // your value
       }
     }
   }
@@ -423,6 +371,7 @@ public class PlayerInputManager : NetworkBehaviour
       if (healthDamage && virtualCamera)
       {
         virtualCamera.Follow = healthDamage.playerCorpse.transform;
+        verticalCamera.Follow = healthDamage.playerCorpse.transform;
         isCameraOnCharacter = false;
       }
     }
@@ -433,45 +382,8 @@ public class PlayerInputManager : NetworkBehaviour
     if (character && virtualCamera)
     {
       virtualCamera.Follow = character.transform;
+      verticalCamera.Follow = character.transform;
       isCameraOnCharacter = true;
-    }
-  }
-
-  [Command]
-  void CmdAttack(string name)
-  {
-    RpcAttack(name);
-  }
-
-  [ClientRpc]
-  void RpcAttack(string name)
-  {
-    if (character)
-    {
-      BaseMoveAttacc moveScript = character.GetComponent<BaseMoveAttacc>();
-      HealthDamage healthScript = character.GetComponent<HealthDamage>();
-      if (moveScript && healthScript)
-      {
-        if (!healthScript.isDead)
-        {
-          // if (!target)
-          // {
-          GameObject characters = GameObject.Find("CharactersManager");
-          HealthDamage[] maybeTargets = characters.GetComponentsInChildren<HealthDamage>();
-          foreach (HealthDamage maybeTarget in maybeTargets)
-          {
-            if (maybeTarget.playerName == name)
-            {
-              target = maybeTarget.gameObject;
-              moveScript.hasNavigationTarget = true;
-              moveScript.navigationTargetMovable = target.transform;
-              moveScript.isNavigationTargetMovable = true;
-              break;
-            }
-          }
-          // }
-        }
-      }
     }
   }
 

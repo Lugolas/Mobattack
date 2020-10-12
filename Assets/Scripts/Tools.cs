@@ -97,5 +97,15 @@ public class Tools : MonoBehaviour
     }
   }
 
-
+  public static void InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager)
+  {
+    HealthSimple hs = targetedEnemy.GetComponent<HealthSimple>();
+    if (hs)
+    {
+      if (hs.TakeDamage(damageAmount))
+      {
+        moneyManager.AddMoney(hs.moneyToReward);
+      }
+    }
+  }
 }

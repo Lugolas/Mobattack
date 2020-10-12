@@ -7,9 +7,7 @@ public class BaseMoveAttacc : NetworkBehaviour
 {
   [SyncVar]
   public Transform targetedEnemy = null;
-  private bool enemyClicked;
   private bool animatingAttack = false;
-  private bool animatingRapidFire = false;
   private Animator anim;
 
   [SyncVar]
@@ -39,7 +37,7 @@ public class BaseMoveAttacc : NetworkBehaviour
   private float timeBetweenShots = 1.15f;
   private float timeBetweenSpells = 1.15f;
   bool withinShootDistance = false;
-  HealthDamage test;
+  MoneyManager moneyManager;
   // private int fireballDamage = 25;
   public enum BaseAttackType
   {
@@ -67,6 +65,7 @@ public class BaseMoveAttacc : NetworkBehaviour
       anim = GetComponentInChildren<Animator>();
     }
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
+    moneyManager = GetComponent<MoneyManager>();
   }
 
   [Command]
@@ -84,11 +83,11 @@ public class BaseMoveAttacc : NetworkBehaviour
   //   navigationTargetMovable = target;
   //   isNavigationTargetMovable = true;
   // }
-  void LateUpdate()
+  void Update()
   {
     if (!disabled)
     {
-      if (navigationTargetMovable && navigationTargetMovable.gameObject.GetComponent<HealthDamage>().isDead)
+      if (navigationTargetMovable && navigationTargetMovable.gameObject.GetComponent<HealthSimple>().isDead)
       {
         navigationTargetMovable = null;
       }
@@ -117,7 +116,6 @@ public class BaseMoveAttacc : NetworkBehaviour
 
       if (hasNavigationTarget && !isNavigationTargetMovable && !healthDamage.isDead)
       {
-        enemyClicked = false;
         navAgent.destination = navigationTarget;
         run();
         navAgent.isStopped = false;
@@ -141,7 +139,7 @@ public class BaseMoveAttacc : NetworkBehaviour
         switch (baseAttackType)
         {
           case BaseAttackType.TargetSolo:
-            inflictDamage(targetedEnemy, baseAttackDamage);
+            Tools.InflictDamage(targetedEnemy, baseAttackDamage, moneyManager);
             break;
           case BaseAttackType.TargetGroup:
             break;
@@ -210,15 +208,6 @@ public class BaseMoveAttacc : NetworkBehaviour
     }
   }
 
-  private void inflictDamage(Transform targetedEnemy, int damageAmount)
-  {
-    HealthDamage hd = targetedEnemy.GetComponent<HealthDamage>();
-    if (hd)
-    {
-      hd.TakeDamage(damageAmount);
-    }
-  }
-
   public void disable()
   {
     if (!disabled)
@@ -243,7 +232,7 @@ public class BaseMoveAttacc : NetworkBehaviour
     }
 
     targetedEnemy = navigationTargetMovable;
-    if (targetedEnemy && !targetedEnemy.gameObject.GetComponent<HealthDamage>().isDead)
+    if (targetedEnemy && !targetedEnemy.gameObject.GetComponent<HealthSimple>().isDead)
     {
       navAgent.destination = targetedEnemy.position;
 

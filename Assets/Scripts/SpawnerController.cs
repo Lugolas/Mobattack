@@ -6,6 +6,8 @@ public class SpawnerController : MonoBehaviour
 {
   GameObject characterPrefab;
   float startTime;
+  public GameObject necessaryObject;
+  public float spawnDelay = 1.5f;
   // Start is called before the first frame update
   void Start()
   {
@@ -17,7 +19,7 @@ public class SpawnerController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (Time.time > startTime + 1f)
+    if (necessaryObject.activeSelf && Time.time > startTime + spawnDelay)
     {
       startTime = Time.time;
       GameObject character = Instantiate(characterPrefab, transform.position, transform.rotation);
