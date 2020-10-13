@@ -100,7 +100,7 @@ public class PlayerInputManager : NetworkBehaviour
   {
     GameObject characterPrefab = null;
 
-    characterPrefab = Resources.Load<GameObject>("Prefabs/Characters/Sphere");
+    characterPrefab = Resources.Load<GameObject>("Prefabs/Characters/afro");
 
     if (characterPrefab)
     {
