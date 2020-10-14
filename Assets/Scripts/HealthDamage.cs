@@ -46,6 +46,7 @@ public class HealthDamage : NetworkBehaviour
   private CinemachineVirtualCamera verticalCamera;
   public GameObject playerCorpse;
   GameController gameController;
+  public Transform playerHeaderAnchor;
 
 
   // Start is called before the first frame update
@@ -140,7 +141,7 @@ public class HealthDamage : NetworkBehaviour
     }
     if (playerHeader)
     {
-      Vector2 playerHeaderScreenPosition = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z));
+      Vector2 playerHeaderScreenPosition = Camera.main.WorldToScreenPoint(new Vector3(playerHeaderAnchor.position.x, playerHeaderAnchor.position.y + 2f, playerHeaderAnchor.position.z));
       playerHeader.transform.position = new Vector2(playerHeaderScreenPosition.x, playerHeaderScreenPosition.y + 75);
       playerHealthBar.fillAmount = (float)currentHealth / maxHealth;
     }

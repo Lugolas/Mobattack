@@ -34,6 +34,7 @@ public class PlayerInputManager : NetworkBehaviour
   SelectionButtonsController teamButtons;
   float hasTriedToSetupCharacter;
   GameObject charactersManager;
+  NavMeshAgent characterNavAgent;
   string TEMP_NAME = "Pouette";
   int GROUND_LAYER = 8;
   int UI_LAYER = 5;
@@ -106,6 +107,10 @@ public class PlayerInputManager : NetworkBehaviour
     {
       GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
       character = Instantiate(characterPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+      characterNavAgent = character.GetComponent<NavMeshAgent>();
+      if (!characterNavAgent) {
+        characterNavAgent = character.GetComponentInChildren<NavMeshAgent>();
+      }
       CharacterManager characterManager = character.GetComponent<CharacterManager>();
       HealthDamage healthDamage = character.GetComponent<HealthDamage>();
       spellController = character.GetComponent<SpellController>();
@@ -119,8 +124,8 @@ public class PlayerInputManager : NetworkBehaviour
         character.tag = "PlayerCharacter";
         virtualCamera = GameObject.Find("CameraInitiale").GetComponent<CinemachineVirtualCamera>();
         verticalCamera = GameObject.Find("CameraVerticale").GetComponent<CinemachineVirtualCamera>();
-        virtualCamera.Follow = character.transform;
-        verticalCamera.Follow = character.transform;
+        virtualCamera.Follow = characterNavAgent.transform;
+        verticalCamera.Follow = characterNavAgent.transform;
         CameraZoomUpdate();
         isCameraOnCharacter = true;
       }
@@ -381,8 +386,8 @@ public class PlayerInputManager : NetworkBehaviour
   {
     if (character && virtualCamera)
     {
-      virtualCamera.Follow = character.transform;
-      verticalCamera.Follow = character.transform;
+      virtualCamera.Follow = characterNavAgent.transform;
+      verticalCamera.Follow = characterNavAgent.transform;
       isCameraOnCharacter = true;
     }
   }
