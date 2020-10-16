@@ -2,7 +2,31 @@ fileFormatVersion: 2
 guid: 0bdcf08cd15775b4cb66f3c310d86b7f
 ModelImporter:
   serializedVersion: 20101
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 7029139313702770510
+    second: Armature|AfroAction
+  - first:
+      74: -4882977693137507643
+    second: Armature|ArmAction
+  - first:
+      74: -3908598790589692577
+    second: Armature|BodyAction
+  - first:
+      74: -8945691123924629249
+    second: Armature|Idle
+  - first:
+      74: 1360590127783578892
+    second: Armature|LegAction
+  - first:
+      74: -7551964380084998518
+    second: Armature|Run
+  - first:
+      74: 7604868836814028676
+    second: "Armature|T\xEAteAction"
+  - first:
+      74: 8349542763059015795
+    second: Armature|Walk
   externalObjects: {}
   materials:
     materialImportMode: 1

@@ -5,6 +5,13 @@ using UnityEngine.Networking;
 
 public class BaseMoveAttacc : NetworkBehaviour
 {
+  public float moveSpeed;
+  float walkSpeed;
+  float runSpeed;
+
+  float walkBaseDistancePerSecond = 4.7f;
+  float runBaseDistancePerSecond = 7.2f;
+
   [SyncVar]
   public Transform targetedEnemy = null;
   private bool animatingAttack = false;
@@ -64,6 +71,9 @@ public class BaseMoveAttacc : NetworkBehaviour
     {
       anim = GetComponentInChildren<Animator>();
     }
+
+    moveSpeed = anim.GetFloat("MoveSpeed");
+
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
     moneyManager = GetComponent<MoneyManager>();
   }
@@ -206,6 +216,13 @@ public class BaseMoveAttacc : NetworkBehaviour
         timetoFireFired = false;
       }
     }
+
+    walkSpeed = moveSpeed / walkBaseDistancePerSecond;
+    runSpeed = moveSpeed / runBaseDistancePerSecond;
+
+    anim.SetFloat("MoveSpeed", moveSpeed);
+    anim.SetFloat("WalkSpeed", walkSpeed);
+    anim.SetFloat("RunSpeed", runSpeed);
   }
 
   public void disable()
