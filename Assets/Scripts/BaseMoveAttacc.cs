@@ -15,7 +15,7 @@ public class BaseMoveAttacc : NetworkBehaviour
   [SyncVar]
   public Transform targetedEnemy = null;
   private bool animatingAttack = false;
-  private Animator anim;
+  public Animator anim;
 
   [SyncVar]
   public Vector3 navigationTarget = Vector3.zero;
@@ -66,10 +66,13 @@ public class BaseMoveAttacc : NetworkBehaviour
     }
     fireMomentListener = GetComponentInChildren<FireMomentListener>();
     healthDamage = GetComponent<HealthDamage>();
-    anim = GetComponent<Animator>();
     if (!anim)
     {
-      anim = GetComponentInChildren<Animator>();
+      anim = GetComponent<Animator>();
+      if (!anim)
+      {
+        anim = GetComponentInChildren<Animator>();
+      }
     }
 
     moveSpeed = anim.GetFloat("MoveSpeed");

@@ -9,7 +9,7 @@ using Cinemachine;
 
 public class HealthDamage : NetworkBehaviour
 {
-  private Animator anim;
+  public Animator anim;
   private UnityEngine.AI.NavMeshAgent navAgent;
 
   public int maxHealth = 200;
@@ -115,10 +115,13 @@ public class HealthDamage : NetworkBehaviour
 
     DamagePopUpController.Initialize();
     currentHealth = maxHealth;
-    anim = GetComponent<Animator>();
     if (!anim)
     {
-      anim = GetComponentInChildren<Animator>();
+      anim = GetComponent<Animator>();
+      if (!anim)
+      {
+        anim = GetComponentInChildren<Animator>();
+      }
     }
 
   }

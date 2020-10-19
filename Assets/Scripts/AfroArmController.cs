@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class AfroArmController : MonoBehaviour
 {
-List<Vector3> localPositions = new List<Vector3>();
-Rigidbody[] childRigidbodies;
+  Transform[] childTransforms;
+  Transform[] ragdollArmChildTransforms;
+  public GameObject ragdollArm;
 
-  // Start is called before the first frame update
+  public bool synchronize = true;
+
   void Start()
   {
-    childRigidbodies = GetComponentsInChildren<Rigidbody>();
-    for (int i = 0; i < childRigidbodies.Length; i++)
-    {
-      localPositions.Add(childRigidbodies[i].transform.localPosition);
-    }
+    childTransforms = GetComponentsInChildren<Transform>();
+    ragdollArmChildTransforms = ragdollArm.GetComponentsInChildren<Transform>();
   }
 
-    // Update is called once per frame
   void LateUpdate()
   {
-    for (int i = 1; i < childRigidbodies.Length; i++)
-    {
-      childRigidbodies[i].transform.localPosition = localPositions[i];
+    if (synchronize) {
+      for (int i = 0; i < ragdollArmChildTransforms.Length; i++)
+      {
+        childTransforms[i].position = ragdollArmChildTransforms[i].position;
+        childTransforms[i].rotation = ragdollArmChildTransforms[i].rotation;
+      }
+    } else {
+      for (int i = 0; i < ragdollArmChildTransforms.Length; i++)
+      {
+        ragdollArmChildTransforms[i].position = childTransforms[i].position;
+        ragdollArmChildTransforms[i].rotation = childTransforms[i].rotation;
+      }
     }
   }
 }

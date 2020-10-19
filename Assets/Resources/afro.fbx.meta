@@ -4,26 +4,20 @@ ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
-      74: 7029139313702770510
-    second: Armature|AfroAction
+      74: 885944232402757753
+    second: Armature|Action
   - first:
-      74: -4882977693137507643
-    second: Armature|ArmAction
+      74: 4723146814002874508
+    second: Armature|Attack
   - first:
-      74: -3908598790589692577
-    second: Armature|BodyAction
+      74: -8038985605830015797
+    second: Armature|AttackStance
   - first:
       74: -8945691123924629249
     second: Armature|Idle
   - first:
-      74: 1360590127783578892
-    second: Armature|LegAction
-  - first:
       74: -7551964380084998518
     second: Armature|Run
-  - first:
-      74: 7604868836814028676
-    second: "Armature|T\xEAteAction"
   - first:
       74: 8349542763059015795
     second: Armature|Walk
