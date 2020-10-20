@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3b4734c3438d9f3448ecda6d37ac32ac
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - afroParent: {instanceID: 0}
+  - fistPrefab: {fileID: 4545635645836257022, guid: 202133459e6452946a765cd547820e7f,
+      type: 3}
+  - sphereCollider: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

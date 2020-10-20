@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6806842816200842046}
   - component: {fileID: 2547463105642511604}
   - component: {fileID: 2210646197625866349}
+  - component: {fileID: 6194350560022480690}
   m_Layer: 17
   m_Name: Cylindrox
   m_TagString: Untagged
@@ -106,6 +107,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &6194350560022480690
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684055744794362918}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &5203360324027416631
 GameObject:
   m_ObjectHideFlags: 0

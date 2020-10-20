@@ -15,6 +15,7 @@ TagManager:
   - Building
   - Range
   - Space
+  - Fist
   layers:
   - Default
   - TransparentFX
@@ -35,7 +36,7 @@ TagManager:
   - Turate
   - EnvironmentNoRay
   - OnlyCheckRay
-  - 
+  - Fist
   - 
   - 
   - 

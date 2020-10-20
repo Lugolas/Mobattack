@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellControllerAfro : SpellController {
+public class SpellControllerAfro : SpellController
+{
   MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   HealthDamage healthScript;
@@ -20,49 +21,76 @@ public class SpellControllerAfro : SpellController {
   Vector3 moveClickPosition;
   GameObject attackTarget;
   bool isInAttackStance = false;
-  public Animator animatorBody;
+  public Animator animator;
   GameObject body;
   public GameObject armLeft;
   public GameObject armRight;
   AfroArmController[] armControllers;
-  List<Rigidbody> armsRigidbodies = new List<Rigidbody> ();
+  List<Rigidbody> armsRigidbodies = new List<Rigidbody>();
+  bool attackTriggered = false;
 
   // Start is called before the first frame update
-  void Start () {
+  void Start()
+  {
     armControllers = GetComponentsInChildren<AfroArmController>();
-    moneyManager = GetComponent<MoneyManager> ();
-    moveScript = GetComponent<BaseMoveAttacc> ();
-    healthScript = GetComponent<HealthDamage> ();
-    enemiesManager = GameObject.Find ("EnemiesManager");
+    moneyManager = GetComponent<MoneyManager>();
+    moveScript = GetComponent<BaseMoveAttacc>();
+    healthScript = GetComponent<HealthDamage>();
 
-    Rigidbody[] armLeftRigidBodies = armLeft.GetComponentsInChildren<Rigidbody> ();
-    foreach (Rigidbody armLeftRigidBody in armLeftRigidBodies) {
-      armsRigidbodies.Add (armLeftRigidBody);
+    enemiesManager = GameObject.Find("EnemiesManager");
+
+    Rigidbody[] armLeftRigidBodies = armLeft.GetComponentsInChildren<Rigidbody>();
+    foreach (Rigidbody armLeftRigidBody in armLeftRigidBodies)
+    {
+      armsRigidbodies.Add(armLeftRigidBody);
     }
 
-    Rigidbody[] armRightRigidBodies = armRight.GetComponentsInChildren<Rigidbody> ();
-    foreach (Rigidbody armRightRigidBody in armRightRigidBodies) {
-      armsRigidbodies.Add (armRightRigidBody);
+    Rigidbody[] armRightRigidBodies = armRight.GetComponentsInChildren<Rigidbody>();
+    foreach (Rigidbody armRightRigidBody in armRightRigidBodies)
+    {
+      armsRigidbodies.Add(armRightRigidBody);
     }
 
-    if (animatorBody) {
-      body = animatorBody.gameObject;
+    if (animator)
+    {
+      body = animator.gameObject;
     }
   }
 
   // Update is called once per frame
-  void Update () {
-    if (createModeOn && previewTurret) {
-      Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-      RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
+  void Update()
+  {
+    if (createModeOn && previewTurret)
+    {
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskGround);
 
-      if (hits.Length > 0) {
-        System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
-        foreach (RaycastHit hit in hits) {
+      if (hits.Length > 0)
+      {
+        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+        foreach (RaycastHit hit in hits)
+        {
           previewTurret.transform.position = hit.point;
           break;
         }
       }
+    }
+
+    if (isInAttackStance && moveScript.hasNavigationTarget)
+    {
+      moveScript.stopMoving();
+    }
+
+    if (isInAttackStance)
+    {
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+      Physics.Raycast(ray, out hit, 2500, layerMaskMove);
+      body.transform.LookAt(new Vector3(hit.point.x, body.transform.position.y, hit.point.z));
+    }
+
+    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
+      attackTriggered = false;
     }
   }
 
@@ -110,12 +138,24 @@ public class SpellControllerAfro : SpellController {
     }
   }
 
-  public override void Spell3 () {
-    if (createModeOn) {
-      CancelCreateMode ();
+  public override void Spell3()
+  {
+    if (createModeOn)
+    {
+      CancelCreateMode();
     }
-    AttackStanceState (!isInAttackStance);
-    moveScript.stopMoving();
+    if (isInAttackStance)
+    {
+      if (!attackTriggered && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+      {
+        animator.SetTrigger("Attack");
+        attackTriggered = true;
+      }
+    }
+    else
+    {
+      AttackStanceState(!isInAttackStance);
+    }
   }
 
   void AttackStanceState (bool state) {
@@ -136,7 +176,7 @@ public class SpellControllerAfro : SpellController {
       armController.synchronize = !state;
     }
 
-    animatorBody.SetBool ("Attacking", state);
+    animator.SetBool ("Attacking", state);
   }
 
   void CancelCreateMode () {
@@ -170,10 +210,11 @@ public class SpellControllerAfro : SpellController {
   }
 
   public override void Fire2 (bool down) {
-    AttackStanceState (false);
     if (createModeOn) {
       CancelCreateMode ();
     }
+
+    AttackStanceState (false);
 
     if (down) {
       Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
