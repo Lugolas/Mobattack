@@ -20,6 +20,7 @@ public class AfroFistController : MonoBehaviour
   private float startTime;
   private bool hasHit = false;
   public MoneyManager characterWallet;
+  public SpellControllerAfro spellController;
   bool initiatedSelfDestruction;
 
   void Start()
@@ -50,6 +51,11 @@ public class AfroFistController : MonoBehaviour
     // rigidbody.velocity = transform.forward * movementSpeed;
   }
 
+  void FixedUpdate()
+  {
+    damage = Mathf.RoundToInt(rigidbodyFist.velocity.magnitude);
+  }
+
   public void Fire() {
     sphereCollider.enabled = true;
     rigidbodyFist.isKinematic = false;
@@ -74,7 +80,9 @@ public class AfroFistController : MonoBehaviour
         meshRenderer.enabled = false;
         hasHit = true;
         initiatedSelfDestruction = true;
-        Tools.InflictDamage(collision.collider.transform, damage, characterWallet);
+        if (Tools.InflictDamage(collision.collider.transform, damage, characterWallet)) {
+          spellController.speedUpSpell3();
+        }
         if (fistBurstPrefab)
         {
           GameObject burst = Instantiate(fistBurstPrefab, transform.position, transform.rotation) as GameObject;

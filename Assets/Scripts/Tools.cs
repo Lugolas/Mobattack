@@ -97,7 +97,7 @@ public class Tools : MonoBehaviour
     }
   }
 
-  public static void InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager)
+  public static bool InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager)
   {
     HealthSimple hs = targetedEnemy.GetComponent<HealthSimple>();
     if (hs)
@@ -105,7 +105,9 @@ public class Tools : MonoBehaviour
       if (hs.TakeDamage(damageAmount))
       {
         moneyManager.AddMoney(hs.moneyToReward);
+        return true;
       }
     }
+    return false;
   }
 }

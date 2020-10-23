@@ -3162,7 +3162,7 @@ MonoBehaviour:
   layerMaskMove:
     serializedVersion: 2
     m_Bits: 130871
-  turret1Prefab: {fileID: 7326995934771506979, guid: 2cf7a1e14b838d642a1a6d0195edaf1a,
+  turret1Prefab: {fileID: 7326995934771506979, guid: 37e3c9493a1d4cc4da5c4850f78d7164,
     type: 3}
   turret2Prefab: {fileID: 3609576623471495411, guid: ef79099e058ac744a8bd4235cedc2554,
     type: 3}
@@ -3171,6 +3171,7 @@ MonoBehaviour:
   animator: {fileID: 5408453164450830279}
   armLeft: {fileID: 8618022698046240782}
   armRight: {fileID: 4458130030967601214}
+  spell3AttackSpeedMultiplier: 1
 --- !u!1 &5721199614688814449
 GameObject:
   m_ObjectHideFlags: 0
@@ -4737,6 +4738,11 @@ PrefabInstance:
       propertyPath: characterWallet
       value: 
       objectReference: {fileID: 5912606073140519939}
+    - target: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
+        type: 3}
+      propertyPath: spellController
+      value: 
+      objectReference: {fileID: 6176234277979234522}
     - target: {fileID: 4545635645836257022, guid: 202133459e6452946a765cd547820e7f,
         type: 3}
       propertyPath: m_Name
@@ -4822,6 +4828,11 @@ PrefabInstance:
       propertyPath: characterWallet
       value: 
       objectReference: {fileID: 5912606073140519939}
+    - target: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
+        type: 3}
+      propertyPath: spellController
+      value: 
+      objectReference: {fileID: 6176234277979234522}
     - target: {fileID: 4545635645836257022, guid: 202133459e6452946a765cd547820e7f,
         type: 3}
       propertyPath: m_Name

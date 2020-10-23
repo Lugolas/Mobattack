@@ -119,7 +119,7 @@ public class SpellControllerSphere : SpellController
     }
   }
 
-  public override bool Fire1()
+  public override bool Fire1(bool down)
   {
     if (previewTurret && previewTurretPlayerLink.HasEnoughSpace()
       && previewTurretPlayerLink.characterWallet.GetMoney() >= previewTurret.GetComponentInChildren<TurretStatManager>().price

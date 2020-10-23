@@ -11,9 +11,11 @@ public class AfroHandController : MonoBehaviour
   public MoneyManager characterWallet;
   bool fireFired = false;
   AfroFistController fist;
+  SpellControllerAfro spellController;
 
   void Start()
   {
+    spellController = afroParent.GetComponent<SpellControllerAfro>();
     fist = GetComponentInChildren<AfroFistController>();
   }
 
@@ -31,6 +33,7 @@ public class AfroHandController : MonoBehaviour
       fist = fistObject.GetComponent<AfroFistController>();
       fist.transform.SetParent(transform);
       fist.transform.localScale = Vector3.one;
+      fist.spellController = spellController;
       fist.characterWallet = characterWallet;
     } else if (!fire && fireFired) {
       fireFired = false;

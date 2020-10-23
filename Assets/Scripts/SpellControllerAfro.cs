@@ -28,6 +28,10 @@ public class SpellControllerAfro : SpellController
   AfroArmController[] armControllers;
   List<Rigidbody> armsRigidbodies = new List<Rigidbody>();
   bool attackTriggered = false;
+  public float spell3AttackSpeedMultiplier = 1f;
+  bool previewTurretNeedsOrientation = false;
+  bool previewTurretPlaced = false;
+  bool attacking = false;
 
   // Start is called before the first frame update
   void Start()
@@ -64,14 +68,18 @@ public class SpellControllerAfro : SpellController
     {
       Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskGround);
-
       if (hits.Length > 0)
       {
         System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
         foreach (RaycastHit hit in hits)
         {
-          previewTurret.transform.position = hit.point;
-          break;
+          if (!previewTurretPlaced) {
+            previewTurret.transform.position = hit.point;
+          } else
+          {
+            previewTurret.transform.LookAt(new Vector3(hit.point.x, previewTurret.transform.position.y, hit.point.z));
+          }
+        break;
         }
       }
     }
@@ -87,6 +95,8 @@ public class SpellControllerAfro : SpellController
       RaycastHit hit;
       Physics.Raycast(ray, out hit, 2500, layerMaskMove);
       body.transform.LookAt(new Vector3(hit.point.x, body.transform.position.y, hit.point.z));
+      animator.SetBool("Attacking", attacking);
+      animator.SetFloat("Spell3Speed", spell3AttackSpeedMultiplier);
     }
 
     if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
@@ -109,6 +119,7 @@ public class SpellControllerAfro : SpellController
             previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
             previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
             createModeOn = true;
+            previewTurretNeedsOrientation = true;
             break;
           }
         }
@@ -144,18 +155,9 @@ public class SpellControllerAfro : SpellController
     {
       CancelCreateMode();
     }
-    if (isInAttackStance)
-    {
-      if (!attackTriggered && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-      {
-        animator.SetTrigger("Attack");
-        attackTriggered = true;
-      }
-    }
-    else
-    {
-      AttackStanceState(!isInAttackStance);
-    }
+
+    AttackStanceState(!isInAttackStance);
+
   }
 
   void AttackStanceState (bool state) {
@@ -176,7 +178,7 @@ public class SpellControllerAfro : SpellController
       armController.synchronize = !state;
     }
 
-    animator.SetBool ("Attacking", state);
+    animator.SetBool ("AttackStance", state);
   }
 
   void CancelCreateMode () {
@@ -193,19 +195,48 @@ public class SpellControllerAfro : SpellController
     }
   }
 
-  public override bool Fire1 () {
-    if (previewTurret && previewTurretPlayerLink.HasEnoughSpace () &&
-      previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
-      createModeOn) {
-      createModeOn = false;
+  public override bool Fire1 (bool down) {
+    if (down) {
+      if (previewTurret && previewTurretPlayerLink.HasEnoughSpace () &&
+        previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
+        createModeOn) {
 
-      previewTurretPlayerLink.Activate ();
-      previewTurret = null;
+        if (previewTurretNeedsOrientation)
+        {
+          previewTurretPlaced = true;
+        }
+        else
+        {
+          createModeOn = false;
 
-      EnemiesRefreshPathfinding ();
-      return true;
-    } else {
+          previewTurretPlayerLink.Activate ();
+          previewTurret = null;
+
+          EnemiesRefreshPathfinding ();
+        }
+
+        return true;
+      }
+
+      if (isInAttackStance) {
+        attacking = true;
+      }
       return false;
+    } else {
+      if (previewTurretNeedsOrientation) {
+          previewTurretPlaced = false;
+          previewTurretNeedsOrientation = false;
+          createModeOn = false;
+
+          previewTurretPlayerLink.Activate ();
+          previewTurret = null;
+
+          EnemiesRefreshPathfinding ();
+      }
+      if (isInAttackStance) {
+        attacking = false;
+      }
+      return true;
     }
   }
 
@@ -266,5 +297,9 @@ public class SpellControllerAfro : SpellController
         moveScript.isNavigationTargetMovable = false;
       }
     }
+  }
+
+  public void speedUpSpell3() {
+    spell3AttackSpeedMultiplier *= 1.01f;
   }
 }

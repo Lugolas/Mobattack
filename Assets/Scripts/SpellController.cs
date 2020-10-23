@@ -29,7 +29,7 @@ public abstract class SpellController : MonoBehaviour
     Debug.Log("Default Spell3 Behaviour");
   }
 
-  virtual public bool Fire1()
+  virtual public bool Fire1(bool down)
   {
     Debug.Log("Default Fire1 Behaviour");
     return true;

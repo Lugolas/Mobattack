@@ -54,6 +54,7 @@ public class PlayerInputManager : NetworkBehaviour
   PointerEventData pointerEventData;
   EventSystem eventSystem;
   SpellController spellController;
+  bool fire1Down = false;
   bool fire2Down = false;
 
 
@@ -279,7 +280,9 @@ public class PlayerInputManager : NetworkBehaviour
 
       if (Input.GetButton("Fire1"))
       {
-        if (!spellController.Fire1())
+        fire1Down = true;
+        bool fireUsed = spellController.Fire1(fire1Down);
+        if (!fireUsed)
         {
           bool UIHit = false;
 
@@ -335,6 +338,10 @@ public class PlayerInputManager : NetworkBehaviour
             }
           }
         }
+      } else if (fire1Down) 
+      {
+        fire1Down = false;
+        spellController.Fire1(fire1Down);
       }
 
       if (Input.GetButton("Fire2"))
