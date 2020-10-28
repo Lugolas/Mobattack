@@ -22,7 +22,7 @@ public class SpellControllerAfro : SpellController
   GameObject attackTarget;
   bool isInAttackStance = false;
   public Animator animator;
-  GameObject body;
+  public GameObject body;
   public GameObject armLeft;
   public GameObject armRight;
   AfroArmController[] armControllers;
@@ -186,6 +186,7 @@ public class SpellControllerAfro : SpellController
     Destroy (previewTurret);
     previewTurret = null;
     previewTurretPlayerLink = null;
+    previewTurretPlaced = false;
   }
 
   void EnemiesRefreshPathfinding () {
@@ -196,8 +197,12 @@ public class SpellControllerAfro : SpellController
   }
 
   public override bool Fire1 (bool down) {
+    bool returnValue = false;
     if (down) {
-      if (previewTurret && previewTurretPlayerLink.HasEnoughSpace () &&
+      if (previewTurret) {
+        returnValue = true;
+      }
+      if (previewTurret && (previewTurretPlayerLink.HasEnoughSpace () || previewTurretNeedsOrientation) &&
         previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
         createModeOn) {
 
@@ -214,16 +219,16 @@ public class SpellControllerAfro : SpellController
 
           EnemiesRefreshPathfinding ();
         }
-
-        return true;
       }
 
       if (isInAttackStance) {
         attacking = true;
+        returnValue = true;
       }
-      return false;
     } else {
-      if (previewTurretNeedsOrientation) {
+      if (previewTurretNeedsOrientation && previewTurretPlayerLink.HasEnoughSpace () &&
+        previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
+        createModeOn) {
           previewTurretPlaced = false;
           previewTurretNeedsOrientation = false;
           createModeOn = false;
@@ -236,8 +241,8 @@ public class SpellControllerAfro : SpellController
       if (isInAttackStance) {
         attacking = false;
       }
-      return true;
     }
+    return returnValue;
   }
 
   public override void Fire2 (bool down) {

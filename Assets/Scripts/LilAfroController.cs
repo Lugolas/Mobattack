@@ -23,29 +23,33 @@ public class LilAfroController : MonoBehaviour
 
   void OnTriggerEnter(Collider collider)
   {
-    if (collider.tag == "Fist") {
-      target = collider.gameObject;
-    }
-    if (target)
-    {
-      target.transform.position = fistPropulsionPoint.position;
-      Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
-
-      if (targetRigidbody) {
-        float magnitude = targetRigidbody.velocity.magnitude;
-        float force;
-        if (magnitude < 10f) {
-          force = 10f;
-        } else {
-          force = magnitude * 1.05f;
-        }
-        targetRigidbody.Sleep();
-        targetRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+    if (playerLink.activated) {
+      if (collider.tag == "Fist") {
+        target = collider.gameObject;
       }
+      if (target)
+      {
+        target.transform.position = fistPropulsionPoint.position;
+        AfroFistController fistController = target.GetComponent<AfroFistController>();
+        fistController.outsideDamageModifier += 0.1f;
+        Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
 
-      TriggerFireAnimation();
+        if (targetRigidbody) {
+          float magnitude = targetRigidbody.velocity.magnitude;
+          float force;
+          if (magnitude < 10f) {
+            force = 10f;
+          } else {
+            force = magnitude * 1.05f;
+          }
+          targetRigidbody.Sleep();
+          targetRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+        }
+
+        TriggerFireAnimation();
+      }
+      target = null;
     }
-    target = null;
   }
 
   void TriggerFireAnimation()

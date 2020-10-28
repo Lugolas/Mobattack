@@ -4,7 +4,11 @@ using UnityEngine.Networking;
 public class AfroFistController : MonoBehaviour
 {
   public int id = -1;
-  public int damage = 25;
+  public int damageInitial = 25;
+  public int damageModifiedBase = 25;
+  public int damageFinal = 25;
+  public float baseDamageModifier = 0.5f;
+  public float outsideDamageModifier = 0f;
   public GameObject attacker;
   public GameObject fistBurstPrefab;
   public bool useLifeTimeLimit = false;
@@ -53,7 +57,9 @@ public class AfroFistController : MonoBehaviour
 
   void FixedUpdate()
   {
-    damage = Mathf.RoundToInt(rigidbodyFist.velocity.magnitude);
+    damageInitial = Mathf.RoundToInt(rigidbodyFist.velocity.magnitude);
+    damageModifiedBase = Mathf.RoundToInt(damageInitial + (damageInitial * baseDamageModifier));
+    damageFinal = Mathf.RoundToInt(damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
   }
 
   public void Fire() {
@@ -62,7 +68,7 @@ public class AfroFistController : MonoBehaviour
     rigidbodyFist.constraints = constraints;
     transform.localScale = Vector3.one;
 
-    rigidbodyFist.AddForce(transform.up * 10f, ForceMode.Impulse);
+    rigidbodyFist.AddForce(spellController.body.transform.forward * 10f, ForceMode.Impulse);
   }
 
   void OnCollisionEnter(Collision collision)
@@ -80,7 +86,7 @@ public class AfroFistController : MonoBehaviour
         meshRenderer.enabled = false;
         hasHit = true;
         initiatedSelfDestruction = true;
-        if (Tools.InflictDamage(collision.collider.transform, damage, characterWallet)) {
+        if (Tools.InflictDamage(collision.collider.transform, damageFinal, characterWallet)) {
           spellController.speedUpSpell3();
         }
         if (fistBurstPrefab)
