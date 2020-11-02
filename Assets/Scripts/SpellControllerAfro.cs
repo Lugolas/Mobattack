@@ -25,7 +25,7 @@ public class SpellControllerAfro : SpellController
   public GameObject body;
   public GameObject armLeft;
   public GameObject armRight;
-  AfroArmController[] armControllers;
+  TogglableRagdollController[] togglableRagdollControllers;
   List<Rigidbody> armsRigidbodies = new List<Rigidbody>();
   bool attackTriggered = false;
   public float spell3AttackSpeedMultiplier = 1f;
@@ -36,7 +36,7 @@ public class SpellControllerAfro : SpellController
   // Start is called before the first frame update
   void Start()
   {
-    armControllers = GetComponentsInChildren<AfroArmController>();
+    togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController>();
     moneyManager = GetComponent<MoneyManager>();
     moveScript = GetComponent<BaseMoveAttacc>();
     healthScript = GetComponent<HealthDamage>();
@@ -142,6 +142,7 @@ public class SpellControllerAfro : SpellController
             previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
             previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
             createModeOn = true;
+            previewTurretNeedsOrientation = true;
             break;
           }
         }
@@ -173,9 +174,9 @@ public class SpellControllerAfro : SpellController
       }
     }
 
-    foreach (AfroArmController armController in armControllers)
+    foreach (TogglableRagdollController togglableRagdollController in togglableRagdollControllers)
     {
-      armController.synchronize = !state;
+      togglableRagdollController.synchronize = !state;
     }
 
     animator.SetBool ("AttackStance", state);

@@ -4,6 +4,34 @@ using UnityEngine;
 
 public class Tools : MonoBehaviour
 {
+  [ColorUsageAttribute(true, true)]
+  public Color white;
+  [ColorUsageAttribute(true, true)]
+  public Color green;
+  [ColorUsageAttribute(true, true)]
+  public Color red;
+
+  public static Color GetWhite() {
+    return FindTools().white;
+  }
+
+    public static Color GetGreen() {
+    return FindTools().green;
+  }
+
+    public static Color GetRed() {
+    return FindTools().red;
+  }
+
+  private static Tools FindTools() {
+    GameObject toolsObject = GameObject.Find("Tools");
+    Tools tools = null;
+    if (toolsObject) {
+      tools = toolsObject.GetComponent<Tools>();
+    }
+    return tools; 
+  }
+
   public static GameObject FindObjectOrParentWithTag(GameObject childObject, string tag)
   {
     Transform t = childObject.transform;

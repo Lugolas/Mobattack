@@ -9,7 +9,7 @@ public class TurretVersionManager : MonoBehaviour
   bool hasTransferedStats = false;
   TurretRangeController rangeController;
   TurretSpaceController spaceController;
-  TurretCanonController[] canonControllers;
+  TurretController[] turretControllers;
   CheckInfo checkInfo;
 
   // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class TurretVersionManager : MonoBehaviour
   {
     versionStats = GetComponent<TurretStatManager>();
     turretStats = transform.parent.parent.GetComponent<TurretStatManager>();
-    canonControllers = GetComponentsInChildren<TurretCanonController>();
+    turretControllers = GetComponentsInChildren<TurretController>();
 
     if (turretStats)
     {
@@ -25,9 +25,9 @@ public class TurretVersionManager : MonoBehaviour
     }
     rangeController = transform.parent.parent.GetComponentInChildren<TurretRangeController>();
     rangeController.UpdateRange();
-    foreach (TurretCanonController canonController in canonControllers)
+    foreach (TurretController turretController in turretControllers)
     {
-      rangeController.subscribeToRange(canonController);
+      rangeController.subscribeToRange(turretController);
     }
     checkInfo = transform.parent.parent.GetComponentInChildren<CheckInfo>();
     checkInfo.UpdateValues();

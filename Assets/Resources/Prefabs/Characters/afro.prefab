@@ -802,7 +802,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1484658995658271922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b661be6732b931d458afbd730155a677, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ef8ef4fce5264445998c45ea531aac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollArm: {fileID: 8618022698046240782}
@@ -1812,7 +1812,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3210200114780020475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b661be6732b931d458afbd730155a677, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ef8ef4fce5264445998c45ea531aac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollArm: {fileID: 4458130030967601214}
@@ -3164,11 +3164,12 @@ MonoBehaviour:
     m_Bits: 130871
   turret1Prefab: {fileID: 7326995934771506979, guid: 37e3c9493a1d4cc4da5c4850f78d7164,
     type: 3}
-  turret2Prefab: {fileID: 3609576623471495411, guid: ef79099e058ac744a8bd4235cedc2554,
+  turret2Prefab: {fileID: 7326995934771506979, guid: bfd2f1dd30e0c2641b8d5e021e6068ff,
     type: 3}
   targetPointerPrefab: {fileID: 3914828818644060280, guid: 1bc6c3ee13b7d174f9bb6138d23a0c5b,
     type: 3}
   animator: {fileID: 5408453164450830279}
+  body: {fileID: 0}
   armLeft: {fileID: 8618022698046240782}
   armRight: {fileID: 4458130030967601214}
   spell3AttackSpeedMultiplier: 1
@@ -4748,6 +4749,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AfroFist
       objectReference: {fileID: 0}
+    - target: {fileID: 4545635645836257022, guid: 202133459e6452946a765cd547820e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4837,6 +4843,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AfroFist
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545635645836257022, guid: 202133459e6452946a765cd547820e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
         type: 3}

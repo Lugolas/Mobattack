@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AfroArmController : MonoBehaviour
+public class TogglableRagdollController : MonoBehaviour
 {
   Transform[] childTransforms;
   Transform[] ragdollArmChildTransforms;

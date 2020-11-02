@@ -104,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3944794214500799638}
   m_Layer: 0
-  m_Name: BoxerWall
+  m_Name: AfroWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +164,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4684055744794362918, guid: dc0432024e8bcda4da0dd47e49a862dc,
         type: 3}
+    - target: {fileID: 488266708770829429, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: visualRange
+      value: 
+      objectReference: {fileID: 8670384819543429273}
+    - target: {fileID: 488266708770829429, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: visualSpace
+      value: 
+      objectReference: {fileID: 4791314798216797774}
     - target: {fileID: 1011111954263948981, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
         type: 3}
       propertyPath: m_Enabled
@@ -178,6 +188,36 @@ PrefabInstance:
         type: 3}
       propertyPath: space
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2875561176176125206, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: visualSpace
+      value: 
+      objectReference: {fileID: 4791314798216797774}
+    - target: {fileID: 2875561176176125206, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: green.a
+      value: 0.019607844
+      objectReference: {fileID: 0}
+    - target: {fileID: 2875561176176125206, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: red.a
+      value: 0.019607844
+      objectReference: {fileID: 0}
+    - target: {fileID: 2875561176176125206, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: green.r
+      value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2875561176176125206, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: green.g
+      value: 1.4980392
+      objectReference: {fileID: 0}
+    - target: {fileID: 2875561176176125206, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: green.b
+      value: 0.38431373
       objectReference: {fileID: 0}
     - target: {fileID: 2895874447085398492, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
         type: 3}
@@ -264,6 +304,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6433319295878895316, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+        type: 3}
+      propertyPath: visibleOnCheck.Array.data[0]
+      value: 
+      objectReference: {fileID: 4791314798216797774}
     - target: {fileID: 6728997981416621853, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
         type: 3}
       propertyPath: m_Name
@@ -275,6 +320,12 @@ PrefabInstance:
 --- !u!4 &787933246583032114 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5859859814904988017, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6610486456793352259}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8670384819543429273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2589094138970478810, guid: 169ea4723f9effe4eb1ac027fbaf65e7,
     type: 3}
   m_PrefabInstance: {fileID: 6610486456793352259}
   m_PrefabAsset: {fileID: 0}

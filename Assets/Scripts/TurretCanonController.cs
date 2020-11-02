@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretCanonController : MonoBehaviour
+public class TurretCanonController : TurretController
 {
   public GameObject target;
-  public List<GameObject> enemiesInRange = new List<GameObject>();
   public Transform projectileSpawnPoint;
   public GameObject projectilePrefab;
-  public bool targetUpdateWanted = false;
   private bool hasExtortedCharacter = false;
   private float fireTime;
   TurretStatManager statManager;

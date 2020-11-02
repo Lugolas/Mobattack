@@ -4,32 +4,44 @@ using UnityEngine;
 
 public class TurretRangeController : MonoBehaviour
 {
-  CapsuleCollider rangeCollider;
+  Collider rangeCollider;
   Transform rangeMesh;
   TurretStatManager statManager;
   TurretPlayerLink playerLink;
-  List<TurretCanonController> canonControllers = new List<TurretCanonController>();
-  float scaleRatio = 5f;
+  public bool zIsUp = false;
+  List<TurretController> turretControllers = new List<TurretController>();
+  public float scaleRatio = 5f;
 
   private void Start()
   {
-    rangeCollider = GetComponent<CapsuleCollider>();
+    rangeCollider = GetComponent<Collider>();
     rangeMesh = transform.GetChild(0);
     statManager = transform.parent.GetComponent<TurretStatManager>();
     playerLink = transform.parent.GetComponent<TurretPlayerLink>();
     UpdateRange();
   }
 
-  public void UpdateRange()
+  void LateUpdate()
   {
-    rangeCollider.radius = statManager.range;
-    rangeMesh.transform.localScale =
-      new Vector3(statManager.range / scaleRatio, statManager.range / scaleRatio, statManager.range / scaleRatio);
+    UpdateRange();
   }
 
-  public void subscribeToRange(TurretCanonController canonController)
+  public void UpdateRange()
   {
-    canonControllers.Add(canonController);
+    float scaleY = rangeCollider.transform.localScale.y;
+    float scaleZ = statManager.range * scaleRatio;
+
+    if (zIsUp) {
+      scaleY = statManager.range * scaleRatio;
+      scaleZ = rangeCollider.transform.localScale.y;
+    }
+
+    transform.localScale = new Vector3(statManager.range * scaleRatio, scaleY, scaleZ);
+  }
+
+  public void subscribeToRange(TurretController turretController)
+  {
+    turretControllers.Add(turretController);
   }
 
   void OnTriggerEnter(Collider collider)
@@ -38,12 +50,12 @@ public class TurretRangeController : MonoBehaviour
 
     if (playerLink.activated && enemy)
     {
-      foreach (TurretCanonController canonController in canonControllers)
+      foreach (TurretController turretController in turretControllers)
       {
-        if (!canonController.enemiesInRange.Contains(enemy.gameObject))
+        if (!turretController.enemiesInRange.Contains(enemy.gameObject))
         {
-          canonController.enemiesInRange.Add(enemy.gameObject);
-          canonController.targetUpdateWanted = true;
+          turretController.enemiesInRange.Add(enemy.gameObject);
+          turretController.targetUpdateWanted = true;
         }
       }
     }
@@ -55,10 +67,10 @@ public class TurretRangeController : MonoBehaviour
 
     if (playerLink.activated && enemy)
     {
-      foreach (TurretCanonController canonController in canonControllers)
+      foreach (TurretController turretController in turretControllers)
       {
-        canonController.enemiesInRange.Remove(enemy.gameObject);
-        canonController.targetUpdateWanted = true;
+        turretController.enemiesInRange.Remove(enemy.gameObject);
+        turretController.targetUpdateWanted = true;
       }
     }
   }
