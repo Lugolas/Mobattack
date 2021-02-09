@@ -16,6 +16,7 @@ public class TurretUpgradeManager : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    transform.parent.SetParent(GameObject.Find("TurretsManager").transform);
     playerLink = GetComponent<TurretPlayerLink>();
     SpawnTurret(baseTurret);
   }

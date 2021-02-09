@@ -80,10 +80,10 @@ public class Arrow : MonoBehaviour
 
   void InflictsDamage(Collision collision)
   {
-    HealthDamage hp = collision.gameObject.GetComponent<HealthDamage>();
-    if (hp)
+    HealthSimple health = collision.gameObject.GetComponent<HealthSimple>();
+    if (health)
     {
-      hp.TakeDamage(damage);
+      health.TakeDamage(damage, gameObject);
     }
   }
 }

@@ -22,20 +22,20 @@ public class VictoryCollider : MonoBehaviour
   }
   void OnTriggerEnter(Collider collider)
   {
-    CharacterManager character = collider.GetComponent<CharacterManager>();
+    // CharacterManager character = collider.GetComponent<CharacterManager>();
 
-    if (character && gameController && hasTouched == false)
-    {
-      if (team == 1 && gameController.team2ScoredLimit && character.team == 2)
-      {
-        hasTouched = true;
-        gameController.winner = 2;
-      }
-      if (team == 2 && gameController.team1ScoredLimit && character.team == 1)
-      {
-        hasTouched = true;
-        gameController.winner = 1;
-      }
-    }
+    // if (character && gameController && hasTouched == false)
+    // {
+    //   if (team == 1 && gameController.team2ScoredLimit && character.team == 2)
+    //   {
+    //     hasTouched = true;
+    //     gameController.winner = 2;
+    //   }
+    //   if (team == 2 && gameController.team1ScoredLimit && character.team == 1)
+    //   {
+    //     hasTouched = true;
+    //     gameController.winner = 1;
+    //   }
+    // }
   }
 }

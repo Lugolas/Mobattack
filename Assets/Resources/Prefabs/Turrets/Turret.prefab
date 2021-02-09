@@ -44,7 +44,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 5
+  m_Radius: 1
   m_Height: 25
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9858db6e4899eef4caf7b718e419852e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zIsUp: 0
+  scaleRatio: 1
 --- !u!1 &752213141
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 752213141}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 7947629296982280104}
   m_RootOrder: 0
@@ -214,7 +216,7 @@ Transform:
   m_GameObject: {fileID: 2589094138970478810}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 731941117}
   m_RootOrder: 0
@@ -315,7 +317,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.5
+  m_Radius: 1
   m_Height: 8
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -329,7 +331,7 @@ NavMeshObstacle:
   m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 1.5, y: 4, z: 1.5}
+  m_Extents: {x: 1, y: 4, z: 1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -376,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9d8dadd1c60b74ca4090e9fb812c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spaceRatio: 1
 --- !u!114 &6433319295878895316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,9 +463,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretSlot: {fileID: 4903594993987418495}
-  baseTurret: {fileID: 4684055744794362918, guid: 309a513bffd3f8743b2e2745f65b25e9,
+  baseTurret: {fileID: 4684055744794362918, guid: 6f8b25719da825e48bb7498b98d4d426,
     type: 3}
-  upgradedTurret: {fileID: 4684055744794362918, guid: bee235eb0cbe23d4893bbb4aba36c7fb,
+  upgradedTurret: {fileID: 4684055744794362918, guid: 6f8b25719da825e48bb7498b98d4d426,
     type: 3}
   checkInfo: {fileID: 6433319295878895316}
 --- !u!114 &488266708770829429
@@ -496,6 +499,4 @@ MonoBehaviour:
   spaceChecks:
   - {fileID: 215516787764028984}
   enoughSpace: 1
-  green: {r: 0.2509804, g: 2.9960785, b: 0.76862746, a: 0}
-  red: {r: 5.992157, g: 0, b: 0, a: 0}
   visualSpace: {fileID: 752213141}

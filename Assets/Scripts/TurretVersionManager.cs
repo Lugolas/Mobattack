@@ -5,6 +5,7 @@ using UnityEngine;
 public class TurretVersionManager : MonoBehaviour
 {
   TurretStatManager versionStats;
+  TurretStatManager[] turretStatss;
   TurretStatManager turretStats;
   bool hasTransferedStats = false;
   TurretRangeController rangeController;
@@ -16,29 +17,36 @@ public class TurretVersionManager : MonoBehaviour
   void Start()
   {
     versionStats = GetComponent<TurretStatManager>();
-    turretStats = transform.parent.parent.GetComponent<TurretStatManager>();
+    turretStatss = GetComponentsInParent<TurretStatManager>();
     turretControllers = GetComponentsInChildren<TurretController>();
+
+    foreach (TurretStatManager currentTurretStats in turretStatss)
+    {
+      if (currentTurretStats.gameObject != gameObject) {
+        turretStats = currentTurretStats;
+      }
+    }
 
     if (turretStats)
     {
       TransferStats(versionStats, turretStats);
+      rangeController = turretStats.GetComponentInChildren<TurretRangeController>();
+      rangeController.UpdateRange();
+      foreach (TurretController turretController in turretControllers)
+      {
+        rangeController.subscribeToRange(turretController);
+      }
+      checkInfo = turretStats.GetComponentInChildren<CheckInfo>();
+      checkInfo.UpdateValues();
+      spaceController = turretStats.GetComponentInChildren<TurretSpaceController>();
+      spaceController.UpdateSpace();
     }
-    rangeController = transform.parent.parent.GetComponentInChildren<TurretRangeController>();
-    rangeController.UpdateRange();
-    foreach (TurretController turretController in turretControllers)
-    {
-      rangeController.subscribeToRange(turretController);
-    }
-    checkInfo = transform.parent.parent.GetComponentInChildren<CheckInfo>();
-    checkInfo.UpdateValues();
-    spaceController = transform.parent.parent.GetComponentInChildren<TurretSpaceController>();
-    spaceController.UpdateSpace();
   }
 
   // Update is called once per frame
   void Update()
   {
-    if (!hasTransferedStats)
+    if (!hasTransferedStats && turretStats)
     {
       TransferStats(versionStats, turretStats);
     }

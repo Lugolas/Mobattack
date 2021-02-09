@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class SpellController : MonoBehaviour
 {
+  public GameObject body;
   // Start is called before the first frame update
   void Start()
   {

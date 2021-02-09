@@ -16,6 +16,8 @@ TagManager:
   - Range
   - Space
   - Fist
+  - NoRagdoll
+  - Corpse
   layers:
   - Default
   - TransparentFX
@@ -37,12 +39,12 @@ TagManager:
   - EnvironmentNoRay
   - OnlyCheckRay
   - Fist
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - NoGroundContact
+  - BigFist
+  - BigEnemy
+  - Enemy
+  - NoTurret
+  - EnemyParts
   - 
   - 
   - 

@@ -11,16 +11,27 @@ public class Tools : MonoBehaviour
   [ColorUsageAttribute(true, true)]
   public Color red;
 
+  public LayerMask enemyDetectionMask;
+  public LayerMask enemyPartsDetectionMask;
+
   public static Color GetWhite() {
     return FindTools().white;
   }
 
-    public static Color GetGreen() {
+  public static Color GetGreen() {
     return FindTools().green;
   }
 
-    public static Color GetRed() {
+  public static Color GetRed() {
     return FindTools().red;
+  }
+
+  public static LayerMask GetEnemyDetectionMask() {
+    return FindTools().enemyDetectionMask;
+  }
+
+  public static LayerMask GetEnemyPartsDetectionMask() {
+    return FindTools().enemyPartsDetectionMask;
   }
 
   private static Tools FindTools() {
@@ -125,16 +136,24 @@ public class Tools : MonoBehaviour
     }
   }
 
-  public static bool InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager)
+  public static bool InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager, GameObject attacker)
   {
     HealthSimple hs = targetedEnemy.GetComponent<HealthSimple>();
+    if (!hs) {
+      hs = targetedEnemy.GetComponentInChildren<HealthSimple>();
+    }
+    if (!hs) {
+      hs = targetedEnemy.GetComponentInParent<HealthSimple>();
+    }
     if (hs)
     {
-      if (hs.TakeDamage(damageAmount))
+      if (hs.TakeDamage(damageAmount, attacker))
       {
         moneyManager.AddMoney(hs.moneyToReward);
         return true;
       }
+    } else {
+      Debug.Log("No Health Script");
     }
     return false;
   }

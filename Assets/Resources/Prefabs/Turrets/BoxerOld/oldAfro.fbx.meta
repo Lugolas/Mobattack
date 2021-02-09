@@ -1,11 +1,14 @@
 fileFormatVersion: 2
-guid: 6d99b78517fe739408705c07f58cb1c4
+guid: 4bdba75bc2ee3be44b90cacf1b628500
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -4405619503343681686
     second: Armature.001|Attack
+  - first:
+      74: 4000674909163800385
+    second: Armature.001|Attack2
   - first:
       74: 7818770236364557138
     second: Armature.001|Fly
@@ -17,7 +20,7 @@ ModelImporter:
     second: Armature.001|Jump
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -107,6 +110,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class AfroFistController : MonoBehaviour
-{
+public class AfroFistController : MonoBehaviour {
   public int id = -1;
   public int damageInitial = 25;
   public int damageModifiedBase = 25;
   public int damageFinal = 25;
   public float baseDamageModifier = 0.5f;
-  public float outsideDamageModifier = 0f;
+  float outsideDamageModifier = 0f;
   public GameObject attacker;
   public GameObject fistBurstPrefab;
   public bool useLifeTimeLimit = false;
@@ -25,87 +24,84 @@ public class AfroFistController : MonoBehaviour
   private bool hasHit = false;
   public MoneyManager characterWallet;
   public SpellControllerAfro spellController;
+  AfroFistDamage fistDamage;
   bool initiatedSelfDestruction;
+  bool hasCollided = false;
+  Collision lastCollision;
 
-  void Start()
-  {
+  void Start () {
     startTime = Time.time;
 
-    trail = GetComponent<TrailRenderer>();
-    sphereCollider = GetComponent<SphereCollider>();
-    meshRenderer = GetComponent<MeshRenderer>();
-    rigidbodyFist = GetComponent<Rigidbody>();
+    trail = GetComponent<TrailRenderer> ();
+    sphereCollider = GetComponent<SphereCollider> ();
+    meshRenderer = GetComponent<MeshRenderer> ();
+    rigidbodyFist = GetComponent<Rigidbody> ();
+    fistDamage = GetComponent<AfroFistDamage> ();
 
-    if (useLifeTimeLimit)
-    {
-      Destroy(gameObject, lifeTimeLimit);
+    if (useLifeTimeLimit) {
+      Destroy (gameObject, lifeTimeLimit);
     }
   }
-  void Update()
-  {
-    if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction)
-    {
-      if (trail)
-      {
+  void Update () {
+    if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction) {
+      if (trail) {
         trail.emitting = false;
       }
       initiatedSelfDestruction = true;
     }
 
+    outsideDamageModifier = fistDamage.outsideDamageModifier;
     // rigidbody.velocity = transform.forward * movementSpeed;
   }
 
-  void FixedUpdate()
-  {
-    damageInitial = Mathf.RoundToInt(rigidbodyFist.velocity.magnitude);
-    damageModifiedBase = Mathf.RoundToInt(damageInitial + (damageInitial * baseDamageModifier));
-    damageFinal = Mathf.RoundToInt(damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
+  void FixedUpdate () {
+    damageInitial = Mathf.RoundToInt (rigidbodyFist.velocity.magnitude);
+    damageModifiedBase = Mathf.RoundToInt (damageInitial + (damageInitial * baseDamageModifier));
+    damageFinal = Mathf.RoundToInt (damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
   }
 
-  public void Fire() {
-    sphereCollider.enabled = true;
-    rigidbodyFist.isKinematic = false;
-    rigidbodyFist.constraints = constraints;
-    transform.localScale = Vector3.one;
-
-    rigidbodyFist.AddForce(spellController.body.transform.forward * 10f, ForceMode.Impulse);
-  }
-
-  void OnCollisionEnter(Collision collision)
-  {
-    if (!hasHit && !initiatedSelfDestruction)
-    {
-      GameObject objectHit = Tools.FindObjectOrParentWithTag(collision.collider.gameObject, "EnemyCharacter");
-      if (objectHit && objectHit != attacker)
-      {
-        if (trail)
-        {
+  void LateUpdate () {
+    if (hasCollided && !hasHit && !initiatedSelfDestruction) {
+      hasCollided = false;
+      GameObject objectHit = Tools.FindObjectOrParentWithTag (lastCollision.collider.gameObject, "EnemyCharacter");
+      if (objectHit && objectHit != attacker) {
+        if (trail) {
           trail.emitting = false;
         }
         sphereCollider.enabled = false;
         meshRenderer.enabled = false;
         hasHit = true;
         initiatedSelfDestruction = true;
-        if (Tools.InflictDamage(collision.collider.transform, damageFinal, characterWallet)) {
-          spellController.speedUpSpell3();
+        if (Tools.InflictDamage (lastCollision.collider.transform, damageFinal, characterWallet, gameObject)) {
+          spellController.speedUpSpell3 ();
         }
-        if (fistBurstPrefab)
-        {
-          GameObject burst = Instantiate(fistBurstPrefab, transform.position, transform.rotation) as GameObject;
+        if (fistBurstPrefab) {
+          GameObject burst = Instantiate (fistBurstPrefab, transform.position, transform.rotation) as GameObject;
           // GameObject burst = Instantiate(fistBurstPrefab, collision.GetContact(0).point, transform.rotation) as GameObject;
 
-          Destroy(burst, 2f);
-          Destroy(gameObject, 5.5f);
-        }
-        else
-        {
-          Destroy(gameObject, 5.5f);
-          for (int i = 0; i < transform.childCount; i++)
-          {
-            Destroy(transform.GetChild(i).gameObject);
+          Destroy (burst, 2f);
+          Destroy (gameObject, 5.5f);
+        } else {
+          Destroy (gameObject, 5.5f);
+          for (int i = 0; i < transform.childCount; i++) {
+            Destroy (transform.GetChild (i).gameObject);
           }
         }
       }
     }
+  }
+
+  public void Fire () {
+    sphereCollider.enabled = true;
+    rigidbodyFist.isKinematic = false;
+    rigidbodyFist.constraints = constraints;
+    transform.localScale = Vector3.one;
+
+    rigidbodyFist.AddForce (spellController.body.transform.forward * 250f, ForceMode.Impulse);
+  }
+
+  void OnCollisionEnter (Collision collision) {
+    hasCollided = true;
+    lastCollision = collision;
   }
 }

@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SpellControllerAfro : SpellController
 {
@@ -22,7 +23,7 @@ public class SpellControllerAfro : SpellController
   GameObject attackTarget;
   bool isInAttackStance = false;
   public Animator animator;
-  public GameObject body;
+  public NavMeshAgent navAgent;
   public GameObject armLeft;
   public GameObject armRight;
   TogglableRagdollController[] togglableRagdollControllers;
@@ -32,6 +33,27 @@ public class SpellControllerAfro : SpellController
   bool previewTurretNeedsOrientation = false;
   bool previewTurretPlaced = false;
   bool attacking = false;
+  bool previewTurret1 = false;
+  bool previewTurret2 = false;
+
+  float walkBaseDistancePerSecond = 2.4545f;
+  float runBaseDistancePerSecond = 9f;
+
+  public bool pairPunch = false;
+  public AfroHandController handR;
+  public AfroHandController handL;
+  public GameObject testSpherePrefab;
+
+  bool afroBallClickDown = false;
+  GameObject afroBallClicked;
+  GameObject lastAfroBallClicked;
+  public GameObject arrowPrefab;
+  GameObject currentArrow;
+  ArrowStretchController currentArrowPoint;
+  Vector3 lastArrowPoint;
+  TurretStatManager afroBallClickedStats;
+  Vector3 afroBallLaunchPosition;
+  bool afroBallLaunchPlanned = false;
 
   // Start is called before the first frame update
   void Start()
@@ -39,25 +61,36 @@ public class SpellControllerAfro : SpellController
     togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController>();
     moneyManager = GetComponent<MoneyManager>();
     moveScript = GetComponent<BaseMoveAttacc>();
+
+    if (moveScript) {
+      moveScript.walkBaseDistancePerSecond = walkBaseDistancePerSecond;
+      moveScript.runBaseDistancePerSecond = runBaseDistancePerSecond;
+    }
+
     healthScript = GetComponent<HealthDamage>();
 
     enemiesManager = GameObject.Find("EnemiesManager");
 
-    Rigidbody[] armLeftRigidBodies = armLeft.GetComponentsInChildren<Rigidbody>();
-    foreach (Rigidbody armLeftRigidBody in armLeftRigidBodies)
-    {
-      armsRigidbodies.Add(armLeftRigidBody);
+    if (armLeft) {
+      Rigidbody[] armLeftRigidBodies = armLeft.GetComponentsInChildren<Rigidbody>();
+      foreach (Rigidbody armLeftRigidBody in armLeftRigidBodies)
+      {
+        armsRigidbodies.Add(armLeftRigidBody);
+      }
     }
 
-    Rigidbody[] armRightRigidBodies = armRight.GetComponentsInChildren<Rigidbody>();
-    foreach (Rigidbody armRightRigidBody in armRightRigidBodies)
-    {
-      armsRigidbodies.Add(armRightRigidBody);
+    if (armRight) {
+      Rigidbody[] armRightRigidBodies = armRight.GetComponentsInChildren<Rigidbody>();
+      foreach (Rigidbody armRightRigidBody in armRightRigidBodies)
+      {
+        armsRigidbodies.Add(armRightRigidBody);
+      }
     }
 
     if (animator)
     {
       body = animator.gameObject;
+      navAgent = body.GetComponent<NavMeshAgent>();
     }
   }
 
@@ -79,7 +112,7 @@ public class SpellControllerAfro : SpellController
           {
             previewTurret.transform.LookAt(new Vector3(hit.point.x, previewTurret.transform.position.y, hit.point.z));
           }
-        break;
+          break;
         }
       }
     }
@@ -99,14 +132,55 @@ public class SpellControllerAfro : SpellController
       animator.SetFloat("Spell3Speed", spell3AttackSpeedMultiplier);
     }
 
-    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
+    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot")) {
       attackTriggered = false;
+    }
+
+    if (afroBallClickDown && currentArrowPoint)
+    {
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+      Physics.Raycast(ray, out hit, 2500, layerMaskMove);
+      currentArrow.transform.LookAt(new Vector3(hit.point.x, currentArrow.transform.position.y, hit.point.z));
+      currentArrowPoint.transform.position = new Vector3(hit.point.x, currentArrowPoint.transform.position.y, hit.point.z);
+    }
+
+    if (afroBallLaunchPlanned)
+    {
+      if (Vector3.Distance(body.transform.position, afroBallLaunchPosition) <= navAgent.stoppingDistance)
+      {
+        moveScript.targetedEnemy = lastAfroBallClicked.transform;
+        // moveScript.attacking = true;
+        body.transform.LookAt(lastArrowPoint);
+        moveScript.Fire();
+        afroBallLaunchPlanned = false;
+      }
     }
   }
 
+  void LateUpdate()
+  {
+    if (handR.punchAttempted && !pairPunch)
+    {
+      pairPunch = true;
+      animator.SetBool("PairPunch", pairPunch);
+    } else
+    if (handL.punchAttempted && pairPunch)
+    {
+      pairPunch = false;
+      animator.SetBool("PairPunch", pairPunch);
+    }
+
+  }
+
   override public void Spell1 () {
-    AttackStanceState (false);
-    if (!createModeOn) {
+    AttackStanceState(false);
+    if (!previewTurret1)
+    {
+      if (createModeOn)
+      {
+        CancelCreateMode();
+      }
       if (moneyManager.GetMoney () >= turret1Prefab.GetComponentInChildren<TurretStatManager> ().price) {
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
@@ -120,16 +194,26 @@ public class SpellControllerAfro : SpellController
             previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
             createModeOn = true;
             previewTurretNeedsOrientation = true;
+            previewTurret1 = true;
             break;
           }
         }
       }
     }
+    else
+    {
+      CancelCreateMode();
+    }
   }
 
   override public void Spell2 () {
     AttackStanceState (false);
-    if (!createModeOn) {
+    if (!previewTurret2)
+    {
+      if (createModeOn)
+      {
+        CancelCreateMode();
+      }
       if (moneyManager.GetMoney () >= turret2Prefab.GetComponentInChildren<TurretStatManager> ().price) {
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
@@ -143,22 +227,27 @@ public class SpellControllerAfro : SpellController
             previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
             createModeOn = true;
             previewTurretNeedsOrientation = true;
+            previewTurret2 = true;
             break;
           }
         }
       }
     }
+    else
+    {
+      CancelCreateMode();
+    }
   }
 
   public override void Spell3()
   {
+    afroBallLaunchPlanned = false;
     if (createModeOn)
     {
       CancelCreateMode();
     }
 
     AttackStanceState(!isInAttackStance);
-
   }
 
   void AttackStanceState (bool state) {
@@ -188,6 +277,8 @@ public class SpellControllerAfro : SpellController
     previewTurret = null;
     previewTurretPlayerLink = null;
     previewTurretPlaced = false;
+    previewTurret1 = false;
+    previewTurret2 = false;
   }
 
   void EnemiesRefreshPathfinding () {
@@ -217,6 +308,8 @@ public class SpellControllerAfro : SpellController
 
           previewTurretPlayerLink.Activate ();
           previewTurret = null;
+          previewTurret1 = false;
+          previewTurret2 = false;
 
           EnemiesRefreshPathfinding ();
         }
@@ -227,17 +320,25 @@ public class SpellControllerAfro : SpellController
         returnValue = true;
       }
     } else {
-      if (previewTurretNeedsOrientation && previewTurretPlayerLink.HasEnoughSpace () &&
+      if (previewTurretNeedsOrientation && previewTurretPlayerLink && previewTurretPlayerLink.HasEnoughSpace () &&
         previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
         createModeOn) {
-          previewTurretPlaced = false;
-          previewTurretNeedsOrientation = false;
-          createModeOn = false;
+        previewTurretPlaced = false;
+        previewTurretNeedsOrientation = false;
+        createModeOn = false;
+        previewTurret1 = false;
+        previewTurret2 = false;
 
-          previewTurretPlayerLink.Activate ();
-          previewTurret = null;
+        previewTurretPlayerLink.Activate ();
 
-          EnemiesRefreshPathfinding ();
+        TurretAfroBallController afroBallController = previewTurret.GetComponentInChildren<TurretAfroBallController>();
+        if (afroBallController) {
+          afroBallController.spellController = this;
+        }
+
+        previewTurret = null;
+
+        EnemiesRefreshPathfinding ();
       }
       if (isInAttackStance) {
         attacking = false;
@@ -260,24 +361,82 @@ public class SpellControllerAfro : SpellController
         System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
         foreach (RaycastHit hit in hits) {
           if (hit.collider.gameObject != gameObject) {
-            EnemyController enemyHit = hit.collider.gameObject.GetComponent<EnemyController> ();
+            EnemyController enemyHit = hit.collider.gameObject.GetComponentInParent<EnemyController> ();
             if (enemyHit) {
               attackTarget = hit.transform.gameObject;
-              HealthSimple targetInfo = attackTarget.GetComponent<HealthSimple> ();
-              if (targetInfo) {
+              HealthSimple targetInfo = attackTarget.GetComponentInParent<HealthSimple> ();
+              if (targetInfo && !afroBallClickDown) {
+                afroBallLaunchPlanned = false;
                 Attack ();
               }
               break;
             } else {
-              moveClickDown = true;
-              moveClickPosition = new Vector3 (hit.point.x, hit.point.y + 0.1f, hit.point.z);
-              MoveTo (hit.point);
-              break;
+              TurretAfroBallController afroBallHit = hit.collider.gameObject.GetComponentInParent<TurretAfroBallController>();
+              if (afroBallHit)
+              {
+                if (!moveClickDown && !afroBallClickDown)
+                {
+                  TurretAfroBallController afroBallController = afroBallHit.GetComponentInChildren<TurretAfroBallController>();
+                  if (afroBallController.activated && !afroBallController.launched)
+                  {
+                    afroBallClicked = afroBallController.gameObject;
+                    afroBallClickedStats = afroBallClicked.GetComponentInParent<TurretStatManager>();
+                    currentArrow = Instantiate(arrowPrefab, new Vector3(
+                      afroBallClicked.transform.position.x,
+                      afroBallClicked.transform.position.y + 0.1f,
+                      afroBallClicked.transform.position.z
+                    ), body.transform.rotation);
+                    currentArrowPoint = currentArrow.GetComponentInChildren<ArrowStretchController>();
+                    afroBallClickDown = true;
+                    break;
+                  }
+                }
+              }
+              else
+              {
+                if (!afroBallClickDown)
+                {
+                  moveClickDown = true;
+                  moveClickPosition = new Vector3 (hit.point.x, hit.point.y + 0.1f, hit.point.z);
+                  afroBallLaunchPlanned = false;
+                  MoveTo(hit.point);
+                  break;
+                }
+              }
             }
           }
         }
       }
-    } else {
+    }
+    else
+    {
+      if (afroBallClickDown)
+      {
+        afroBallClickDown = false;
+        float ballX = afroBallClicked.transform.position.x;
+        float ballZ = afroBallClicked.transform.position.z;
+        float spaceToPointRatio = (
+          (afroBallClickedStats.space + navAgent.stoppingDistance) /
+          Vector3.Distance(currentArrowPoint.transform.position, afroBallClicked.transform.position)
+        );
+        float targetX = currentArrowPoint.transform.position.x;
+        float targetZ = currentArrowPoint.transform.position.z;
+        Vector3 movePosition = new Vector3(
+          ballX + (ballX - targetX) * spaceToPointRatio,
+          body.transform.position.y,
+          ballZ + (ballZ - targetZ) * spaceToPointRatio
+        );
+        Instantiate (targetPointerPrefab, movePosition, new Quaternion ());
+        MoveTo(movePosition);
+        lastArrowPoint = new Vector3(currentArrowPoint.transform.position.x, body.transform.position.y, currentArrowPoint.transform.position.z);
+        lastAfroBallClicked = afroBallClicked;
+        Destroy(currentArrow);
+        afroBallClicked = null;
+        currentArrow = null;
+        currentArrowPoint = null;
+        afroBallLaunchPosition = movePosition;
+        afroBallLaunchPlanned = true;
+      }
       if (moveClickDown) {
         moveClickDown = false;
         Instantiate (targetPointerPrefab, moveClickPosition, new Quaternion ());
@@ -306,6 +465,6 @@ public class SpellControllerAfro : SpellController
   }
 
   public void speedUpSpell3() {
-    spell3AttackSpeedMultiplier *= 1.01f;
+    spell3AttackSpeedMultiplier *= 1.05f;
   }
 }

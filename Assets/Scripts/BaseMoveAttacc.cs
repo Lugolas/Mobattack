@@ -1,50 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class BaseMoveAttacc : NetworkBehaviour
+public class BaseMoveAttacc : MonoBehaviour
 {
   public float moveSpeed;
   float walkSpeed;
   float runSpeed;
 
-  float walkBaseDistancePerSecond = 4.7f;
-  float runBaseDistancePerSecond = 7.2f;
+  public float walkBaseDistancePerSecond = -1f;
+  public float runBaseDistancePerSecond = -1f;
 
-  [SyncVar]
   public Transform targetedEnemy = null;
   private bool animatingAttack = false;
   public Animator anim;
 
-  [SyncVar]
   public Vector3 navigationTarget = Vector3.zero;
-  [SyncVar]
   public Transform navigationTargetMovable = null;
-  [SyncVar]
   public bool hasNavigationTarget = false;
-  [SyncVar]
   public bool isNavigationTargetMovable = false;
   private UnityEngine.AI.NavMeshAgent navAgent;
   public float shootDistance = 10f;
   public float distanceAcceptability = 1.0f;
   public Transform FireballSpawnPoint = null;
   public GameObject FireballPrefab = null;
-  public GameObject FireballRapidPrefab = null;
-  public HealthDamage healthDamage;
-  private bool attacking = false;
+  public HealthSimple health;
+  public bool attacking = false;
   private int running = 0;
-  public int rapidFireballAmount = 2;
   private float nextFire;
   private float nextSpell;
   private bool disabled = false;
   private FireMomentListener fireMomentListener;
   private bool timetoFireFired = false;
   private string nameOfCharacter;
-  private float timeBetweenShots = 1.15f;
-  private float timeBetweenSpells = 1.15f;
+  public float timeBetweenShots = 1.15f;
   bool withinShootDistance = false;
-  MoneyManager moneyManager;
+  public GameObject attacker = null;
+  public MoneyManager moneyManager;
+  HealthSimple navTargetHealth;
   // private int fireballDamage = 25;
   public enum BaseAttackType
   {
@@ -65,7 +58,7 @@ public class BaseMoveAttacc : NetworkBehaviour
       nameOfCharacter = character.name;
     }
     fireMomentListener = GetComponentInChildren<FireMomentListener>();
-    healthDamage = GetComponent<HealthDamage>();
+    health = GetComponent<HealthSimple>();
     if (!anim)
     {
       anim = GetComponent<Animator>();
@@ -78,30 +71,23 @@ public class BaseMoveAttacc : NetworkBehaviour
     moveSpeed = anim.GetFloat("MoveSpeed");
 
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
-    moneyManager = GetComponent<MoneyManager>();
+    if (!moneyManager)
+      moneyManager = GetComponent<MoneyManager>();
   }
 
-  [Command]
-  void CmdSetPoint(Vector3 point)
-  {
-    hasNavigationTarget = true;
-    navigationTarget = point;
-    isNavigationTargetMovable = false;
-  }
-
-  // [Command]
-  // void CmdSetTarget(Transform target)
-  // {
-  //   hasNavigationTarget = true;
-  //   navigationTargetMovable = target;
-  //   isNavigationTargetMovable = true;
-  // }
-  void Update()
+  void LateUpdate()
   {
     if (!disabled)
     {
-      if (navigationTargetMovable && navigationTargetMovable.gameObject.GetComponent<HealthSimple>().isDead)
+      if (navigationTargetMovable && navigationTargetMovable.gameObject)
       {
+        navTargetHealth = navigationTargetMovable.gameObject.GetComponentInParent<HealthSimple>();
+        if (!navTargetHealth) {
+          navTargetHealth = navigationTargetMovable.gameObject.GetComponentInChildren<HealthSimple>();
+        }
+      }
+
+      if (navTargetHealth && navTargetHealth.isDead) {
         navigationTargetMovable = null;
       }
       // Debug.Log("navigationTargetMovable " + navigationTargetMovable);
@@ -110,7 +96,7 @@ public class BaseMoveAttacc : NetworkBehaviour
       // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       // RaycastHit hit;
 
-      // if (Input.GetButton("Fire2") && !healthDamage.isDead)
+      // if (Input.GetButton("Fire2") && !health.isDead)
       // {
       //   rightClicked = true;
       //   if (Physics.Raycast(ray, out hit, 2500))
@@ -127,32 +113,28 @@ public class BaseMoveAttacc : NetworkBehaviour
       //   }
       // }
 
-      if (hasNavigationTarget && !isNavigationTargetMovable && !healthDamage.isDead)
+      if (hasNavigationTarget && !isNavigationTargetMovable && !health.isDead)
       {
         navAgent.destination = navigationTarget;
         run();
         navAgent.isStopped = false;
       }
 
-      // if (Input.GetKeyDown(KeyCode.A) && !healthDamage.isDead)
+      // if (Input.GetKeyDown(KeyCode.A) && !health.isDead)
       // {
       //   navAgent.isStopped = true;
       //   running = 0;
       //   Spell();
       // }
 
-      // Debug.Log(firstFireballFired);
-
       if (fireMomentListener && fireMomentListener.timeToFire && targetedEnemy && timetoFireFired == false && attacking)
       {
         fireMomentListener.timeToFire = false;
         timetoFireFired = true;
-        nextFire = Time.time + timeBetweenShots;
-
         switch (baseAttackType)
         {
           case BaseAttackType.TargetSolo:
-            Tools.InflictDamage(targetedEnemy, baseAttackDamage, moneyManager);
+            Tools.InflictDamage(targetedEnemy, baseAttackDamage, moneyManager, attacker);
             break;
           case BaseAttackType.TargetGroup:
             break;
@@ -161,10 +143,13 @@ public class BaseMoveAttacc : NetworkBehaviour
           case BaseAttackType.Projectile:
             if (FireballSpawnPoint && FireballPrefab)
             {
-              GameObject fireball = Instantiate(FireballPrefab, FireballSpawnPoint.position, transform.rotation) as GameObject;
+              GameObject fireball = Instantiate(FireballPrefab, FireballSpawnPoint.position, FireballSpawnPoint.rotation) as GameObject;
               // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
-              fireball.GetComponent<Fireball>().attacker = gameObject;
-              fireball.GetComponent<Fireball>().target = targetedEnemy;
+              Fireball fireballScript = fireball.GetComponent<Fireball>();
+              fireballScript.attacker = gameObject;
+              fireballScript.damage = baseAttackDamage;
+              fireballScript.target = targetedEnemy;
+              fireballScript.characterWallet = moneyManager;
             }
             break;
           case BaseAttackType.Hitscan:
@@ -174,11 +159,14 @@ public class BaseMoveAttacc : NetworkBehaviour
         }
       }
 
-      if (hasNavigationTarget && isNavigationTargetMovable && !healthDamage.isDead)
+      if (hasNavigationTarget && isNavigationTargetMovable && !health.isDead)
       {
         StartCoroutine("MoveAndShoot");
       }
-      else if (running != 0 && navAgent.remainingDistance <= navAgent.stoppingDistance && !double.IsInfinity(navAgent.remainingDistance))
+      else if (running != 0 && !health.isDead
+      && (navAgent.remainingDistance <= navAgent.stoppingDistance
+        || Vector3.Distance(navAgent.destination, navAgent.transform.position) <= navAgent.stoppingDistance) 
+      && !double.IsInfinity(Vector3.Distance(navAgent.destination, navAgent.transform.position)))
       {
         if (running != 0)
         {
@@ -203,7 +191,10 @@ public class BaseMoveAttacc : NetworkBehaviour
         anim.SetBool("IsRunning", true);
       }
 
-      if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+      if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack1") 
+        || this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack2") 
+        || this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack3")
+        || this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
       {
         animatingAttack = true;
       }
@@ -246,13 +237,13 @@ public class BaseMoveAttacc : NetworkBehaviour
 
   IEnumerator MoveAndShoot()
   {
-    if (healthDamage.isDead)
+    if (health.isDead)
     {
       yield return null;
     }
 
     targetedEnemy = navigationTargetMovable;
-    if (targetedEnemy && !targetedEnemy.gameObject.GetComponent<HealthSimple>().isDead)
+    if (targetedEnemy && navTargetHealth && !navTargetHealth.isDead)
     {
       navAgent.destination = targetedEnemy.position;
 
@@ -267,7 +258,7 @@ public class BaseMoveAttacc : NetworkBehaviour
         acceptableDistance = shootDistance + distanceAcceptability;
       }
 
-      if (navAgent.remainingDistance > acceptableDistance || double.IsInfinity(navAgent.remainingDistance))
+      if (Vector3.Distance(targetedEnemy.position, navAgent.transform.position) > acceptableDistance || double.IsInfinity(Vector3.Distance(targetedEnemy.position, navAgent.transform.position)))
       {
         withinShootDistance = false;
         navAgent.isStopped = false;
@@ -275,12 +266,15 @@ public class BaseMoveAttacc : NetworkBehaviour
       }
       else
       {
-        withinShootDistance = true;
-        transform.LookAt(targetedEnemy);
-        navAgent.isStopped = true;
-        running = 0;
-        Fire();
-        // StartCoroutine("Fire");
+        if (Vector3.Distance(targetedEnemy.position, navAgent.transform.position) <= acceptableDistance)
+        {
+          withinShootDistance = true;
+          LookAtTargetedEnemy();
+          navAgent.isStopped = true;
+          running = 0;
+          Fire();
+          // StartCoroutine("Fire");
+        }
       }
 
       yield return null;
@@ -291,23 +285,32 @@ public class BaseMoveAttacc : NetworkBehaviour
     }
   }
 
-  void Fire()
+  public void LookAtTargetedEnemy()
   {
-    if (healthDamage.isDead)
+    navAgent.transform.LookAt(new Vector3(targetedEnemy.position.x, navAgent.transform.position.y, targetedEnemy.position.z));
+  }
+
+  public void Fire()
+  {
+    if (health.isDead)
     {
       return;
     }
     // if (attacking == false && (Time.time > nextFire))
     if (animatingAttack == false && attacking == false && (Time.time > nextFire))
     {
+      stopMoving();
       attacking = true;
       anim.SetTrigger("Attack");
+      nextFire = Time.time + timeBetweenShots;
+      // NEED TO PUT IT EXACTLY WHEN THE ATTACK ANIM STARTED NOT AT THE TRIGGER
+      // TRIGGERS CAN STAY ON UNTIL HEARD SO THAT MAY BE NOT PRECISE
     }
   }
 
   void Spell()
   {
-    if (healthDamage.isDead)
+    if (health.isDead)
     {
       return;
     }
@@ -320,7 +323,7 @@ public class BaseMoveAttacc : NetworkBehaviour
 
   void run()
   {
-    if (healthDamage.isDead)
+    if (health.isDead)
     {
       return;
     }

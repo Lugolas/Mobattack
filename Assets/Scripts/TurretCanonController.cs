@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TurretCanonController : TurretController
 {
-  public GameObject target;
   public Transform projectileSpawnPoint;
   public GameObject projectilePrefab;
   private bool hasExtortedCharacter = false;

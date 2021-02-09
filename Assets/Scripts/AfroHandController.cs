@@ -12,6 +12,7 @@ public class AfroHandController : MonoBehaviour
   bool fireFired = false;
   AfroFistController fist;
   SpellControllerAfro spellController;
+  public bool punchAttempted = false;
 
   void Start()
   {
@@ -21,7 +22,8 @@ public class AfroHandController : MonoBehaviour
 
   void FixedUpdate()
   {
-    if (fire && !fireFired) {
+    if (fire && !fireFired)
+    {
       fireFired = true;
       sphereCollider.enabled = false;
       fist.transform.SetParent(afroParent.transform);

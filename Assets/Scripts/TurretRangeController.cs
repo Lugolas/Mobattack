@@ -46,16 +46,21 @@ public class TurretRangeController : MonoBehaviour
 
   void OnTriggerEnter(Collider collider)
   {
-    EnemyController enemy = collider.gameObject.GetComponent<EnemyController>();
+    // AskForSnapshot();
+    EnemyController enemy = collider.gameObject.GetComponentInParent<EnemyController>();
 
-    if (playerLink.activated && enemy)
+    if (enemy && !collider.isTrigger)
     {
-      foreach (TurretController turretController in turretControllers)
+      AnimatorNavAgentRootMotion enemyBody = collider.gameObject.GetComponentInParent<AnimatorNavAgentRootMotion> ();
+      if (enemyBody)
       {
-        if (!turretController.enemiesInRange.Contains(enemy.gameObject))
+        foreach (TurretController turretController in turretControllers)
         {
-          turretController.enemiesInRange.Add(enemy.gameObject);
-          turretController.targetUpdateWanted = true;
+          if (!turretController.enemiesInRange.Contains(enemyBody.gameObject))
+          {
+            turretController.enemiesInRange.Add(enemyBody.gameObject);
+            turretController.targetUpdateWanted = true;
+          }
         }
       }
     }
@@ -63,15 +68,32 @@ public class TurretRangeController : MonoBehaviour
 
   void OnTriggerExit(Collider collider)
   {
-    EnemyController enemy = collider.gameObject.GetComponent<EnemyController>();
+    // AskForSnapshot();
+    EnemyController enemy = collider.gameObject.GetComponentInParent<EnemyController>();
 
-    if (playerLink.activated && enemy)
+    if (enemy && !collider.isTrigger)
     {
-      foreach (TurretController turretController in turretControllers)
+      AnimatorNavAgentRootMotion enemyBody = collider.gameObject.GetComponentInParent<AnimatorNavAgentRootMotion> ();
+      if (enemyBody)
       {
-        turretController.enemiesInRange.Remove(enemy.gameObject);
-        turretController.targetUpdateWanted = true;
+        foreach (TurretController turretController in turretControllers)
+        {
+          if (turretController.enemiesInRange.Contains(enemyBody.gameObject))
+          {
+            turretController.enemiesInRange.Remove(enemyBody.gameObject);
+            turretController.targetUpdateWanted = true;
+          }
+        }
       }
+    }
+  }
+
+  void AskForSnapshot()
+  {
+    foreach (TurretController turretController in turretControllers)
+    {
+      turretController.targetUpdateWanted = true;
+      turretController.snapshotWanted = true;
     }
   }
 }

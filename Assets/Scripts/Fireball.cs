@@ -13,9 +13,10 @@ public class Fireball : MonoBehaviour
 
   public float rotateSpeed = 200.0f;
   public float movementSpeed = 5.0f;
-  private ParticleSystem ps;
-  private TrailRenderer trail;
-  private SphereCollider sc;
+  public ParticleSystem ps;
+  public TrailRenderer trail;
+  public SphereCollider sc;
+  public CapsuleCollider cc;
   private Rigidbody rb;
   private float startTime;
   private Vector3 startPosition;
@@ -25,7 +26,7 @@ public class Fireball : MonoBehaviour
   public float accelerationRate = -1;
   public MoneyManager characterWallet;
   bool initiatedSelfDestruction;
-  public TurretCanonController emitter;
+  public TurretController emitter;
 
   void Start()
   {
@@ -34,9 +35,14 @@ public class Fireball : MonoBehaviour
     startRotationZ = transform.rotation.z;
     journeyLength = Vector3.Distance(startPosition, target.position);
 
-    ps = GetComponent<ParticleSystem>();
-    trail = GetComponent<TrailRenderer>();
-    sc = GetComponent<SphereCollider>();
+    if (!ps)
+      ps = GetComponentInChildren<ParticleSystem>();
+    if (!trail)
+      trail = GetComponentInChildren<TrailRenderer>();
+    if (!sc)
+      sc = GetComponent<SphereCollider>();
+    if (!cc)
+      cc = GetComponent<CapsuleCollider>();
     rb = GetComponent<Rigidbody>();
 
     if (useLifeTimeLimit)
@@ -63,10 +69,10 @@ public class Fireball : MonoBehaviour
     }
     if (target && !initiatedSelfDestruction)
     {
-      HealthSimple healthDamage = target.GetComponent<HealthSimple>();
+      HealthSimple healthDamage = target.GetComponentInParent<HealthSimple>();
       if (healthDamage && healthDamage.isDead)
       {
-        if (emitter.target)
+        if (emitter && emitter.target)
           target = emitter.target.transform;
         else
           target = null;
@@ -88,7 +94,7 @@ public class Fireball : MonoBehaviour
 
     if (!target && !initiatedSelfDestruction)
     {
-      if (emitter.target)
+      if (emitter && emitter.target)
         target = emitter.target.transform;
       else
         target = null;
@@ -131,8 +137,13 @@ public class Fireball : MonoBehaviour
     if (!hasHit && !initiatedSelfDestruction)
     {
       GameObject objectHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "Character");
-      if (objectHit && objectHit != attacker)
+      GameObject playerCharacterHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "PlayerCharacter");
+      if (!playerCharacterHit && objectHit && objectHit != attacker)
       {
+        if (emitter)
+        {
+          emitter.targetUpdateWanted = true;
+        }
         if (ps)
         {
           var em = ps.emission;
@@ -143,7 +154,10 @@ public class Fireball : MonoBehaviour
           trail.emitting = false;
         }
         target = null;
-        Destroy(sc);
+        if (sc)
+          Destroy(sc);
+        if (cc)
+          Destroy(cc);
         hasHit = true;
         initiatedSelfDestruction = true;
         if (heals)
@@ -152,8 +166,10 @@ public class Fireball : MonoBehaviour
         }
         else
         {
-          Tools.InflictDamage(collider.transform, damage, characterWallet);
-          emitter.targetUpdateWanted = true;
+          Tools.InflictDamage(collider.transform, damage, characterWallet, gameObject);
+          if (emitter) {
+            emitter.targetUpdateWanted = true;
+          }
         }
         if (FireballBurst)
         {
@@ -165,22 +181,14 @@ public class Fireball : MonoBehaviour
         }
         else
         {
-          Destroy(gameObject, 5.5f);
-          for (int i = 0; i < transform.childCount; i++)
+          Destroy(gameObject, 10f);
+          MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+          foreach (MeshRenderer meshRenderer in meshRenderers)
           {
-            Destroy(transform.GetChild(i).gameObject);
+            meshRenderer.enabled = false;
           }
         }
       }
-    }
-  }
-
-  void InflictsDamage(Collider collider)
-  {
-    HealthSimple hp = collider.gameObject.GetComponent<HealthSimple>();
-    if (hp)
-    {
-      hp.TakeDamage(damage);
     }
   }
 

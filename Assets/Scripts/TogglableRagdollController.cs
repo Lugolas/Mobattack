@@ -5,6 +5,7 @@ using UnityEngine;
 public class TogglableRagdollController : MonoBehaviour
 {
   Transform[] childTransforms;
+  List<Transform> childTransformsSorted = new List<Transform>();
   Transform[] ragdollArmChildTransforms;
   public GameObject ragdollArm;
 
@@ -13,6 +14,12 @@ public class TogglableRagdollController : MonoBehaviour
   void Start()
   {
     childTransforms = GetComponentsInChildren<Transform>();
+    foreach (Transform childTransform in childTransforms)
+    {
+      if(childTransform.tag != "NoRagdoll") {
+        childTransformsSorted.Add(childTransform);
+      }
+    }
     ragdollArmChildTransforms = ragdollArm.GetComponentsInChildren<Transform>();
   }
 

@@ -37,33 +37,6 @@ public class ScorePanelController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (playerTeam == -1)
-    {
-      CharacterManager[] characterManagers = charactersManager.GetComponentsInChildren<CharacterManager>();
-      foreach (CharacterManager characterManager in characterManagers)
-      {
-        if (characterManager.isPlayerCharacter)
-        {
-          playerTeam = characterManager.team;
-        }
-      }
-    }
-
-    if (!gameController)
-    {
-      gameController = Tools.getGameController();
-    }
-
-    if (gameController && playerTeam != -1)
-      if (playerTeam == 1)
-      {
-        myTeam.text = gameController.team1Score.ToString();
-        otherTeam.text = gameController.team2Score.ToString();
-      }
-      else
-      {
-        myTeam.text = gameController.team2Score.ToString();
-        otherTeam.text = gameController.team1Score.ToString();
-      }
+    
   }
 }

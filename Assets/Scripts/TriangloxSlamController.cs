@@ -38,7 +38,7 @@ public class TriangloxSlamController : MonoBehaviour
   {
     if (!touchedObjects.Contains(target))
     {
-      Tools.InflictDamage(target.transform, damage, characterWallet);
+      Tools.InflictDamage(target.transform, damage, characterWallet, gameObject);
       touchedObjects.Add(target);
     }
   }

@@ -5,50 +5,36 @@ using UnityEngine;
 public class LilAfroController : MonoBehaviour
 {
   public GameObject target;
-  public List<GameObject> fistsInRange = new List<GameObject>();
   public Transform fistPropulsionPoint;
   public bool targetUpdateWanted = false;
   TurretPlayerLink playerLink;
   Animator animator;
   string attackTriggerName = "Attack";
   string attackModeName = "AttackSelector";
+  TurretWallController wallController;
   int attackAnimationMode = -1;
+  List<GameObject> fistsInRange = new List<GameObject>();
 
 
   private void Start()
   {
     playerLink = GetComponentInParent<TurretPlayerLink>();
     animator = GetComponent<Animator>();
+    wallController = GetComponentInParent<TurretWallController>();
   }
 
+  void OnTriggerExit(Collider collider)
+  {
+    if (collider.tag == "Fist") {
+      if (fistsInRange.Contains(collider.gameObject)) {
+        fistsInRange.Remove(collider.gameObject);
+      }
+    }
+  }
   void OnTriggerEnter(Collider collider)
   {
-    if (playerLink.activated) {
-      if (collider.tag == "Fist") {
-        target = collider.gameObject;
-      }
-      if (target)
-      {
-        target.transform.position = fistPropulsionPoint.position;
-        AfroFistController fistController = target.GetComponent<AfroFistController>();
-        fistController.outsideDamageModifier += 0.1f;
-        Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
-
-        if (targetRigidbody) {
-          float magnitude = targetRigidbody.velocity.magnitude;
-          float force;
-          if (magnitude < 10f) {
-            force = 10f;
-          } else {
-            force = magnitude * 1.05f;
-          }
-          targetRigidbody.Sleep();
-          targetRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
-        }
-
-        TriggerFireAnimation();
-      }
-      target = null;
+    if (collider.tag == "Fist") {
+      fistsInRange.Add(collider.gameObject);
     }
   }
 
@@ -61,38 +47,56 @@ public class LilAfroController : MonoBehaviour
 
   void LateUpdate()
   {
-  }
-
-  void UpdateTarget()
-  {
-    List<int> invalidEnemiesIndexes = new List<int>();
-
-    for (int i = 0; i < fistsInRange.Count; i++)
-    {
-      GameObject enemy = fistsInRange[i];
-      if (!enemy || enemy.GetComponent<HealthSimple>().isDead)
-      {
-        invalidEnemiesIndexes.Add(i);
+    if (playerLink.activated) {
+      if (fistsInRange.Count > 0) {
+        bool invalidRigidbodyDetected = false;
+        Rigidbody invalidRigidbody = new Rigidbody();
+        foreach (GameObject fistInRange in fistsInRange)
+        {
+          foreach (RegisteredFist registeredFist in wallController.registeredFists)
+          {
+            if (registeredFist.fist == fistInRange && registeredFist.punched == false) {
+              Rigidbody fistBody = fistInRange.GetComponent<Rigidbody>();
+              if (fistBody && !fistBody.isKinematic) {
+                target = fistInRange;
+                registeredFist.punched = true;
+                wallController.targetUpdateWanted = true;
+              } else {
+                invalidRigidbodyDetected = true;
+                invalidRigidbody = fistBody;
+              }
+            }
+          }
+        }
+        if (invalidRigidbodyDetected) {
+          fistsInRange.Remove(invalidRigidbody.gameObject);
+        }
       }
-    }
-
-    foreach (int index in invalidEnemiesIndexes)
-    {
-      if (index < fistsInRange.Count)
+      if (target)
       {
-        fistsInRange.RemoveAt(index);
-      }
-    }
+        Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
+        if (targetRigidbody) {
+          if (!targetRigidbody.isKinematic) {
+            target.transform.position = new Vector3(fistPropulsionPoint.position.x, target.transform.position.y, fistPropulsionPoint.position.z);
+            AfroFistDamage fistDamage = target.GetComponentInParent<AfroFistDamage>();
+            fistDamage.outsideDamageModifier += 0.1f;
 
-    if (fistsInRange.Count > 0)
-    {
-      target = fistsInRange[0];
-    }
-    else
-    {
+            float magnitude = targetRigidbody.velocity.magnitude;
+            float force;
+            if (magnitude < 250f) {
+              force = 250f;
+            } else {
+              force = magnitude * 1.05f;
+            }
+            targetRigidbody.Sleep();
+            targetRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+          }
+        }
+
+        TriggerFireAnimation();
+      }
       target = null;
     }
-    targetUpdateWanted = false;
   }
 
   void Fire()

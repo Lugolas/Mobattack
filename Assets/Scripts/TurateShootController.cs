@@ -28,49 +28,49 @@ public class TurateShootController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (gameController)
-    {
-      if (team == 1)
-      {
-        if (gameController.team2ScoredLimit)
-        {
-          collapseTrigger = true;
-        }
-      }
-      else
-      {
-        if (gameController.team1ScoredLimit)
-        {
-          collapseTrigger = true;
-        }
-      }
-    }
-    else
-    {
-      gameController = Tools.getGameController();
-    }
+  //   if (gameController)
+  //   {
+  //     if (team == 1)
+  //     {
+  //       if (gameController.team2ScoredLimit)
+  //       {
+  //         collapseTrigger = true;
+  //       }
+  //     }
+  //     else
+  //     {
+  //       if (gameController.team1ScoredLimit)
+  //       {
+  //         collapseTrigger = true;
+  //       }
+  //     }
+  //   }
+  //   else
+  //   {
+  //     gameController = Tools.getGameController();
+  //   }
 
-    if (collapseTrigger && !hasCollapsed)
-    {
-      collapse();
-    }
-  }
+  //   if (collapseTrigger && !hasCollapsed)
+  //   {
+  //     collapse();
+  //   }
+  // }
 
-  void collapse()
-  {
-    hasCollapsed = true;
-    collapseTrigger = false;
+  // void collapse()
+  // {
+  //   hasCollapsed = true;
+  //   collapseTrigger = false;
 
-    MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-    meshRenderer.enabled = false;
+  //   MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+  //   meshRenderer.enabled = false;
 
-    BoxCollider boxCollider = GetComponent<BoxCollider>();
-    boxCollider.enabled = false;
+  //   BoxCollider boxCollider = GetComponent<BoxCollider>();
+  //   boxCollider.enabled = false;
 
-    foreach (GameObject part in parts)
-    {
-      part.SetActive(true);
-    }
+  //   foreach (GameObject part in parts)
+  //   {
+  //     part.SetActive(true);
+  //   }
   }
 
   void OnTriggerEnter(Collider collider)

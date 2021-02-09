@@ -21,10 +21,12 @@ public class TurretWallController : MonoBehaviour
   float attackAnimationLength;
   public float attackAnimationSpeed = 1f;
   string attackAnimationName = "AttackSpeed";
-
+  public List<RegisteredFist> registeredFists = new List<RegisteredFist>();
+  float lastUpdate;
 
   private void Start()
   {
+    lastUpdate = Time.time;
     playerLink = GetComponentInParent<TurretPlayerLink>();
     statManager = GetComponentInParent<TurretStatManager>();
     animator = GetComponent<Animator>();
@@ -61,6 +63,10 @@ public class TurretWallController : MonoBehaviour
     }
 
     TriggerFireAnimation();
+
+    if (Time.time > lastUpdate + 1) {
+      targetUpdateWanted = true;
+    }
   }
 
   void TriggerFireAnimation()
@@ -82,7 +88,6 @@ public class TurretWallController : MonoBehaviour
     {
       fireTrigger = false;
       fireTriggerControl = false;
-      Fire();
     }
 
 
@@ -99,55 +104,88 @@ public class TurretWallController : MonoBehaviour
 
   void UpdateTarget()
   {
-    List<int> invalidEnemiesIndexes = new List<int>();
+    List<int> invalidFistsIndexes = new List<int>();
 
-    for (int i = 0; i < enemiesInRange.Count; i++)
+    for (int i = 0; i < registeredFists.Count; i++)
     {
-      GameObject enemy = enemiesInRange[i];
-      if (!enemy || enemy.GetComponent<HealthSimple>().isDead)
+      RegisteredFist fist = registeredFists[i];
+      if (fist.fist)
       {
-        invalidEnemiesIndexes.Add(i);
+        Rigidbody fistBody = fist.fist.GetComponent<Rigidbody>();
+        if (!fistBody || fistBody.isKinematic) {
+          invalidFistsIndexes.Add(i);
+        }
+      } else {
+        invalidFistsIndexes.Add(i);
+        // if (Time.time > fist.arrivalTime + 1.0f) {
+        //   fist.punched = false;
+        // }
       }
     }
 
-    foreach (int index in invalidEnemiesIndexes)
+    foreach (int index in invalidFistsIndexes)
     {
-      if (index < enemiesInRange.Count)
+      if (index < registeredFists.Count)
       {
-        enemiesInRange.RemoveAt(index);
+        registeredFists.RemoveAt(index);
       }
     }
 
-    if (enemiesInRange.Count > 0)
-    {
-      target = enemiesInRange[0];
-    }
-    else
-    {
-      target = null;
-    }
     targetUpdateWanted = false;
+    lastUpdate = Time.time;
   }
 
-  void Fire()
+  void OnTriggerEnter(Collider collider)
   {
-    // GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation) as GameObject;
-    // Fireball fireballScript = projectile.GetComponent<Fireball>();
-    // if (fireballScript)
-    // {
-    //   fireballScript.damage = statManager.damage;
-    //   fireballScript.emitter = this;
-    //   fireballScript.target = target.transform;
-    //   fireballScript.characterWallet = playerLink.characterWallet;
-    // }
-    // else
-    // {
-    //   TriangloxSlamController slamController = projectile.GetComponent<TriangloxSlamController>();
-    //   if (slamController)
-    //   {
-    //     slamController.damage = statManager.damage;
-    //     slamController.characterWallet = playerLink.characterWallet;
-    //   }
-    // }
+    if (collider.tag == "Fist") {
+      RegisteredFist fistToRegister = new RegisteredFist();
+      fistToRegister.fist = collider.gameObject;
+      fistToRegister.arrivalTime = Time.time;
+      fistToRegister.punched = false;
+
+      bool knownFist = false;
+      foreach (RegisteredFist registeredFist in registeredFists)
+      {
+        if (registeredFist.fist == collider.gameObject) {
+          knownFist = true;
+          break;
+        }
+      }
+
+      if (!knownFist) {
+        registeredFists.Add(fistToRegister);
+      }
+
+      targetUpdateWanted = true;
+    }
   }
+
+  void OnTriggerExit(Collider collider)
+  {
+    if (collider.tag == "Fist")
+    {
+      bool knownFist = false;
+      RegisteredFist exittingFist = new RegisteredFist();
+
+      foreach (RegisteredFist registeredFist in registeredFists)
+      {
+        if (registeredFist.fist == collider.gameObject) {
+          knownFist = true;
+          exittingFist = registeredFist;
+          break;
+        }
+      }
+
+      if (knownFist) {
+        registeredFists.Remove(exittingFist);
+      }
+      targetUpdateWanted = true;
+    }
+  }
+}
+
+public class RegisteredFist {
+  public GameObject fist;
+  public float arrivalTime;
+  public bool punched = false;
 }

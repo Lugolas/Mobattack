@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class TurretAfroBallController : TurretController
 {
-  public int damage = 20;
+  public int caneDamage = 20;
+  public int damageInitial = 25;
+  public int damageModifiedBase = 25;
+  public int damageFinal = 25;
+  public float baseDamageModifier = 2.5f;
   public Transform projectileSpawnPoint;
   public GameObject projectilePrefab;
   private bool hasExtortedCharacter = false;
@@ -12,21 +16,45 @@ public class TurretAfroBallController : TurretController
   TurretStatManager statManager;
   float oldDelay;
   TurretPlayerLink playerLink;
+  public bool activated = false;
   Animator animator;
   public bool fireTrigger = false;
   public bool fireTriggerControl = true;
   FireMomentListener fireMomentListener;
+  JumpMomentListener jumpMomentListener;
+  CaneMomentListener caneMomentListener;
   bool animatingAttack = false;
   float attackAnimationLength;
   public float attackAnimationSpeed = 1f;
   string attackAnimationName = "AttackSpeed";
   TogglableRagdollController[] togglableRagdollControllers;
   List<Rigidbody> membersRigidbodies = new List<Rigidbody>();
-  public bool ragdollState = false;
+  public bool launched = false;
   public GameObject spine;
   public GameObject hipL;
   public GameObject hipR;
-  public GameObject cane;
+  public Transform cane;
+  public GameObject canePrefab;
+  AfroFistDamage fistDamage;
+  HealthSimple health;
+  public RigidbodyConstraints constraints;
+  public Rigidbody rigidbodyAfro;
+  public SpellControllerAfro spellController;
+  float launchTime;
+  public float flyingDuration = 1;
+  bool jumping = false;
+  Vector3 startingPoint;
+  Vector3 jumpingPoint;
+  Vector3 startingPointRotation;
+  Vector3 jumpingPointRotation;
+  float jumpTime;
+  float jumpDuration = 1.7f;
+  float jumpSpeed = 10f;
+  float journeyLength;
+  bool jumpTrigger = false;
+  bool jumpTriggerControl = true;
+  bool animatingJump = true;
+  bool ready = true;
 
 
   private void Start()
@@ -34,14 +62,14 @@ public class TurretAfroBallController : TurretController
     playerLink = GetComponentInParent<TurretPlayerLink>();
     statManager = GetComponentInParent<TurretStatManager>();
     animator = GetComponent<Animator>();
+    health = GetComponentInChildren<HealthSimple>();
     togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController>();
+    fistDamage = GetComponentInChildren<AfroFistDamage>();
 
     Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
     foreach (Rigidbody rigidbody in rigidbodies)
     {
-      if (rigidbody.gameObject != spine) {
-        membersRigidbodies.Add(rigidbody);
-      }
+      membersRigidbodies.Add(rigidbody);
     }
 
     if (!animator) {
@@ -49,6 +77,7 @@ public class TurretAfroBallController : TurretController
     }
 
     fireMomentListener = GetComponentInChildren<FireMomentListener>();
+    jumpMomentListener = GetComponentInChildren<JumpMomentListener>();
 
     AnimationClip[] animationClips = animator.runtimeAnimatorController.animationClips;
     foreach (AnimationClip animationClip in animationClips)
@@ -65,6 +94,13 @@ public class TurretAfroBallController : TurretController
 
   void Update()
   {
+    if (playerLink.activated && activated == false) {
+      activated = true;
+      startingPoint = rigidbodyAfro.transform.position;
+      startingPointRotation = rigidbodyAfro.transform.rotation.eulerAngles;
+      rigidbodyAfro.GetComponent<Collider>().enabled = true;
+    }
+
     if (statManager.delay != oldDelay)
     {
       oldDelay = statManager.delay;
@@ -75,23 +111,20 @@ public class TurretAfroBallController : TurretController
       }
     }
 
-    if (playerLink.activated && !hasExtortedCharacter)
+    if (playerLink && playerLink.activated && !hasExtortedCharacter)
     {
       playerLink.characterWallet.SubstractMoney(statManager.price);
       hasExtortedCharacter = true;
     }
 
-    TriggerFireAnimation();
+    animator.SetBool("Jumping", jumping);
 
-    if (Input.GetKeyDown(KeyCode.P))
-    {
-      Launch();
-    }
+    TriggerFireAnimation();
   }
 
   void TriggerFireAnimation()
   {
-    if (playerLink.activated && enemiesInRange.Count > 0 && Time.time >= fireTime + statManager.delay)
+    if (playerLink && playerLink.activated && enemiesInRange.Count > 0 && Time.time >= fireTime + statManager.delay)
     {
       fireTime = Time.time;
       animator.SetTrigger("Fire");
@@ -102,7 +135,7 @@ public class TurretAfroBallController : TurretController
   {
     if (targetUpdateWanted)
     {
-      UpdateTarget();
+      UpdateTarget(statManager.range);
     }
     fireTrigger = fireMomentListener.timeToFire;
     if (fireTrigger && fireTriggerControl && enemiesInRange.Count > 0)
@@ -111,7 +144,6 @@ public class TurretAfroBallController : TurretController
       fireTriggerControl = false;
       Fire();
     }
-
 
     if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
     {
@@ -123,60 +155,130 @@ public class TurretAfroBallController : TurretController
       TriggerFireAnimation();
     }
 
-    animator.SetBool("Flying", ragdollState);
+    jumpTrigger = jumpMomentListener.timeToFire;
+    if (jumpTrigger && jumpTriggerControl && launched)
+    {
+      launched = false;
+      jumpTrigger = false;
+      jumpTriggerControl = false;
+      jumpTime = Time.time;
+    }
+
+    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+    {
+      animatingJump = true;
+    }
+    else if (animatingJump)
+    {
+      launched = false;
+      health.isDead = false;
+      animatingJump = false;
+      jumping = false;
+      jumpTriggerControl = true;
+      ready = true;
+      fistDamage.outsideDamageModifier = 0;
+    }
+
+    animator.SetBool("Flying", launched);
+
+    damageInitial = Mathf.RoundToInt(rigidbodyAfro.velocity.magnitude);
+    damageModifiedBase = Mathf.RoundToInt(damageInitial + (damageInitial * baseDamageModifier));
+    damageFinal = Mathf.RoundToInt(damageModifiedBase + (damageModifiedBase * fistDamage.outsideDamageModifier));
+
+    if (launched && Time.time > launchTime + flyingDuration) {
+      JumpBack();
+    }
+
+    if (jumping && jumpTriggerControl == false) {
+      jumpSpeed = Vector3.Distance(jumpingPoint, startingPoint) / 1.5f;
+      float distCovered = (Time.time - jumpTime) * jumpSpeed;
+      float fractionOfJourney = distCovered / journeyLength;
+      rigidbodyAfro.transform.position = Vector3.Lerp(jumpingPoint, startingPoint, fractionOfJourney);
+      rigidbodyAfro.transform.rotation = Quaternion.Euler(Vector3.Lerp(jumpingPointRotation, startingPointRotation, fractionOfJourney));
+    }
   }
 
-  void UpdateTarget()
+  public void Launch(GameObject attacker) {
+    ready = false;
+    launched = true;
+    launchTime = Time.time;
+
+    rigidbodyAfro.tag = "Fist";
+    rigidbodyAfro.gameObject.layer = LayerMask.NameToLayer("BigFist");
+
+    rigidbodyAfro.useGravity = true;
+    rigidbodyAfro.isKinematic = false;
+
+    GameObject currentCane = Instantiate(canePrefab, cane.position, cane.rotation);
+    Rigidbody currentCaneBody = currentCane.GetComponent<Rigidbody>();
+
+    rigidbodyAfro.constraints = constraints;
+    currentCaneBody.AddForce(attacker.transform.forward * 15f, ForceMode.Impulse);
+    rigidbodyAfro.AddForce(attacker.transform.forward * 250f, ForceMode.Impulse);
+    // rigidbodyAfro.AddForce(transform.forward * 10f, ForceMode.Impulse);
+  }
+
+  void JumpBack() {
+    jumping = true;
+
+    rigidbodyAfro.Sleep();
+    rigidbodyAfro.tag = "Building";
+    rigidbodyAfro.gameObject.layer = LayerMask.NameToLayer("Default");
+    rigidbodyAfro.rotation = Quaternion.Euler(0, rigidbodyAfro.rotation.eulerAngles.y, 0);
+
+    rigidbodyAfro.useGravity = false;
+    rigidbodyAfro.isKinematic = true;
+    rigidbodyAfro.constraints = RigidbodyConstraints.None;
+
+    jumpingPoint = rigidbodyAfro.transform.position;
+    jumpingPointRotation = rigidbodyAfro.transform.rotation.eulerAngles;
+    journeyLength = Vector3.Distance(jumpingPoint, startingPoint);
+  }
+
+  void Land() {
+    launched = false;
+    jumping = false;
+    health.isDead = false;
+  }
+
+  void OnCollisionEnter(Collision collisionInfo)
   {
-    List<int> invalidEnemiesIndexes = new List<int>();
-
-    for (int i = 0; i < enemiesInRange.Count; i++)
-    {
-      GameObject enemy = enemiesInRange[i];
-      if (!enemy || enemy.GetComponent<HealthSimple>().isDead)
-      {
-        invalidEnemiesIndexes.Add(i);
-      }
-    }
-
-    foreach (int index in invalidEnemiesIndexes)
-    {
-      if (index < enemiesInRange.Count)
-      {
-        enemiesInRange.RemoveAt(index);
-      }
-    }
-    targetUpdateWanted = false;
+    Collision(collisionInfo.collider);
   }
 
-  void Launch() {
-    ragdollState = true;
-
-    foreach (Rigidbody membersRigidbody in membersRigidbodies) {
-      membersRigidbody.useGravity = true;
-      membersRigidbody.isKinematic = false;
+  public void Collision(Collider collider) {
+    if (launched) {
+      GameObject enemyHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "EnemyCharacter");
+      if (enemyHit)
+      {
+        Tools.InflictDamage(collider.transform, damageFinal, playerLink.characterWallet, gameObject);
+      }
+      GameObject corpseHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "Corpse");
+      if (corpseHit)
+      {
+        corpseHit.GetComponent<Rigidbody>().AddForce(rigidbodyAfro.velocity * 5f, ForceMode.Impulse);
+      }
     }
-
-    foreach (TogglableRagdollController togglableRagdollController in togglableRagdollControllers)
-    {
-      togglableRagdollController.synchronize = ragdollState;
-    }
-
-    // .AddForce(spellController.body.transform.forward * 10f, ForceMode.Impulse);
-
-    
-    cane.transform.SetParent(transform);
-    cane.GetComponent<Rigidbody>().useGravity = true;
   }
 
   void Fire()
   {
     foreach (GameObject enemyInRange in enemiesInRange)
     {
-      Tools.InflictDamage(enemyInRange.transform, damage, playerLink.characterWallet);
+      if (enemyInRange) {
+        Tools.InflictDamage(enemyInRange.transform, caneDamage, playerLink.characterWallet, gameObject);
+      }
       targetUpdateWanted = true;
     }
-    // PAF sur toute la liste de cibles
-    // + force.Impulse si affinité
+    Collider[] enemyParts = Physics.OverlapSphere(transform.position, statManager.range, Tools.GetEnemyPartsDetectionMask());
+
+    foreach (Collider enemyPart in enemyParts)
+    {
+      GameObject corpseHit = Tools.FindObjectOrParentWithTag(enemyPart.gameObject, "Corpse");
+      if (corpseHit)
+      {
+        corpseHit.GetComponent<Rigidbody>().AddExplosionForce(caneDamage, transform.position, statManager.range, 0, ForceMode.Impulse);
+      }
+    }
   }
 }

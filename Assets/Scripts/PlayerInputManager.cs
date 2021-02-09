@@ -35,7 +35,7 @@ public class PlayerInputManager : NetworkBehaviour
   float hasTriedToSetupCharacter;
   GameObject charactersManager;
   NavMeshAgent characterNavAgent;
-  string TEMP_NAME = "Pouette";
+  string TEMP_NAME = "Girouette";
   int GROUND_LAYER = 8;
   int UI_LAYER = 5;
   int clientIdLast;
@@ -118,7 +118,7 @@ public class PlayerInputManager : NetworkBehaviour
 
       characterManager.clientId = connectionToClient.connectionId;
       characterManager.player = gameObject;
-      healthDamage.playerName = characterName;
+      healthDamage.entityName = characterName;
 
       if (isLocalPlayer)
       {
@@ -382,8 +382,8 @@ public class PlayerInputManager : NetworkBehaviour
       HealthDamage healthDamage = character.GetComponent<HealthDamage>();
       if (healthDamage && virtualCamera)
       {
-        virtualCamera.Follow = healthDamage.playerCorpse.transform;
-        verticalCamera.Follow = healthDamage.playerCorpse.transform;
+        virtualCamera.Follow = healthDamage.corpse.transform;
+        verticalCamera.Follow = healthDamage.corpse.transform;
         isCameraOnCharacter = false;
       }
     }

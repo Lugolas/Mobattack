@@ -73,16 +73,16 @@ public class RangeGetter : MonoBehaviour
         if (collidedCharacter != null && collidedCharacter.name != nameOfAttacker && !nameOfCollidersAlreadyChecked.Contains(collidedCharacter.name))
         {
           nameOfCollidersAlreadyChecked.Add(collidedCharacter.name);
-          HealthDamage hd = collidedCharacter.GetComponent<HealthDamage>();
-          if (hd)
+          HealthSimple health = collidedCharacter.GetComponent<HealthSimple>();
+          if (health)
           {
             if (collidedCharacter.name == baseMoveAttacc.targetedEnemy.name)
             {
-              hd.TakeDamage(mainDamageAmount);
+              health.TakeDamage(mainDamageAmount, gameObject);
             }
             else
             {
-              hd.TakeDamage(damageAmount);
+              health.TakeDamage(damageAmount, gameObject);
             }
           }
         }
@@ -128,10 +128,10 @@ public class RangeGetter : MonoBehaviour
 
     if (collidedCharacter != null && collidedCharacter.name != nameOfAttacker)
     {
-      HealthDamage hd = collidedCharacter.GetComponent<HealthDamage>();
-      if (hd)
+      HealthSimple health = collidedCharacter.GetComponent<HealthSimple>();
+      if (health)
       {
-        hd.TakeDamage(damageAmount);
+        health.TakeDamage(damageAmount, gameObject);
       }
     }
   }

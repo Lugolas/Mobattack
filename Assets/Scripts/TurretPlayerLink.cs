@@ -12,6 +12,7 @@ public class TurretPlayerLink : MonoBehaviour
   public GameObject visualSpace;
   public GameObject visualRange;
   public bool activated = false;
+  public bool activateSpaceControllerNavMesh = true;
 
 
   private void Start()
@@ -33,7 +34,7 @@ public class TurretPlayerLink : MonoBehaviour
 
   public void Activate()
   {
-    navMeshObstacle.enabled = true;
+    navMeshObstacle.enabled = activateSpaceControllerNavMesh;
     activated = true;
     SetVisuals(false, false);
   }
