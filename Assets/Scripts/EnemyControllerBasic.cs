@@ -41,6 +41,8 @@ public class EnemyControllerBasic : EnemyController {
   // Update is called once per frame
   void Update()
   {
+    DestroyOnWaveChange();
+
     if (anim.GetCurrentAnimatorStateInfo(0).IsName(spawnAnimationName) && !hasSpawned) {
       SpawnAnimationProcess();
     }

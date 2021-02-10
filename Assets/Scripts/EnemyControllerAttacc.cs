@@ -33,6 +33,8 @@ public class EnemyControllerAttacc : EnemyController
   // Update is called once per frame
   void Update()
   {
+    DestroyOnWaveChange();
+
     if (!hasDied && lastRange != range)
     {
       lastRange = range;

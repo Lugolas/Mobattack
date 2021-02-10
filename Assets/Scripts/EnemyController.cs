@@ -29,9 +29,14 @@ public class EnemyController : MonoBehaviour {
   protected Manager managersManager;
   protected string spawnAnimationName;
   public SpawnPointController spawnPoint;
+  protected GameController gameController;
+  protected int lastWaveNumberKnown;
 
   protected void Init()
   {
+    gameController = GameObject.Find("GameController").GetComponent<GameController>();
+    lastWaveNumberKnown = gameController.currentWaveLooped;
+
     maxHealthCharred = Mathf.RoundToInt(maxHealthCharredRatio * maxHealthNormal);
     GameObject objectiveObject = GameObject.Find("EnemyObjective");
     GameObject managersManagerObject = GameObject.Find("ManagersManager");
@@ -149,6 +154,8 @@ public class EnemyController : MonoBehaviour {
   }
 
   protected void Updating () {
+    DestroyOnWaveChange();
+
     if (anim.GetCurrentAnimatorStateInfo(0).IsName(spawnAnimationName) && !hasSpawned) {
       SpawnAnimationProcess();
     } else if (spawning) {
@@ -169,6 +176,13 @@ public class EnemyController : MonoBehaviour {
       navAgent.SetDestination (objective.position);
 
       navAgent.isStopped = false;
+    }
+  }
+
+  protected void DestroyOnWaveChange() {
+    if (gameController.currentWaveLooped != lastWaveNumberKnown) {
+      lastWaveNumberKnown = gameController.currentWaveLooped;
+      Destroy(gameObject);
     }
   }
 }

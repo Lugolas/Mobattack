@@ -14,7 +14,7 @@ public class SpawnerController : MonoBehaviour {
   public GameObject necessaryObject;
   public List<SpawnPointController> spawnPointObjects = new List<SpawnPointController> ();
   public bool allDead = true;
-  int currentWaveAmount;
+  public int currentWaveAmount;
   public int currentWaveIndex = -1;
 
   public List<Wave> waves = new List<Wave> ();
@@ -28,6 +28,7 @@ public class SpawnerController : MonoBehaviour {
   public List<EnemyController> spawnedEnemies = new List<EnemyController>();
   GameController gameController;
   bool waitUntilAllDead = true;
+  int lastWaveNumberKnown;
 
   void Start () {
     gameController = GameObject.Find("GameController").GetComponent<GameController>();
@@ -37,8 +38,9 @@ public class SpawnerController : MonoBehaviour {
 
   void Update () {
     if (!gameController.forbiddenSpawn) {
-      if (state == SpawnerState.WaitingForNextWave) {
+      if (state == SpawnerState.WaitingForNextWave && lastWaveNumberKnown != gameController.currentWaveLooped) {
         currentWaveIndex = -1;
+        lastWaveNumberKnown = gameController.currentWaveLooped;
         for (int i = 0; i < waves.Count; i++)
         {
           if (waves[i].number == gameController.currentWaveLooped) {

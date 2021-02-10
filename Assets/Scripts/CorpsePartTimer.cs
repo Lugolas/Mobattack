@@ -11,11 +11,12 @@ public class CorpsePartTimer : MonoBehaviour
   // bool sleeping = false;
   // float sleepDuration = 20f;
   // float lifeDuration = 120f;
+
   // void Start()
   // {
-  //   body = GetComponent<Rigidbody>();
-  //   colliderComponent = GetComponent<Collider>();
-  //   startTime = Time.time;
+    // body = GetComponent<Rigidbody>();
+    // colliderComponent = GetComponent<Collider>();
+    // startTime = Time.time;
   // }
 
   // void Update()
