@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour {
+  public bool canHaveHeadband = true;
   protected Animator anim;
   protected NavMeshAgent navAgent;
   protected HealthSimple health;
@@ -66,7 +67,8 @@ public class EnemyController : MonoBehaviour {
     navAgent.destination = objective.position;
     navAgent.isStopped = false;
 
-    isRunner = (Random.Range(0, 2) == 1);
+    if (canHaveHeadband)
+      isRunner = (Random.Range(0, 2) == 1);
     isCharred = (Random.Range(0, 2) == 1);
     int maxHealth;
     if (isCharred)
@@ -90,7 +92,8 @@ public class EnemyController : MonoBehaviour {
       maxHealth = maxHealthNormal;
     }
     health.maxHealth = maxHealth;
-    anim.SetBool("IsRunner", isRunner);
+    if (canHaveHeadband)
+      anim.SetBool("IsRunner", isRunner);
     anim.SetBool("IsRunning", true);
     anim.SetTrigger("Spawn");
     spawnPoint.used = true;
@@ -99,7 +102,8 @@ public class EnemyController : MonoBehaviour {
   protected void SpawnAnimationProcess()
   {
     spawning = true;
-    headband.SetActive(isRunner);
+    if (canHaveHeadband)
+      headband.SetActive(isRunner);
   }
 
   protected void PostSpawnAnimationProcess()

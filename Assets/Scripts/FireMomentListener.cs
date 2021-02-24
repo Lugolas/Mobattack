@@ -5,6 +5,7 @@ using UnityEngine;
 public class FireMomentListener : MonoBehaviour
 {
   public bool timeToFire = false;
+  public string purpose = "";
   // Start is called before the first frame update
   void Start()
   {
