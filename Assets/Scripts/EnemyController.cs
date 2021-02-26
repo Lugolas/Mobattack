@@ -151,6 +151,12 @@ public class EnemyController : MonoBehaviour {
       bodyPart.collisionDetectionMode = CollisionDetectionMode.Continuous;
       bodyPart.tag = "Corpse";
     }
+    if (isCharred) {
+      foreach (GameObject lightCharred in lightsCharred)
+      {
+        lightCharred.SetActive(false);
+      }
+    }
     foreach (Collider bodyPartDetailCollider in bodyPartDetailColliders)
     {
       bodyPartDetailCollider.isTrigger = false;

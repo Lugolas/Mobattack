@@ -273,12 +273,12 @@ GameObject:
   - component: {fileID: 79665022}
   - component: {fileID: 79665021}
   m_Layer: 0
-  m_Name: EnemySpawner (3)
+  m_Name: EnemySpawnerCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &79665021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,13 +303,17 @@ MonoBehaviour:
     amount: 3
     delay: 2
   - number: 5
-    enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
-    amount: 5
-    delay: 2
-  - number: 5
-    enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
-    amount: 5
-    delay: 2
+    enemy: {fileID: 6847255299577396793, guid: b7dc7f25918bd9f429acd7317bb94a03, type: 3}
+    amount: 1
+    delay: 0
+  - number: 6
+    enemy: {fileID: 6847255299577396793, guid: b7dc7f25918bd9f429acd7317bb94a03, type: 3}
+    amount: 1
+    delay: 0
+  - number: 7
+    enemy: {fileID: 6847255299577396793, guid: b7dc7f25918bd9f429acd7317bb94a03, type: 3}
+    amount: 3
+    delay: 5
   state: 2
   spawnedEnemies: []
 --- !u!4 &79665022
@@ -506,12 +510,12 @@ GameObject:
   - component: {fileID: 256547357}
   - component: {fileID: 256547356}
   m_Layer: 0
-  m_Name: EnemySpawner (1)
+  m_Name: EnemySpawnerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &256547356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +542,10 @@ MonoBehaviour:
     delay: 1
   - number: 6
     enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
+    amount: 5
+    delay: 0.5
+  - number: 7
+    enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
     amount: 15
     delay: 1
   state: 2
@@ -554,7 +562,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &272634969
 GameObject:
@@ -1083,12 +1091,12 @@ GameObject:
   - component: {fileID: 510356476}
   - component: {fileID: 510356475}
   m_Layer: 0
-  m_Name: EnemySpawner (2)
+  m_Name: EnemySpawnerLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &510356475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,6 +1123,10 @@ MonoBehaviour:
     delay: 1
   - number: 6
     enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
+    amount: 5
+    delay: 0.5
+  - number: 7
+    enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
     amount: 15
     delay: 1
   state: 2
@@ -1131,7 +1143,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &631838192 stripped
 MonoBehaviour:
@@ -1496,62 +1508,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1060489350
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1060489352}
-  - component: {fileID: 1060489351}
-  m_Layer: 0
-  m_Name: EnemySpawner (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1060489351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060489350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2679594830d5bed48874c346ac243a0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  necessaryObject: {fileID: 1707739938}
-  spawnPointObjects:
-  - {fileID: 1835764452}
-  allDead: 1
-  currentWaveAmount: 0
-  currentWaveIndex: -1
-  waves:
-  - number: 1
-    enemy: {fileID: 6847255299577396793, guid: b7dc7f25918bd9f429acd7317bb94a03, type: 3}
-    amount: 1
-    delay: 2
-  state: 2
-  spawnedEnemies: []
---- !u!4 &1060489352
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060489350}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.230247, y: 0, z: 37.05197}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 21
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1100410436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,7 +1630,6 @@ MonoBehaviour:
   - {fileID: 256547356}
   - {fileID: 510356475}
   - {fileID: 79665021}
-  - {fileID: 1060489351}
 --- !u!4 &1135096250
 Transform:
   m_ObjectHideFlags: 0
@@ -1687,7 +1642,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1253397340
 GameObject:
@@ -2240,12 +2195,12 @@ GameObject:
   - component: {fileID: 1571124808}
   - component: {fileID: 1571124809}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: EnemySpawnerGeneral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1571124808
 Transform:
   m_ObjectHideFlags: 0
@@ -2292,14 +2247,6 @@ MonoBehaviour:
     amount: 10
     delay: 0.5
   - number: 3
-    enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
-    amount: 10
-    delay: 1.5
-  - number: 5
-    enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
-    amount: 10
-    delay: 1.5
-  - number: 6
     enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
     amount: 10
     delay: 1.5
@@ -2517,7 +2464,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1707739940
 MonoBehaviour:
@@ -2724,7 +2671,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2092990762
 GameObject:

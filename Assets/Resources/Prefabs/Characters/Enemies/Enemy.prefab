@@ -231,6 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 3728779433657489548}
 --- !u!1 &433170995769388305
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 7606286129547037012}
 --- !u!1 &811122421217317768
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +386,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000058725902, y: 0.45320535, z: 0.00000011863397}
+  m_ConnectedAnchor: {x: 0.000000058725902, y: 0.45320535, z: -5.753251e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -492,7 +496,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000031712716, y: 0.453205, z: -1.9175632e-10}
+  m_ConnectedAnchor: {x: 0.000000031712773, y: 0.45320523, z: -1.9175642e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -602,7 +606,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000053318217, y: 1.0217577, z: -0.00000013702083}
+  m_ConnectedAnchor: {x: 0.00000008591451, y: 1.0217578, z: -0.000000068044756}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -712,6 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 3728779433657489548}
 --- !u!1 &1213436515445767615
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +794,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 5609136305178796932}
 --- !u!1 &1339811116847121704
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,7 +872,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.31302696, y: 0.0000004919338, z: 0.0007056594}
+  m_ConnectedAnchor: {x: 0.31302685, y: 0.00000076015476, z: 0.0007056594}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -974,7 +982,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000001350656, y: 0.45320487, z: 0.00000008940697}
+  m_ConnectedAnchor: {x: 0.00000013506565, y: 0.453205, z: 0}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1195,6 +1203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 6484024642201156514}
 --- !u!1 &1724737320805483952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,6 +1389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 6749410865809763654}
 --- !u!1 &2191714677164797314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,7 +1467,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000032107346, y: 1.0217576, z: -0.00000036502024}
+  m_ConnectedAnchor: {x: -0.00000044470653, y: 1.021758, z: -0.00000010384247}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1642,6 +1654,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 6749410865809763654}
 --- !u!1 &2917134880567365250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1828,6 +1842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 1511928025662678727}
 --- !u!1 &3682296639232115354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +1920,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000016207878, y: 0.4532056, z: -0.00000011959274}
+  m_ConnectedAnchor: {x: 0.00000016207872, y: 0.4532056, z: -3.8345965e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2096,6 +2112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa386f7057f1c94d9f1a314b3b29c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canHaveHeadband: 1
   maxHealthNormal: 5
   headband: {fileID: 2917134880567365250}
   bone: {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
@@ -2236,6 +2253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 7606286129547037012}
 --- !u!1 &4938880495655913506
 GameObject:
   m_ObjectHideFlags: 0
@@ -2312,7 +2331,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.31289786, y: 0.0000010279846, z: 0.009013116}
+  m_ConnectedAnchor: {x: -0.3128981, y: 0.00000078956606, z: 0.009013116}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2532,6 +2551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 5609136305178796932}
 --- !u!1 &6081269857091666227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,6 +2635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 1
+  linkedModel: {fileID: 189400819268980613}
 --- !u!1 &6306858816421736418
 GameObject:
   m_ObjectHideFlags: 0
@@ -3548,6 +3571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 6484024642201156514}
 --- !u!1 &8473527613550463112
 GameObject:
   m_ObjectHideFlags: 0
@@ -3669,6 +3694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad42196e09529f943b95d61277bd636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImportant: 0
+  linkedModel: {fileID: 1511928025662678727}
 --- !u!1 &8672034946249237922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3744,7 +3771,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000050570804, y: 1.0839467, z: -0.00000010617079}
+  m_ConnectedAnchor: {x: -0.0000005457549, y: 1.0839467, z: -0.000000021420421}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3853,7 +3880,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000012107191, y: 1.0839466, z: 0.00000026822093}
+  m_ConnectedAnchor: {x: -0.00000017695125, y: 1.0839468, z: -0.000000071711845}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3963,7 +3990,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0092848195, y: -1.0127034, z: -0.6995849}
+  m_ConnectedAnchor: {x: -0.009284581, y: -1.0127037, z: -0.6995849}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
