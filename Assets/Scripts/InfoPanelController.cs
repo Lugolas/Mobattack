@@ -34,7 +34,7 @@ public class InfoPanelController : MonoBehaviour
     damageText.text = damage.ToString();
     attackPerSecondText.text = attackPerSecond.ToString();
     rangeText.text = range.ToString();
-    priceText.text = price.ToString();
+    priceText.text = "$" + price.ToString();
     priceTitleText.text = priceTitle;
   }
 

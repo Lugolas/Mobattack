@@ -38,6 +38,7 @@ public class BaseMoveAttacc : MonoBehaviour
   public GameObject attacker = null;
   public MoneyManager moneyManager;
   HealthSimple navTargetHealth;
+  public LineRenderer line;
   // private int fireballDamage = 25;
   public enum BaseAttackType
   {
@@ -79,6 +80,12 @@ public class BaseMoveAttacc : MonoBehaviour
   {
     if (!disabled)
     {
+      if (line && !navAgent.pathPending && navAgent.path.corners.Length >= 2) {
+        line.positionCount = navAgent.path.corners.Length;
+
+        line.SetPositions(navAgent.path.corners);
+      }
+
       if (navigationTargetMovable && navigationTargetMovable.gameObject)
       {
         navTargetHealth = navigationTargetMovable.gameObject.GetComponentInParent<HealthSimple>();

@@ -12,8 +12,8 @@ public class EnemyController : MonoBehaviour {
   protected GameObject objectiveObject;
   protected Transform objective;
   protected GameObject enemyManager;
-  protected bool isCharred = false;
-  protected bool isRunner = false;
+  public bool isCharred = false;
+  public bool isRunner = false;
   public int maxHealthNormal = 5;
   protected float maxHealthCharredRatio = 4;
   protected int maxHealthCharred = 20;
@@ -32,6 +32,8 @@ public class EnemyController : MonoBehaviour {
   public SpawnPointController spawnPoint;
   protected GameController gameController;
   protected int lastWaveNumberKnown;
+  public SpriteRenderer minimapSprite;
+  public List<SpriteRenderer> minimapCharredSprites = new List<SpriteRenderer>();
 
   protected void Init()
   {
@@ -67,12 +69,13 @@ public class EnemyController : MonoBehaviour {
     navAgent.destination = objective.position;
     navAgent.isStopped = false;
 
-    if (canHaveHeadband)
-      isRunner = (Random.Range(0, 2) == 1);
-    isCharred = (Random.Range(0, 2) == 1);
     int maxHealth;
     if (isCharred)
     {
+      foreach (SpriteRenderer minimapCharredSprite in minimapCharredSprites)
+      {
+        minimapCharredSprite.enabled = true;
+      }
       SkinnedMeshRenderer[] meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
       foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
       {
@@ -145,7 +148,14 @@ public class EnemyController : MonoBehaviour {
     foreach (Rigidbody bodyPart in bodyParts)
     {
       bodyPart.transform.SetParent(transform);
-      bodyPart.GetComponent<Collider>().isTrigger = false;
+      Collider bodypartCollider = bodyPart.GetComponent<Collider>();
+      if (bodypartCollider)
+        bodypartCollider.isTrigger = false;
+      minimapSprite.enabled = false;
+      foreach (SpriteRenderer minimapCharredSprite in minimapCharredSprites)
+      {
+        minimapCharredSprite.enabled = false;
+      }
       bodyPart.isKinematic = false;
       bodyPart.useGravity = true;
       bodyPart.collisionDetectionMode = CollisionDetectionMode.Continuous;

@@ -9,6 +9,8 @@ public class SpawnerController : MonoBehaviour {
     public GameObject enemy;
     public int amount;
     public float delay;
+    public bool charred;
+    public bool runner;
   }
   float startTime;
   public GameObject necessaryObject;
@@ -56,7 +58,13 @@ public class SpawnerController : MonoBehaviour {
       if (currentWaveIndex > -1)
       {
         float oldStartTime = startTime;
-        startTime = Spawn(startTime, waves[currentWaveIndex].delay, waves[currentWaveIndex].enemy);
+        startTime = Spawn(
+          startTime, 
+          waves[currentWaveIndex].delay,
+          waves[currentWaveIndex].enemy,
+          waves[currentWaveIndex].runner,
+          waves[currentWaveIndex].charred
+        );
         if (oldStartTime != startTime)
         {
           currentWaveAmount -= 1;
@@ -111,7 +119,7 @@ public class SpawnerController : MonoBehaviour {
     return spawnPoint;
   }
 
-  float Spawn(float startTime, float delay, GameObject enemyPrefab) {
+  float Spawn(float startTime, float delay, GameObject enemyPrefab, bool isRunner, bool isCharred) {
     if (state == SpawnerState.Spawning && necessaryObject.activeSelf && Time.time > startTime + delay) {
       SpawnPointController spawnPoint = GetASpawnPoint();
       if (spawnPoint) {
@@ -124,6 +132,8 @@ public class SpawnerController : MonoBehaviour {
         GameObject enemy = Instantiate (enemyPrefab, spawnPoint.transform.position, rotation);
         EnemyController enemyController = enemy.GetComponent<EnemyController> ();
         enemyController.spawnPoint = spawnPoint;
+        enemyController.isRunner = isRunner;
+        enemyController.isCharred = isCharred;
         allDead = false;
         spawnedEnemies.Add(enemyController);
         gameController.haventSpawnedYet = false;
