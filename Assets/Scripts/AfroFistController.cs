@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -28,6 +30,7 @@ public class AfroFistController : MonoBehaviour {
   bool initiatedSelfDestruction;
   bool hasCollided = false;
   Collision lastCollision;
+  SpriteRenderer[] sprites;
 
   void Start () {
     startTime = Time.time;
@@ -37,6 +40,7 @@ public class AfroFistController : MonoBehaviour {
     meshRenderer = GetComponent<MeshRenderer> ();
     rigidbodyFist = GetComponent<Rigidbody> ();
     fistDamage = GetComponent<AfroFistDamage> ();
+    sprites = GetComponentsInChildren<SpriteRenderer>();
 
     if (useLifeTimeLimit) {
       Destroy (gameObject, lifeTimeLimit);
@@ -67,6 +71,10 @@ public class AfroFistController : MonoBehaviour {
       if (objectHit && objectHit != attacker) {
         if (trail) {
           trail.emitting = false;
+        }
+        foreach (SpriteRenderer sprite in sprites)
+        {
+          sprite.enabled = false;
         }
         sphereCollider.enabled = false;
         meshRenderer.enabled = false;

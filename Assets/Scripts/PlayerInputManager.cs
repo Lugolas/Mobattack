@@ -27,7 +27,9 @@ public class PlayerInputManager : NetworkBehaviour
   int currentZoomIndex;
   float[] zoomLevels = { 5, 10, 15, 20, 25, 30 };
   public CinemachineVirtualCamera virtualCamera;
-  public CinemachineVirtualCamera verticalCamera;
+  public CinemachineVirtualCamera verticalCamera;  
+  public CinemachineVirtualCamera verticalMinimapCameraTerrain;
+  public CinemachineVirtualCamera verticalMinimapCameraToken;
   private bool isCameraOnCharacter = false;
   public Transform waitingForRespawnPoint;
   GameObject teamPanel;
@@ -125,8 +127,12 @@ public class PlayerInputManager : NetworkBehaviour
         character.tag = "PlayerCharacter";
         virtualCamera = GameObject.Find("CameraInitiale").GetComponent<CinemachineVirtualCamera>();
         verticalCamera = GameObject.Find("CameraVerticale").GetComponent<CinemachineVirtualCamera>();
+        verticalMinimapCameraTerrain = GameObject.Find("CameraTerrainFollow").GetComponent<CinemachineVirtualCamera>();
+        verticalMinimapCameraToken = GameObject.Find("CameraTokenFollow").GetComponent<CinemachineVirtualCamera>();
         virtualCamera.Follow = characterNavAgent.transform;
         verticalCamera.Follow = characterNavAgent.transform;
+        verticalMinimapCameraTerrain.Follow = characterNavAgent.transform;
+        verticalMinimapCameraToken.Follow = characterNavAgent.transform;
         CameraZoomUpdate();
         isCameraOnCharacter = true;
       }
@@ -384,6 +390,8 @@ public class PlayerInputManager : NetworkBehaviour
       {
         virtualCamera.Follow = healthDamage.corpse.transform;
         verticalCamera.Follow = healthDamage.corpse.transform;
+        verticalMinimapCameraTerrain.Follow = healthDamage.corpse.transform;
+        verticalMinimapCameraToken.Follow = healthDamage.corpse.transform;
         isCameraOnCharacter = false;
       }
     }
@@ -395,6 +403,8 @@ public class PlayerInputManager : NetworkBehaviour
     {
       virtualCamera.Follow = characterNavAgent.transform;
       verticalCamera.Follow = characterNavAgent.transform;
+      verticalMinimapCameraTerrain.Follow = characterNavAgent.transform;
+      verticalMinimapCameraToken.Follow = characterNavAgent.transform;
       isCameraOnCharacter = true;
     }
   }
