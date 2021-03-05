@@ -13,6 +13,9 @@ public class Tools : MonoBehaviour
   [ColorUsageAttribute(true, true)]
   public Color red;
 
+  [ColorUsageAttribute(true, true)]
+  public Color disabledColor;
+
   public LayerMask enemyDetectionMask;
   public LayerMask enemyPartsDetectionMask;
 
@@ -35,6 +38,10 @@ public class Tools : MonoBehaviour
 
   public static Color GetRed() {
     return FindTools().red;
+  }
+
+  public static Color GetDisabledColor() {
+    return FindTools().disabledColor;
   }
 
   public static LayerMask GetEnemyDetectionMask() {
@@ -221,18 +228,8 @@ public class Tools : MonoBehaviour
       if (zoomLevels.currentZoomIndex > 0) 
       {
         zoomLevels.currentZoomIndex -= 1;
-        CinemachineComponentBase componentBaseTerrain = terrainCamStatic.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseTerrain is CinemachineFramingTransposer)
-        {
-          (componentBaseTerrain as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
-
         CinemachineVirtualCamera tokenCamStatic = GetMinimapCameraTokenStatic();
-        CinemachineComponentBase componentBaseToken = tokenCamStatic.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseToken is CinemachineFramingTransposer)
-        {
-          (componentBaseToken as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
+        SetVirtualCameraDistancePair(terrainCamStatic, tokenCamStatic, zoomLevels.zoomValues[zoomLevels.currentZoomIndex]);
       }
     } else {
       CinemachineVirtualCamera terrainCamFollow = GetMinimapCameraTerrainFollow();
@@ -240,18 +237,8 @@ public class Tools : MonoBehaviour
       if (zoomLevels.currentZoomIndex > 0)
       {
         zoomLevels.currentZoomIndex -= 1;
-        CinemachineComponentBase componentBaseTerrain = terrainCamFollow.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseTerrain is CinemachineFramingTransposer)
-        {
-          (componentBaseTerrain as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
-
         CinemachineVirtualCamera tokenCamFollow = GetMinimapCameraTokenFollow();
-        CinemachineComponentBase componentBaseToken = tokenCamFollow.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseToken is CinemachineFramingTransposer)
-        {
-          (componentBaseToken as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
+        SetVirtualCameraDistancePair(terrainCamFollow, tokenCamFollow, zoomLevels.zoomValues[zoomLevels.currentZoomIndex]);
       }
     }
   }
@@ -263,18 +250,8 @@ public class Tools : MonoBehaviour
       if (zoomLevels.currentZoomIndex < zoomLevels.zoomValues.Count - 1) 
       {
         zoomLevels.currentZoomIndex += 1;
-        CinemachineComponentBase componentBaseTerrain = terrainCamStatic.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseTerrain is CinemachineFramingTransposer)
-        {
-          (componentBaseTerrain as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
-
         CinemachineVirtualCamera tokenCamStatic = GetMinimapCameraTokenStatic();
-        CinemachineComponentBase componentBaseToken = tokenCamStatic.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseToken is CinemachineFramingTransposer)
-        {
-          (componentBaseToken as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
+        SetVirtualCameraDistancePair(terrainCamStatic, tokenCamStatic, zoomLevels.zoomValues[zoomLevels.currentZoomIndex]);
       }
     } else {
       CinemachineVirtualCamera terrainCamFollow = GetMinimapCameraTerrainFollow();
@@ -282,18 +259,8 @@ public class Tools : MonoBehaviour
       if (zoomLevels.currentZoomIndex < zoomLevels.zoomValues.Count - 1)
       {
         zoomLevels.currentZoomIndex += 1;
-        CinemachineComponentBase componentBaseTerrain = terrainCamFollow.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseTerrain is CinemachineFramingTransposer)
-        {
-          (componentBaseTerrain as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
-
         CinemachineVirtualCamera tokenCamFollow = GetMinimapCameraTokenFollow();
-        CinemachineComponentBase componentBaseToken = tokenCamFollow.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBaseToken is CinemachineFramingTransposer)
-        {
-          (componentBaseToken as CinemachineFramingTransposer).m_CameraDistance = zoomLevels.zoomValues[zoomLevels.currentZoomIndex];
-        }
+        SetVirtualCameraDistancePair(terrainCamFollow, tokenCamFollow, zoomLevels.zoomValues[zoomLevels.currentZoomIndex]);
       }
     }
   }
@@ -301,36 +268,29 @@ public class Tools : MonoBehaviour
   public static void ZoomRefresh() {
     CinemachineVirtualCamera terrainCamStatic = GetMinimapCameraTerrainStatic();
     ZoomLevels zoomLevelsStatic = terrainCamStatic.GetComponent<ZoomLevels>();
-    CinemachineComponentBase componentBaseTerrainStatic = terrainCamStatic.GetCinemachineComponent(CinemachineCore.Stage.Body);
-    if (componentBaseTerrainStatic is CinemachineFramingTransposer)
-    {
-      (componentBaseTerrainStatic as CinemachineFramingTransposer).m_CameraDistance = 
-        zoomLevelsStatic.zoomValues[zoomLevelsStatic.currentZoomIndex];
-    }
-
     CinemachineVirtualCamera tokenCamStatic = GetMinimapCameraTokenStatic();
-    CinemachineComponentBase componentBaseTokenStatic = tokenCamStatic.GetCinemachineComponent(CinemachineCore.Stage.Body);
-    if (componentBaseTokenStatic is CinemachineFramingTransposer)
-    {
-      (componentBaseTokenStatic as CinemachineFramingTransposer).m_CameraDistance = 
-        zoomLevelsStatic.zoomValues[zoomLevelsStatic.currentZoomIndex];
-    }
+    SetVirtualCameraDistancePair(terrainCamStatic, tokenCamStatic, zoomLevelsStatic.zoomValues[zoomLevelsStatic.currentZoomIndex]);
     
     CinemachineVirtualCamera terrainCamFollow = GetMinimapCameraTerrainFollow();
     ZoomLevels zoomLevelsFollow = terrainCamFollow.GetComponent<ZoomLevels>();
-    CinemachineComponentBase componentBaseTerrainFollow = terrainCamFollow.GetCinemachineComponent(CinemachineCore.Stage.Body);
-    if (componentBaseTerrainFollow is CinemachineFramingTransposer)
-    {
-      (componentBaseTerrainFollow as CinemachineFramingTransposer).m_CameraDistance = 
-        zoomLevelsFollow.zoomValues[zoomLevelsFollow.currentZoomIndex];
-    }
-
     CinemachineVirtualCamera tokenCamFollow = GetMinimapCameraTokenFollow();
-    CinemachineComponentBase componentBaseTokenFollow = tokenCamFollow.GetCinemachineComponent(CinemachineCore.Stage.Body);
-    if (componentBaseTokenFollow is CinemachineFramingTransposer)
+    SetVirtualCameraDistancePair(terrainCamFollow, tokenCamFollow, zoomLevelsFollow.zoomValues[zoomLevelsFollow.currentZoomIndex]);
+  }
+
+  public static void SetVirtualCameraDistance(CinemachineVirtualCamera virtualCamera, float distance) {
+    CinemachineComponentBase componentBase = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+    if (componentBase is CinemachineFramingTransposer)
     {
-      (componentBaseTokenFollow as CinemachineFramingTransposer).m_CameraDistance = 
-        zoomLevelsFollow.zoomValues[zoomLevelsFollow.currentZoomIndex];
+      (componentBase as CinemachineFramingTransposer).m_CameraDistance = distance;
     }
+  }
+
+  public static void SetVirtualCameraDistancePair(
+    CinemachineVirtualCamera virtualCamera1, 
+    CinemachineVirtualCamera virtualCamera2, 
+    float distance
+  ) {
+    SetVirtualCameraDistance(virtualCamera1, distance);
+    SetVirtualCameraDistance(virtualCamera2, distance);
   }
 }

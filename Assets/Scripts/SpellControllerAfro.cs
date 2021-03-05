@@ -42,7 +42,7 @@ public class SpellControllerAfro : SpellController
   public bool pairPunch = false;
   public AfroHandController handR;
   public AfroHandController handL;
-  public GameObject testSpherePrefab;
+  public GameObject spellsUIPrefab;
 
   bool afroBallClickDown = false;
   GameObject afroBallClicked;
@@ -54,6 +54,9 @@ public class SpellControllerAfro : SpellController
   TurretStatManager afroBallClickedStats;
   Vector3 afroBallLaunchPosition;
   bool afroBallLaunchPlanned = false;
+
+  protected int turret1Price;
+  protected int turret2Price;
 
   // Start is called before the first frame update
   void Start()
@@ -91,6 +94,20 @@ public class SpellControllerAfro : SpellController
     {
       body = animator.gameObject;
       navAgent = body.GetComponent<NavMeshAgent>();
+    }
+
+    turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager>().baseTurret.GetComponent<TurretStatManager>().price;
+    turret2Price = turret2Prefab.GetComponentInChildren<TurretUpgradeManager>().baseTurret.GetComponent<TurretStatManager>().price;
+
+    GameObject canvas = GameObject.Find("Canvas");
+    GameObject spells = canvas.transform.Find("Spells").gameObject;
+    GameObject spellsUI = Instantiate(spellsUIPrefab);
+    spellsUI.transform.SetParent(spells.transform);
+    RectTransform spellsUiTransform = spellsUI.GetComponent<RectTransform>();
+    spellsUiTransform.localPosition = Vector3.zero;
+    SpellUIController spellsUIScript = spellsUI.GetComponent<SpellUIController>();
+    if (spellsUIScript) {
+      spellsUIScript.spellController = this;
     }
   }
 
@@ -156,6 +173,22 @@ public class SpellControllerAfro : SpellController
         afroBallLaunchPlanned = false;
       }
     }
+
+    if (moneyManager.GetMoney () >= turret1Price && !spell3Active) {
+      spell1Available = true;
+    } else {
+      spell1Available = false;
+    }
+    if (moneyManager.GetMoney () >= turret2Price && !spell3Active) {
+      spell2Available = true;
+    } else {
+      spell2Available = false;
+    }
+    if (!spell1Active && !spell2Active) {
+      spell3Available = true;
+    } else {
+      spell3Available = false;
+    }
   }
 
   void LateUpdate()
@@ -175,13 +208,14 @@ public class SpellControllerAfro : SpellController
 
   override public void Spell1 () {
     AttackStanceState(false);
-    if (!previewTurret1)
+    if (!spell1Active)
     {
       if (createModeOn)
       {
         CancelCreateMode();
       }
-      if (moneyManager.GetMoney () >= turret1Prefab.GetComponentInChildren<TurretStatManager> ().price) {
+      if (spell1Available) {
+        spell1Active = true;
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
@@ -208,13 +242,14 @@ public class SpellControllerAfro : SpellController
 
   override public void Spell2 () {
     AttackStanceState (false);
-    if (!previewTurret2)
+    if (!spell2Active)
     {
       if (createModeOn)
       {
         CancelCreateMode();
       }
-      if (moneyManager.GetMoney () >= turret2Prefab.GetComponentInChildren<TurretStatManager> ().price) {
+      if (spell2Available) {
+        spell2Active = true;
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
@@ -245,13 +280,14 @@ public class SpellControllerAfro : SpellController
     if (createModeOn)
     {
       CancelCreateMode();
+    } else {
+      AttackStanceState(!isInAttackStance);
     }
-
-    AttackStanceState(!isInAttackStance);
   }
 
   void AttackStanceState (bool state) {
     isInAttackStance = state;
+    spell3Active = state;
 
     foreach (Rigidbody armsRigidbody in armsRigidbodies) {
       if (state) {
@@ -272,6 +308,8 @@ public class SpellControllerAfro : SpellController
   }
 
   void CancelCreateMode () {
+    spell1Active = false;
+    spell2Active = false;
     createModeOn = false;
     Destroy (previewTurret);
     previewTurret = null;
@@ -326,6 +364,8 @@ public class SpellControllerAfro : SpellController
         previewTurretPlaced = false;
         previewTurretNeedsOrientation = false;
         createModeOn = false;
+        spell1Active = false;
+        spell2Active = false;
         previewTurret1 = false;
         previewTurret2 = false;
 

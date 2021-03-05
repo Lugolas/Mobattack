@@ -5,6 +5,31 @@ using UnityEngine;
 public abstract class SpellController : MonoBehaviour
 {
   public GameObject body;
+  protected bool spell1Active = false;
+  protected bool spell2Active = false;
+  protected bool spell3Active = false;
+  protected bool spell1Available = false;
+  protected bool spell2Available = false;
+  protected bool spell3Available = false;
+
+  public bool GetSpell1Active() {
+    return spell1Active;
+  }
+  public bool GetSpell2Active() {
+    return spell2Active;
+  }
+  public bool GetSpell3Active() {
+    return spell3Active;
+  }
+  public bool GetSpell1Available() {
+    return spell1Available;
+  }
+  public bool GetSpell2Available() {
+    return spell2Available;
+  }
+  public bool GetSpell3Available() {
+    return spell3Available;
+  }
   // Start is called before the first frame update
   void Start()
   {

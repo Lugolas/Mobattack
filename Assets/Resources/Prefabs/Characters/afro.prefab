@@ -3294,7 +3294,7 @@ MonoBehaviour:
   pairPunch: 0
   handR: {fileID: 8526667021109987019}
   handL: {fileID: 8105815403462688411}
-  testSpherePrefab: {fileID: 7656243911128334371, guid: 81db11274e134474d867e4c5be911136,
+  spellsUIPrefab: {fileID: 969795622068021934, guid: c624a629f1211b241a75076e2dd8fed3,
     type: 3}
   arrowPrefab: {fileID: 1457426884171862803, guid: 6bdf0df594f6dd745ab618f81e758604,
     type: 3}
