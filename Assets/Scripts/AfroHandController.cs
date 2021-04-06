@@ -8,6 +8,7 @@ public class AfroHandController : MonoBehaviour
   public GameObject fistPrefab;
   public bool fire = false;
   public SphereCollider sphereCollider;
+  public GameObject armModel;
   public MoneyManager characterWallet;
   bool fireFired = false;
   AfroFistController fist;
@@ -17,7 +18,7 @@ public class AfroHandController : MonoBehaviour
   void Start()
   {
     spellController = afroParent.GetComponent<SpellControllerAfro>();
-    fist = GetComponentInChildren<AfroFistController>();
+    fist = GetComponentInChildren<AfroFistController>(true);
   }
 
   void FixedUpdate()
@@ -34,6 +35,11 @@ public class AfroHandController : MonoBehaviour
       GameObject fistObject = Instantiate(fistPrefab, transform.position, transform.rotation);
       fist = fistObject.GetComponent<AfroFistController>();
       fist.transform.SetParent(transform);
+      fist.transform.localPosition = new Vector3(
+        fist.transform.localPosition.x,
+        fist.transform.localPosition.y + 0.5f,
+        fist.transform.localPosition.z
+      );
       fist.transform.localScale = Vector3.one;
       fist.spellController = spellController;
       fist.characterWallet = characterWallet;

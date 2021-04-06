@@ -194,7 +194,9 @@ public class Tools : MonoBehaviour
     {
       if (hs.TakeDamage(damageAmount, attacker))
       {
-        moneyManager.AddMoney(hs.moneyToReward);
+        if (moneyManager) {
+          moneyManager.AddMoney(hs.moneyToReward);
+        }
         return true;
       }
     } else {

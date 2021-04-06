@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SpellControllerAfro : SpellController
-{
+public class SpellControllerAfro : SpellController {
   MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   HealthDamage healthScript;
@@ -25,9 +24,13 @@ public class SpellControllerAfro : SpellController
   public Animator animator;
   public NavMeshAgent navAgent;
   public GameObject armLeft;
+  public GameObject armLeft2;
+  public GameObject armLeft3;
   public GameObject armRight;
+  public GameObject armRight2;
+  public GameObject armRight3;
   TogglableRagdollController[] togglableRagdollControllers;
-  List<Rigidbody> armsRigidbodies = new List<Rigidbody>();
+  List<Rigidbody> armsRigidbodies = new List<Rigidbody> ();
   bool attackTriggered = false;
   public float spell3AttackSpeedMultiplier = 1f;
   bool previewTurretNeedsOrientation = false;
@@ -40,8 +43,12 @@ public class SpellControllerAfro : SpellController
   float runBaseDistancePerSecond = 9f;
 
   public bool pairPunch = false;
-  public AfroHandController handR;
   public AfroHandController handL;
+  public AfroHandController handL2;
+  public AfroHandController handL3;
+  public AfroHandController handR;
+  public AfroHandController handR2;
+  public AfroHandController handR3;
   public GameObject spellsUIPrefab;
 
   bool afroBallClickDown = false;
@@ -55,124 +62,182 @@ public class SpellControllerAfro : SpellController
   Vector3 afroBallLaunchPosition;
   bool afroBallLaunchPlanned = false;
 
+  public bool armLeft2Active = false;
+  bool armLeft2ActiveCheck = true;
+  public bool armLeft3Active = false;
+  bool armLeft3ActiveCheck = true;
+  public bool armRight2Active = false;
+  bool armRight2ActiveCheck = true;
+  public bool armRight3Active = false;
+  bool armRight3ActiveCheck = true;
+  bool spawning = false;
+  bool spawned = false;
+  bool hasDied = false;
+  public float respawnDelay = 5;
+  float timeOfDeath;
+  public FireMomentListener armRagdollListener;
+  bool armRagdollState;
+  Vector3 spawnPoint;
+
+
   protected int turret1Price;
   protected int turret2Price;
 
   // Start is called before the first frame update
-  void Start()
-  {
-    togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController>();
-    moneyManager = GetComponent<MoneyManager>();
-    moveScript = GetComponent<BaseMoveAttacc>();
+  void Start () {
+    spawnPoint = GameObject.Find("Spawn").transform.position;
+    togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController> ();
+    moneyManager = GetComponent<MoneyManager> ();
+    moveScript = GetComponent<BaseMoveAttacc> ();
 
     if (moveScript) {
       moveScript.walkBaseDistancePerSecond = walkBaseDistancePerSecond;
       moveScript.runBaseDistancePerSecond = runBaseDistancePerSecond;
     }
 
-    healthScript = GetComponent<HealthDamage>();
+    healthScript = GetComponent<HealthDamage> ();
 
-    enemiesManager = GameObject.Find("EnemiesManager");
+    enemiesManager = GameObject.Find ("EnemiesManager");
 
     if (armLeft) {
-      Rigidbody[] armLeftRigidBodies = armLeft.GetComponentsInChildren<Rigidbody>();
-      foreach (Rigidbody armLeftRigidBody in armLeftRigidBodies)
-      {
-        armsRigidbodies.Add(armLeftRigidBody);
+      Rigidbody[] armLeftRigidBodies = armLeft.GetComponentsInChildren<Rigidbody> ();
+      foreach (Rigidbody armLeftRigidBody in armLeftRigidBodies) {
+        armsRigidbodies.Add (armLeftRigidBody);
+      }
+    }
+
+    if (armLeft2) {
+      Rigidbody[] armLeft2RigidBodies = armLeft2.GetComponentsInChildren<Rigidbody> ();
+      foreach (Rigidbody armLeft2RigidBody in armLeft2RigidBodies) {
+        armsRigidbodies.Add (armLeft2RigidBody);
+      }
+    }
+
+    if (armLeft3) {
+      Rigidbody[] armLeft3RigidBodies = armLeft3.GetComponentsInChildren<Rigidbody> ();
+      foreach (Rigidbody armLeft3RigidBody in armLeft3RigidBodies) {
+        armsRigidbodies.Add (armLeft3RigidBody);
       }
     }
 
     if (armRight) {
-      Rigidbody[] armRightRigidBodies = armRight.GetComponentsInChildren<Rigidbody>();
-      foreach (Rigidbody armRightRigidBody in armRightRigidBodies)
-      {
-        armsRigidbodies.Add(armRightRigidBody);
+      Rigidbody[] armRightRigidBodies = armRight.GetComponentsInChildren<Rigidbody> ();
+      foreach (Rigidbody armRightRigidBody in armRightRigidBodies) {
+        armsRigidbodies.Add (armRightRigidBody);
       }
     }
 
-    if (animator)
-    {
-      body = animator.gameObject;
-      navAgent = body.GetComponent<NavMeshAgent>();
+    if (armRight2) {
+      Rigidbody[] armRight2RigidBodies = armRight2.GetComponentsInChildren<Rigidbody> ();
+      foreach (Rigidbody armRight2RigidBody in armRight2RigidBodies) {
+        armsRigidbodies.Add (armRight2RigidBody);
+      }
     }
 
-    turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager>().baseTurret.GetComponent<TurretStatManager>().price;
-    turret2Price = turret2Prefab.GetComponentInChildren<TurretUpgradeManager>().baseTurret.GetComponent<TurretStatManager>().price;
+    if (armRight3) {
+      Rigidbody[] armRight3RigidBodies = armRight3.GetComponentsInChildren<Rigidbody> ();
+      foreach (Rigidbody armRight3RigidBody in armRight3RigidBodies) {
+        armsRigidbodies.Add (armRight3RigidBody);
+      }
+    }
 
-    GameObject canvas = GameObject.Find("Canvas");
-    GameObject spells = canvas.transform.Find("Spells").gameObject;
-    GameObject spellsUI = Instantiate(spellsUIPrefab);
-    spellsUI.transform.SetParent(spells.transform);
-    RectTransform spellsUiTransform = spellsUI.GetComponent<RectTransform>();
+    if (animator) {
+      body = animator.gameObject;
+      animator.SetTrigger("Spawn");
+      navAgent = body.GetComponent<NavMeshAgent> ();
+    }
+
+    turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
+    turret2Price = turret2Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
+
+    GameObject canvas = GameObject.Find ("Canvas");
+    GameObject spells = canvas.transform.Find ("Spells").gameObject;
+    GameObject spellsUI = Instantiate (spellsUIPrefab);
+    spellsUI.transform.SetParent (spells.transform);
+    RectTransform spellsUiTransform = spellsUI.GetComponent<RectTransform> ();
     spellsUiTransform.localPosition = Vector3.zero;
-    SpellUIController spellsUIScript = spellsUI.GetComponent<SpellUIController>();
+    SpellUIController spellsUIScript = spellsUI.GetComponent<SpellUIController> ();
     if (spellsUIScript) {
       spellsUIScript.spellController = this;
     }
+
+    armRagdollState = !armRagdollListener.timeToFire;
   }
 
   // Update is called once per frame
-  void Update()
-  {
-    if (createModeOn && previewTurret)
-    {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskGround);
-      if (hits.Length > 0)
-      {
-        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-        foreach (RaycastHit hit in hits)
-        {
-          if (!previewTurretPlaced) {
-            previewTurret.transform.position = hit.point;
-          } else
-          {
-            previewTurret.transform.LookAt(new Vector3(hit.point.x, previewTurret.transform.position.y, hit.point.z));
+  void Update () {
+    if (healthScript.isDead) {
+      if (!hasDied) {
+        // DIE
+        animator.SetTrigger("Die");
+        AttackStanceState (false);
+        CancelCreateMode();
+        hasDied = true;
+        timeOfDeath = Time.time;
+        spawned = false;
+      } else {
+        // SPAWN
+        if (Time.time > timeOfDeath + respawnDelay) {
+          healthScript.isDead = false;
+          hasDied = false;
+          spawned = false;
+          navAgent.Warp(spawnPoint);
+          animator.SetTrigger("Spawn");
+        }
+      }
+    } else {
+      if (createModeOn && previewTurret) {
+        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
+        if (hits.Length > 0) {
+          System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
+          foreach (RaycastHit hit in hits) {
+            if (!previewTurretPlaced) {
+              previewTurret.transform.position = hit.point;
+            } else {
+              previewTurret.transform.LookAt (new Vector3 (hit.point.x, previewTurret.transform.position.y, hit.point.z));
+            }
+            break;
           }
-          break;
+        }
+      }
+
+      if (isInAttackStance && moveScript.hasNavigationTarget) {
+        moveScript.stopMoving ();
+      }
+
+      if (isInAttackStance) {
+        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast (ray, out hit, 2500, layerMaskMove);
+        body.transform.LookAt (new Vector3 (hit.point.x, body.transform.position.y, hit.point.z));
+        animator.SetBool ("Attacking", attacking);
+        animator.SetFloat ("Spell3Speed", spell3AttackSpeedMultiplier);
+      }
+
+      if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Shoot")) {
+        attackTriggered = false;
+      }
+
+      if (afroBallClickDown && currentArrowPoint) {
+        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast (ray, out hit, 2500, layerMaskMove);
+        currentArrow.transform.LookAt (new Vector3 (hit.point.x, currentArrow.transform.position.y, hit.point.z));
+        currentArrowPoint.transform.position = new Vector3 (hit.point.x, currentArrowPoint.transform.position.y, hit.point.z);
+      }
+
+      if (afroBallLaunchPlanned) {
+        if (Vector3.Distance (body.transform.position, afroBallLaunchPosition) <= navAgent.stoppingDistance) {
+          moveScript.targetedEnemy = lastAfroBallClicked.transform;
+          // moveScript.attacking = true;
+          body.transform.LookAt (lastArrowPoint);
+          moveScript.Fire ();
+          afroBallLaunchPlanned = false;
         }
       }
     }
 
-    if (isInAttackStance && moveScript.hasNavigationTarget)
-    {
-      moveScript.stopMoving();
-    }
-
-    if (isInAttackStance)
-    {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit hit;
-      Physics.Raycast(ray, out hit, 2500, layerMaskMove);
-      body.transform.LookAt(new Vector3(hit.point.x, body.transform.position.y, hit.point.z));
-      animator.SetBool("Attacking", attacking);
-      animator.SetFloat("Spell3Speed", spell3AttackSpeedMultiplier);
-    }
-
-    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot")) {
-      attackTriggered = false;
-    }
-
-    if (afroBallClickDown && currentArrowPoint)
-    {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit hit;
-      Physics.Raycast(ray, out hit, 2500, layerMaskMove);
-      currentArrow.transform.LookAt(new Vector3(hit.point.x, currentArrow.transform.position.y, hit.point.z));
-      currentArrowPoint.transform.position = new Vector3(hit.point.x, currentArrowPoint.transform.position.y, hit.point.z);
-    }
-
-    if (afroBallLaunchPlanned)
-    {
-      if (Vector3.Distance(body.transform.position, afroBallLaunchPosition) <= navAgent.stoppingDistance)
-      {
-        moveScript.targetedEnemy = lastAfroBallClicked.transform;
-        // moveScript.attacking = true;
-        body.transform.LookAt(lastArrowPoint);
-        moveScript.Fire();
-        afroBallLaunchPlanned = false;
-      }
-    }
 
     if (moneyManager.GetMoney () >= turret1Price && !spell3Active) {
       spell1Available = true;
@@ -189,122 +254,162 @@ public class SpellControllerAfro : SpellController
     } else {
       spell3Available = false;
     }
+
+    if (armLeft2Active != armLeft2ActiveCheck) {
+      armLeft2ActiveCheck = armLeft2Active;
+      ArmSetActive(armLeft2Active, handL2);
+    }
+    if (armLeft3Active != armLeft3ActiveCheck) {
+      armLeft3ActiveCheck = armLeft3Active;
+      ArmSetActive(armLeft3Active, handL3);
+    }
+    if (armRight2Active != armRight2ActiveCheck) {
+      armRight2ActiveCheck = armRight2Active;
+      ArmSetActive(armRight2Active, handR2);
+    }
+    if (armRight3Active != armRight3ActiveCheck) {
+      armRight3ActiveCheck = armRight3Active;
+      ArmSetActive(armRight3Active, handR3);
+    }
   }
 
-  void LateUpdate()
-  {
-    if (handR.punchAttempted && !pairPunch)
-    {
+  void LateUpdate () {
+    if (handR.punchAttempted && !pairPunch) {
       pairPunch = true;
-      animator.SetBool("PairPunch", pairPunch);
+      animator.SetBool ("PairPunch", pairPunch);
     } else
-    if (handL.punchAttempted && pairPunch)
-    {
+    if (handL.punchAttempted && pairPunch) {
       pairPunch = false;
-      animator.SetBool("PairPunch", pairPunch);
+      animator.SetBool ("PairPunch", pairPunch);
     }
 
+    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Spawn")) {
+      spawning = true;
+    }
+    if (spawning) {
+      spawning = false;
+      spawned = true;
+      hasDied = false;
+    }
+
+    if (armRagdollListener.timeToFire && !armRagdollState)
+    {
+      ArmRagdollState(true);
+    }
+    if (!armRagdollListener.timeToFire && armRagdollState) {
+      ArmRagdollState(false);
+    }
   }
 
   override public void Spell1 () {
-    AttackStanceState(false);
-    if (!spell1Active)
+    if (!hasDied && spawned) 
     {
-      if (createModeOn)
-      {
-        CancelCreateMode();
-      }
-      if (spell1Available) {
-        spell1Active = true;
-        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-        RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
+      AttackStanceState (false);
+      if (!spell1Active) {
+        if (createModeOn) {
+          CancelCreateMode ();
+        }
+        if (spell1Available) {
+          spell1Active = true;
+          Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+          RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
-        if (hits.Length > 0) {
-          System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
-          foreach (RaycastHit hit in hits) {
-            turretCreationPoint = hit.point;
-            previewTurret = Instantiate (turret1Prefab, turretCreationPoint, new Quaternion ());
-            previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
-            previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
-            createModeOn = true;
-            previewTurretNeedsOrientation = true;
-            previewTurret1 = true;
-            break;
+          if (hits.Length > 0) {
+            System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
+            foreach (RaycastHit hit in hits) {
+              turretCreationPoint = hit.point;
+              previewTurret = Instantiate (turret1Prefab, turretCreationPoint, new Quaternion ());
+              previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
+              previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
+              createModeOn = true;
+              previewTurretNeedsOrientation = true;
+              previewTurret1 = true;
+              break;
+            }
           }
         }
+      } else {
+        CancelCreateMode ();
       }
-    }
-    else
-    {
-      CancelCreateMode();
     }
   }
 
   override public void Spell2 () {
-    AttackStanceState (false);
-    if (!spell2Active)
+    if (!hasDied && spawned)
     {
-      if (createModeOn)
-      {
-        CancelCreateMode();
-      }
-      if (spell2Available) {
-        spell2Active = true;
-        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-        RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
+      AttackStanceState (false);
+      if (!spell2Active) {
+        if (createModeOn) {
+          CancelCreateMode ();
+        }
+        if (spell2Available) {
+          spell2Active = true;
+          Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+          RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
-        if (hits.Length > 0) {
-          System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
-          foreach (RaycastHit hit in hits) {
-            turretCreationPoint = hit.point;
-            previewTurret = Instantiate (turret2Prefab, turretCreationPoint, new Quaternion ());
-            previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
-            previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
-            createModeOn = true;
-            previewTurretNeedsOrientation = true;
-            previewTurret2 = true;
-            break;
+          if (hits.Length > 0) {
+            System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
+            foreach (RaycastHit hit in hits) {
+              turretCreationPoint = hit.point;
+              previewTurret = Instantiate (turret2Prefab, turretCreationPoint, new Quaternion ());
+              previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
+              previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
+              createModeOn = true;
+              previewTurretNeedsOrientation = true;
+              previewTurret2 = true;
+              break;
+            }
           }
         }
+      } else {
+        CancelCreateMode ();
       }
-    }
-    else
-    {
-      CancelCreateMode();
     }
   }
 
-  public override void Spell3()
-  {
-    afroBallLaunchPlanned = false;
-    if (createModeOn)
+  public override void Spell3 () {
+    if (!hasDied && spawned) 
     {
-      CancelCreateMode();
-    } else {
-      AttackStanceState(!isInAttackStance);
+      afroBallLaunchPlanned = false;
+      if (createModeOn) {
+        CancelCreateMode();
+      } else {
+        AttackStanceState(!isInAttackStance);
+      }
     }
   }
 
   void AttackStanceState (bool state) {
-    isInAttackStance = state;
-    spell3Active = state;
+    if (spawned)
+    {
+      isInAttackStance = state;
+      spell3Active = state;
 
+      // ArmRagdollState(!state);
+
+      animator.SetBool("AttackStance", state);
+    }
+  }
+
+  void ArmRagdollState (bool state) {
     foreach (Rigidbody armsRigidbody in armsRigidbodies) {
       if (state) {
-        armsRigidbody.useGravity = false;
-        armsRigidbody.isKinematic = true;
-      } else {
+        // RAGDOLLED
         armsRigidbody.useGravity = true;
         armsRigidbody.isKinematic = false;
+      } else {
+        // ANIMATED
+        armsRigidbody.useGravity = false;
+        armsRigidbody.isKinematic = true;
       }
     }
 
-    foreach (TogglableRagdollController togglableRagdollController in togglableRagdollControllers)
-    {
-      togglableRagdollController.synchronize = !state;
+    foreach (TogglableRagdollController togglableRagdollController in togglableRagdollControllers) {
+      togglableRagdollController.ragdoll = state;
     }
 
-    animator.SetBool ("AttackStance", state);
+    armRagdollState = state;
+    Debug.Log("Ragdolls are now " + state);
   }
 
   void CancelCreateMode () {
@@ -328,7 +433,7 @@ public class SpellControllerAfro : SpellController
 
   public override bool Fire1 (bool down) {
     bool returnValue = false;
-    if (down) {
+    if (down && spawned) {
       if (previewTurret) {
         returnValue = true;
       }
@@ -336,12 +441,9 @@ public class SpellControllerAfro : SpellController
         previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
         createModeOn) {
 
-        if (previewTurretNeedsOrientation)
-        {
+        if (previewTurretNeedsOrientation) {
           previewTurretPlaced = true;
-        }
-        else
-        {
+        } else {
           createModeOn = false;
 
           previewTurretPlayerLink.Activate ();
@@ -358,9 +460,14 @@ public class SpellControllerAfro : SpellController
         returnValue = true;
       }
     } else {
-      if (previewTurretNeedsOrientation && previewTurretPlayerLink && previewTurretPlayerLink.HasEnoughSpace () &&
-        previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
-        createModeOn) {
+      if (
+        spawned &&
+        previewTurretNeedsOrientation && 
+        previewTurretPlayerLink && 
+        previewTurretPlayerLink.HasEnoughSpace() &&
+        previewTurretPlayerLink.characterWallet.GetMoney() >= previewTurret.GetComponentInChildren<TurretStatManager>().price &&
+        createModeOn
+      ) {
         previewTurretPlaced = false;
         previewTurretNeedsOrientation = false;
         createModeOn = false;
@@ -371,7 +478,7 @@ public class SpellControllerAfro : SpellController
 
         previewTurretPlayerLink.Activate ();
 
-        TurretAfroBallController afroBallController = previewTurret.GetComponentInChildren<TurretAfroBallController>();
+        TurretAfroBallController afroBallController = previewTurret.GetComponentInChildren<TurretAfroBallController> ();
         if (afroBallController) {
           afroBallController.spellController = this;
         }
@@ -391,7 +498,6 @@ public class SpellControllerAfro : SpellController
     if (createModeOn) {
       CancelCreateMode ();
     }
-
     AttackStanceState (false);
 
     if (down) {
@@ -411,35 +517,29 @@ public class SpellControllerAfro : SpellController
               }
               break;
             } else {
-              TurretAfroBallController afroBallHit = hit.collider.gameObject.GetComponentInParent<TurretAfroBallController>();
-              if (afroBallHit)
-              {
-                if (!moveClickDown && !afroBallClickDown)
-                {
-                  TurretAfroBallController afroBallController = afroBallHit.GetComponentInChildren<TurretAfroBallController>();
-                  if (afroBallController.activated && !afroBallController.launched)
-                  {
+              TurretAfroBallController afroBallHit = hit.collider.gameObject.GetComponentInParent<TurretAfroBallController> ();
+              if (afroBallHit && spawned) {
+                if (!moveClickDown && !afroBallClickDown) {
+                  TurretAfroBallController afroBallController = afroBallHit.GetComponentInChildren<TurretAfroBallController> ();
+                  if (afroBallController.activated && !afroBallController.launched) {
                     afroBallClicked = afroBallController.gameObject;
-                    afroBallClickedStats = afroBallClicked.GetComponentInParent<TurretStatManager>();
-                    currentArrow = Instantiate(arrowPrefab, new Vector3(
+                    afroBallClickedStats = afroBallClicked.GetComponentInParent<TurretStatManager> ();
+                    currentArrow = Instantiate (arrowPrefab, new Vector3 (
                       afroBallClicked.transform.position.x,
                       afroBallClicked.transform.position.y + 0.1f,
                       afroBallClicked.transform.position.z
                     ), body.transform.rotation);
-                    currentArrowPoint = currentArrow.GetComponentInChildren<ArrowStretchController>();
+                    currentArrowPoint = currentArrow.GetComponentInChildren<ArrowStretchController> ();
                     afroBallClickDown = true;
                     break;
                   }
                 }
-              }
-              else
-              {
-                if (!afroBallClickDown)
-                {
+              } else {
+                if (!afroBallClickDown) {
                   moveClickDown = true;
                   moveClickPosition = new Vector3 (hit.point.x, hit.point.y + 0.1f, hit.point.z);
                   afroBallLaunchPlanned = false;
-                  MoveTo(hit.point);
+                  MoveTo (hit.point);
                   break;
                 }
               }
@@ -447,30 +547,27 @@ public class SpellControllerAfro : SpellController
           }
         }
       }
-    }
-    else
-    {
-      if (afroBallClickDown)
-      {
+    } else {
+      if (afroBallClickDown) {
         afroBallClickDown = false;
         float ballX = afroBallClicked.transform.position.x;
         float ballZ = afroBallClicked.transform.position.z;
         float spaceToPointRatio = (
           (afroBallClickedStats.space + navAgent.stoppingDistance) /
-          Vector3.Distance(currentArrowPoint.transform.position, afroBallClicked.transform.position)
+          Vector3.Distance (currentArrowPoint.transform.position, afroBallClicked.transform.position)
         );
         float targetX = currentArrowPoint.transform.position.x;
         float targetZ = currentArrowPoint.transform.position.z;
-        Vector3 movePosition = new Vector3(
+        Vector3 movePosition = new Vector3 (
           ballX + (ballX - targetX) * spaceToPointRatio,
           body.transform.position.y,
           ballZ + (ballZ - targetZ) * spaceToPointRatio
         );
         Instantiate (targetPointerPrefab, movePosition, new Quaternion ());
-        MoveTo(movePosition);
-        lastArrowPoint = new Vector3(currentArrowPoint.transform.position.x, body.transform.position.y, currentArrowPoint.transform.position.z);
+        MoveTo (movePosition);
+        lastArrowPoint = new Vector3 (currentArrowPoint.transform.position.x, body.transform.position.y, currentArrowPoint.transform.position.z);
         lastAfroBallClicked = afroBallClicked;
-        Destroy(currentArrow);
+        Destroy (currentArrow);
         afroBallClicked = null;
         currentArrow = null;
         currentArrowPoint = null;
@@ -485,7 +582,7 @@ public class SpellControllerAfro : SpellController
   }
 
   void Attack () {
-    if (moveScript && healthScript) {
+    if (moveScript && healthScript && spawned) {
       if (!healthScript.isDead) {
         moveScript.hasNavigationTarget = true;
         moveScript.navigationTargetMovable = attackTarget.transform;
@@ -495,7 +592,7 @@ public class SpellControllerAfro : SpellController
   }
 
   void MoveTo (Vector3 point) {
-    if (moveScript && healthScript) {
+    if (moveScript && healthScript && spawned) {
       if (!healthScript.isDead) {
         moveScript.hasNavigationTarget = true;
         moveScript.navigationTarget = point;
@@ -504,7 +601,39 @@ public class SpellControllerAfro : SpellController
     }
   }
 
-  public void speedUpSpell3() {
+  void ArmSetActive(bool state, AfroHandController hand) {
+    GameObject armObject = null;
+    GameObject tempObject = hand.gameObject;
+    bool objectHeadFound = false;
+    while (!objectHeadFound) 
+    {
+      if (tempObject.GetComponent<TogglableRagdollController>()) {
+        armObject = tempObject;
+        objectHeadFound = true;
+      } else {
+        tempObject = tempObject.transform.parent.gameObject;
+      }
+    }
+    GameObject armRagdoll = armObject.GetComponent<TogglableRagdollController>().ragdollArm;
+    if (!isInAttackStance) {
+      CapsuleCollider[] capsules = armRagdoll.GetComponentsInChildren<CapsuleCollider>();
+      foreach (CapsuleCollider capsule in capsules)
+      {
+        capsule.isTrigger = !state;
+      }
+      SphereCollider[] spheres = armRagdoll.GetComponentsInChildren<SphereCollider>();
+      foreach (SphereCollider sphere in spheres)
+      {
+        sphere.isTrigger = !state;
+      }
+    }
+    GameObject armModel = hand.armModel;
+    armModel.SetActive(state);
+    hand.GetComponentInChildren<AfroFistController>(true).gameObject.SetActive(state);
+    hand.enabled = state;
+  }
+
+  public void speedUpSpell3 () {
     spell3AttackSpeedMultiplier *= 1.05f;
   }
 }

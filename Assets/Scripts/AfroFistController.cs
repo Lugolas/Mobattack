@@ -31,6 +31,7 @@ public class AfroFistController : MonoBehaviour {
   bool hasCollided = false;
   Collision lastCollision;
   SpriteRenderer[] sprites;
+  bool fired = false;
 
   void Start () {
     startTime = Time.time;
@@ -56,6 +57,10 @@ public class AfroFistController : MonoBehaviour {
 
     outsideDamageModifier = fistDamage.outsideDamageModifier;
     // rigidbody.velocity = transform.forward * movementSpeed;
+
+    if (fired && Vector3.Distance(transform.position, Vector3.zero) > 100) {
+      Destroy(gameObject);
+    }
   }
 
   void FixedUpdate () {
@@ -104,8 +109,9 @@ public class AfroFistController : MonoBehaviour {
     rigidbodyFist.isKinematic = false;
     rigidbodyFist.constraints = constraints;
     transform.localScale = Vector3.one;
+    fired = true;
 
-    rigidbodyFist.AddForce (spellController.body.transform.forward * 250f, ForceMode.Impulse);
+    rigidbodyFist.AddForce (spellController.body.transform.forward * 250f * 2, ForceMode.Impulse);
   }
 
   void OnCollisionEnter (Collision collision) {

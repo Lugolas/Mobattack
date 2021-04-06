@@ -31,7 +31,7 @@ public class PlayerInputManager : NetworkBehaviour
   public CinemachineVirtualCamera verticalMinimapCameraTerrain;
   public CinemachineVirtualCamera verticalMinimapCameraToken;
   private bool isCameraOnCharacter = false;
-  public Transform waitingForRespawnPoint;
+  public Transform spawnPoint;
   GameObject teamPanel;
   SelectionButtonsController teamButtons;
   float hasTriedToSetupCharacter;
@@ -77,12 +77,12 @@ public class PlayerInputManager : NetworkBehaviour
       teamPanel = GameObject.Find("TeamPanel");
       hasTriedToSetupCharacter = Time.time;
 
-      if (!waitingForRespawnPoint)
+      if (!spawnPoint)
       {
-        GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
-        if (spawnPoint)
+        GameObject spawnObject = GameObject.Find("Spawn");
+        if (spawnObject)
         {
-          waitingForRespawnPoint = spawnPoint.transform;
+          spawnPoint = spawnObject.transform;
         }
       }
 
@@ -108,7 +108,7 @@ public class PlayerInputManager : NetworkBehaviour
 
     if (characterPrefab)
     {
-      GameObject spawnPoint = GameObject.Find("waitingForRespawnPoint");
+      GameObject spawnPoint = GameObject.Find("Spawn");
       character = Instantiate(characterPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
       characterNavAgent = character.GetComponent<NavMeshAgent>();
       if (!characterNavAgent) {

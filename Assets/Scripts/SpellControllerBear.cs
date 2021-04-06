@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellControllerBear : SpellController
-{
+public class SpellControllerBear : SpellController {
   public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   HealthDamage healthScript;
@@ -12,6 +11,7 @@ public class SpellControllerBear : SpellController
   public LayerMask layerMaskMove;
   public GameObject turret1Prefab;
   public GameObject turret2Prefab;
+  public GameObject spellsUIPrefab;
   Vector3 turretCreationPoint;
   GameObject previewTurret;
   TurretPlayerLink previewTurretPlayerLink;
@@ -38,75 +38,97 @@ public class SpellControllerBear : SpellController
   bool previewTurret1 = false;
   bool previewTurret2 = false;
 
+  protected int turret1Price;
+  protected int turret2Price;
+
   // Start is called before the first frame update
-  void Start()
-  {
+  void Start () {
     attackSelectionTime = Time.time;
-    togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController>();
-    moneyManager = GetComponent<MoneyManager>();
-    moveScript = GetComponent<BaseMoveAttacc>();
+    togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController> ();
+    moneyManager = GetComponent<MoneyManager> ();
+    moveScript = GetComponent<BaseMoveAttacc> ();
 
     if (moveScript) {
       moveScript.walkBaseDistancePerSecond = walkBaseDistancePerSecond;
       moveScript.runBaseDistancePerSecond = runBaseDistancePerSecond;
     }
 
-    healthScript = GetComponent<HealthDamage>();
+    healthScript = GetComponent<HealthDamage> ();
 
-    enemiesManager = GameObject.Find("EnemiesManager");
+    enemiesManager = GameObject.Find ("EnemiesManager");
 
-    if (animator)
-    {
+    if (animator) {
       body = animator.gameObject;
     }
+
+    turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
+    turret2Price = turret2Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
+
+    GameObject canvas = GameObject.Find ("Canvas");
+    GameObject spells = canvas.transform.Find ("Spells").gameObject;
+    GameObject spellsUI = Instantiate (spellsUIPrefab);
+    spellsUI.transform.SetParent (spells.transform);
+    RectTransform spellsUiTransform = spellsUI.GetComponent<RectTransform> ();
+    spellsUiTransform.localPosition = Vector3.zero;
+    SpellUIController spellsUIScript = spellsUI.GetComponent<SpellUIController> ();
+    if (spellsUIScript) {
+      spellsUIScript.spellController = this;
+      spellsUIScript.SetHideOnSpell3(false);
+    }
+
+    spell3Available = true;
+    spell3Active = bearTurretActive;
   }
 
   // Update is called once per frame
-  void Update()
-  {
-    if (createModeOn && previewTurret)
-    {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      RaycastHit[] hits = Physics.RaycastAll(ray, 2500, layerMaskGround);
-      if (hits.Length > 0)
-      {
-        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-        foreach (RaycastHit hit in hits)
-        {
+  void Update () {
+    if (createModeOn && previewTurret) {
+      Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+      RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
+      if (hits.Length > 0) {
+        System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
+        foreach (RaycastHit hit in hits) {
           if (!previewTurretPlaced) {
             previewTurret.transform.position = hit.point;
-          } else
-          {
-            previewTurret.transform.LookAt(new Vector3(hit.point.x, previewTurret.transform.position.y, hit.point.z));
+          } else {
+            previewTurret.transform.LookAt (new Vector3 (hit.point.x, previewTurret.transform.position.y, hit.point.z));
           }
-        break;
+          break;
         }
       }
     }
 
-    if (isInAttackStance && moveScript.hasNavigationTarget)
-    {
-      moveScript.stopMoving();
+    if (isInAttackStance && moveScript.hasNavigationTarget) {
+      moveScript.stopMoving ();
     }
 
-    if (isInAttackStance)
-    {
-      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    if (isInAttackStance) {
+      Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
       RaycastHit hit;
-      Physics.Raycast(ray, out hit, 2500, layerMaskMove);
-      body.transform.LookAt(new Vector3(hit.point.x, body.transform.position.y, hit.point.z));
-      animator.SetBool("Attacking", attacking);
+      Physics.Raycast (ray, out hit, 2500, layerMaskMove);
+      body.transform.LookAt (new Vector3 (hit.point.x, body.transform.position.y, hit.point.z));
+      animator.SetBool ("Attacking", attacking);
     }
 
-    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot")) {
+    if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Shoot")) {
       attackTriggered = false;
     }
 
-    if (Time.time >= attackSelectionTime + .5f)
-    {
+    if (Time.time >= attackSelectionTime + .5f) {
       attackSelectionTime = Time.time;
-      attackSelection = Random.Range(1, 4);
-      animator.SetInteger("AttackSelection", attackSelection);
+      attackSelection = Random.Range (1, 4);
+      animator.SetInteger ("AttackSelection", attackSelection);
+    }
+
+    if (moneyManager.GetMoney () >= turret1Price) {
+      spell1Available = true;
+    } else {
+      spell1Available = false;
+    }
+    if (moneyManager.GetMoney () >= turret2Price) {
+      spell2Available = true;
+    } else {
+      spell2Available = false;
     }
   }
 
@@ -118,13 +140,12 @@ public class SpellControllerBear : SpellController
   }
 
   override public void Spell1 () {
-    if (!previewTurret1)
-    {
-      if (createModeOn)
-      {
-        CancelCreateMode();
+    if (!spell1Active) {
+      if (createModeOn) {
+        CancelCreateMode ();
       }
-      if (moneyManager.GetMoney () >= turret1Prefab.GetComponentInChildren<TurretStatManager> ().price) {
+      if (spell1Available) {
+        spell1Active = true;
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
@@ -142,21 +163,18 @@ public class SpellControllerBear : SpellController
           }
         }
       }
-    }
-    else
-    {
-      CancelCreateMode();
+    } else {
+      CancelCreateMode ();
     }
   }
 
   override public void Spell2 () {
-    if (!previewTurret2)
-    {
-      if (createModeOn)
-      {
-        CancelCreateMode();
+    if (!spell2Active) {
+      if (createModeOn) {
+        CancelCreateMode ();
       }
-      if (moneyManager.GetMoney () >= turret2Prefab.GetComponentInChildren<TurretStatManager> ().price) {
+      if (spell2Available) {
+        spell2Active = true;
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
@@ -174,15 +192,14 @@ public class SpellControllerBear : SpellController
           }
         }
       }
-    }
-    else
-    {
-      CancelCreateMode();
+    } else {
+      CancelCreateMode ();
     }
   }
 
   override public void Spell3 () {
     bearTurretActive = !bearTurretActive;
+    spell3Active = bearTurretActive;
   }
 
   public override bool Fire1 (bool down) {
@@ -195,12 +212,9 @@ public class SpellControllerBear : SpellController
         previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
         createModeOn) {
 
-        if (previewTurretNeedsOrientation)
-        {
+        if (previewTurretNeedsOrientation) {
           previewTurretPlaced = true;
-        }
-        else
-        {
+        } else {
           createModeOn = false;
 
           previewTurretPlayerLink.Activate ();
@@ -217,14 +231,21 @@ public class SpellControllerBear : SpellController
         returnValue = true;
       }
     } else {
-      if (previewTurretNeedsOrientation && previewTurretPlayerLink && previewTurretPlayerLink.HasEnoughSpace () &&
-        previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
-        createModeOn) {
+      if (
+        previewTurretPlaced &&
+        previewTurretNeedsOrientation && 
+        previewTurretPlayerLink && 
+        previewTurretPlayerLink.HasEnoughSpace() &&
+        previewTurretPlayerLink.characterWallet.GetMoney() >= previewTurret.GetComponentInChildren<TurretStatManager>().price &&
+        createModeOn
+      ) {
         previewTurretPlaced = false;
         previewTurretNeedsOrientation = false;
+        createModeOn = false;
+        spell1Active = false;
+        spell2Active = false;
         previewTurret1 = false;
         previewTurret2 = false;
-        createModeOn = false;
 
         previewTurretPlayerLink.Activate ();
 
@@ -241,7 +262,7 @@ public class SpellControllerBear : SpellController
 
   public override void Fire2 (bool down) {
     if (createModeOn) {
-      CancelCreateMode();
+      CancelCreateMode ();
     }
     if (down) {
       Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -298,6 +319,8 @@ public class SpellControllerBear : SpellController
   }
 
   void CancelCreateMode () {
+    spell1Active = false;
+    spell2Active = false;
     createModeOn = false;
     Destroy (previewTurret);
     previewTurret = null;

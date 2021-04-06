@@ -9,7 +9,7 @@ public class TogglableRagdollController : MonoBehaviour
   Transform[] ragdollArmChildTransforms;
   public GameObject ragdollArm;
 
-  public bool synchronize = true;
+  public bool ragdoll = true;
 
   void Start()
   {
@@ -25,7 +25,7 @@ public class TogglableRagdollController : MonoBehaviour
 
   void LateUpdate()
   {
-    if (synchronize) {
+    if (ragdoll) {
       for (int i = 0; i < ragdollArmChildTransforms.Length; i++)
       {
         childTransforms[i].position = ragdollArmChildTransforms[i].position;

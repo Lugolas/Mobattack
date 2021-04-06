@@ -15,15 +15,12 @@ public class HealthSimple : MonoBehaviour {
   public int currentHealth;
   public bool isDead = false;
   public GameObject headerPrefab;
-  public GameObject corpsePrefab;
   protected GameObject header;
-  protected MeshRenderer minimapToken;
   protected Image[] headerBars;
   public Image healthFrame;
   public Image healthBar;
   public string entityName;
   protected GameObject canvas;
-  public bool spawning = false;
   protected bool isHeaderVisible = false;
   public GameObject corpse;
   public bool destroyOnDie = false;
@@ -63,6 +60,10 @@ public class HealthSimple : MonoBehaviour {
 
   // Update is called once per frame
   void Update () {
+    UpdateProcess();
+  }
+
+  protected void UpdateProcess() {
     if (header) {
       Vector2 headerScreenPosition = Camera.main.WorldToScreenPoint (new Vector3 (headerAnchor.position.x, headerAnchor.position.y + 2f, headerAnchor.position.z));
       header.transform.position = new Vector2 (headerScreenPosition.x, headerScreenPosition.y + 75);
@@ -135,7 +136,7 @@ public class HealthSimple : MonoBehaviour {
     if (!isDead) {
       currentHealth = 0;
       if (isHeaderVisible)
-        headerToggle (false);
+        this.headerToggle(false);
 
       isDead = true;
       fatalAttacker = attacker;
@@ -145,7 +146,7 @@ public class HealthSimple : MonoBehaviour {
     }
   }
 
-  void headerToggle (bool state) {
+  protected void headerToggle (bool state) {
     if (healthFrame && healthBar) {
       healthFrame.enabled = state;
       healthBar.enabled = state;

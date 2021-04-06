@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 3571945203513315563}
   - component: {fileID: 2303520137673983423}
   - component: {fileID: 3572833248789003968}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: AfroFist
   m_TagString: Fist
   m_Icon: {fileID: 0}

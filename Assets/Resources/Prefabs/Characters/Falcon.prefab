@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 139205371809224152}
   - component: {fileID: 139205371809224153}
   - component: {fileID: 139205371809224158}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.L.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,6 +72,7 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139205371809224159}
   m_ConnectedBody: {fileID: 532595384019340388}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
@@ -121,7 +122,7 @@ GameObject:
   - component: {fileID: 460593699320841098}
   - component: {fileID: 460593699320841099}
   - component: {fileID: 460593699320841096}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.R.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,6 +182,7 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460593699320841097}
   m_ConnectedBody: {fileID: 2933298986923061131}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
@@ -229,7 +231,7 @@ GameObject:
   - component: {fileID: 8183224688654439901}
   - component: {fileID: 506877872800333287}
   - component: {fileID: 506877872800333284}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +294,7 @@ GameObject:
   - component: {fileID: 3107883997996758809}
   - component: {fileID: 511946094606443281}
   - component: {fileID: 511946094606443286}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing4.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +356,7 @@ GameObject:
   - component: {fileID: 4121200964929562416}
   - component: {fileID: 532595384019340391}
   - component: {fileID: 532595384019340388}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +420,7 @@ GameObject:
   - component: {fileID: 582694568169715601}
   - component: {fileID: 582694568169715606}
   - component: {fileID: 582694568169715607}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.R.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,10 +481,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582694568169715604}
   m_ConnectedBody: {fileID: 5128148561429491845}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000074505806, y: 0.25386322, z: 0.00000010058284}
+  m_ConnectedAnchor: {x: 0.00000010430813, y: 0.25386322, z: 0.000000115484}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -525,7 +528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9158757099670776840}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -561,7 +564,7 @@ GameObject:
   - component: {fileID: 1615928644645233891}
   - component: {fileID: 1615928644645233888}
   - component: {fileID: 1615928644645233889}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.R.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -622,10 +625,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615928644645233894}
   m_ConnectedBody: {fileID: 3396732631104175855}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000012479722, y: 0.47477016, z: -0.000000044703484}
+  m_ConnectedAnchor: {x: 0.00000014714897, y: 0.47477004, z: -0.000000037252903}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -670,7 +674,7 @@ GameObject:
   - component: {fileID: 5100410673691322963}
   - component: {fileID: 1885364342644652193}
   - component: {fileID: 1885364342644652198}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +738,7 @@ GameObject:
   - component: {fileID: 1936214757133639653}
   - component: {fileID: 1936214757133639658}
   - component: {fileID: 1936214757133639659}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.L.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -795,10 +799,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936214757133639656}
   m_ConnectedBody: {fileID: 139205371809224153}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000011920929, y: 0.58242655, z: -0.000000014901161}
+  m_ConnectedAnchor: {x: 0.00000014901161, y: 0.5824264, z: 0}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -841,7 +846,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3135154622510253547}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Spine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +879,7 @@ GameObject:
   - component: {fileID: 2425456932531030703}
   - component: {fileID: 2076884896374967211}
   - component: {fileID: 2076884896374967208}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +943,7 @@ GameObject:
   - component: {fileID: 2135836591956601718}
   - component: {fileID: 2135836591956601719}
   - component: {fileID: 2135836591956601716}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.L.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -999,10 +1004,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135836591956601717}
   m_ConnectedBody: {fileID: 9087994554389604169}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000014156103, y: 0.25386286, z: 0.00000067055225}
+  m_ConnectedAnchor: {x: -0.000000144355, y: 0.25386286, z: 0.00000067055225}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1047,7 +1053,7 @@ GameObject:
   - component: {fileID: 5072101020372569868}
   - component: {fileID: 2223231077721548557}
   - component: {fileID: 2223231077721548562}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing4.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1108,7 +1114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8975824855686030235}
   - component: {fileID: 6557928054587255356}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1231,7 +1237,7 @@ GameObject:
   - component: {fileID: 2408831954027109081}
   - component: {fileID: 2933298986923061130}
   - component: {fileID: 2933298986923061131}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1295,7 +1301,7 @@ GameObject:
   - component: {fileID: 3396732631104175854}
   - component: {fileID: 3396732631104175855}
   - component: {fileID: 3396732631104175852}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.R.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1355,6 +1361,7 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3396732631104175853}
   m_ConnectedBody: {fileID: 2076884896374967208}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
@@ -1404,7 +1411,7 @@ GameObject:
   - component: {fileID: 3578827300022628245}
   - component: {fileID: 3578827300022628250}
   - component: {fileID: 3578827300022628251}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.L.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1465,10 +1472,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3578827300022628248}
   m_ConnectedBody: {fileID: 7366012065376201677}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000016205013, y: 0.47477028, z: -0.000000044703484}
+  m_ConnectedAnchor: {x: -0.00000015087426, y: 0.47477028, z: -0.000000037252903}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1513,7 +1521,7 @@ GameObject:
   - component: {fileID: 4572566425685205060}
   - component: {fileID: 3764679832553159417}
   - component: {fileID: 8689069974314542931}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: falcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1570,6 +1578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToFire: 0
+  purpose: 
 --- !u!1 &4047295919110116703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,7 +1590,7 @@ GameObject:
   - component: {fileID: 6518988846288961422}
   - component: {fileID: 4047295919110116697}
   - component: {fileID: 4047295919110116702}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1642,7 +1651,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4577624622059614694}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Jaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1676,7 +1685,7 @@ GameObject:
   - component: {fileID: 4279594808465181872}
   - component: {fileID: 4279594808465181873}
   - component: {fileID: 4279594808465181878}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.L.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1736,10 +1745,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4279594808465181879}
   m_ConnectedBody: {fileID: 2135836591956601719}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000023682732, y: 0.25386313, z: 0.0000001247027}
+  m_ConnectedAnchor: {x: -0.0000002442779, y: 0.253863, z: 0.00000012470277}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -1782,7 +1792,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4594104708235991719}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Falcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1820,7 +1830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3853950371519055830}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1854,7 +1864,7 @@ GameObject:
   - component: {fileID: 1256401919532100130}
   - component: {fileID: 1642781442081121604}
   - component: {fileID: 4925840884793117769}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1957,7 +1967,7 @@ GameObject:
   - component: {fileID: 5128148561429491844}
   - component: {fileID: 5128148561429491845}
   - component: {fileID: 5128148561429491850}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.R.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2017,6 +2027,7 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5128148561429491851}
   m_ConnectedBody: {fileID: 511946094606443286}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
@@ -2066,7 +2077,7 @@ GameObject:
   - component: {fileID: 5415136191917438008}
   - component: {fileID: 5415136191917438009}
   - component: {fileID: 5415136191917438014}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.L.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2126,10 +2137,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5415136191917438015}
   m_ConnectedBody: {fileID: 1936214757133639658}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000038605876, y: 0.5824269, z: -0.00000015752836}
+  m_ConnectedAnchor: {x: -0.000000008803482, y: 0.58242667, z: -0.00000021713296}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2175,7 +2187,7 @@ GameObject:
   - component: {fileID: 5694098697124368552}
   - component: {fileID: 5694098697124368553}
   - component: {fileID: 5694098697124368558}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.R.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2235,10 +2247,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5694098697124368559}
   m_ConnectedBody: {fileID: 1615928644645233888}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000009225801, y: 0.4747703, z: 0.000000045609767}
+  m_ConnectedAnchor: {x: -0.000000050378702, y: 0.47477, z: 0.000000060510885}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2282,7 +2295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5837949088410726767}
   - component: {fileID: 2446617500260192283}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Beret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2403,7 +2416,7 @@ GameObject:
   - component: {fileID: 5864109063551638453}
   - component: {fileID: 5864109063551638455}
   - component: {fileID: 5864109063551638452}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Tail1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2449,10 +2462,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5864109063551638458}
   m_ConnectedBody: {fileID: 7956258625669984937}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000093258244, y: -0.4142059, z: 0.19557673}
+  m_ConnectedAnchor: {x: -0.00000016175805, y: -0.4142059, z: 0.19557673}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2512,7 +2526,7 @@ GameObject:
   - component: {fileID: 5901420358728274791}
   - component: {fileID: 5901420358728274785}
   - component: {fileID: 5901420358728274790}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Tail2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2558,10 +2572,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5901420358728274788}
   m_ConnectedBody: {fileID: 5864109063551638453}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -4.1744386e-14, y: 0.3781509, z: -0.000000059602545}
+  m_ConnectedAnchor: {x: -3.5527137e-14, y: 0.3781509, z: -0.000000029801273}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2621,7 +2636,7 @@ GameObject:
   - component: {fileID: 6128519535232348754}
   - component: {fileID: 6128519535232348755}
   - component: {fileID: 6128519535232348752}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.R.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2682,10 +2697,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6128519535232348753}
   m_ConnectedBody: {fileID: 460593699320841099}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000052154064, y: 0.58242655, z: 0.00000011920929}
+  m_ConnectedAnchor: {x: -0.000000052154064, y: 0.58242655, z: 0.00000008940697}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2731,7 +2747,7 @@ GameObject:
   - component: {fileID: 6422745532226779944}
   - component: {fileID: 6422745532226779945}
   - component: {fileID: 6422745532226779950}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing1.R.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2791,10 +2807,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6422745532226779951}
   m_ConnectedBody: {fileID: 6128519535232348755}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000015063327, y: 0.5824265, z: 0.000000025051477}
+  m_ConnectedAnchor: {x: -0.00000007466796, y: 0.5824265, z: -0.0000000643555}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2837,7 +2854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4883539868903534810}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2868,7 +2885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 537191566111791294}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2902,7 +2919,7 @@ GameObject:
   - component: {fileID: 7366012065376201676}
   - component: {fileID: 7366012065376201677}
   - component: {fileID: 7366012065376201682}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.L.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2962,6 +2979,7 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7366012065376201683}
   m_ConnectedBody: {fileID: 506877872800333284}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
@@ -3011,7 +3029,7 @@ GameObject:
   - component: {fileID: 7540643667070607824}
   - component: {fileID: 7540643667070607826}
   - component: {fileID: 7540643667070607827}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Tail3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3057,10 +3075,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7540643667070607825}
   m_ConnectedBody: {fileID: 5901420358728274791}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -8.305947e-14, y: 0.37815106, z: -0.000000110623404}
+  m_ConnectedAnchor: {x: 5.3720036e-14, y: 0.37815106, z: 0.0000000085816945}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3119,7 +3138,7 @@ GameObject:
   - component: {fileID: 8609354841058277633}
   - component: {fileID: 7956258625669984936}
   - component: {fileID: 7956258625669984937}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3183,7 +3202,7 @@ GameObject:
   - component: {fileID: 8120193138508019870}
   - component: {fileID: 8120193138508019871}
   - component: {fileID: 8120193138508019868}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Tail4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3228,10 +3247,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8120193138508019869}
   m_ConnectedBody: {fileID: 7540643667070607824}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -9.16153e-14, y: 0.37815145, z: -0.00000022494926}
+  m_ConnectedAnchor: {x: -4.8982736e-14, y: 0.37815145, z: -0.000000105744164}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3291,7 +3311,7 @@ GameObject:
   - component: {fileID: 8156813652209692563}
   - component: {fileID: 8156813652209692560}
   - component: {fileID: 8156813652209692561}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing2.L.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3351,10 +3371,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8156813652209692566}
   m_ConnectedBody: {fileID: 3578827300022628250}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000039192224, y: 0.47477025, z: 0.00000008954069}
+  m_ConnectedAnchor: {x: -0.0000003844717, y: 0.47477025, z: 0.000000044837215}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3400,7 +3421,7 @@ GameObject:
   - component: {fileID: 8173475550013459357}
   - component: {fileID: 8173475550013459362}
   - component: {fileID: 8173475550013459363}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.R.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3460,10 +3481,11 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8173475550013459360}
   m_ConnectedBody: {fileID: 582694568169715606}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000018253306, y: 0.25386325, z: -0.00000021914047}
+  m_ConnectedAnchor: {x: -0.00000013782957, y: 0.25386325, z: -0.00000018188757}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3509,7 +3531,7 @@ GameObject:
   - component: {fileID: 9087994554389604168}
   - component: {fileID: 9087994554389604169}
   - component: {fileID: 9087994554389604174}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Wing3.L.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3569,6 +3591,7 @@ CharacterJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9087994554389604175}
   m_ConnectedBody: {fileID: 2223231077721548562}
+  m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1

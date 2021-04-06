@@ -31,7 +31,7 @@ public class EnemyControllerBigg : EnemyController {
   void Start()
   {
     Init();
-    leftArm.synchronize = false;
+    leftArm.ragdoll = false;
   }
 
   // Update is called once per frame
@@ -45,7 +45,7 @@ public class EnemyControllerBigg : EnemyController {
     else if (spawning)
     {
       PostSpawnAnimationProcess();
-      leftArm.synchronize = true;
+      leftArm.ragdoll = true;
     }
 
     if (visionTrigger.triggered && !triggeredAttack && Time.time >= lastAttack + delay) {
@@ -138,7 +138,7 @@ public class EnemyControllerBigg : EnemyController {
     if (health.isDead && !hasDied && hasSpawned)
     {
       DyingProcess();
-      leftArm.synchronize = false;
+      leftArm.ragdoll = false;
       leftArm.ragdollArm.SetActive(false);
     }
   }

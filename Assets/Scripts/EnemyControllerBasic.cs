@@ -32,8 +32,8 @@ public class EnemyControllerBasic : EnemyController {
       default:
         break;
     }
-    leftArm.synchronize = false;
-    rightArm.synchronize = false;
+    leftArm.ragdoll = false;
+    rightArm.ragdoll = false;
     anim.SetInteger("Version", version);
     spawnAnimationName = "Skelett_Spawn" + version;
   }
@@ -51,13 +51,13 @@ public class EnemyControllerBasic : EnemyController {
       PostSpawnAnimationProcess();
       if (isRunner)
       {
-        leftArm.synchronize = false;
-        rightArm.synchronize = false;
+        leftArm.ragdoll = false;
+        rightArm.ragdoll = false;
       }
       else
       {
-        leftArm.synchronize = true;
-        rightArm.synchronize = true;
+        leftArm.ragdoll = true;
+        rightArm.ragdoll = true;
       }
     }
 
@@ -68,9 +68,9 @@ public class EnemyControllerBasic : EnemyController {
     if (health.isDead && !hasDied && hasSpawned)
     {
       DyingProcess();
-      leftArm.synchronize = false;
+      leftArm.ragdoll = false;
       leftArm.ragdollArm.SetActive(false);
-      rightArm.synchronize = false;
+      rightArm.ragdoll = false;
       rightArm.ragdollArm.SetActive(false);
     }
   }

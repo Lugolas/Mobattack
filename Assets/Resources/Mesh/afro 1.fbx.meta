@@ -1,11 +1,14 @@
 fileFormatVersion: 2
-guid: 796dfc0875549bb42aa387b8b1fcca2d
+guid: e7eb40745e2a0794b94b2c0b28b099c4
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: 885944232402757753
-    second: Armature|Action
+      74: 7930566718376146537
+    second: Base
+  - first:
+      74: -1658046829664225209
+    second: Armature|Active
   - first:
       74: 4723146814002874508
     second: Armature|Attack
@@ -13,14 +16,32 @@ ModelImporter:
       74: -4552515205397978273
     second: Armature|Attack1
   - first:
+      74: -8053832943439651164
+    second: Armature|Attack1.001
+  - first:
       74: -729247239487951332
     second: Armature|Attack2
   - first:
       74: -8038985605830015797
     second: Armature|AttackStance
   - first:
+      74: -2645021634625152684
+    second: Armature|Base
+  - first:
       74: -954426523278467330
     second: Armature|BaseAttack
+  - first:
+      74: 9146050773493855561
+    second: Armature|Charge1
+  - first:
+      74: 5796282191627773492
+    second: Armature|Charge2
+  - first:
+      74: 2566587171542393226
+    second: Armature|Charge3
+  - first:
+      74: 6059336001588132254
+    second: Armature|Die
   - first:
       74: -8945691123924629249
     second: Armature|Idle
@@ -30,6 +51,18 @@ ModelImporter:
   - first:
       74: -2791508656229221981
     second: Armature|Run2
+  - first:
+      74: -682236144924341708
+    second: Armature|Spawn
+  - first:
+      74: -5279780818949672506
+    second: Armature|Spin1
+  - first:
+      74: 2711084917857623111
+    second: Armature|Spin2
+  - first:
+      74: 3214468009317623498
+    second: Armature|Spin3
   - first:
       74: 8349542763059015795
     second: Armature|Walk

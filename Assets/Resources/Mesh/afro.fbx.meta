@@ -1,17 +1,26 @@
 fileFormatVersion: 2
 guid: 0bdcf08cd15775b4cb66f3c310d86b7f
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
-  - first:
-      74: 885944232402757753
-    second: Armature|Action
   - first:
       74: 4723146814002874508
     second: Armature|Attack
   - first:
+      74: -4552515205397978273
+    second: Armature|Attack1
+  - first:
+      74: -729247239487951332
+    second: Armature|Attack2
+  - first:
       74: -8038985605830015797
     second: Armature|AttackStance
+  - first:
+      74: -2645021634625152684
+    second: Armature|Base
+  - first:
+      74: -954426523278467330
+    second: Armature|BaseAttack
   - first:
       74: -8945691123924629249
     second: Armature|Idle
@@ -19,11 +28,17 @@ ModelImporter:
       74: -7551964380084998518
     second: Armature|Run
   - first:
+      74: -2791508656229221981
+    second: Armature|Run2
+  - first:
       74: 8349542763059015795
     second: Armature|Walk
+  - first:
+      74: 3363391796800370583
+    second: Armature|Walk2
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -113,6 +128,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

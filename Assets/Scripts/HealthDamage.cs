@@ -19,6 +19,8 @@ public class HealthDamage : HealthSimple
   private CharacterManager characterManager;
   private CinemachineVirtualCamera virtualCamera;
   private CinemachineVirtualCamera verticalCamera;
+  bool hasDied = false;
+
 
 
   // Start is called before the first frame update
@@ -35,6 +37,19 @@ public class HealthDamage : HealthSimple
     playerHeaderInstantiate();
   }
 
+  void Update() {
+    UpdateProcess();
+    if (isDead && !hasDied) {
+      hasDied = true;
+      headerEnhancedToggle(false);
+    }
+    if (!isDead && hasDied) {
+      hasDied = false;
+      headerEnhancedToggle(true);
+      currentHealth = maxHealth;
+    }
+  }
+
   void playerHeaderInstantiate()
   {
     manaBar = headerBars[2];
@@ -42,6 +57,14 @@ public class HealthDamage : HealthSimple
     headerText = header.GetComponentInChildren<TextMeshProUGUI>();
     if (headerText) {
       headerText.text = entityName;
+    }
+  }
+
+  protected void headerEnhancedToggle (bool state) {
+    headerToggle(state);
+    if (healthFrame && healthBar) {
+      manaBar.enabled = state;
+      headerText.enabled = state;
     }
   }
 }

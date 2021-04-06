@@ -6,7 +6,8 @@
 /[Tt]emp/
 /[Oo]bj/
 # /[Bb]uild/
-/[Bb]uilds/
+/[Bb]uild/
+/[Bb]uild.old/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 

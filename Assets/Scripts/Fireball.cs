@@ -27,9 +27,11 @@ public class Fireball : MonoBehaviour
   public MoneyManager characterWallet;
   bool initiatedSelfDestruction;
   public TurretController emitter;
+  SpriteRenderer[] sprites;
 
   void Start()
   {
+    sprites = GetComponentsInChildren<SpriteRenderer>();
     startTime = Time.time;
     startPosition = transform.position;
     startRotationZ = transform.rotation.z;
@@ -154,6 +156,12 @@ public class Fireball : MonoBehaviour
           trail.emitting = false;
         }
         target = null;
+        if (sprites.Length > 0) {
+          foreach (SpriteRenderer sprite in sprites)
+          {
+            sprite.enabled = false;
+          }
+        }
         if (sc)
           Destroy(sc);
         if (cc)

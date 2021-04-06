@@ -7,7 +7,7 @@ public class WolfController : SpellController
   public int id;
   public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
-  HealthDamage healthScript;
+  HealthSimple healthScript;
   bool createModeOn = false;
   Vector3 turretCreationPoint;
   GameObject previewTurret;
@@ -48,7 +48,7 @@ public class WolfController : SpellController
       moveScript.moneyManager = moneyManager;
     }
 
-    healthScript = GetComponent<HealthDamage>();
+    healthScript = GetComponent<HealthSimple>();
 
     enemiesManager = GameObject.Find("EnemiesManager");
 

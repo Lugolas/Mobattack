@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SpellUIController : MonoBehaviour {
   public SpellController spellController;
@@ -20,16 +21,35 @@ public class SpellUIController : MonoBehaviour {
   public RectTransform frameLights1;
   public RectTransform frameLights2;
   public RectTransform frameLights3;
-  float frameLightsRotation = 0f;
+  float frameLights1Rotation = 0f;
+  float frameLights2Rotation = 0f;
+  float frameLights3Rotation = 0f;
   bool spell1Active = false;
   bool spell2Active = false;
   bool spell3Active = false;
   bool spell1Available = true;
   bool spell2Available = true;
   bool spell3Available = true;
+  List<float> imagesAlphaValues = new List<float>();
+  Image[] images;
+  Button[] buttons;
+  TMP_Text[] keyTexts;
+
+  bool hideOnSpell3 = true;
+
+  public void SetHideOnSpell3(bool value) {
+    hideOnSpell3 = value;
+  }
 
   void Start()
   {
+    images = GetComponentsInChildren<Image>(true);
+    buttons = GetComponentsInChildren<Button>(true);
+    keyTexts = GetComponentsInChildren<TMP_Text>(true);
+    foreach (Image image in images)
+    {
+      imagesAlphaValues.Add(image.color.a);
+    }
     button1.onClick.AddListener(delegate { spellController.Spell1(); });
     button2.onClick.AddListener(delegate { spellController.Spell2(); });
     button3.onClick.AddListener(delegate { spellController.Spell3(); });
@@ -39,6 +59,7 @@ public class SpellUIController : MonoBehaviour {
     buttonStateManager(
       ref spell1Active,
       ref spell1Available,
+      ref frameLights1Rotation,
       frameLights1,
       image1,
       frame1,
@@ -48,6 +69,7 @@ public class SpellUIController : MonoBehaviour {
     buttonStateManager(
       ref spell2Active,
       ref spell2Available,
+      ref frameLights2Rotation,
       frameLights2,
       image2,
       frame2,
@@ -57,6 +79,7 @@ public class SpellUIController : MonoBehaviour {
     buttonStateManager(
       ref spell3Active,
       ref spell3Available,
+      ref frameLights3Rotation,
       frameLights3,
       image3,
       frame3,
@@ -68,18 +91,18 @@ public class SpellUIController : MonoBehaviour {
   void FixedUpdate()
   {
     if (spell1Active) {
-      frameLightsRotation -= 1f;
-      frameLights1.rotation = Quaternion.Euler(0, 0, frameLightsRotation);
+      frameLights1Rotation -= 1f;
+      frameLights1.rotation = Quaternion.Euler(0, 0, frameLights1Rotation);
     }
 
     if (spell2Active) {
-      frameLightsRotation -= 1f;
-      frameLights2.rotation = Quaternion.Euler(0, 0, frameLightsRotation);
+      frameLights2Rotation -= 1f;
+      frameLights2.rotation = Quaternion.Euler(0, 0, frameLights2Rotation);
     }
 
     if (spell3Active) {
-      frameLightsRotation -= 1f;
-      frameLights3.rotation = Quaternion.Euler(0, 0, frameLightsRotation);
+      frameLights3Rotation -= 1f;
+      frameLights3.rotation = Quaternion.Euler(0, 0, frameLights3Rotation);
     }
   }
 
@@ -88,7 +111,9 @@ public class SpellUIController : MonoBehaviour {
   }
 
   public void HoverIn(int buttonID) {
-    HoverSetActive(buttonID, true);
+    if (!(spell1Active || spell2Active || (spell3Active && hideOnSpell3))) {
+      HoverSetActive(buttonID, true);
+    }
   }
 
   public void HoverOut(int buttonID) {
@@ -118,6 +143,7 @@ public class SpellUIController : MonoBehaviour {
   void buttonStateManager(
     ref bool spellActive, 
     ref bool spellAvailable, 
+    ref float frameLightsRotation,
     RectTransform frameLights, 
     Image image, 
     Image frame, 
@@ -163,6 +189,41 @@ public class SpellUIController : MonoBehaviour {
           frameLights.gameObject.SetActive(false);
         }
       }
+    }
+  }
+
+  public void hideIfActive() {
+    if (spell1Active || spell2Active || (spell3Active && hideOnSpell3)) {
+      foreach (Image image in images)
+      {
+        Color color = image.color;
+        color.a = color.a * 0.25f;
+        image.color = color;
+      }
+      foreach (Button button in buttons)
+      {
+        button.interactable = false;
+      }
+      foreach (TMP_Text keyText in keyTexts)
+      {
+        keyText.alpha = 0.25f;
+      }
+    }
+  }
+  public void showIfHidden() {
+    for (var i = 0; i < images.Length; i++)
+    {
+      Color color = images[i].color;
+      color.a = imagesAlphaValues[i];
+      images[i].color = color;
+    }
+    foreach (Button button in buttons)
+    {
+      button.interactable = true;
+    }
+    foreach (TMP_Text keyText in keyTexts)
+    {
+      keyText.alpha = 1f;
     }
   }
 }
