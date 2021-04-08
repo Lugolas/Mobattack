@@ -59,7 +59,13 @@ public class EnemyControllerAttacc : EnemyController
 
     if (triggerCheck.triggered)
     {
-      Attack();
+      GameObject closestObject = triggerCheck.GetClosestObject();
+      HealthSimple closestObjectHealth = closestObject.GetComponentInParent<HealthSimple>();
+      if (closestObjectHealth && !closestObjectHealth.isDead) {
+        Attack();
+      } else {
+        MoveTo(objective.position);
+      }
     }
     else
     {

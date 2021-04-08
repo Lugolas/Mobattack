@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3727,7 +3727,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.90002304, b: 0.6273585, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -4165,8 +4165,14 @@ MonoBehaviour:
   currentWaveIndex: -1
   waves:
   - number: 1
+    enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
+    amount: 1
+    delay: 1
+    charred: 0
+    runner: 0
+  - number: 2
     enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
-    amount: 5
+    amount: 2
     delay: 1
     charred: 0
     runner: 0
