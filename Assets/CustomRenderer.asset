@@ -54,7 +54,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -4773561263390299948}
   - {fileID: 6677969595359088209}
-  m_RendererFeatureMap: d4680e8652e7c0bd51ce3c30f7e9ac5c
+  - {fileID: 4471396816328415081}
+  m_RendererFeatureMap: d4680e8652e7c0bd51ce3c30f7e9ac5c695711c7b6970d3e
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -84,6 +85,19 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_AccurateGbufferNormals: 0
+--- !u!114 &4471396816328415081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ddfa446147084a8f5f154ff25ca3e, type: 3}
+  m_Name: DepthNormals
+  m_EditorClassIdentifier: 
+  m_Active: 1
 --- !u!114 &6677969595359088209
 MonoBehaviour:
   m_ObjectHideFlags: 0
