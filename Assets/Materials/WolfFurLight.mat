@@ -8,19 +8,28 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WolfFurLight
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Shader: {fileID: -6465566751694194690, guid: cbe179979c7f25f448fea3a2b9ab4ea0,
+    type: 3}
+  m_ShaderKeywords: ADDITIONAL_LIGHT_CALCULATE_SHADOWS MAIN_LIGHT_CALCULATE_SHADOWS
+    _MAIN_LIGHT_SHADOWS_CASCADE _SHADOWS_SOFT
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_2a1ed222b4ce4d63ab2de80240b31146:
+        m_Texture: {fileID: 2800000, guid: 9a4b69eb994ab594bb373ecdf894feba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_fe1ad73809974de79dfc287b2a5b65ab:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -78,6 +87,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_0dfba341930f462083256a408279b5a4: 1.54
+    - Vector1_2b6de2d5f1b9410db57fcf54622c2a9c: 1
+    - Vector1_38d94424fa2e4aa1a9ad12d75f423dfc: 1
+    - Vector1_4614d1ca97414199830700a81ec22ceb: 0.00075
+    - Vector1_4681f6a2ef884c5191a148204145524e: 1.98
+    - Vector1_6c8963b215c14786a9d91b664e39d134: 1.8
+    - Vector1_7e5b0db2ffd74b04b6d78e5df47b2680: 0.24
+    - Vector1_88bac4a388d446f58acda5f0a8fc7fe1: 4.64
+    - Vector1_a125c6fac3ee4759b54dff11b884e09a: 10
+    - Vector1_aca62195c5ba4fba84f665932ce78d74: 378.54
+    - Vector1_bb103499f9c742d798f3f0579be4e249: 1
+    - Vector1_df121261cff745f5abcca5c14ae2585b: 10
+    - Vector1_f2f08c513f764cc1a91bfe9c6ecd3ef7: 0.9
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -105,6 +127,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - Color_156277b370d846e2b472336fd7e671ca: {r: 0.704, g: 0.704, b: 0.704, a: 0}
+    - Color_5a3eba735ba14b8da5d2f6529442f211: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.65837497, g: 0.5332766, b: 0.40197787, a: 1}

@@ -1,11 +1,8 @@
 fileFormatVersion: 2
 guid: b94677c3d97768d4fa44f1a87d26caff
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
-  - first:
-      74: 4781951162920444690
-    second: Armature|ArmatureAction
   - first:
       74: -3060009890351798473
     second: Armature|Cube.001|Run.001|Run.001
@@ -29,7 +26,7 @@ ModelImporter:
     second: Armature|Walk
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -119,6 +116,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

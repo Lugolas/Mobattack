@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 5f5f930403a83694e9572ac41661801a
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -5179785421388635773
@@ -23,7 +23,7 @@ ModelImporter:
     second: Gun|idleGun
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -113,6 +113,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

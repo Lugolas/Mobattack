@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollArm: {fileID: 3179702810547595521}
-  synchronize: 0
+  ragdoll: 1
 --- !u!136 &1443876039105082407
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4170,11 +4170,9 @@ MonoBehaviour:
   isDead: 0
   headerPrefab: {fileID: 1822804655241396782, guid: 9b99a978f850e45428fad8aa087bf72b,
     type: 3}
-  corpsePrefab: {fileID: 0}
   healthFrame: {fileID: 0}
   healthBar: {fileID: 0}
   entityName: 
-  spawning: 0
   corpse: {fileID: 0}
   destroyOnDie: 0
   moneyToReward: 10

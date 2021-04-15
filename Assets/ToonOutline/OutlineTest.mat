@@ -23,7 +23,8 @@ Material:
   m_Name: OutlineTest
   m_Shader: {fileID: -6465566751694194690, guid: cbe179979c7f25f448fea3a2b9ab4ea0,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: MAIN_LIGHT_CALCULATE_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _SHADOWS_SOFT
+    ADDITIONAL_LIGHT_CALCULATE_SHADOWS
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -98,19 +99,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_0dfba341930f462083256a408279b5a4: 3.14
-    - Vector1_2b6de2d5f1b9410db57fcf54622c2a9c: 1.8
-    - Vector1_38d94424fa2e4aa1a9ad12d75f423dfc: 1.68
-    - Vector1_4614d1ca97414199830700a81ec22ceb: 0.005
-    - Vector1_4681f6a2ef884c5191a148204145524e: 10.65
-    - Vector1_6c8963b215c14786a9d91b664e39d134: 3.89
-    - Vector1_7e5b0db2ffd74b04b6d78e5df47b2680: 0.32
-    - Vector1_88bac4a388d446f58acda5f0a8fc7fe1: 8.34
-    - Vector1_a125c6fac3ee4759b54dff11b884e09a: 10.4
-    - Vector1_aca62195c5ba4fba84f665932ce78d74: 1.53
-    - Vector1_bb103499f9c742d798f3f0579be4e249: 3.1
-    - Vector1_df121261cff745f5abcca5c14ae2585b: 0.5
-    - Vector1_f2f08c513f764cc1a91bfe9c6ecd3ef7: 0.35
+    - Vector1_0dfba341930f462083256a408279b5a4: 118.3
+    - Vector1_2b6de2d5f1b9410db57fcf54622c2a9c: 2.43
+    - Vector1_38d94424fa2e4aa1a9ad12d75f423dfc: 2.13
+    - Vector1_4614d1ca97414199830700a81ec22ceb: 0.0005
+    - Vector1_4681f6a2ef884c5191a148204145524e: 2.15
+    - Vector1_6c8963b215c14786a9d91b664e39d134: 1.6
+    - Vector1_7e5b0db2ffd74b04b6d78e5df47b2680: 1
+    - Vector1_88bac4a388d446f58acda5f0a8fc7fe1: 1.93
+    - Vector1_a125c6fac3ee4759b54dff11b884e09a: 8.54
+    - Vector1_aca62195c5ba4fba84f665932ce78d74: 9.3
+    - Vector1_bb103499f9c742d798f3f0579be4e249: 1.16
+    - Vector1_df121261cff745f5abcca5c14ae2585b: 1.76
+    - Vector1_f2f08c513f764cc1a91bfe9c6ecd3ef7: 4.4
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -138,9 +139,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_156277b370d846e2b472336fd7e671ca: {r: 0.4716981, g: 0.13127448, b: 0.13127448,
-        a: 0}
-    - Color_5a3eba735ba14b8da5d2f6529442f211: {r: 0, g: 0, b: 0, a: 1}
+    - Color_156277b370d846e2b472336fd7e671ca: {r: 0, g: 0, b: 0, a: 0}
+    - Color_5a3eba735ba14b8da5d2f6529442f211: {r: 0, g: 0.93155813, b: 1, a: 1}
     - Color_9b7de28a42fd4dc099d409e6b251b8c7: {r: 1, g: 0.28377357, b: 0.26999998,
         a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
