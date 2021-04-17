@@ -78,10 +78,15 @@ public class SpellControllerAfro : SpellController {
   public FireMomentListener armRagdollListener;
   bool armRagdollState;
   Vector3 spawnPoint;
+  int manaReceivedOnKill = 10;
 
 
   protected int turret1Price;
   protected int turret2Price;
+
+  public PhysicMaterial fistMaterial;
+  public bool fistBounceUp = false;
+  bool fistBounceUpControl = true;
 
   // Start is called before the first frame update
   void Start () {
@@ -166,6 +171,17 @@ public class SpellControllerAfro : SpellController {
 
   // Update is called once per frame
   void Update () {
+    if (fistBounceUp && !fistBounceUpControl) {
+      fistBounceUpControl = true;
+      fistMaterial.bounciness = 1;
+      fistMaterial.staticFriction = 0;
+      fistMaterial.dynamicFriction = 0;
+    } else if (!fistBounceUp && fistBounceUpControl) {
+      fistBounceUpControl = false;
+      fistMaterial.bounciness = 0.333f;
+      fistMaterial.staticFriction = 0.333f;
+      fistMaterial.dynamicFriction = 0.333f;
+    }
     if (healthScript.isDead) {
       if (!hasDied) {
         // DIE
@@ -633,7 +649,12 @@ public class SpellControllerAfro : SpellController {
     hand.enabled = state;
   }
 
-  public void speedUpSpell3 () {
+  public void SpeedUpSpell3 () {
     spell3AttackSpeedMultiplier *= 1.05f;
+  }
+
+  public void FistKilledEnemy() {
+    SpeedUpSpell3();
+    healthScript.ReceiveMana(manaReceivedOnKill);
   }
 }

@@ -29,8 +29,8 @@ public class SpellControllerBear : SpellController {
   bool attacking = false;
   int attackSelection = 1;
   float attackSelectionTime;
-  float walkBaseDistancePerSecond = 4.5f;
-  float runBaseDistancePerSecond = 8.8f;
+  float walkBaseDistancePerSecond = 5.7f;
+  float runBaseDistancePerSecond = 15.4f;
   public float turretRange = 10f;
   public int gunDamage = 10;
   public float delay = 1f;

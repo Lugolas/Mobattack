@@ -85,8 +85,8 @@ public class AfroFistController : MonoBehaviour {
         meshRenderer.enabled = false;
         hasHit = true;
         initiatedSelfDestruction = true;
-        if (Tools.InflictDamage (lastCollision.collider.transform, damageFinal, characterWallet, gameObject)) {
-          spellController.speedUpSpell3 ();
+        if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet, gameObject)) {
+          spellController.FistKilledEnemy();
         }
         if (fistBurstPrefab) {
           GameObject burst = Instantiate (fistBurstPrefab, transform.position, transform.rotation) as GameObject;

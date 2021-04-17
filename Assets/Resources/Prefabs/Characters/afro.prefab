@@ -6932,6 +6932,8 @@ MonoBehaviour:
   armRight3Active: 0
   respawnDelay: 5
   armRagdollListener: {fileID: 5600990873338449845}
+  fistMaterial: {fileID: 13400000, guid: bbd130e9da9a26e4f84a3bd2c222e31a, type: 2}
+  fistBounceUp: 0
 --- !u!1 &5742255602758483850
 GameObject:
   m_ObjectHideFlags: 0

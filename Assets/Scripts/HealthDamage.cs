@@ -13,6 +13,11 @@ public class HealthDamage : HealthSimple
   private BaseMoveAttacc baseMoveAttacc;
   private Image manaBar;
   private TextMeshProUGUI headerText;
+  public int currentMana = 0;
+  float currentManaFloat;
+  public int maxMana = 100;
+  float lastManaUpdate = 0;
+  float manaDecreasingDelay = 2;
   private int SPAWNING_LAYER = 9;
   private int CHARACTER_LAYER = 10;
   private int CHARACTER_DEAD_LAYER = 15;
@@ -20,6 +25,8 @@ public class HealthDamage : HealthSimple
   private CinemachineVirtualCamera virtualCamera;
   private CinemachineVirtualCamera verticalCamera;
   bool hasDied = false;
+  int manaDecreasingCounter = 1;
+  int manaDecreasingRate = 3;
 
 
 
@@ -39,6 +46,9 @@ public class HealthDamage : HealthSimple
 
   void Update() {
     UpdateProcess();
+    if (header) {
+      manaBar.fillAmount = (float) currentMana / maxMana;
+    }
     if (isDead && !hasDied) {
       hasDied = true;
       headerEnhancedToggle(false);
@@ -47,6 +57,19 @@ public class HealthDamage : HealthSimple
       hasDied = false;
       headerEnhancedToggle(true);
       currentHealth = maxHealth;
+      currentMana = 0;
+    }
+  }
+
+  void FixedUpdate()
+  {
+    if (currentMana > 0 && Time.time >= lastManaUpdate + manaDecreasingDelay) {
+      if (manaDecreasingCounter < manaDecreasingRate) {
+        manaDecreasingCounter++;
+      } else {
+        manaDecreasingCounter = 1;
+        UpdateMana(currentMana - 1);
+      }
     }
   }
 
@@ -65,6 +88,31 @@ public class HealthDamage : HealthSimple
     if (healthFrame && healthBar) {
       manaBar.enabled = state;
       headerText.enabled = state;
+    }
+  }
+
+  protected void UpdateMana (int newMana) {
+    currentMana = newMana;
+    if (currentMana <= 0) {
+      currentMana = 0;
+    }
+
+    if (currentMana >= maxMana) {
+      currentMana = maxMana;
+    }
+  }
+
+  public void ReceiveMana (int manaAmount) {
+    if (!isDead) {
+      // DamagePopUpController.CreateDamagePopUp (manaAmount.ToString (), transform, "blue");
+
+      UpdateMana(currentMana + manaAmount);
+      Debug.Log(manaAmount);
+      lastManaUpdate = Time.time;
+
+      if (currentMana >= maxMana) {
+        currentMana = maxMana;
+      }
     }
   }
 }
