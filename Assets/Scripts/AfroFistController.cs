@@ -19,6 +19,7 @@ public class AfroFistController : MonoBehaviour {
   private TrailRenderer trail;
   private SphereCollider sphereCollider;
   private MeshRenderer meshRenderer;
+  Material material;
   private Rigidbody rigidbodyFist;
   public RigidbodyConstraints constraints;
 
@@ -32,13 +33,26 @@ public class AfroFistController : MonoBehaviour {
   Collision lastCollision;
   SpriteRenderer[] sprites;
   bool fired = false;
+  Color color;
+  Color outlineColor;
+  Vector3 lastPosition;
+  float lastpositionTime;
+  float lastMagnitude = 0;
+  float newMagnitude = 0;
+  float lastMagnitudeChange = 0;
+  float magnitudeChangeDelay = 0.1f;
+  float magnitudeTransitionPoint = 0;
+  float colorMultiplier = 1;
 
   void Start () {
     startTime = Time.time;
-
+    lastPosition = transform.position;
+    lastpositionTime = Time.time;
     trail = GetComponent<TrailRenderer> ();
     sphereCollider = GetComponent<SphereCollider> ();
     meshRenderer = GetComponent<MeshRenderer> ();
+    material = meshRenderer.material;
+    outlineColor = Color.HSVToRGB(50, 0, 0);
     rigidbodyFist = GetComponent<Rigidbody> ();
     fistDamage = GetComponent<AfroFistDamage> ();
     sprites = GetComponentsInChildren<SpriteRenderer>();
@@ -64,7 +78,37 @@ public class AfroFistController : MonoBehaviour {
   }
 
   void FixedUpdate () {
-    damageInitial = Mathf.RoundToInt (rigidbodyFist.velocity.magnitude);
+    float magnitude = 0;
+    if (Time.time > lastMagnitudeChange + magnitudeChangeDelay) {
+      magnitude = newMagnitude;
+      lastMagnitude = newMagnitude;
+      newMagnitude = (transform.position - lastPosition).magnitude / (Time.time - lastpositionTime);
+      lastMagnitudeChange = Time.time;
+    } else {
+      magnitudeTransitionPoint = (Time.time - lastMagnitudeChange) / magnitudeChangeDelay;
+      magnitude = Mathf.Lerp(lastMagnitude, newMagnitude, magnitudeTransitionPoint);
+    }
+    lastPosition = transform.position;
+    lastpositionTime = Time.time;
+    float colorMagnitude = (magnitude * 5) / 100f;
+
+    if (colorMagnitude > 1) {
+      colorMultiplier = (colorMagnitude - 1) * 10;
+      if (colorMultiplier < 1) {
+        colorMultiplier = 1;
+      }
+    } else {
+      colorMultiplier = 1;
+    }
+
+    color = Color.HSVToRGB(0f/360f, 1, colorMagnitude);
+    color = new Color(color.r * colorMultiplier, color.g * colorMultiplier, color.b * colorMultiplier, color.a);
+    outlineColor = Color.HSVToRGB(50f/360f, 1, colorMagnitude);
+    outlineColor = new Color(outlineColor.r * colorMultiplier, outlineColor.g * colorMultiplier, outlineColor.b * colorMultiplier, outlineColor.a);
+    material.SetColor("_Color", color);
+    material.SetColor("_OutlineColor", outlineColor);
+    damageInitial = Mathf.RoundToInt (magnitude);
+    
     damageModifiedBase = Mathf.RoundToInt (damageInitial + (damageInitial * baseDamageModifier));
     damageFinal = Mathf.RoundToInt (damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
   }

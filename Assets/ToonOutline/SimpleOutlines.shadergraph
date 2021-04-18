@@ -854,7 +854,7 @@
     },
     "m_Name": "Color",
     "m_DefaultReferenceName": "",
-    "m_OverrideReferenceName": "Color_156277b370d846e2b472336fd7e671ca",
+    "m_OverrideReferenceName": "_Color",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
@@ -1225,7 +1225,7 @@
     },
     "m_Name": "OutlineColor",
     "m_DefaultReferenceName": "Color_5a3eba735ba14b8da5d2f6529442f211",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_OutlineColor",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
@@ -1237,7 +1237,7 @@
         "b": 0.0,
         "a": 0.0
     },
-    "m_ColorMode": 0
+    "m_ColorMode": 1
 }
 
 {
