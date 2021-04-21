@@ -192,7 +192,8 @@ public class Tools : MonoBehaviour
     }
     if (hs)
     {
-      if (hs.TakeDamage(damageAmount, attacker))
+      int reducedDamage = Mathf.RoundToInt((float) damageAmount * (100f / (100f + hs.armorFinal)));
+      if (hs.TakeDamage(reducedDamage, attacker))
       {
         if (moneyManager) {
           moneyManager.AddMoney(hs.moneyToReward);

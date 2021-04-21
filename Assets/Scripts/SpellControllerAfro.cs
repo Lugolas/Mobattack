@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class SpellControllerAfro : SpellController {
   MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
-  HealthDamage healthScript;
+  public HealthDamage healthScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;
   public LayerMask layerMaskMove;
@@ -85,6 +85,10 @@ public class SpellControllerAfro : SpellController {
   protected int turret2Price;
 
   public PhysicMaterial fistMaterial;
+  public bool rageArmor = false;
+  public bool rageDamage = false;
+  public bool rageHealthRegenPerSecond = false;
+  public bool speedAffectsFists = false;
   public bool fistBounceUp = false;
   bool fistBounceUpControl = true;
 
@@ -181,6 +185,19 @@ public class SpellControllerAfro : SpellController {
       fistMaterial.bounciness = 0.333f;
       fistMaterial.staticFriction = 0.333f;
       fistMaterial.dynamicFriction = 0.333f;
+    }
+    if (rageArmor) {
+      healthScript.AddArmorAddition(healthScript.currentMana, "rageArmor");
+    }
+    if (rageHealthRegenPerSecond) {
+      healthScript.AddHealthRegenPerSecondAddition(healthScript.currentMana, "rageHealthRegenPerSecond");
+    }
+    if (rageDamage) {
+      healthScript.AddDamageMultiplier(((float) healthScript.currentMana / healthScript.maxMana) + 1, "rageDamage");
+      Debug.Log("--------------");
+      Debug.Log("currentMana " + healthScript.currentMana);
+      Debug.Log("maxMana " + healthScript.maxMana);
+      Debug.Log("tout " + (((float) healthScript.currentMana / healthScript.maxMana) + 1));
     }
     if (healthScript.isDead) {
       if (!hasDied) {

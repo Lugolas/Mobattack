@@ -327,10 +327,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: -1
-  damageInitial: 25
-  damageModifiedBase: 25
-  damageFinal: 25
-  baseDamageModifier: 0.5
+  damageInitial: 0
+  damageModifiedBase: 0
+  damageFinal: 0
+  baseDamageModifier: 0
   attacker: {fileID: 0}
   fistBurstPrefab: {fileID: 662745458172566627, guid: 4006a109681bba742a810dd1ae709b1a,
     type: 3}

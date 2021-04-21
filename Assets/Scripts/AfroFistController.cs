@@ -5,10 +5,10 @@ using UnityEngine.Networking;
 
 public class AfroFistController : MonoBehaviour {
   public int id = -1;
-  public int damageInitial = 25;
-  public int damageModifiedBase = 25;
-  public int damageFinal = 25;
-  public float baseDamageModifier = 0.5f;
+  public int damageInitial = 0;
+  public int damageModifiedBase = 0;
+  public int damageFinal = 0;
+  public float baseDamageModifier = 0f;
   float outsideDamageModifier = 0f;
   public GameObject attacker;
   public GameObject fistBurstPrefab;
@@ -78,36 +78,38 @@ public class AfroFistController : MonoBehaviour {
   }
 
   void FixedUpdate () {
-    float magnitude = 0;
-    if (Time.time > lastMagnitudeChange + magnitudeChangeDelay) {
-      magnitude = newMagnitude;
-      lastMagnitude = newMagnitude;
-      newMagnitude = (transform.position - lastPosition).magnitude / (Time.time - lastpositionTime);
-      lastMagnitudeChange = Time.time;
-    } else {
-      magnitudeTransitionPoint = (Time.time - lastMagnitudeChange) / magnitudeChangeDelay;
-      magnitude = Mathf.Lerp(lastMagnitude, newMagnitude, magnitudeTransitionPoint);
-    }
-    lastPosition = transform.position;
-    lastpositionTime = Time.time;
-    float colorMagnitude = (magnitude * 5) / 100f;
+    if (spellController.speedAffectsFists) {
+      float magnitude = 0;
+      if (Time.time > lastMagnitudeChange + magnitudeChangeDelay) {
+        magnitude = newMagnitude;
+        lastMagnitude = newMagnitude;
+        newMagnitude = (transform.position - lastPosition).magnitude / (Time.time - lastpositionTime);
+        lastMagnitudeChange = Time.time;
+      } else {
+        magnitudeTransitionPoint = (Time.time - lastMagnitudeChange) / magnitudeChangeDelay;
+        magnitude = Mathf.Lerp(lastMagnitude, newMagnitude, magnitudeTransitionPoint);
+      }
+      lastPosition = transform.position;
+      lastpositionTime = Time.time;
+      float colorMagnitude = (magnitude * 5) / 100f;
 
-    if (colorMagnitude > 1) {
-      colorMultiplier = (colorMagnitude - 1) * 10;
-      if (colorMultiplier < 1) {
+      if (colorMagnitude > 1) {
+        colorMultiplier = (colorMagnitude - 1) * 10;
+        if (colorMultiplier < 1) {
+          colorMultiplier = 1;
+        }
+      } else {
         colorMultiplier = 1;
       }
-    } else {
-      colorMultiplier = 1;
-    }
 
-    color = Color.HSVToRGB(0f/360f, 1, colorMagnitude);
-    color = new Color(color.r * colorMultiplier, color.g * colorMultiplier, color.b * colorMultiplier, color.a);
-    outlineColor = Color.HSVToRGB(50f/360f, 1, colorMagnitude);
-    outlineColor = new Color(outlineColor.r * colorMultiplier, outlineColor.g * colorMultiplier, outlineColor.b * colorMultiplier, outlineColor.a);
-    material.SetColor("_Color", color);
-    material.SetColor("_OutlineColor", outlineColor);
-    damageInitial = Mathf.RoundToInt (magnitude);
+      color = Color.HSVToRGB(0f/360f, 1, colorMagnitude);
+      color = new Color(color.r * colorMultiplier, color.g * colorMultiplier, color.b * colorMultiplier, color.a);
+      outlineColor = Color.HSVToRGB(50f/360f, 1, colorMagnitude);
+      outlineColor = new Color(outlineColor.r * colorMultiplier, outlineColor.g * colorMultiplier, outlineColor.b * colorMultiplier, outlineColor.a);
+      material.SetColor("_Color", color);
+      material.SetColor("_OutlineColor", outlineColor);
+      damageInitial = Mathf.RoundToInt (magnitude);
+    }
     
     damageModifiedBase = Mathf.RoundToInt (damageInitial + (damageInitial * baseDamageModifier));
     damageFinal = Mathf.RoundToInt (damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
@@ -149,6 +151,7 @@ public class AfroFistController : MonoBehaviour {
   }
 
   public void Fire () {
+    damageInitial = spellController.healthScript.damageFinal;
     sphereCollider.enabled = true;
     rigidbodyFist.isKinematic = false;
     rigidbodyFist.constraints = constraints;

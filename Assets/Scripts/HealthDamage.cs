@@ -46,6 +46,9 @@ public class HealthDamage : HealthSimple
 
   void Update() {
     UpdateProcess();
+    if (healthRegen) {
+      AddHealthRegenPerSecondAddition(maxHealth * 0.005f, "0.5%NaturalRegen");
+    }
     if (header) {
       manaBar.fillAmount = (float) currentMana / maxMana;
     }
@@ -107,7 +110,6 @@ public class HealthDamage : HealthSimple
       // DamagePopUpController.CreateDamagePopUp (manaAmount.ToString (), transform, "blue");
 
       UpdateMana(currentMana + manaAmount);
-      Debug.Log(manaAmount);
       lastManaUpdate = Time.time;
 
       if (currentMana >= maxMana) {

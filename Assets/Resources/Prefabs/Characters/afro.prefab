@@ -6855,8 +6855,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 5408453164450830279}
-  maxHealth: 20
+  maxHealth: 500
   currentHealth: 0
+  armorBase: 0
+  armorFinal: 0
+  damageBase: 10
+  damageFinal: 0
+  healthRegen: 1
+  healthRegenPerSecondBase: 0
+  healthRegenPerSecondFinal: 0
   isDead: 0
   headerPrefab: {fileID: 1822804655241396782, guid: f1ffbf2479a6d4d43927ea59b6c51e70,
     type: 3}
@@ -6869,6 +6876,8 @@ MonoBehaviour:
   fatalAttacker: {fileID: 0}
   body: {fileID: 3287268165450496745}
   headerAnchor: {fileID: 424896266204939562}
+  currentMana: 0
+  maxMana: 100
 --- !u!114 &5912606073140519939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6894,6 +6903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 7302333495938282686}
+  healthScript: {fileID: 0}
   layerMaskGround:
     serializedVersion: 2
     m_Bits: 256
@@ -6933,6 +6943,10 @@ MonoBehaviour:
   respawnDelay: 5
   armRagdollListener: {fileID: 5600990873338449845}
   fistMaterial: {fileID: 13400000, guid: bbd130e9da9a26e4f84a3bd2c222e31a, type: 2}
+  rageArmor: 1
+  rageDamage: 1
+  rageHealthRegenPerSecond: 1
+  speedAffectsFists: 0
   fistBounceUp: 0
 --- !u!1 &5742255602758483850
 GameObject:

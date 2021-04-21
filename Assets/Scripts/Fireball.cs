@@ -205,7 +205,7 @@ public class Fireball : MonoBehaviour
     HealthSimple hp = collider.gameObject.GetComponent<HealthSimple>();
     if (hp)
     {
-      hp.ReceiveHealing(damage);
+      hp.ReceiveHealing(damage, true);
     }
   }
 }
