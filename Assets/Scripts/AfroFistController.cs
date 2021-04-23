@@ -43,12 +43,19 @@ public class AfroFistController : MonoBehaviour {
   float magnitudeChangeDelay = 0.1f;
   float magnitudeTransitionPoint = 0;
   float colorMultiplier = 1;
+  public Vector3 velocity;
+  Vector3 velocityLast;
+  public float trailTime;
+  public Transform trailColliderSpawn;
+  public GameObject trailColliderPrefab;
+  TrailColliderController trailCollider;
 
   void Start () {
     startTime = Time.time;
     lastPosition = transform.position;
     lastpositionTime = Time.time;
     trail = GetComponent<TrailRenderer> ();
+    trailTime = trail.time;
     sphereCollider = GetComponent<SphereCollider> ();
     meshRenderer = GetComponent<MeshRenderer> ();
     material = meshRenderer.material;
@@ -56,6 +63,7 @@ public class AfroFistController : MonoBehaviour {
     rigidbodyFist = GetComponent<Rigidbody> ();
     fistDamage = GetComponent<AfroFistDamage> ();
     sprites = GetComponentsInChildren<SpriteRenderer>();
+
 
     if (useLifeTimeLimit) {
       Destroy (gameObject, lifeTimeLimit);
@@ -109,8 +117,19 @@ public class AfroFistController : MonoBehaviour {
       material.SetColor("_Color", color);
       material.SetColor("_OutlineColor", outlineColor);
       damageInitial = Mathf.RoundToInt (magnitude);
+
     }
-    
+
+    // velocity = new Vector3(rigidbodyFist.velocity.x, rigidbodyFist.velocity.y, 0);
+    velocity = rigidbodyFist.velocity;
+    if (velocity != velocityLast) {
+      velocityLast = velocity;
+      OnVelocityChange();
+    }
+    if (velocity != Vector3.zero) {
+      transform.rotation = Quaternion.LookRotation(velocity);
+    }
+
     damageModifiedBase = Mathf.RoundToInt (damageInitial + (damageInitial * baseDamageModifier));
     damageFinal = Mathf.RoundToInt (damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
   }
@@ -150,6 +169,15 @@ public class AfroFistController : MonoBehaviour {
     }
   }
 
+  void OnVelocityChange() {
+    if (trailCollider) {
+      trailCollider.Detach();
+    }
+    GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
+    trailObject.transform.SetParent(trailColliderSpawn);
+    trailCollider = trailObject.GetComponent<TrailColliderController>();
+  }
+
   public void Fire () {
     damageInitial = spellController.healthScript.damageFinal;
     sphereCollider.enabled = true;
@@ -159,6 +187,7 @@ public class AfroFistController : MonoBehaviour {
     fired = true;
 
     rigidbodyFist.AddForce (spellController.body.transform.forward * 250f * 2, ForceMode.Impulse);
+    velocityLast = rigidbodyFist.velocity;
   }
 
   void OnCollisionEnter (Collision collision) {

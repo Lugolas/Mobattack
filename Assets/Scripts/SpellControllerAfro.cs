@@ -194,10 +194,6 @@ public class SpellControllerAfro : SpellController {
     }
     if (rageDamage) {
       healthScript.AddDamageMultiplier(((float) healthScript.currentMana / healthScript.maxMana) + 1, "rageDamage");
-      Debug.Log("--------------");
-      Debug.Log("currentMana " + healthScript.currentMana);
-      Debug.Log("maxMana " + healthScript.maxMana);
-      Debug.Log("tout " + (((float) healthScript.currentMana / healthScript.maxMana) + 1));
     }
     if (healthScript.isDead) {
       if (!hasDied) {

@@ -229,7 +229,6 @@ public class HealthSimple : MonoBehaviour {
     armorFinal = Mathf.RoundToInt(armorTemp);
   }
   void UpdateDamage() {
-    Debug.Log("Update");
     float damageTemp = damageBase;
     foreach (StatModifier damageBaseMultiplier in damageBaseMultipliers)
     {
@@ -242,7 +241,6 @@ public class HealthSimple : MonoBehaviour {
     foreach (StatModifier damageMultiplier in damageMultipliers)
     {
       damageTemp *= damageMultiplier.value;
-      Debug.Log("Multiplicateur " + damageMultiplier.value);
     }
     damageFinal = Mathf.RoundToInt(damageTemp);
   }
@@ -343,7 +341,6 @@ public class HealthSimple : MonoBehaviour {
   }
   public void AddDamageMultiplier(float value, string identifier) {
     if (AddStatModifier(damageMultipliers, value, identifier)) {
-      Debug.Log("Really adding");
       UpdateDamage();
     }
   }

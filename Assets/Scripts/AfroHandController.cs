@@ -35,6 +35,7 @@ public class AfroHandController : MonoBehaviour
       GameObject fistObject = Instantiate(fistPrefab, transform.position, transform.rotation);
       fist = fistObject.GetComponent<AfroFistController>();
       fist.transform.SetParent(transform);
+      fist.transform.rotation = Quaternion.Euler(-90, 0, 0);
       fist.transform.localPosition = new Vector3(
         fist.transform.localPosition.x,
         fist.transform.localPosition.y + 0.5f,
