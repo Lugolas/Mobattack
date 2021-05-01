@@ -8,9 +8,11 @@ public abstract class SpellController : MonoBehaviour
   protected bool spell1Active = false;
   protected bool spell2Active = false;
   protected bool spell3Active = false;
+  protected bool spell4Active = false;
   protected bool spell1Available = false;
   protected bool spell2Available = false;
   protected bool spell3Available = false;
+  protected bool spell4Available = false;
 
   public bool GetSpell1Active() {
     return spell1Active;
@@ -21,6 +23,9 @@ public abstract class SpellController : MonoBehaviour
   public bool GetSpell3Active() {
     return spell3Active;
   }
+  public bool GetSpell4Active() {
+    return spell4Active;
+  }
   public bool GetSpell1Available() {
     return spell1Available;
   }
@@ -29,6 +34,9 @@ public abstract class SpellController : MonoBehaviour
   }
   public bool GetSpell3Available() {
     return spell3Available;
+  }
+  public bool GetSpell4Available() {
+    return spell4Available;
   }
   // Start is called before the first frame update
   void Start()
@@ -53,6 +61,10 @@ public abstract class SpellController : MonoBehaviour
   virtual public void Spell3()
   {
     Debug.Log("Default Spell3 Behaviour");
+  }
+  virtual public void Spell4()
+  {
+    Debug.Log("Default Spell4 Behaviour");
   }
 
   virtual public bool Fire1(bool down)

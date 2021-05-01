@@ -16,7 +16,9 @@ public class AfroFistController : MonoBehaviour {
   public float lifeTimeLimit = 15;
 
   public float movementSpeed = 5.0f;
-  private TrailRenderer trail;
+  public TrailRenderer trail;
+  // public TrailRenderer trailIN;
+  // public TrailRenderer trailOUT;
   private SphereCollider sphereCollider;
   private MeshRenderer meshRenderer;
   Material material;
@@ -34,6 +36,7 @@ public class AfroFistController : MonoBehaviour {
   SpriteRenderer[] sprites;
   bool fired = false;
   Color color;
+  Color trailColor;
   Color outlineColor;
   Vector3 lastPosition;
   float lastpositionTime;
@@ -49,13 +52,19 @@ public class AfroFistController : MonoBehaviour {
   public Transform trailColliderSpawn;
   public GameObject trailColliderPrefab;
   TrailColliderController trailCollider;
+  bool velocityChanged = false;
+  Vector3 lastTrailColliderSpawnPosition;
+  bool spawnedOneTrailCollider = false;
 
   void Start () {
     startTime = Time.time;
     lastPosition = transform.position;
     lastpositionTime = Time.time;
-    trail = GetComponent<TrailRenderer> ();
+    trail.emitting = false;
+    // trailIN.emitting = false;
+    // trailOUT.emitting = false;
     trailTime = trail.time;
+    // trailTime = trailIN.time;
     sphereCollider = GetComponent<SphereCollider> ();
     meshRenderer = GetComponent<MeshRenderer> ();
     material = meshRenderer.material;
@@ -72,7 +81,10 @@ public class AfroFistController : MonoBehaviour {
   void Update () {
     if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction) {
       if (trail) {
+      // if (trailIN && trailOUT) {
         trail.emitting = false;
+        // trailIN.emitting = false;
+        // trailOUT.emitting = false;
       }
       initiatedSelfDestruction = true;
     }
@@ -111,18 +123,23 @@ public class AfroFistController : MonoBehaviour {
       }
 
       color = Color.HSVToRGB(0f/360f, 1, colorMagnitude);
+      // trailColor = Color.HSVToRGB(0f/360f, colorMagnitude, 1);
       color = new Color(color.r * colorMultiplier, color.g * colorMultiplier, color.b * colorMultiplier, color.a);
+      trailColor = new Color(color.r * 1000, color.g * 1000, color.b * 1000, color.a);
       outlineColor = Color.HSVToRGB(50f/360f, 1, colorMagnitude);
       outlineColor = new Color(outlineColor.r * colorMultiplier, outlineColor.g * colorMultiplier, outlineColor.b * colorMultiplier, outlineColor.a);
       material.SetColor("_Color", color);
+      trail.material.SetColor("_Color", trailColor);
+      // trailIN.material.SetColor("_BaseColor", trailColor);
       material.SetColor("_OutlineColor", outlineColor);
+      trail.material.SetColor("_OutlineColor", outlineColor);
+      // trailOUT.material.SetColor("_BaseColor", outlineColor);
       damageInitial = Mathf.RoundToInt (magnitude);
-
     }
 
-    // velocity = new Vector3(rigidbodyFist.velocity.x, rigidbodyFist.velocity.y, 0);
-    velocity = rigidbodyFist.velocity;
-    if (velocity != velocityLast) {
+    velocity = new Vector3(rigidbodyFist.velocity.x, 0, rigidbodyFist.velocity.z);
+    // velocity = rigidbodyFist.velocity;
+    if (fired && velocity != velocityLast) {
       velocityLast = velocity;
       OnVelocityChange();
     }
@@ -140,7 +157,10 @@ public class AfroFistController : MonoBehaviour {
       GameObject objectHit = Tools.FindObjectOrParentWithTag (lastCollision.collider.gameObject, "EnemyCharacter");
       if (objectHit && objectHit != attacker) {
         if (trail) {
+        // if (trailIN && trailOUT) {
           trail.emitting = false;
+          // trailIN.emitting = false;
+          // trailOUT.emitting = false;
         }
         foreach (SpriteRenderer sprite in sprites)
         {
@@ -170,12 +190,21 @@ public class AfroFistController : MonoBehaviour {
   }
 
   void OnVelocityChange() {
+    velocityChanged = true;
     if (trailCollider) {
       trailCollider.Detach();
     }
-    GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
-    trailObject.transform.SetParent(trailColliderSpawn);
-    trailCollider = trailObject.GetComponent<TrailColliderController>();
+    SpawnTrailCollider();
+  }
+
+  void SpawnTrailCollider() {
+    if (trail.emitting && !initiatedSelfDestruction) {
+    // if (trailIN.emitting && trailOUT.emitting && !initiatedSelfDestruction) {
+      GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
+      lastTrailColliderSpawnPosition = trailColliderSpawn.position;
+      trailObject.transform.SetParent(trailColliderSpawn);
+      trailCollider = trailObject.GetComponent<TrailColliderController>();
+    }
   }
 
   public void Fire () {
@@ -185,6 +214,9 @@ public class AfroFistController : MonoBehaviour {
     rigidbodyFist.constraints = constraints;
     transform.localScale = Vector3.one;
     fired = true;
+    trail.emitting = true;
+    // trailIN.emitting = true;
+    // trailOUT.emitting = true;
 
     rigidbodyFist.AddForce (spellController.body.transform.forward * 250f * 2, ForceMode.Impulse);
     velocityLast = rigidbodyFist.velocity;

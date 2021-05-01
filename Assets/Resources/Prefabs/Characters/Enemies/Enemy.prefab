@@ -1346,7 +1346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollArm: {fileID: 4938880495655913506}
-  synchronize: 0
+  ragdoll: 1
 --- !u!136 &1930524378336221021
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1693,7 +1693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollArm: {fileID: 1339811116847121704}
-  synchronize: 0
+  ragdoll: 1
 --- !u!136 &5141186845502846710
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2334,13 +2334,18 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 10
   currentHealth: 0
+  armorBase: 0
+  armorFinal: 0
+  damageBase: 0
+  damageFinal: 0
+  healthRegen: 0
+  healthRegenPerSecondBase: 0
+  healthRegenPerSecondFinal: 0
   isDead: 0
   headerPrefab: {fileID: 0}
-  corpsePrefab: {fileID: 0}
   healthFrame: {fileID: 0}
   healthBar: {fileID: 0}
   entityName: 
-  spawning: 0
   corpse: {fileID: 0}
   destroyOnDie: 0
   moneyToReward: 1
@@ -3510,7 +3515,7 @@ GameObject:
   - component: {fileID: 7275808415808809140}
   m_Layer: 23
   m_Name: skelett
-  m_TagString: Untagged
+  m_TagString: EnemyCharacter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -64,7 +64,7 @@ public class WolfController : SpellController
     if (den) {
       attackTarget = den.target;
       gunDamage = statManager.damage;
-      moveScript.baseAttackDamage = gunDamage;
+      healthScript.damageBase = gunDamage;
       moveScript.timeBetweenShots = delay;
       delay = statManager.delay;
     }

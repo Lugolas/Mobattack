@@ -181,22 +181,26 @@ public class Tools : MonoBehaviour
     }
   }
 
+  public static HealthSimple GetHealth(GameObject target) {
+    HealthSimple hs = target.GetComponent<HealthSimple>();
+    if (!hs) {
+      hs = target.GetComponentInParent<HealthSimple>();
+    }
+    if (!hs) {
+      hs = target.GetComponentInChildren<HealthSimple>();
+    }
+    return hs;
+  }
   public static bool InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager, GameObject attacker)
   {
-    HealthSimple hs = targetedEnemy.GetComponent<HealthSimple>();
-    if (!hs) {
-      hs = targetedEnemy.GetComponentInChildren<HealthSimple>();
-    }
-    if (!hs) {
-      hs = targetedEnemy.GetComponentInParent<HealthSimple>();
-    }
-    if (hs)
+    HealthSimple health = GetHealth(targetedEnemy.gameObject);
+    if (health)
     {
-      int reducedDamage = Mathf.RoundToInt((float) damageAmount * (100f / (100f + hs.armorFinal)));
-      if (hs.TakeDamage(reducedDamage, attacker))
+      int reducedDamage = Mathf.RoundToInt((float) damageAmount * (100f / (100f + health.armorFinal)));
+      if (health.TakeDamage(reducedDamage, attacker))
       {
         if (moneyManager) {
-          moneyManager.AddMoney(hs.moneyToReward);
+          moneyManager.AddMoney(health.moneyToReward);
         }
         return true;
       }

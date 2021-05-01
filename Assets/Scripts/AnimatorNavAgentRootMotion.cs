@@ -7,7 +7,7 @@ public class AnimatorNavAgentRootMotion : MonoBehaviour
 {
   NavMeshAgent navMeshAgent;
   Animator animator;
-
+  public bool active = true;
   // Start is called before the first frame update
   void Start()
   {
@@ -17,6 +17,8 @@ public class AnimatorNavAgentRootMotion : MonoBehaviour
 
   void OnAnimatorMove()
   {
-    navMeshAgent.velocity = animator.deltaPosition / Time.deltaTime;
+    if (active) {
+      navMeshAgent.velocity = animator.deltaPosition / Time.deltaTime;
+    }
   }
 }

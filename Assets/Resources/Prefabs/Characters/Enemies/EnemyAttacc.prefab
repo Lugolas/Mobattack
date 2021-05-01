@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 1177180240048987759}
   m_Layer: 17
   m_Name: Range
-  m_TagString: Untagged
+  m_TagString: Range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2702,7 +2702,6 @@ MonoBehaviour:
   moneyManager: {fileID: 0}
   line: {fileID: 0}
   baseAttackType: 0
-  baseAttackDamage: 50
 --- !u!114 &8190216521313857500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2718,13 +2717,18 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 10
   currentHealth: 0
+  armorBase: 0
+  armorFinal: 0
+  damageBase: 0
+  damageFinal: 0
+  healthRegen: 0
+  healthRegenPerSecondBase: 0
+  healthRegenPerSecondFinal: 0
   isDead: 0
   headerPrefab: {fileID: 0}
-  corpsePrefab: {fileID: 0}
   healthFrame: {fileID: 0}
   healthBar: {fileID: 0}
   entityName: 
-  spawning: 0
   corpse: {fileID: 0}
   destroyOnDie: 0
   moneyToReward: 1
@@ -4606,7 +4610,7 @@ GameObject:
   - component: {fileID: 8550836984919210110}
   m_Layer: 23
   m_Name: skelettG
-  m_TagString: Untagged
+  m_TagString: EnemyCharacter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

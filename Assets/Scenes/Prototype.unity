@@ -4172,7 +4172,7 @@ MonoBehaviour:
     runner: 0
   - number: 2
     enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
-    amount: 2
+    amount: 10
     delay: 1
     charred: 0
     runner: 0
@@ -4452,7 +4452,13 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 1000
   currentHealth: 0
-  armor: 0
+  armorBase: 0
+  armorFinal: 0
+  damageBase: 0
+  damageFinal: 0
+  healthRegen: 0
+  healthRegenPerSecondBase: 0
+  healthRegenPerSecondFinal: 0
   isDead: 0
   headerPrefab: {fileID: 1822804655241396782, guid: 9b99a978f850e45428fad8aa087bf72b,
     type: 3}
@@ -4465,8 +4471,6 @@ MonoBehaviour:
   fatalAttacker: {fileID: 0}
   body: {fileID: 1707739939}
   headerAnchor: {fileID: 1707739939}
-  healthRegen: 0
-  healthRegenPerSecond: 1
 --- !u!114 &1707739941
 MonoBehaviour:
   m_ObjectHideFlags: 0

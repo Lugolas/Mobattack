@@ -11,20 +11,25 @@ public class AfroHandController : MonoBehaviour
   public GameObject armModel;
   public MoneyManager characterWallet;
   bool fireFired = false;
-  AfroFistController fist;
+  public AfroFistController fist;
   SpellControllerAfro spellController;
   public bool punchAttempted = false;
+  float fireTime;
+  float disabledDelay = 0.2f;
 
   void Start()
   {
     spellController = afroParent.GetComponent<SpellControllerAfro>();
-    fist = GetComponentInChildren<AfroFistController>(true);
+    if (!fist) {
+      fist = GetComponentInChildren<AfroFistController>(true);
+    }
   }
 
   void FixedUpdate()
   {
     if (fire && !fireFired)
     {
+      fireTime = Time.time;
       fireFired = true;
       sphereCollider.enabled = false;
       fist.transform.SetParent(afroParent.transform);
@@ -35,7 +40,7 @@ public class AfroHandController : MonoBehaviour
       GameObject fistObject = Instantiate(fistPrefab, transform.position, transform.rotation);
       fist = fistObject.GetComponent<AfroFistController>();
       fist.transform.SetParent(transform);
-      fist.transform.rotation = Quaternion.Euler(-90, 0, 0);
+      fist.transform.localRotation = Quaternion.Euler(-90, 0, 0);
       fist.transform.localPosition = new Vector3(
         fist.transform.localPosition.x,
         fist.transform.localPosition.y + 0.5f,
@@ -46,6 +51,10 @@ public class AfroHandController : MonoBehaviour
       fist.characterWallet = characterWallet;
     } else if (!fire && fireFired) {
       fireFired = false;
+    }
+
+    if (Time.time > fireTime + disabledDelay) {
+      sphereCollider.enabled = true;
     }
   }
 }

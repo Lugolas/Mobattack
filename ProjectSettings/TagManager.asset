@@ -18,6 +18,7 @@ TagManager:
   - Fist
   - NoRagdoll
   - Corpse
+  - Trail
   layers:
   - Default
   - TransparentFX

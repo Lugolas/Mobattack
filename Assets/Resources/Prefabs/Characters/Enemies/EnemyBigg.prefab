@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8042739072588527392}
   m_Layer: 23
   m_Name: skelettbigg
-  m_TagString: Untagged
+  m_TagString: EnemyCharacter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2598,7 +2598,7 @@ GameObject:
   - component: {fileID: 3595028655551098125}
   m_Layer: 17
   m_Name: VisionRange
-  m_TagString: Untagged
+  m_TagString: Range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4167,6 +4167,13 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 250
   currentHealth: 0
+  armorBase: 0
+  armorFinal: 0
+  damageBase: 0
+  damageFinal: 0
+  healthRegen: 0
+  healthRegenPerSecondBase: 0
+  healthRegenPerSecondFinal: 0
   isDead: 0
   headerPrefab: {fileID: 1822804655241396782, guid: 9b99a978f850e45428fad8aa087bf72b,
     type: 3}

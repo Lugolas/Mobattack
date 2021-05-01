@@ -49,7 +49,6 @@ public class BaseMoveAttacc : MonoBehaviour
     Hitscan
   }
   public BaseAttackType baseAttackType;
-  public int baseAttackDamage = 50;
 
   void Start()
   {
@@ -141,7 +140,7 @@ public class BaseMoveAttacc : MonoBehaviour
         switch (baseAttackType)
         {
           case BaseAttackType.TargetSolo:
-            Tools.InflictDamage(targetedEnemy, baseAttackDamage, moneyManager, attacker);
+            Tools.InflictDamage(targetedEnemy, health.damageFinal, moneyManager, attacker);
             break;
           case BaseAttackType.TargetGroup:
             break;
@@ -154,7 +153,7 @@ public class BaseMoveAttacc : MonoBehaviour
               // fireball.GetComponent<Rigidbody>().velocity = fireball.transform.forward * 5;
               Fireball fireballScript = fireball.GetComponent<Fireball>();
               fireballScript.attacker = gameObject;
-              fireballScript.damage = baseAttackDamage;
+              fireballScript.damage = health.damageFinal;
               fireballScript.target = targetedEnemy;
               fireballScript.characterWallet = moneyManager;
             }

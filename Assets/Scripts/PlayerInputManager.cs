@@ -283,6 +283,10 @@ public class PlayerInputManager : NetworkBehaviour
       {
         spellController.Spell3();
       }
+      if (Input.GetKeyDown(KeyCode.R))
+      {
+        spellController.Spell4();
+      }
 
       if (Input.GetButton("Fire1"))
       {

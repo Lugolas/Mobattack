@@ -21,6 +21,7 @@ public class SpellControllerAfro : SpellController {
   Vector3 moveClickPosition;
   GameObject attackTarget;
   bool isInAttackStance = false;
+  bool isInBreakerUlt = false;
   public Animator animator;
   public NavMeshAgent navAgent;
   public GameObject armLeft;
@@ -70,6 +71,7 @@ public class SpellControllerAfro : SpellController {
   bool armRight2ActiveCheck = true;
   public bool armRight3Active = false;
   bool armRight3ActiveCheck = true;
+  bool spinning = false;
   bool spawning = false;
   bool spawned = false;
   bool hasDied = false;
@@ -91,6 +93,12 @@ public class SpellControllerAfro : SpellController {
   public bool speedAffectsFists = false;
   public bool fistBounceUp = false;
   bool fistBounceUpControl = true;
+  AnimatorNavAgentRootMotion rootMotion;
+  float defaultSpeed;
+  float defaultAcceleration;
+  float defaultAngularSpeed;
+  float defaultStoppingDistance;
+  bool defaultAutoBraking;
 
   // Start is called before the first frame update
   void Start () {
@@ -98,6 +106,7 @@ public class SpellControllerAfro : SpellController {
     togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController> ();
     moneyManager = GetComponent<MoneyManager> ();
     moveScript = GetComponent<BaseMoveAttacc> ();
+    rootMotion = GetComponentInChildren<AnimatorNavAgentRootMotion>();
 
     if (moveScript) {
       moveScript.walkBaseDistancePerSecond = walkBaseDistancePerSecond;
@@ -154,6 +163,11 @@ public class SpellControllerAfro : SpellController {
       body = animator.gameObject;
       animator.SetTrigger("Spawn");
       navAgent = body.GetComponent<NavMeshAgent> ();
+      defaultSpeed = navAgent.speed;
+      defaultAcceleration = navAgent.acceleration;
+      defaultAngularSpeed = navAgent.angularSpeed;
+      defaultStoppingDistance = navAgent.stoppingDistance;
+      defaultAutoBraking = navAgent.autoBraking;
     }
 
     turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
@@ -321,6 +335,16 @@ public class SpellControllerAfro : SpellController {
       hasDied = false;
     }
 
+    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Breaker")) {
+      if (!spinning) {
+        spinning = true;
+        BreakerLoopState(true);
+      }
+    } else if (spinning) {
+      spinning = false;
+      BreakerLoopState(false);
+    }
+
     if (armRagdollListener.timeToFire && !armRagdollState)
     {
       ArmRagdollState(true);
@@ -408,6 +432,18 @@ public class SpellControllerAfro : SpellController {
     }
   }
 
+  public override void Spell4 () {
+    if (!hasDied && spawned) 
+    {
+      afroBallLaunchPlanned = false;
+      if (createModeOn) {
+        CancelCreateMode();
+      } else {
+        BreakerUltState(!isInBreakerUlt);
+      }
+    }
+  }
+
   void AttackStanceState (bool state) {
     if (spawned)
     {
@@ -417,6 +453,61 @@ public class SpellControllerAfro : SpellController {
       // ArmRagdollState(!state);
 
       animator.SetBool("AttackStance", state);
+    }
+  }
+
+  void BreakerUltState (bool state) {
+    if (spawned)
+    {
+      isInBreakerUlt = state;
+      spell4Active = state;
+
+      animator.SetBool("BreakerUlt", state);
+    }
+  }
+
+  void BreakerLoopState(bool state) {
+    SetHandTrail(handL, state);
+    SetHandTrail(handL2, state);
+    SetHandTrail(handL3, state);
+    SetHandTrail(handR, state);
+    SetHandTrail(handR2, state);
+    SetHandTrail(handR3, state);
+
+    rootMotion.active = !state;
+
+    float speed;
+    float acceleration;
+    float angularSpeed;
+    float stoppingDistance;
+    bool autoBraking;
+
+    if (state) {
+      speed = 15;
+      acceleration = 5;
+      angularSpeed = 10;
+      stoppingDistance = 0;
+      autoBraking = false;
+    } else {
+      speed = defaultSpeed;
+      acceleration = defaultAcceleration;
+      angularSpeed = defaultAngularSpeed;
+      stoppingDistance = defaultStoppingDistance;
+      autoBraking = defaultAutoBraking;
+    }
+
+    navAgent.speed = speed;
+    navAgent.acceleration = acceleration;
+    navAgent.angularSpeed = angularSpeed;
+    navAgent.stoppingDistance = stoppingDistance;
+    navAgent.autoBraking = autoBraking;
+  }
+
+  void SetHandTrail(AfroHandController hand, bool state) {
+    if (hand.fist.gameObject.activeSelf) {
+      hand.fist.trail.emitting = state;
+      // hand.fist.trailIN.emitting = state;
+      // hand.fist.trailOUT.emitting = state;
     }
   }
 
@@ -564,7 +655,7 @@ public class SpellControllerAfro : SpellController {
                   }
                 }
               } else {
-                if (!afroBallClickDown) {
+                if (!afroBallClickDown && !Tools.FindObjectOrParentWithTag(hit.collider.gameObject, "PlayerCharacter")) {
                   moveClickDown = true;
                   moveClickPosition = new Vector3 (hit.point.x, hit.point.y + 0.1f, hit.point.z);
                   afroBallLaunchPlanned = false;
