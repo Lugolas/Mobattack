@@ -28,6 +28,15 @@ public class Tools : MonoBehaviour
   public Sprite minimapSpriteStatic;
   public Sprite minimapSpriteFollow;
 
+  public class StatModifier {
+    public float value;
+    public string identifier;
+    public StatModifier(float newValue = 0, string newIdentifier = "") {
+      value = newValue;
+      identifier = newIdentifier;
+    }
+  }
+
   public static Color GetWhite() {
     return FindTools().white;
   }
@@ -299,5 +308,38 @@ public class Tools : MonoBehaviour
   ) {
     SetVirtualCameraDistance(virtualCamera1, distance);
     SetVirtualCameraDistance(virtualCamera2, distance);
+  }
+
+  public static bool AddStatModifier(List<StatModifier> statModifiers, float value, string identifier) {
+    bool found = false;
+    bool updateNeeded = true;
+    foreach (StatModifier statModifier in statModifiers)
+    {
+      if (statModifier.identifier == identifier) {
+        if (statModifier.value == value) {
+          updateNeeded = false;
+        } else {
+          statModifier.value = value;
+        }
+        found = true;
+      }
+    }
+    if (!found) {
+      statModifiers.Add(new StatModifier(value, identifier));
+    }
+    return updateNeeded;
+  }
+  public static bool RemoveStatModifier(List<StatModifier> statModifiers, string identifier) {
+    bool updateNeeded = false;
+    StatModifier stat = new StatModifier();
+    for (int i = statModifiers.Count-1; i > -1; i--)
+    {
+      if (statModifiers[i].identifier == identifier) {
+        stat = statModifiers[i];
+        statModifiers.Remove(stat);
+        updateNeeded = true;
+      }
+    }
+    return updateNeeded;
   }
 }

@@ -78,8 +78,6 @@ public class LilAfroController : MonoBehaviour
         if (targetRigidbody) {
           if (!targetRigidbody.isKinematic) {
             target.transform.position = new Vector3(fistPropulsionPoint.position.x, target.transform.position.y, fistPropulsionPoint.position.z);
-            AfroFistDamage fistDamage = target.GetComponentInParent<AfroFistDamage>();
-            fistDamage.outsideDamageModifier += 0.1f;
 
             float magnitude = targetRigidbody.velocity.magnitude;
             float force;

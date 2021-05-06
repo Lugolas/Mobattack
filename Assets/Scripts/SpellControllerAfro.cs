@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class SpellControllerAfro : SpellController {
-  MoneyManager moneyManager;
+  public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   public HealthDamage healthScript;
   bool createModeOn = false;
@@ -81,7 +81,6 @@ public class SpellControllerAfro : SpellController {
   bool armRagdollState;
   Vector3 spawnPoint;
   int manaReceivedOnKill = 10;
-
 
   protected int turret1Price;
   protected int turret2Price;
@@ -281,7 +280,6 @@ public class SpellControllerAfro : SpellController {
       }
     }
 
-
     if (moneyManager.GetMoney () >= turret1Price && !spell3Active) {
       spell1Available = true;
     } else {
@@ -466,6 +464,10 @@ public class SpellControllerAfro : SpellController {
     }
   }
 
+  public bool IsInBreakerUlt() {
+    return isInBreakerUlt;
+  }
+
   void BreakerLoopState(bool state) {
     SetHandTrail(handL, state);
     SetHandTrail(handL2, state);
@@ -529,7 +531,6 @@ public class SpellControllerAfro : SpellController {
     }
 
     armRagdollState = state;
-    Debug.Log("Ragdolls are now " + state);
   }
 
   void CancelCreateMode () {

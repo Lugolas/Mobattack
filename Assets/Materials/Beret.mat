@@ -97,7 +97,7 @@ Material:
     - Vector1_a125c6fac3ee4759b54dff11b884e09a: 10
     - Vector1_aca62195c5ba4fba84f665932ce78d74: 378.54
     - Vector1_bb103499f9c742d798f3f0579be4e249: 1
-    - Vector1_df121261cff745f5abcca5c14ae2585b: 10
+    - Vector1_df121261cff745f5abcca5c14ae2585b: 7.5
     - Vector1_f2f08c513f764cc1a91bfe9c6ecd3ef7: 0.9
     - _AlphaClip: 0
     - _Blend: 0
@@ -130,8 +130,9 @@ Material:
         a: 0}
     - Color_5a3eba735ba14b8da5d2f6529442f211: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 0.5660378, g: 0.090274945, b: 0.056069776, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0.5583406, g: 0.025186857, b: 0.015208514, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7834212743428742074

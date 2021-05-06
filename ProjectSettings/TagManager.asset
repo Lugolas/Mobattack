@@ -19,6 +19,8 @@ TagManager:
   - NoRagdoll
   - Corpse
   - Trail
+  - CharacterBodyPart
+  - EnemyBodyPart
   layers:
   - Default
   - TransparentFX

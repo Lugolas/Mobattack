@@ -5,11 +5,11 @@ using UnityEngine.Networking;
 
 public class AfroFistController : MonoBehaviour {
   public int id = -1;
-  public int damageInitial = 0;
-  public int damageModifiedBase = 0;
-  public int damageFinal = 0;
-  public float baseDamageModifier = 0f;
-  float outsideDamageModifier = 0f;
+  public int damageBase = 0;
+  List<Tools.StatModifier> damageBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> damageAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> damageMultipliers = new List<Tools.StatModifier>();
+  public int damageFinal;
   public GameObject attacker;
   public GameObject fistBurstPrefab;
   public bool useLifeTimeLimit = false;
@@ -29,7 +29,6 @@ public class AfroFistController : MonoBehaviour {
   private bool hasHit = false;
   public MoneyManager characterWallet;
   public SpellControllerAfro spellController;
-  AfroFistDamage fistDamage;
   bool initiatedSelfDestruction;
   bool hasCollided = false;
   Collision lastCollision;
@@ -51,10 +50,16 @@ public class AfroFistController : MonoBehaviour {
   public float trailTime;
   public Transform trailColliderSpawn;
   public GameObject trailColliderPrefab;
+  float trailColliderRadius;
   TrailColliderController trailCollider;
   bool velocityChanged = false;
-  Vector3 lastTrailColliderSpawnPosition;
+  Vector3 lastTrailColliderSpawnPosition = Vector3.zero;
   bool spawnedOneTrailCollider = false;
+  public float magnitude;
+  public List<HealthSimple> trailTargetList = new List<HealthSimple>();
+  List<TrailColliderController> trailColliders = new List<TrailColliderController>();
+  float lastHit = 0;
+  float hitDelay = 0.25f;
 
   void Start () {
     startTime = Time.time;
@@ -70,8 +75,8 @@ public class AfroFistController : MonoBehaviour {
     material = meshRenderer.material;
     outlineColor = Color.HSVToRGB(50, 0, 0);
     rigidbodyFist = GetComponent<Rigidbody> ();
-    fistDamage = GetComponent<AfroFistDamage> ();
     sprites = GetComponentsInChildren<SpriteRenderer>();
+    trailColliderRadius = trailColliderPrefab.GetComponent<CapsuleCollider>().radius;
 
 
     if (useLifeTimeLimit) {
@@ -89,7 +94,6 @@ public class AfroFistController : MonoBehaviour {
       initiatedSelfDestruction = true;
     }
 
-    outsideDamageModifier = fistDamage.outsideDamageModifier;
     // rigidbody.velocity = transform.forward * movementSpeed;
 
     if (fired && Vector3.Distance(transform.position, Vector3.zero) > 100) {
@@ -99,7 +103,7 @@ public class AfroFistController : MonoBehaviour {
 
   void FixedUpdate () {
     if (spellController.speedAffectsFists) {
-      float magnitude = 0;
+      // magnitude = 0;
       if (Time.time > lastMagnitudeChange + magnitudeChangeDelay) {
         magnitude = newMagnitude;
         lastMagnitude = newMagnitude;
@@ -134,7 +138,7 @@ public class AfroFistController : MonoBehaviour {
       material.SetColor("_OutlineColor", outlineColor);
       trail.material.SetColor("_OutlineColor", outlineColor);
       // trailOUT.material.SetColor("_BaseColor", outlineColor);
-      damageInitial = Mathf.RoundToInt (magnitude);
+      AddDamageBaseMultiplier(1 + (magnitude / 20), "speed");
     }
 
     velocity = new Vector3(rigidbodyFist.velocity.x, 0, rigidbodyFist.velocity.z);
@@ -143,12 +147,18 @@ public class AfroFistController : MonoBehaviour {
       velocityLast = velocity;
       OnVelocityChange();
     }
+    if (!fired && spellController.IsInBreakerUlt()) {
+      SpawnTrailCollider();
+    }
     if (velocity != Vector3.zero) {
       transform.rotation = Quaternion.LookRotation(velocity);
     }
 
-    damageModifiedBase = Mathf.RoundToInt (damageInitial + (damageInitial * baseDamageModifier));
-    damageFinal = Mathf.RoundToInt (damageModifiedBase + (damageModifiedBase * outsideDamageModifier));
+    if (Time.time > lastHit + hitDelay) {
+      TrailTargetListPrep();
+      lastHit = Time.time;
+      TrailTargetListHit();
+    }
   }
 
   void LateUpdate () {
@@ -189,6 +199,43 @@ public class AfroFistController : MonoBehaviour {
     }
   }
 
+  void TrailTargetListPrep() {
+    for (int i = trailColliders.Count-1; i > -1; i--)
+    {
+      if (trailColliders[i]) {
+        List<HealthSimple> targetList = trailColliders[i].targetList;
+        for (int j = targetList.Count-1; j > -1; j--)
+        {
+          if (targetList[j]) {
+            if (!trailTargetList.Contains(targetList[j])) {
+              trailTargetList.Add(targetList[j]);
+            }
+          } else {
+            targetList.RemoveAt(j);
+          }
+        }
+      } else {
+        trailColliders.RemoveAt(i);
+      }
+    }
+  }
+
+  void TrailTargetListHit() {
+    for (int i = trailTargetList.Count-1; i > -1; i--)
+    {
+      if(trailTargetList[i]) {
+        Tools.InflictDamage(
+          trailTargetList[i].transform,
+          Mathf.RoundToInt(Mathf.RoundToInt(damageFinal / 2f) * hitDelay),
+          characterWallet,
+          gameObject
+        );
+      } else {
+        trailTargetList.RemoveAt(i);
+      }
+    }
+  }
+
   void OnVelocityChange() {
     velocityChanged = true;
     if (trailCollider) {
@@ -199,16 +246,18 @@ public class AfroFistController : MonoBehaviour {
 
   void SpawnTrailCollider() {
     if (trail.emitting && !initiatedSelfDestruction) {
-    // if (trailIN.emitting && trailOUT.emitting && !initiatedSelfDestruction) {
-      GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
-      lastTrailColliderSpawnPosition = trailColliderSpawn.position;
-      trailObject.transform.SetParent(trailColliderSpawn);
-      trailCollider = trailObject.GetComponent<TrailColliderController>();
+      if (Vector3.Distance(trailColliderSpawn.position, lastTrailColliderSpawnPosition) >= trailColliderRadius * 2) {
+        GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
+        lastTrailColliderSpawnPosition = trailColliderSpawn.position;
+        trailObject.transform.SetParent(trailColliderSpawn);
+        trailCollider = trailObject.GetComponent<TrailColliderController>();
+        trailColliders.Add(trailCollider);
+      }
     }
   }
 
   public void Fire () {
-    damageInitial = spellController.healthScript.damageFinal;
+    damageBase = spellController.healthScript.damageFinal;
     sphereCollider.enabled = true;
     rigidbodyFist.isKinematic = false;
     rigidbodyFist.constraints = constraints;
@@ -225,5 +274,57 @@ public class AfroFistController : MonoBehaviour {
   void OnCollisionEnter (Collision collision) {
     hasCollided = true;
     lastCollision = collision;
+  }
+
+  public void UpdateDamage() {
+    if (!fired)
+    {
+      damageBase = Mathf.RoundToInt(spellController.healthScript.damageFinal / 4f);
+    }
+    float damageTemp = damageBase;
+    foreach (Tools.StatModifier damageBaseMultiplier in damageBaseMultipliers)
+    {
+      damageTemp *= damageBaseMultiplier.value;
+    }
+    foreach (Tools.StatModifier damageAddition in damageAdditions)
+    {
+      damageTemp += damageAddition.value;
+    }
+    foreach (Tools.StatModifier damageMultiplier in damageMultipliers)
+    {
+      damageTemp *= damageMultiplier.value;
+    }
+    damageFinal = Mathf.RoundToInt(damageTemp);
+  }
+
+  public void AddDamageBaseMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(damageBaseMultipliers, value, identifier)) {
+      UpdateDamage();
+    }
+  }
+  public void RemoveDamageBaseMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(damageBaseMultipliers, identifier)) {
+      UpdateDamage();
+    }
+  }
+  public void AddDamageAddition(int value, string identifier) {
+    if (Tools.AddStatModifier(damageAdditions, value, identifier)) {
+      UpdateDamage();
+    }
+  }
+  public void RemoveDamageAddition(string identifier) {
+    if (Tools.RemoveStatModifier(damageAdditions, identifier)) {
+      UpdateDamage();
+    }
+  }
+  public void AddDamageMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(damageMultipliers, value, identifier)) {
+      UpdateDamage();
+    }
+  }
+  public void RemoveDamageMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(damageMultipliers, identifier)) {
+      UpdateDamage();
+    }
   }
 }

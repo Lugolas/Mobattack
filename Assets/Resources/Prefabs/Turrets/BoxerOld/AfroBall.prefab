@@ -1072,7 +1072,6 @@ GameObject:
   - component: {fileID: 698793460716613615}
   - component: {fileID: 6806842816200842046}
   - component: {fileID: 2912224335289356899}
-  - component: {fileID: 4305012223356983866}
   m_Layer: 17
   m_Name: AfroBall
   m_TagString: Untagged
@@ -1149,6 +1148,7 @@ MonoBehaviour:
   baseDamageModifier: 2.5
   projectileSpawnPoint: {fileID: 860529044370052793}
   projectilePrefab: {fileID: 0}
+  activated: 0
   fireTrigger: 0
   fireTriggerControl: 1
   attackAnimationSpeed: 1
@@ -1163,21 +1163,6 @@ MonoBehaviour:
   rigidbodyAfro: {fileID: 6069433931915844166}
   spellController: {fileID: 0}
   flyingDuration: 10
-  testSpherePrefab: {fileID: 7656243911128334371, guid: 81db11274e134474d867e4c5be911136,
-    type: 3}
---- !u!114 &4305012223356983866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4684055744794362918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c09e1f72ccff8974394965c043593d09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outsideDamageModifier: 0
 --- !u!1 &5088172805536676163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToFire: 0
+  purpose: 
 --- !u!135 &7862839018479331045
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1525,6 +1511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToFire: 0
+  purpose: 
 --- !u!114 &2814449696258373503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1538,6 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToFire: 0
+  purpose: 
 --- !u!114 &6631554111891410882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1550,20 +1538,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e90349726a32944920853d850f2d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   maxHealth: 1
   currentHealth: 0
+  armorBase: 0
+  armorFinal: 0
+  damageBase: 0
+  damageFinal: 0
+  healthRegen: 0
+  healthRegenPerSecondBase: 0
+  healthRegenPerSecondFinal: 0
   isDead: 0
   headerPrefab: {fileID: 0}
-  corpsePrefab: {fileID: 0}
   healthFrame: {fileID: 0}
   healthBar: {fileID: 0}
   entityName: 
-  spawning: 0
   corpse: {fileID: 0}
   destroyOnDie: 0
   moneyToReward: 0
   fatalAttacker: {fileID: 0}
   body: {fileID: 0}
+  headerAnchor: {fileID: 0}
   afroBall: {fileID: 2912224335289356899}
 --- !u!1 &5619046977184009585
 GameObject:

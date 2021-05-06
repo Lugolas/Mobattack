@@ -14,20 +14,20 @@ public class HealthSimple : MonoBehaviour {
   public int maxHealth = 200;
   public int currentHealth;
   public int armorBase = 0;
-  List<StatModifier> armorBaseMultipliers = new List<StatModifier>();
-  List<StatModifier> armorAdditions = new List<StatModifier>();
-  List<StatModifier> armorMultipliers = new List<StatModifier>();
+  List<Tools.StatModifier> armorBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> armorAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> armorMultipliers = new List<Tools.StatModifier>();
   public int armorFinal;
   public int damageBase = 0;
-  List<StatModifier> damageBaseMultipliers = new List<StatModifier>();
-  List<StatModifier> damageAdditions = new List<StatModifier>();
-  List<StatModifier> damageMultipliers = new List<StatModifier>();
+  List<Tools.StatModifier> damageBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> damageAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> damageMultipliers = new List<Tools.StatModifier>();
   public int damageFinal;
   public bool healthRegen = false;
   public float healthRegenPerSecondBase = 0;
-  List<StatModifier> healthRegenPerSecondBaseMultipliers = new List<StatModifier>();
-  List<StatModifier> healthRegenPerSecondAdditions = new List<StatModifier>();
-  List<StatModifier> healthRegenPerSecondMultipliers = new List<StatModifier>();
+  List<Tools.StatModifier> healthRegenPerSecondBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> healthRegenPerSecondAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> healthRegenPerSecondMultipliers = new List<Tools.StatModifier>();
   public float healthRegenPerSecondFinal = 0;
   int healthRegenPerRegen = 0;
   float healthRegenLast = 0;
@@ -47,14 +47,6 @@ public class HealthSimple : MonoBehaviour {
   public GameObject fatalAttacker;
   public Transform body;
   public Transform headerAnchor;
-  public class StatModifier {
-    public float value;
-    public string identifier;
-    public StatModifier(float newValue = 0, string newIdentifier = "") {
-      value = newValue;
-      identifier = newIdentifier;
-    }
-  }
 
   // Start is called before the first frame update
   void Start()
@@ -195,15 +187,15 @@ public class HealthSimple : MonoBehaviour {
 
   void UpdateHealthRegenPerSecond() {
     float healthRegenPerSecondTemp = healthRegenPerSecondBase;
-    foreach (StatModifier healthRegenPerSecondBaseMultiplier in healthRegenPerSecondBaseMultipliers)
+    foreach (Tools.StatModifier healthRegenPerSecondBaseMultiplier in healthRegenPerSecondBaseMultipliers)
     {
       healthRegenPerSecondTemp *= healthRegenPerSecondBaseMultiplier.value;
     }
-    foreach (StatModifier healthRegenPerSecondAddition in healthRegenPerSecondAdditions)
+    foreach (Tools.StatModifier healthRegenPerSecondAddition in healthRegenPerSecondAdditions)
     {
       healthRegenPerSecondTemp += healthRegenPerSecondAddition.value;
     }
-    foreach (StatModifier healthRegenPerSecondMultiplier in healthRegenPerSecondMultipliers)
+    foreach (Tools.StatModifier healthRegenPerSecondMultiplier in healthRegenPerSecondMultipliers)
     {
       healthRegenPerSecondTemp *= healthRegenPerSecondMultiplier.value;
     }
@@ -214,15 +206,15 @@ public class HealthSimple : MonoBehaviour {
   }
   void UpdateArmor() {
     float armorTemp = armorBase;
-    foreach (StatModifier armorBaseMultiplier in armorBaseMultipliers)
+    foreach (Tools.StatModifier armorBaseMultiplier in armorBaseMultipliers)
     {
       armorTemp *= armorBaseMultiplier.value;
     }
-    foreach (StatModifier armorAddition in armorAdditions)
+    foreach (Tools.StatModifier armorAddition in armorAdditions)
     {
       armorTemp += armorAddition.value;
     }
-    foreach (StatModifier armorMultiplier in armorMultipliers)
+    foreach (Tools.StatModifier armorMultiplier in armorMultipliers)
     {
       armorTemp *= armorMultiplier.value;
     }
@@ -230,15 +222,15 @@ public class HealthSimple : MonoBehaviour {
   }
   void UpdateDamage() {
     float damageTemp = damageBase;
-    foreach (StatModifier damageBaseMultiplier in damageBaseMultipliers)
+    foreach (Tools.StatModifier damageBaseMultiplier in damageBaseMultipliers)
     {
       damageTemp *= damageBaseMultiplier.value;
     }
-    foreach (StatModifier damageAddition in damageAdditions)
+    foreach (Tools.StatModifier damageAddition in damageAdditions)
     {
       damageTemp += damageAddition.value;
     }
-    foreach (StatModifier damageMultiplier in damageMultipliers)
+    foreach (Tools.StatModifier damageMultiplier in damageMultipliers)
     {
       damageTemp *= damageMultiplier.value;
     }
@@ -247,139 +239,106 @@ public class HealthSimple : MonoBehaviour {
 
   public void AddHealthRegenPerSecondBaseMultiplier(float value, string identifier) {
     if (healthRegen) {
-      if (AddStatModifier(healthRegenPerSecondBaseMultipliers, value, identifier)) {
+      if (Tools.AddStatModifier(healthRegenPerSecondBaseMultipliers, value, identifier)) {
         UpdateHealthRegenPerSecond();
       }
     }
   }
   public void RemoveHealthRegenPerSecondBaseMultiplier(string identifier) {
     if (healthRegen) {
-      if (RemoveStatModifier(healthRegenPerSecondBaseMultipliers, identifier)) {
+      if (Tools.RemoveStatModifier(healthRegenPerSecondBaseMultipliers, identifier)) {
         UpdateHealthRegenPerSecond();
       }
     }
   }
   public void AddHealthRegenPerSecondAddition(float value, string identifier) {
     if (healthRegen) {
-      if (AddStatModifier(healthRegenPerSecondAdditions, value, identifier)) {
+      if (Tools.AddStatModifier(healthRegenPerSecondAdditions, value, identifier)) {
         UpdateHealthRegenPerSecond();
       }
     }
   }
   public void RemoveHealthRegenPerSecondAddition(string identifier) {
     if (healthRegen) {
-      if (RemoveStatModifier(healthRegenPerSecondAdditions, identifier)) {
+      if (Tools.RemoveStatModifier(healthRegenPerSecondAdditions, identifier)) {
         UpdateHealthRegenPerSecond();
       }
     }
   }
   public void AddHealthRegenPerSecondMultiplier(float value, string identifier) {
     if (healthRegen) {
-      if (AddStatModifier(healthRegenPerSecondMultipliers, value, identifier)) {
+      if (Tools.AddStatModifier(healthRegenPerSecondMultipliers, value, identifier)) {
         UpdateHealthRegenPerSecond();
       }
     }
   }
   public void RemoveHealthRegenPerSecondMultiplier(string identifier) {
     if (healthRegen) {
-      if (RemoveStatModifier(healthRegenPerSecondMultipliers, identifier)) {
+      if (Tools.RemoveStatModifier(healthRegenPerSecondMultipliers, identifier)) {
         UpdateHealthRegenPerSecond();
       }
     }
   }
 
   public void AddArmorBaseMultiplier(float value, string identifier) {
-    if (AddStatModifier(armorBaseMultipliers, value, identifier)) {
+    if (Tools.AddStatModifier(armorBaseMultipliers, value, identifier)) {
       UpdateArmor();
     }
   }
   public void RemoveArmorBaseMultiplier(string identifier) {
-    if (RemoveStatModifier(armorBaseMultipliers, identifier)) {
+    if (Tools.RemoveStatModifier(armorBaseMultipliers, identifier)) {
       UpdateArmor();
     }
   }
   public void AddArmorAddition(int value, string identifier) {
-    if (AddStatModifier(armorAdditions, value, identifier)) {
+    if (Tools.AddStatModifier(armorAdditions, value, identifier)) {
       UpdateArmor();
     }
   }
   public void RemoveArmorAddition(string identifier) {
-    if (RemoveStatModifier(armorAdditions, identifier)) {
+    if (Tools.RemoveStatModifier(armorAdditions, identifier)) {
       UpdateArmor();
     }
   }
   public void AddArmorMultiplier(float value, string identifier) {
-    if (AddStatModifier(armorMultipliers, value, identifier)) {
+    if (Tools.AddStatModifier(armorMultipliers, value, identifier)) {
       UpdateArmor();
     }
   }
   public void RemoveArmorMultiplier(string identifier) {
-    if (RemoveStatModifier(armorMultipliers, identifier)) {
+    if (Tools.RemoveStatModifier(armorMultipliers, identifier)) {
       UpdateArmor();
     }
   }
 
   public void AddDamageBaseMultiplier(float value, string identifier) {
-    if (AddStatModifier(damageBaseMultipliers, value, identifier)) {
+    if (Tools.AddStatModifier(damageBaseMultipliers, value, identifier)) {
       UpdateDamage();
     }
   }
   public void RemoveDamageBaseMultiplier(string identifier) {
-    if (RemoveStatModifier(damageBaseMultipliers, identifier)) {
+    if (Tools.RemoveStatModifier(damageBaseMultipliers, identifier)) {
       UpdateDamage();
     }
   }
   public void AddDamageAddition(int value, string identifier) {
-    if (AddStatModifier(damageAdditions, value, identifier)) {
+    if (Tools.AddStatModifier(damageAdditions, value, identifier)) {
       UpdateDamage();
     }
   }
   public void RemoveDamageAddition(string identifier) {
-    if (RemoveStatModifier(damageAdditions, identifier)) {
+    if (Tools.RemoveStatModifier(damageAdditions, identifier)) {
       UpdateDamage();
     }
   }
   public void AddDamageMultiplier(float value, string identifier) {
-    if (AddStatModifier(damageMultipliers, value, identifier)) {
+    if (Tools.AddStatModifier(damageMultipliers, value, identifier)) {
       UpdateDamage();
     }
   }
   public void RemoveDamageMultiplier(string identifier) {
-    if (RemoveStatModifier(damageMultipliers, identifier)) {
+    if (Tools.RemoveStatModifier(damageMultipliers, identifier)) {
       UpdateDamage();
     }
-  }
-
-  bool AddStatModifier(List<StatModifier> statModifiers, float value, string identifier) {
-    bool found = false;
-    bool updateNeeded = true;
-    foreach (StatModifier statModifier in statModifiers)
-    {
-      if (statModifier.identifier == identifier) {
-        if (statModifier.value == value) {
-          updateNeeded = false;
-        } else {
-          statModifier.value = value;
-        }
-        found = true;
-      }
-    }
-    if (!found) {
-      statModifiers.Add(new StatModifier(value, identifier));
-    }
-    return updateNeeded;
-  }
-  bool RemoveStatModifier(List<StatModifier> statModifiers, string identifier) {
-    bool updateNeeded = false;
-    StatModifier stat = new StatModifier();
-    foreach (StatModifier statModifier in statModifiers)
-    {
-      if (statModifier.identifier == identifier) {
-        stat = statModifier;
-        statModifiers.Remove(stat);
-        updateNeeded = true;
-      }
-    }
-    return updateNeeded;
   }
 }

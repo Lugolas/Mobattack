@@ -7,11 +7,17 @@ public class CorpsePartTimer : MonoBehaviour
   public bool isImportant = false;
   public GameObject linkedModel;
   float startTime = -1;
+  float destroyDelay = 5;
   Rigidbody body;
+  public GameObject headBandModel;
+  public GameObject headBandParts;
 
   void Start()
   {
     body = GetComponent<Rigidbody>();
+    if (isImportant) {
+      destroyDelay = 20;
+    }
   }
 
   void Update()
@@ -21,7 +27,11 @@ public class CorpsePartTimer : MonoBehaviour
         startTime = Time.time;
       }
     } else {
-      if (!isImportant && Time.time > startTime + 5) {
+      if (Time.time > startTime + destroyDelay) {
+        if (headBandModel && headBandParts) {
+          Destroy(headBandModel);
+          Destroy(headBandParts);
+        }
         if (linkedModel) {
           Destroy(linkedModel);
         }

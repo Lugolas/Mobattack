@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8803384824115996158}
   m_Layer: 25
   m_Name: Hand1.R
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,6 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 4857026260847225519}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &282499762394746523
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +93,7 @@ GameObject:
   - component: {fileID: 282499762394746521}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,7 +139,7 @@ GameObject:
   - component: {fileID: 282499762785821655}
   m_Layer: 25
   m_Name: PointInHead
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -230,7 +232,7 @@ GameObject:
   - component: {fileID: 282499762868822757}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -275,7 +277,7 @@ GameObject:
   - component: {fileID: 282499762988010013}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -321,7 +323,7 @@ GameObject:
   - component: {fileID: 282499763139276646}
   m_Layer: 25
   m_Name: SpotInHead.R
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -415,7 +417,7 @@ GameObject:
   - component: {fileID: 282499763394945148}
   m_Layer: 25
   m_Name: SpotInHead.L
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -509,7 +511,7 @@ GameObject:
   - component: {fileID: 282499763485987191}
   m_Layer: 25
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -554,7 +556,7 @@ GameObject:
   - component: {fileID: 282499763670690990}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -600,7 +602,7 @@ GameObject:
   - component: {fileID: 282499763972871158}
   m_Layer: 25
   m_Name: PointInTorso
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -693,7 +695,7 @@ GameObject:
   - component: {fileID: 282499763976058637}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -739,7 +741,7 @@ GameObject:
   - component: {fileID: 282499764208181710}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -784,7 +786,7 @@ GameObject:
   - component: {fileID: 1336504091331291624}
   m_Layer: 0
   m_Name: Armature
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -880,7 +882,7 @@ GameObject:
   - component: {fileID: 2162528023055212339}
   m_Layer: 25
   m_Name: Leg2.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -944,6 +946,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 6982965826828069047}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &871231689193369397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,7 +1076,7 @@ GameObject:
   - component: {fileID: 8158381448912350966}
   m_Layer: 25
   m_Name: Hand2.L
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1119,7 +1123,7 @@ GameObject:
   - component: {fileID: 6784843511528750894}
   m_Layer: 25
   m_Name: Hand1.L
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1184,6 +1188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 5850142046220336870}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &1051359460846909534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,7 +1204,7 @@ GameObject:
   - component: {fileID: 5890803297812968186}
   m_Layer: 25
   m_Name: Arm2.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1262,6 +1268,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 6684404280771419008}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &1256280767829567465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1282,7 @@ GameObject:
   - component: {fileID: 798966336326542106}
   m_Layer: 25
   m_Name: Hand2.R
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1321,7 +1329,7 @@ GameObject:
   - component: {fileID: 1017930271446269308}
   m_Layer: 25
   m_Name: Arm1.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1385,6 +1393,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 1774118499373732595}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &1496187356879021637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,7 +1491,7 @@ GameObject:
   - component: {fileID: 8717424449465960499}
   m_Layer: 25
   m_Name: Leg2.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1545,6 +1555,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 7961537584194518429}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &1572389583804508849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,6 +1608,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
+  - {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
   - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -1902,7 +1916,7 @@ GameObject:
   - component: {fileID: 4458428515474432255}
   m_Layer: 25
   m_Name: Head 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1968,6 +1982,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 1
   linkedModel: {fileID: 1572389583804508849}
+  headBandModel: {fileID: 4228291158388098236}
+  headBandParts: {fileID: 6408621788698412142}
 --- !u!1 &2150086742515645785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,7 +1998,7 @@ GameObject:
   - component: {fileID: 8031574859849337106}
   m_Layer: 25
   m_Name: Leg1.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2046,6 +2062,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 871231689193369397}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &2486422863811474771
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,7 +2191,7 @@ GameObject:
   - component: {fileID: 2740930203952963774}
   m_Layer: 0
   m_Name: Root
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2427,7 +2445,7 @@ GameObject:
   - component: {fileID: 7695987744898384302}
   m_Layer: 25
   m_Name: Pelvis 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2493,6 +2511,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 9104656108883149432}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &3348647791252810198
 GameObject:
   m_ObjectHideFlags: 0
@@ -2507,7 +2527,7 @@ GameObject:
   - component: {fileID: 3758585971530576114}
   m_Layer: 25
   m_Name: Arm1.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2571,6 +2591,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 3774261014275770577}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &3451129050280139604
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,8 +2645,11 @@ MonoBehaviour:
   isRunner: 0
   maxHealthNormal: 10
   headband: {fileID: 4228291158388098236}
+  headbandColliders: {fileID: 0}
   bone: {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
+  inBone: {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
   boneCharred: {fileID: 2100000, guid: 3a105b438db340b4b9813bbbb0fd4737, type: 2}
+  inBoneCharred: {fileID: 2100000, guid: fb0f3188b36e955459ce5e40301a8953, type: 2}
   lightsCharred:
   - {fileID: 282499762785821657}
   - {fileID: 282499763139276648}
@@ -3063,7 +3088,7 @@ GameObject:
   - component: {fileID: 3935106648879770904}
   m_Layer: 25
   m_Name: Foot.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3127,6 +3152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 2486422863811474771}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &4228291158388098236
 GameObject:
   m_ObjectHideFlags: 0
@@ -3687,7 +3714,7 @@ GameObject:
   - component: {fileID: 5409047329302165740}
   m_Layer: 25
   m_Name: Spine1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3754,6 +3781,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 3496631586036103884}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &5850142046220336870
 GameObject:
   m_ObjectHideFlags: 0
@@ -4000,7 +4029,7 @@ GameObject:
   - component: {fileID: 5952240345285728214}
   m_Layer: 25
   m_Name: Foot.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4064,6 +4093,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 6033462187492116077}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &6408621788698412142
 GameObject:
   m_ObjectHideFlags: 0
@@ -4078,7 +4109,7 @@ GameObject:
   - component: {fileID: 1250190984566554650}
   m_Layer: 25
   m_Name: Head.001
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4188,7 +4219,7 @@ GameObject:
   - component: {fileID: 2181426754457977239}
   m_Layer: 25
   m_Name: Leg1.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4252,6 +4283,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 5674420395405120619}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &6654408978984383843
 GameObject:
   m_ObjectHideFlags: 0
@@ -4608,6 +4641,7 @@ GameObject:
   - component: {fileID: 2335633339114695741}
   - component: {fileID: 6860762994860040987}
   - component: {fileID: 8550836984919210110}
+  - component: {fileID: 2188839090208078843}
   m_Layer: 23
   m_Name: skelettG
   m_TagString: EnemyCharacter
@@ -4702,6 +4736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553414aa9a0ace24a892e6afbdfc3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
 --- !u!136 &6860762994860040987
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4730,6 +4765,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToFire: 0
   purpose: 
+--- !u!54 &2188839090208078843
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7311368173049340876}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7467753490541561418
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,7 +4793,7 @@ GameObject:
   - component: {fileID: 1232016776445181746}
   m_Layer: 25
   m_Name: Spine3
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4907,7 +4958,7 @@ GameObject:
   - component: {fileID: 4725432878428690722}
   m_Layer: 25
   m_Name: Spine2
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4956,7 +5007,7 @@ GameObject:
   - component: {fileID: 9021350766694942784}
   m_Layer: 25
   m_Name: Arm2.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5020,6 +5071,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImportant: 0
   linkedModel: {fileID: 4422867579700517595}
+  headBandModel: {fileID: 0}
+  headBandParts: {fileID: 0}
 --- !u!1 &9104656108883149432
 GameObject:
   m_ObjectHideFlags: 0

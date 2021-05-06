@@ -4165,17 +4165,17 @@ MonoBehaviour:
   currentWaveIndex: -1
   waves:
   - number: 1
-    enemy: {fileID: 3451129050280139604, guid: 332c7f4bc233ca14391e8c84007a62b9, type: 3}
+    enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
     amount: 1
     delay: 1
     charred: 0
     runner: 0
   - number: 2
     enemy: {fileID: 4235897931840215603, guid: 537964646d66df44dbeece57ba44080c, type: 3}
-    amount: 10
+    amount: 1
     delay: 1
     charred: 0
-    runner: 0
+    runner: 1
   state: 2
   spawnedEnemies: []
 --- !u!1 &1636123568

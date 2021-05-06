@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 516302547717034194}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 516302547939012565}
   - component: {fileID: 516302547939012564}
   - component: {fileID: 8042739072588527392}
+  - component: {fileID: 8375561615740654703}
   m_Layer: 23
   m_Name: skelettbigg
   m_TagString: EnemyCharacter
@@ -266,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553414aa9a0ace24a892e6afbdfc3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
 --- !u!136 &516302547939012564
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -294,6 +296,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToFire: 0
   purpose: Hit
+--- !u!54 &8375561615740654703
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516302547939012562}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &516302548161644017
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +324,7 @@ GameObject:
   - component: {fileID: 516302548161644019}
   m_Layer: 25
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,7 +369,7 @@ GameObject:
   - component: {fileID: 516302548393465709}
   m_Layer: 25
   m_Name: GameObject (2)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -396,7 +414,7 @@ GameObject:
   - component: {fileID: 516302548410240383}
   m_Layer: 25
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -441,7 +459,7 @@ GameObject:
   - component: {fileID: 516302548439252004}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -486,7 +504,7 @@ GameObject:
   - component: {fileID: 516302548516649370}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,7 +549,7 @@ GameObject:
   - component: {fileID: 516302548652613369}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -576,7 +594,7 @@ GameObject:
   - component: {fileID: 516302548933994127}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -621,7 +639,7 @@ GameObject:
   - component: {fileID: 516302549080196474}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -666,7 +684,7 @@ GameObject:
   - component: {fileID: 516302549234059250}
   m_Layer: 25
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -711,7 +729,7 @@ GameObject:
   - component: {fileID: 516302549238496993}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -756,7 +774,7 @@ GameObject:
   - component: {fileID: 516302549508864070}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -801,7 +819,7 @@ GameObject:
   - component: {fileID: 516302549751025860}
   m_Layer: 25
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -848,7 +866,7 @@ GameObject:
   - component: {fileID: 727410174180007169}
   m_Layer: 25
   m_Name: Hand.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -926,7 +944,7 @@ GameObject:
   - component: {fileID: 758869676374586362}
   m_Layer: 25
   m_Name: Shin.L
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1221,7 +1239,7 @@ GameObject:
   - component: {fileID: 1443876039105082406}
   m_Layer: 25
   m_Name: Arm1.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1582,7 +1600,7 @@ GameObject:
   - component: {fileID: 3227688328864660115}
   m_Layer: 25
   m_Name: Spot Light (1)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1677,7 +1695,7 @@ GameObject:
   - component: {fileID: 8494816433271510734}
   m_Layer: 25
   m_Name: Hand.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1785,7 +1803,7 @@ GameObject:
   - component: {fileID: 5745430098157729833}
   m_Layer: 25
   m_Name: Root
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1832,7 +1850,7 @@ GameObject:
   - component: {fileID: 3405537026217838222}
   m_Layer: 25
   m_Name: Spot Light
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2143,7 +2161,7 @@ GameObject:
   - component: {fileID: 2746879802628539408}
   m_Layer: 25
   m_Name: Head 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2225,7 +2243,7 @@ GameObject:
   - component: {fileID: 2886224192270172127}
   m_Layer: 25
   m_Name: Arm1.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2303,7 +2321,7 @@ GameObject:
   - component: {fileID: 5440103255735592302}
   m_Layer: 25
   m_Name: Arm1.L
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2413,7 +2431,7 @@ GameObject:
   - component: {fileID: 3419551192962347572}
   m_Layer: 25
   m_Name: Thigh.R
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2527,6 +2545,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
+  - {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
   - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -2659,7 +2679,7 @@ GameObject:
   - component: {fileID: 8816953726530129956}
   m_Layer: 25
   m_Name: Armature
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2707,7 +2727,7 @@ GameObject:
   - component: {fileID: 3721435318856882905}
   m_Layer: 25
   m_Name: Shin.R
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2785,7 +2805,7 @@ GameObject:
   - component: {fileID: 3811814591869871532}
   m_Layer: 25
   m_Name: Arm2.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2863,7 +2883,7 @@ GameObject:
   - component: {fileID: 3880841797772351759}
   m_Layer: 25
   m_Name: Pelvis 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3346,7 +3366,7 @@ GameObject:
   - component: {fileID: 4068476211181458185}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3393,7 +3413,7 @@ GameObject:
   - component: {fileID: 5407891248595423756}
   m_Layer: 25
   m_Name: Arm2.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3591,6 +3611,8 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
+  - {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
+  - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3768,7 +3790,7 @@ GameObject:
   - component: {fileID: 6096982873114750999}
   m_Layer: 25
   m_Name: Spine2
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3816,7 +3838,7 @@ GameObject:
   - component: {fileID: 6493486363536111404}
   m_Layer: 25
   m_Name: Hand.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4002,7 +4024,7 @@ GameObject:
   - component: {fileID: 6760939660180102064}
   m_Layer: 25
   m_Name: Spine3
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4091,7 +4113,9 @@ MonoBehaviour:
   maxHealthNormal: 250
   headband: {fileID: 0}
   bone: {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
+  inBone: {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
   boneCharred: {fileID: 2100000, guid: 3a105b438db340b4b9813bbbb0fd4737, type: 2}
+  inBoneCharred: {fileID: 2100000, guid: fb0f3188b36e955459ce5e40301a8953, type: 2}
   lightsCharred:
   - {fileID: 2345767592893665638}
   - {fileID: 2102432955765683289}
@@ -4416,7 +4440,7 @@ GameObject:
   - component: {fileID: 7648952944514487757}
   m_Layer: 25
   m_Name: Jaw
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4682,7 +4706,7 @@ GameObject:
   - component: {fileID: 1486020733937781104}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4730,7 +4754,7 @@ GameObject:
   - component: {fileID: 5176107403068197098}
   m_Layer: 25
   m_Name: Arm2.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4877,6 +4901,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
+  - {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
   - {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -5139,7 +5165,7 @@ GameObject:
   - component: {fileID: 8466517205922531175}
   m_Layer: 25
   m_Name: Spine1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5217,7 +5243,7 @@ GameObject:
   - component: {fileID: 2299009985146151162}
   m_Layer: 25
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5263,7 +5289,7 @@ GameObject:
   - component: {fileID: 8662224221315545170}
   m_Layer: 25
   m_Name: Foot.L 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5435,7 +5461,7 @@ GameObject:
   - component: {fileID: 5894441307386125164}
   m_Layer: 25
   m_Name: Spot Light (2)
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5530,7 +5556,7 @@ GameObject:
   - component: {fileID: 8796243885591210990}
   m_Layer: 25
   m_Name: Thigh.L
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5607,7 +5633,7 @@ GameObject:
   - component: {fileID: 8827283811676371909}
   m_Layer: 25
   m_Name: Foot.R 1
-  m_TagString: Untagged
+  m_TagString: EnemyBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

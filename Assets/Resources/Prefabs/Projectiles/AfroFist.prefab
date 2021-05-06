@@ -428,7 +428,6 @@ GameObject:
   - component: {fileID: 1520899588640595311}
   - component: {fileID: 3571945203513315563}
   - component: {fileID: 2303520137673983423}
-  - component: {fileID: 3572833248789003968}
   - component: {fileID: 7243041431151558972}
   m_Layer: 19
   m_Name: AfroFist
@@ -548,10 +547,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: -1
-  damageInitial: 0
-  damageModifiedBase: 0
+  damageBase: 0
   damageFinal: 0
-  baseDamageModifier: 0
   attacker: {fileID: 0}
   fistBurstPrefab: {fileID: 662745458172566627, guid: 4006a109681bba742a810dd1ae709b1a,
     type: 3}
@@ -567,19 +564,8 @@ MonoBehaviour:
   trailColliderSpawn: {fileID: 2980605492475138431}
   trailColliderPrefab: {fileID: 1785278397102160162, guid: 7e8e2d54dd57b46448b5e1d5a5468d26,
     type: 3}
---- !u!114 &3572833248789003968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4545635645836257022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c09e1f72ccff8974394965c043593d09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outsideDamageModifier: 0
+  magnitude: 0
+  trailTargetList: []
 --- !u!96 &7243041431151558972
 TrailRenderer:
   serializedVersion: 2

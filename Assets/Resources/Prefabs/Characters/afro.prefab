@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4493830193482262781}
   m_Layer: 0
   m_Name: forearm2.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4486288130170109291}
   m_Layer: 0
   m_Name: hand.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 4574830766691701159}
   m_Layer: 0
   m_Name: hand.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 3772690637410349260}
   m_Layer: 0
   m_Name: bicep4.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -715,7 +715,7 @@ GameObject:
   - component: {fileID: 4984492498606099635}
   m_Layer: 0
   m_Name: bicep3.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 7775000782816203579}
   m_Layer: 0
   m_Name: forearm3.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -933,7 +933,7 @@ GameObject:
   - component: {fileID: 2955860023730573575}
   m_Layer: 0
   m_Name: hip.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1043,7 +1043,7 @@ GameObject:
   - component: {fileID: 4189388099557429347}
   m_Layer: 0
   m_Name: hand.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1151,7 +1151,7 @@ GameObject:
   - component: {fileID: 5596484515295785729}
   m_Layer: 0
   m_Name: forearm4.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1354,7 +1354,7 @@ GameObject:
   - component: {fileID: 944084572846613172}
   m_Layer: 0
   m_Name: bicep4.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1464,7 +1464,7 @@ GameObject:
   - component: {fileID: 2970781831140022908}
   m_Layer: 0
   m_Name: hand.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1568,9 +1568,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5338995631696375423}
   - component: {fileID: 3942902287554306457}
+  - component: {fileID: 6241949508312452531}
   m_Layer: 0
   m_Name: hand.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1610,7 +1611,22 @@ MonoBehaviour:
   armModel: {fileID: 231538849089604041}
   characterWallet: {fileID: 5912606073140519939}
   fist: {fileID: 5425393043961252588}
+  spellController: {fileID: 0}
   punchAttempted: 0
+  alreadyHit: []
+--- !u!135 &6241949508312452531
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032405885845337511}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1065658495676941072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,7 +1639,7 @@ GameObject:
   - component: {fileID: 5167889954752960679}
   m_Layer: 0
   m_Name: thigh.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1717,7 +1733,7 @@ GameObject:
   - component: {fileID: 9054092023792162751}
   m_Layer: 0
   m_Name: hand.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2089,7 +2105,7 @@ GameObject:
   - component: {fileID: 8496114897657825320}
   m_Layer: 0
   m_Name: forearm2.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2199,7 +2215,7 @@ GameObject:
   - component: {fileID: 6310403917834371457}
   m_Layer: 0
   m_Name: forearm1.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2309,7 +2325,7 @@ GameObject:
   - component: {fileID: 5431700294062288343}
   m_Layer: 0
   m_Name: forearm2.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2419,7 +2435,7 @@ GameObject:
   - component: {fileID: 4141653550275614935}
   m_Layer: 0
   m_Name: forearm2.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2731,7 +2747,7 @@ GameObject:
   - component: {fileID: 8622139161553148127}
   m_Layer: 0
   m_Name: bicep1.L.2 Rag
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2868,9 +2884,10 @@ GameObject:
   m_Component:
   - component: {fileID: 720456011007815974}
   - component: {fileID: 2020058922980393313}
+  - component: {fileID: 7384664672730643869}
   m_Layer: 0
   m_Name: hand.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2910,7 +2927,22 @@ MonoBehaviour:
   armModel: {fileID: 8871448350134873580}
   characterWallet: {fileID: 5912606073140519939}
   fist: {fileID: 2786345713418394259}
+  spellController: {fileID: 0}
   punchAttempted: 0
+  alreadyHit: []
+--- !u!135 &7384664672730643869
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2403960493020196739}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &2514083516510003113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2954,7 +2986,7 @@ GameObject:
   - component: {fileID: 849724948464433379}
   m_Layer: 0
   m_Name: spine1
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3004,7 +3036,7 @@ GameObject:
   - component: {fileID: 6605394435803326950}
   m_Layer: 0
   m_Name: forearm3.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3114,7 +3146,7 @@ GameObject:
   - component: {fileID: 8817668133890451000}
   m_Layer: 0
   m_Name: bicep3.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3224,7 +3256,7 @@ GameObject:
   - component: {fileID: 8277809572620352876}
   m_Layer: 0
   m_Name: forearm4.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3333,7 +3365,7 @@ GameObject:
   - component: {fileID: 7576807033191423410}
   m_Layer: 0
   m_Name: spine3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3403,7 +3435,7 @@ GameObject:
   - component: {fileID: 6258943976761832305}
   m_Layer: 0
   m_Name: forearm3.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3511,7 +3543,7 @@ GameObject:
   - component: {fileID: 4583923213795899764}
   m_Layer: 0
   m_Name: spine2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3589,7 +3621,7 @@ GameObject:
   - component: {fileID: 877547594449817202}
   m_Layer: 0
   m_Name: bicep3.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3699,7 +3731,7 @@ GameObject:
   - component: {fileID: 6142003309574575125}
   m_Layer: 0
   m_Name: forearm2.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3807,7 +3839,7 @@ GameObject:
   - component: {fileID: 6760380360302120325}
   m_Layer: 0
   m_Name: thigh.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3855,7 +3887,7 @@ GameObject:
   - component: {fileID: 3623527841871620902}
   m_Layer: 0
   m_Name: bicep2.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4089,7 +4121,7 @@ GameObject:
   - component: {fileID: 5898213134883659909}
   m_Layer: 0
   m_Name: bicep4.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4245,7 +4277,7 @@ GameObject:
   - component: {fileID: 646839059738180220}
   m_Layer: 0
   m_Name: bicep2.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4353,7 +4385,7 @@ GameObject:
   - component: {fileID: 4008493939636227890}
   m_Layer: 0
   m_Name: shin1.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4463,7 +4495,7 @@ GameObject:
   - component: {fileID: 1755070926769987461}
   m_Layer: 0
   m_Name: bicep3.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4573,7 +4605,7 @@ GameObject:
   - component: {fileID: 5574713310874156387}
   m_Layer: 0
   m_Name: forearm1.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4765,7 +4797,7 @@ GameObject:
   - component: {fileID: 8627620131195934398}
   m_Layer: 0
   m_Name: bicep4.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4871,9 +4903,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2698463940891031712}
   - component: {fileID: 316505080341867413}
+  - component: {fileID: 3415951782268888808}
   m_Layer: 0
   m_Name: hand.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4913,7 +4946,22 @@ MonoBehaviour:
   armModel: {fileID: 4870475308312869876}
   characterWallet: {fileID: 5912606073140519939}
   fist: {fileID: 3642960172759500500}
+  spellController: {fileID: 0}
   punchAttempted: 0
+  alreadyHit: []
+--- !u!135 &3415951782268888808
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930812843020718041}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &3936318161586340607
 GameObject:
   m_ObjectHideFlags: 0
@@ -4990,7 +5038,7 @@ GameObject:
   - component: {fileID: 3377262685961920936}
   m_Layer: 0
   m_Name: bicep3.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5100,7 +5148,7 @@ GameObject:
   - component: {fileID: 2789434705536485973}
   m_Layer: 0
   m_Name: forearm4.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5268,9 +5316,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4645866133670981607}
   - component: {fileID: 5002219374532439386}
+  - component: {fileID: 2647877733647198842}
   m_Layer: 0
   m_Name: hand.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5310,7 +5359,22 @@ MonoBehaviour:
   armModel: {fileID: 1440034392153647664}
   characterWallet: {fileID: 5912606073140519939}
   fist: {fileID: 6812563361714056709}
+  spellController: {fileID: 0}
   punchAttempted: 0
+  alreadyHit: []
+--- !u!135 &2647877733647198842
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501058605140443744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &4595859140206677284
 GameObject:
   m_ObjectHideFlags: 0
@@ -5325,7 +5389,7 @@ GameObject:
   - component: {fileID: 6839263688208594905}
   m_Layer: 0
   m_Name: forearm3.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5433,7 +5497,7 @@ GameObject:
   - component: {fileID: 6684412654589970972}
   m_Layer: 0
   m_Name: shin2.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5478,7 +5542,7 @@ GameObject:
   - component: {fileID: 514053017910538703}
   m_Layer: 0
   m_Name: hip.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5726,7 +5790,7 @@ GameObject:
   - component: {fileID: 2068718612999495035}
   m_Layer: 0
   m_Name: head
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5773,7 +5837,7 @@ GameObject:
   - component: {fileID: 6155275433132125013}
   m_Layer: 0
   m_Name: forearm2.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5883,7 +5947,7 @@ GameObject:
   - component: {fileID: 9222845324268356406}
   m_Layer: 0
   m_Name: bicep4.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5993,7 +6057,7 @@ GameObject:
   - component: {fileID: 5760277353415336290}
   m_Layer: 0
   m_Name: forearm1.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6099,9 +6163,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5392232079084700476}
   - component: {fileID: 6903831324083244892}
+  - component: {fileID: 3902623311622700412}
   m_Layer: 0
   m_Name: hand.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6142,7 +6207,22 @@ MonoBehaviour:
   armModel: {fileID: 5503262843156402515}
   characterWallet: {fileID: 5912606073140519939}
   fist: {fileID: 681683305154692634}
+  spellController: {fileID: 0}
   punchAttempted: 0
+  alreadyHit: []
+--- !u!135 &3902623311622700412
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5138368797537343975}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &5222208197172592254
 GameObject:
   m_ObjectHideFlags: 0
@@ -6157,7 +6237,7 @@ GameObject:
   - component: {fileID: 8474185862948993360}
   m_Layer: 0
   m_Name: bicep4.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6298,7 +6378,7 @@ GameObject:
   - component: {fileID: 1595675208557433566}
   m_Layer: 0
   m_Name: bicep1.R Rag
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6408,7 +6488,7 @@ GameObject:
   - component: {fileID: 5168278599232510602}
   m_Layer: 0
   m_Name: forearm4.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6907,6 +6987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 7302333495938282686}
+  moneyManager: {fileID: 0}
   healthScript: {fileID: 0}
   layerMaskGround:
     serializedVersion: 2
@@ -6997,7 +7078,7 @@ GameObject:
   - component: {fileID: 4894401518147106180}
   m_Layer: 0
   m_Name: forearm3.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7543,7 +7624,7 @@ GameObject:
   - component: {fileID: 8323998849588952878}
   m_Layer: 0
   m_Name: shin2.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7590,7 +7671,7 @@ GameObject:
   - component: {fileID: 8375526676879234328}
   m_Layer: 0
   m_Name: bicep1.R.3 Rag
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7700,7 +7781,7 @@ GameObject:
   - component: {fileID: 8538285195033780227}
   m_Layer: 0
   m_Name: forearm4.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7806,9 +7887,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5456191562555655845}
   - component: {fileID: 6700629373577747758}
+  - component: {fileID: 7647341244919104084}
   m_Layer: 0
   m_Name: hand.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7848,7 +7930,22 @@ MonoBehaviour:
   armModel: {fileID: 5503262843156402515}
   characterWallet: {fileID: 5912606073140519939}
   fist: {fileID: 3456976307717631266}
+  spellController: {fileID: 0}
   punchAttempted: 0
+  alreadyHit: []
+--- !u!135 &7647341244919104084
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7023222664225353027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &7132748924505736675
 GameObject:
   m_ObjectHideFlags: 0
@@ -7863,7 +7960,7 @@ GameObject:
   - component: {fileID: 6102396908183698382}
   m_Layer: 0
   m_Name: bicep2.R
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7973,7 +8070,7 @@ GameObject:
   - component: {fileID: 3558170523839587423}
   m_Layer: 0
   m_Name: hand.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8272,7 +8369,7 @@ GameObject:
   - component: {fileID: 6947054854031060088}
   m_Layer: 0
   m_Name: forearm4.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8382,7 +8479,7 @@ GameObject:
   - component: {fileID: 634377118054365320}
   m_Layer: 0
   m_Name: bicep3.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8662,7 +8759,7 @@ GameObject:
   - component: {fileID: 9089168187481937150}
   m_Layer: 0
   m_Name: bicep1.L.3 Rag
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8803,7 +8900,7 @@ GameObject:
   - component: {fileID: 7357427615452151743}
   m_Layer: 0
   m_Name: forearm3.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9021,7 +9118,7 @@ GameObject:
   - component: {fileID: 1763680464254677695}
   m_Layer: 0
   m_Name: bicep1.L Rag
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9131,7 +9228,7 @@ GameObject:
   - component: {fileID: 6362493989159498665}
   m_Layer: 0
   m_Name: forearm1.R.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9270,7 +9367,7 @@ GameObject:
   - component: {fileID: 8989995335694643862}
   m_Layer: 0
   m_Name: shin1.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9349,7 +9446,7 @@ GameObject:
   - component: {fileID: 1814305851411701842}
   m_Layer: 0
   m_Name: bicep2.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9459,7 +9556,7 @@ GameObject:
   - component: {fileID: 8117489980920562715}
   m_Layer: 0
   m_Name: bicep2.L
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9600,7 +9697,7 @@ GameObject:
   - component: {fileID: 2298491865116539929}
   m_Layer: 0
   m_Name: forearm1.L.3
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9710,7 +9807,7 @@ GameObject:
   - component: {fileID: 7049598969191951769}
   m_Layer: 0
   m_Name: bicep2.R.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10223,7 +10320,7 @@ GameObject:
   - component: {fileID: 4107377425770342011}
   m_Layer: 0
   m_Name: bicep1.R.2 Rag
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10581,7 +10678,7 @@ GameObject:
   - component: {fileID: 820433389844660562}
   m_Layer: 0
   m_Name: forearm1.L.2
-  m_TagString: Untagged
+  m_TagString: CharacterBodyPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10771,6 +10868,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 202133459e6452946a765cd547820e7f, type: 3}
+--- !u!4 &8722104835374069635 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1621977592691884965}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &681683305154692634 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
@@ -10783,12 +10886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06deb234704eaa446b307114e1d4f43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &8722104835374069635 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1621977592691884965}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3276891707873788779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10883,12 +10980,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 202133459e6452946a765cd547820e7f, type: 3}
---- !u!4 &4823517386244536141 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3276891707873788779}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3642960172759500500 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
@@ -10901,6 +10992,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06deb234704eaa446b307114e1d4f43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4823517386244536141 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3276891707873788779}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3462734843890575517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10995,6 +11092,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 202133459e6452946a765cd547820e7f, type: 3}
+--- !u!4 &6883561654689995963 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3462734843890575517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3456976307717631266 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
@@ -11007,12 +11110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06deb234704eaa446b307114e1d4f43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &6883561654689995963 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3462734843890575517}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4133365430816874284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11224,6 +11321,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 202133459e6452946a765cd547820e7f, type: 3}
+--- !u!4 &3383858291648094108 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4718832413542378426}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6812563361714056709 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
@@ -11236,12 +11339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06deb234704eaa446b307114e1d4f43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &3383858291648094108 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4718832413542378426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!96 &2736177404789860998 stripped
 TrailRenderer:
   m_CorrespondingSourceObject: {fileID: 7243041431151558972, guid: 202133459e6452946a765cd547820e7f,
@@ -11342,12 +11439,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 202133459e6452946a765cd547820e7f, type: 3}
---- !u!4 &4266080114280823669 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 6106143764041682771}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5425393043961252588 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2303520137673983423, guid: 202133459e6452946a765cd547820e7f,
@@ -11360,3 +11451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06deb234704eaa446b307114e1d4f43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4266080114280823669 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8037034330284569638, guid: 202133459e6452946a765cd547820e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6106143764041682771}
+  m_PrefabAsset: {fileID: 0}

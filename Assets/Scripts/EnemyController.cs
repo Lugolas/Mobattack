@@ -19,7 +19,9 @@ public class EnemyController : MonoBehaviour {
   protected int maxHealthCharred = 20;
   public GameObject headband;
   public Material bone;
+  public Material inBone;
   public Material boneCharred;
+  public Material inBoneCharred;
   public List<GameObject> lightsCharred = new List<GameObject>();
   protected bool spawning = false;
   protected bool hasSpawned = false;
@@ -79,14 +81,23 @@ public class EnemyController : MonoBehaviour {
       SkinnedMeshRenderer[] meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
       foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
       {
-        if (meshRenderer.material.name.Substring(0, 4) == bone.name.Substring(0, 4))
+        for (int i = 0; i < meshRenderer.materials.Length; i++)
         {
-          meshRenderer.material = boneCharred;
+          if (meshRenderer.materials[i].name.Substring(0, 4) == bone.name.Substring(0, 4))
+          {
+            meshRenderer.materials[i].SetColor("_Color", boneCharred.GetColor("_Color"));
+            meshRenderer.materials[i].SetColor("_OutlineColor", boneCharred.GetColor("_OutlineColor"));
+          }
+          if (meshRenderer.materials[i].name.Substring(0, 4) == inBone.name.Substring(0, 4))
+          {
+            meshRenderer.materials[i].SetColor("_Color", inBoneCharred.GetColor("_Color"));
+            meshRenderer.materials[i].SetColor("_OutlineColor", inBoneCharred.GetColor("_OutlineColor"));
+          }
         }
       }
       foreach (GameObject lightCharred in lightsCharred)
       {
-        lightCharred.SetActive(true);
+        // lightCharred.SetActive(true);
       }
       maxHealth = maxHealthCharred;
     }
@@ -171,6 +182,9 @@ public class EnemyController : MonoBehaviour {
     {
       bodyPartDetailCollider.isTrigger = false;
     }
+
+    // Destroy after every bodypart has disappeared by itself
+    Destroy(gameObject, 30);
   }
 
   protected void Updating () {
@@ -202,7 +216,7 @@ public class EnemyController : MonoBehaviour {
   protected void DestroyOnWaveChange() {
     if (gameController.currentWaveLooped != lastWaveNumberKnown) {
       lastWaveNumberKnown = gameController.currentWaveLooped;
-      Destroy(gameObject);
+      // Destroy(gameObject);
     }
   }
 }

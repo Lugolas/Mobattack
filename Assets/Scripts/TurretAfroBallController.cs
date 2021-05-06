@@ -35,7 +35,6 @@ public class TurretAfroBallController : TurretController
   public GameObject hipR;
   public Transform cane;
   public GameObject canePrefab;
-  AfroFistDamage fistDamage;
   HealthSimple health;
   public RigidbodyConstraints constraints;
   public Rigidbody rigidbodyAfro;
@@ -64,7 +63,6 @@ public class TurretAfroBallController : TurretController
     animator = GetComponent<Animator>();
     health = GetComponentInChildren<HealthSimple>();
     togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController>();
-    fistDamage = GetComponentInChildren<AfroFistDamage>();
 
     Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
     foreach (Rigidbody rigidbody in rigidbodies)
@@ -176,14 +174,16 @@ public class TurretAfroBallController : TurretController
       jumping = false;
       jumpTriggerControl = true;
       ready = true;
-      fistDamage.outsideDamageModifier = 0;
+      // fistDamage.outsideDamageModifier = 0;
     }
 
     animator.SetBool("Flying", launched);
 
     damageInitial = Mathf.RoundToInt(rigidbodyAfro.velocity.magnitude);
     damageModifiedBase = Mathf.RoundToInt(damageInitial + (damageInitial * baseDamageModifier));
-    damageFinal = Mathf.RoundToInt(damageModifiedBase + (damageModifiedBase * fistDamage.outsideDamageModifier));
+    damageFinal = Mathf.RoundToInt(damageModifiedBase);
+
+    // FAIRE PASSER SUR AFROFIST ¯\_(ツ)_/¯
 
     if (launched && Time.time > launchTime + flyingDuration) {
       JumpBack();
