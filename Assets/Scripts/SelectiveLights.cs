@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minimap : MonoBehaviour
+public class SelectiveLights : MonoBehaviour
 {
   public List<Light> LightsToIgnore;
   public List<Light> LightsToDisplayOnlyHere;
 
-  void OnPreCull()
-  {
-    foreach (Light light in LightsToDisplayOnlyHere)
-    {
-      light.enabled = true;
-    }
-    foreach (Light light in LightsToIgnore)
-    {
-      light.enabled = false;
-    }
-  }
+  // void OnPreCull()
+  // {
+  //   foreach (Light light in LightsToDisplayOnlyHere)
+  //   {
+  //     light.enabled = true;
+  //   }
+  //   foreach (Light light in LightsToIgnore)
+  //   {
+  //     light.enabled = false;
+  //   }
+  // }
   void OnPreRender()
   {
     foreach (Light light in LightsToDisplayOnlyHere)
