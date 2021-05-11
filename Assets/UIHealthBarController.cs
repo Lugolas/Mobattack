@@ -6,34 +6,11 @@ using UnityEngine.UI;
 public class UIHealthBarController : MonoBehaviour
 {
   HealthDamage health;
+  int lastMaxHealthKnown;
   GameObject player;
   GameObject character;
-  public RectTransform barLimit;
-  public float barLimitMinX;
-  public float barLimitMaxX;
-  float barLimitSizeX;
-  public Image healthBar;
-  public float healthFillMin;
-  public float healthFillMax;
-  float healthfillSize;
-  public Image backHealthBar;
-  float healthPercentage;
-  float lastHealthDecreaseTime = -1;
-  float backHealthDecreaseDelay = 0.2f;
-  float lastHealth;
-  float currentHealth;
-  float backHealthDecreaseStartFillAmount;
-  float backHealthDecreaseStartTime;
-  bool backHealthDecreasing = false;
-  bool waitingForDecrease = false;
-  float decreaseInterpolation;
-
-
-  void Start()
-  {
-    healthfillSize = healthFillMax - healthFillMin;
-    barLimitSizeX = barLimitMaxX - barLimitMinX;
-  }
+  public UIBarController healthBar;
+  public UIBarController manaBar;
 
   void Update()
   {
@@ -45,40 +22,23 @@ public class UIHealthBarController : MonoBehaviour
           character = player.GetComponent<PlayerInputManager>().character;
         } else {
           health = character.GetComponent<HealthDamage>();
+          lastMaxHealthKnown = health.maxHealth;
         }
       }
     } else {
-      currentHealth = health.currentHealth;
-      healthPercentage = currentHealth / health.maxHealth;
-      healthBar.fillAmount = healthFillMin + (healthfillSize * healthPercentage);
-      barLimit.anchoredPosition = new Vector2(barLimitMinX + (barLimitSizeX * healthPercentage), barLimit.anchoredPosition.y);
-
-      if (lastHealth != currentHealth) {
-        if (lastHealth > currentHealth) {
-          lastHealthDecreaseTime = Time.time;
-          if (backHealthDecreasing) {
-            backHealthDecreaseStartFillAmount = backHealthBar.fillAmount;
-            backHealthDecreaseStartTime = Time.time;
-          } else if (!waitingForDecrease) {
-            backHealthBar.fillAmount = healthFillMin + (healthfillSize * (lastHealth / health.maxHealth));
-            waitingForDecrease = true;
-          }
-        }
-        lastHealth = currentHealth;
+      if (healthBar.IsInitiated()) {
+        healthBar.SetCurrentValue(health.currentHealth);
+      } else {
+        healthBar.Init(health.maxHealth);
       }
-      if (!backHealthDecreasing && lastHealthDecreaseTime != -1 && Time.time > lastHealthDecreaseTime + backHealthDecreaseDelay) {
-        backHealthDecreaseStartFillAmount = backHealthBar.fillAmount;
-        backHealthDecreaseStartTime = Time.time;
-        backHealthDecreasing = true;
-        waitingForDecrease = false;
+      if (health.maxHealth != lastMaxHealthKnown) {
+        lastMaxHealthKnown = health.maxHealth;
+        healthBar.UpdateBar(health.maxHealth);
       }
-      if (backHealthDecreasing) {
-        decreaseInterpolation = (Time.time - backHealthDecreaseStartTime) * 2;
-        backHealthBar.fillAmount = Mathf.Lerp(backHealthDecreaseStartFillAmount, healthBar.fillAmount, decreaseInterpolation);
-        if (decreaseInterpolation > 1) {
-          backHealthDecreasing = false;
-          lastHealthDecreaseTime = -1;
-        }
+      if (manaBar.IsInitiated()) {
+        manaBar.SetCurrentValue(health.currentMana);
+      } else {
+        manaBar.Init(health.maxMana);
       }
     }
   }
