@@ -11,10 +11,9 @@ public class HealthDamage : HealthSimple
   private float respawnTime = 0;
   private float deathTime = -1;
   private BaseMoveAttacc baseMoveAttacc;
-  private Image manaBar;
+  private Image manaBarImage;
   private TextMeshProUGUI headerText;
   public int currentMana = 0;
-  float currentManaFloat;
   public int maxMana = 100;
   float lastManaUpdate = 0;
   float manaDecreasingDelay = 2;
@@ -27,8 +26,9 @@ public class HealthDamage : HealthSimple
   bool hasDied = false;
   int manaDecreasingCounter = 1;
   int manaDecreasingRate = 3;
-
-
+  UIBarController manaBar;
+  int lastMaxManaKnown;
+  public int currentExp = 0;
 
   // Start is called before the first frame update
   void Start()
@@ -42,6 +42,7 @@ public class HealthDamage : HealthSimple
     baseMoveAttacc = GetComponent<BaseMoveAttacc>();
 
     playerHeaderInstantiate();
+    lastMaxManaKnown = maxMana;
   }
 
   void Update() {
@@ -50,7 +51,7 @@ public class HealthDamage : HealthSimple
       AddHealthRegenPerSecondAddition(maxHealth * 0.005f, "0.5%NaturalRegen");
     }
     if (header) {
-      manaBar.fillAmount = (float) currentMana / maxMana;
+      currentExp = currentMana;
     }
     if (isDead && !hasDied) {
       hasDied = true;
@@ -61,6 +62,18 @@ public class HealthDamage : HealthSimple
       headerEnhancedToggle(true);
       currentHealth = maxHealth;
       currentMana = 0;
+    }
+
+    if (manaBar) {
+      if (manaBar.IsInitiated()) {
+        manaBar.SetCurrentValue(currentMana);
+      } else {
+        manaBar.Init(maxMana);
+      }
+      if (maxMana != lastMaxManaKnown) {
+        lastMaxManaKnown = maxMana;
+        manaBar.UpdateBar(maxMana);
+      }
     }
   }
 
@@ -78,7 +91,8 @@ public class HealthDamage : HealthSimple
 
   void playerHeaderInstantiate()
   {
-    manaBar = headerBars[2];
+    manaBar = header.GetComponentsInChildren<UIBarController>()[1];
+    manaBarImage = manaBar.valueBar;
 
     headerText = header.GetComponentInChildren<TextMeshProUGUI>();
     if (headerText) {
@@ -89,7 +103,7 @@ public class HealthDamage : HealthSimple
   protected void headerEnhancedToggle (bool state) {
     headerToggle(state);
     if (healthFrame && healthBar) {
-      manaBar.enabled = state;
+      manaBarImage.enabled = state;
       headerText.enabled = state;
     }
   }

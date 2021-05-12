@@ -6940,7 +6940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 5408453164450830279}
-  maxHealth: 500
+  maxHealth: 1947
   currentHealth: 0
   armorBase: 0
   armorFinal: 0

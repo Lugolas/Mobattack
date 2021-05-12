@@ -12,6 +12,7 @@ public class HealthSimple : MonoBehaviour {
   protected UnityEngine.AI.NavMeshAgent navAgent;
 
   public int maxHealth = 200;
+  protected int lastMaxHealthKnown = 0;
   public int currentHealth;
   public int armorBase = 0;
   List<Tools.StatModifier> armorBaseMultipliers = new List<Tools.StatModifier>();
@@ -35,9 +36,10 @@ public class HealthSimple : MonoBehaviour {
   public bool isDead = false;
   public GameObject headerPrefab;
   protected GameObject header;
-  protected Image[] headerBars;
+  protected Image[] headerBarImages;
   public Image healthFrame;
-  public Image healthBar;
+  public Image healthBarImage;
+  protected UIBarController healthBar;
   public string entityName;
   protected GameObject canvas;
   protected bool isHeaderVisible = false;
@@ -58,6 +60,7 @@ public class HealthSimple : MonoBehaviour {
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent> ();
 
     canvas = GameObject.Find ("Canvas");
+    lastMaxHealthKnown = maxHealth;
 
     if (headerPrefab)
       HeaderInstantiate ();
@@ -86,7 +89,17 @@ public class HealthSimple : MonoBehaviour {
     if (header) {
       Vector2 headerScreenPosition = Camera.main.WorldToScreenPoint (new Vector3 (headerAnchor.position.x, headerAnchor.position.y + 2f, headerAnchor.position.z));
       header.transform.position = new Vector2 (headerScreenPosition.x, headerScreenPosition.y + 75);
-      healthBar.fillAmount = (float) currentHealth / maxHealth;
+      if (healthBar) {
+        if (healthBar.IsInitiated()) {
+          healthBar.SetCurrentValue(currentHealth);
+        } else {
+          healthBar.Init(maxHealth);
+        }
+        if (maxHealth != lastMaxHealthKnown) {
+          lastMaxHealthKnown = maxHealth;
+          healthBar.UpdateBar(maxHealth);
+        }
+      }
     }
 
     if (healthRegen) {
@@ -111,10 +124,11 @@ public class HealthSimple : MonoBehaviour {
     header.transform.SetParent (canvas.transform, false);
     header.transform.position = new Vector2 (headerScreenPosition.x, headerScreenPosition.y + 75);
 
-    headerBars = header.GetComponentsInChildren<Image> ();
+    headerBarImages = header.GetComponentsInChildren<Image> ();
 
-    healthFrame = headerBars[0];
-    healthBar = headerBars[1];
+    healthFrame = headerBarImages[0];
+    healthBar = header.GetComponentInChildren<UIBarController>();
+    healthBarImage = healthBar.valueBar;
 
     isHeaderVisible = true;
   }

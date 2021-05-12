@@ -62,9 +62,9 @@ public class CharacterManager : NetworkBehaviour
 
     // Change Health Bar Color
     Image healthBar;
-    healthBar = gameObject.GetComponent<HealthDamage>().healthBar;
-    if (healthBar)
-      healthBar.color = color;
+    healthBar = gameObject.GetComponent<HealthDamage>().healthBarImage;
+    // if (healthBar)
+    //   healthBar.color = color;
 
     // Change Outline Color
     Renderer[] renderers;
