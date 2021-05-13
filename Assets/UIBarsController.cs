@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIHealthBarController : MonoBehaviour
+public class UIBarsController : MonoBehaviour
 {
   HealthDamage health;
   int lastMaxHealthKnown;
+  int lastMaxManaKnown;
+  int lastMaxExpKnown;
   GameObject player;
   GameObject character;
   public UIBarController healthBar;
   public UIBarController manaBar;
+  public UIExpBarController expBar;
 
   void Update()
   {
@@ -35,10 +38,25 @@ public class UIHealthBarController : MonoBehaviour
         lastMaxHealthKnown = health.maxHealth;
         healthBar.UpdateBar(health.maxHealth);
       }
+
       if (manaBar.IsInitiated()) {
         manaBar.SetCurrentValue(health.currentMana);
       } else {
         manaBar.Init(health.maxMana);
+      }
+      if (health.maxMana != lastMaxManaKnown) {
+        lastMaxManaKnown = health.maxMana;
+        manaBar.UpdateBar(health.maxMana);
+      }
+
+      if (expBar.IsInitiated()) {
+        expBar.SetCurrentExp(health.currentExp);
+      } else {
+        expBar.Init(health.maxExp);
+      }
+      if (health.maxExp != lastMaxExpKnown) {
+        lastMaxExpKnown = health.maxExp;
+        expBar.UpdateBar(health.maxExp);
       }
     }
   }

@@ -180,7 +180,7 @@ public class AfroFistController : MonoBehaviour {
         meshRenderer.enabled = false;
         hasHit = true;
         initiatedSelfDestruction = true;
-        if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet, gameObject)) {
+        if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet)) {
           spellController.FistKilledEnemy();
         }
         if (fistBurstPrefab) {
@@ -227,8 +227,7 @@ public class AfroFistController : MonoBehaviour {
         Tools.InflictDamage(
           trailTargetList[i].transform,
           Mathf.RoundToInt(Mathf.RoundToInt(damageFinal / 2f) * hitDelay),
-          characterWallet,
-          gameObject
+          characterWallet
         );
       } else {
         trailTargetList.RemoveAt(i);

@@ -140,7 +140,7 @@ public class BaseMoveAttacc : MonoBehaviour
         switch (baseAttackType)
         {
           case BaseAttackType.TargetSolo:
-            Tools.InflictDamage(targetedEnemy, health.damageFinal, moneyManager, attacker);
+            Tools.InflictDamage(targetedEnemy, health.damageFinal, moneyManager);
             break;
           case BaseAttackType.TargetGroup:
             break;

@@ -29,6 +29,7 @@ public class HealthDamage : HealthSimple
   UIBarController manaBar;
   int lastMaxManaKnown;
   public int currentExp = 0;
+  public int maxExp = 100;
 
   // Start is called before the first frame update
   void Start()
@@ -51,7 +52,7 @@ public class HealthDamage : HealthSimple
       AddHealthRegenPerSecondAddition(maxHealth * 0.005f, "0.5%NaturalRegen");
     }
     if (header) {
-      currentExp = currentMana;
+      // currentExp = currentMana;
     }
     if (isDead && !hasDied) {
       hasDied = true;

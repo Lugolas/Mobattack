@@ -198,7 +198,7 @@ public class TurretAfroBallController : TurretController
     }
   }
 
-  public void Launch(GameObject attacker) {
+  public void Launch(SpellController attacker) {
     ready = false;
     launched = true;
     launchTime = Time.time;
@@ -251,7 +251,7 @@ public class TurretAfroBallController : TurretController
       GameObject enemyHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "EnemyCharacter");
       if (enemyHit)
       {
-        Tools.InflictDamage(collider.transform, damageFinal, playerLink.characterWallet, gameObject);
+        Tools.InflictDamage(collider.transform, damageFinal, playerLink.characterWallet, spellController);
       }
       GameObject corpseHit = Tools.FindObjectOrParentWithTag(collider.gameObject, "Corpse");
       if (corpseHit)
@@ -266,7 +266,7 @@ public class TurretAfroBallController : TurretController
     foreach (GameObject enemyInRange in enemiesInRange)
     {
       if (enemyInRange) {
-        Tools.InflictDamage(enemyInRange.transform, caneDamage, playerLink.characterWallet, gameObject);
+        Tools.InflictDamage(enemyInRange.transform, caneDamage, playerLink.characterWallet, spellController);
       }
       targetUpdateWanted = true;
     }

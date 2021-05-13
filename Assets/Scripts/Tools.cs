@@ -200,7 +200,7 @@ public class Tools : MonoBehaviour
     }
     return hs;
   }
-  public static bool InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager, GameObject attacker)
+  public static bool InflictDamage(Transform targetedEnemy, int damageAmount, MoneyManager moneyManager, SpellController attacker = null)
   {
     HealthSimple health = GetHealth(targetedEnemy.gameObject);
     if (health)

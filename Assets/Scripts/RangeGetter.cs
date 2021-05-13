@@ -78,11 +78,11 @@ public class RangeGetter : MonoBehaviour
           {
             if (collidedCharacter.name == baseMoveAttacc.targetedEnemy.name)
             {
-              health.TakeDamage(mainDamageAmount, gameObject);
+              health.TakeDamage(mainDamageAmount);
             }
             else
             {
-              health.TakeDamage(damageAmount, gameObject);
+              health.TakeDamage(damageAmount);
             }
           }
         }
@@ -131,7 +131,7 @@ public class RangeGetter : MonoBehaviour
       HealthSimple health = collidedCharacter.GetComponent<HealthSimple>();
       if (health)
       {
-        health.TakeDamage(damageAmount, gameObject);
+        health.TakeDamage(damageAmount);
       }
     }
   }

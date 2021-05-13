@@ -69,15 +69,7 @@ public class UIBarController : MonoBehaviour
             backValueDecreaseStartFillAmount = backValueBar.fillAmount;
             backValueDecreaseStartTime = Time.time;
           } else if (!waitingForDecrease) {
-            if (name == "HealthBarMask") {
-              Debug.Log("Ouno");
-              Debug.Log(backValueBar.fillAmount);
-            }
             backValueBar.fillAmount = valueFillMin + (valuefillSize * (lastValue / maxValue));
-            if (name == "HealthBarMask") {
-              Debug.Log("Ouno bis");
-              Debug.Log(backValueBar.fillAmount);
-            }
             waitingForDecrease = true;
           }
         }
@@ -91,27 +83,13 @@ public class UIBarController : MonoBehaviour
       }
       if (backValueDecreasing) {
         decreaseInterpolation = (Time.time - backValueDecreaseStartTime) * 2;
-        if (name == "HealthBarMask") {
-          Debug.Log("Dausse");
-          Debug.Log(backValueBar.fillAmount);
-        }
         backValueBar.fillAmount = Mathf.Lerp(backValueDecreaseStartFillAmount, valueBar.fillAmount, decreaseInterpolation);
-        if (name == "HealthBarMask") {
-          Debug.Log("Dausse bis");
-          Debug.Log(backValueBar.fillAmount);
-        }
         if (decreaseInterpolation > 1) {
           backValueDecreasing = false;
           lastValueDecreaseTime = -1;
         }
       }
     }
-    // if (name == "HealthBarMask") {
-    //   Debug.Log(name + " " + waitingForDecrease);
-    //   Debug.Log(name + " " + backValueDecreasing);
-    //   Debug.Log(name + " " + backValueDecreaseStartTime);
-    //   Debug.Log(name + " " + decreaseInterpolation);
-    // }
   }
 
   public void SetCurrentValue(int value) {

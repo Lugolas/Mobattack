@@ -81,7 +81,7 @@ public class EnemyControllerBigg : EnemyController {
             listHit.Add(character);
             SpellController spellController = character.GetComponent<SpellController>();
             if (spellController) {
-              Tools.InflictDamage(spellController.body.transform, damageHit, null, gameObject);
+              Tools.InflictDamage(spellController.body.transform, damageHit, null);
             }
           }
         }
@@ -102,7 +102,7 @@ public class EnemyControllerBigg : EnemyController {
             listHit2.Add(character);
             SpellController spellController = character.GetComponent<SpellController>();
             if (spellController) {
-              Tools.InflictDamage(spellController.body.transform, damageHit2, null, gameObject);
+              Tools.InflictDamage(spellController.body.transform, damageHit2, null);
             }
           }
         }
@@ -122,7 +122,7 @@ public class EnemyControllerBigg : EnemyController {
             listSlam.Add(character);
             SpellController spellController = character.GetComponent<SpellController>();
             if (spellController) {
-              Tools.InflictDamage(spellController.body.transform, damageSlam, null, gameObject);
+              Tools.InflictDamage(spellController.body.transform, damageSlam, null);
             }
           }
         }

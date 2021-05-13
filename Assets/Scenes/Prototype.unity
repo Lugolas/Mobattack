@@ -4402,11 +4402,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1149176337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 261565c1ddffbbe4f87d583293f16eee, type: 3}
+  m_Script: {fileID: 11500000, guid: 3eb75ed636532b74ca144bef8ff191f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 741915940}
   manaBar: {fileID: 33416646}
+  expBar: {fileID: 2083888857}
 --- !u!1 &1253397340
 GameObject:
   m_ObjectHideFlags: 0
@@ -6911,6 +6912,7 @@ GameObject:
   - component: {fileID: 2083888854}
   - component: {fileID: 2083888856}
   - component: {fileID: 2083888855}
+  - component: {fileID: 2083888857}
   m_Layer: 5
   m_Name: ExpFill
   m_TagString: Untagged
@@ -6925,13 +6927,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2083888853}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7098782, w: 0.7043245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 788144832}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1349.55}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -6975,6 +6977,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2083888853}
   m_CullTransparentMesh: 1
+--- !u!114 &2083888857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083888853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2f1d436b227694b82ca0b2adc1ce9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expRotMinZ: -98.93
+  expRotMaxZ: -8.7
 --- !u!1 &2092990762
 GameObject:
   m_ObjectHideFlags: 0

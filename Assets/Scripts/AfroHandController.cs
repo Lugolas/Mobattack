@@ -89,7 +89,7 @@ public class AfroHandController : MonoBehaviour
         if (targetHealth && !alreadyHit.Contains(targetHealth)) {
           alreadyHit.Add(targetHealth);
           fist.UpdateDamage();
-          Tools.InflictDamage(targetHealth.transform, fist.damageFinal, spellController.moneyManager, afroParent);
+          Tools.InflictDamage(targetHealth.transform, fist.damageFinal, spellController.moneyManager);
         }
       }
     }

@@ -46,7 +46,7 @@ public class HealthSimple : MonoBehaviour {
   public GameObject corpse;
   public bool destroyOnDie = false;
   public int moneyToReward = 1;
-  public GameObject fatalAttacker;
+  public SpellController fatalAttacker;
   public Transform body;
   public Transform headerAnchor;
 
@@ -110,7 +110,7 @@ public class HealthSimple : MonoBehaviour {
     }
 
     if (Input.GetKeyDown (KeyCode.V)) {
-      TakeDamage (Random.Range (1, 21), this.gameObject);
+      TakeDamage (Random.Range (1, 21));
     }
 
     if (Input.GetKeyDown (KeyCode.C)) {
@@ -128,12 +128,14 @@ public class HealthSimple : MonoBehaviour {
 
     healthFrame = headerBarImages[0];
     healthBar = header.GetComponentInChildren<UIBarController>();
-    healthBarImage = healthBar.valueBar;
+    if (healthBar) {
+      healthBarImage = healthBar.valueBar;
+    }
 
     isHeaderVisible = true;
   }
 
-  public virtual bool TakeDamage (int damageAmount, GameObject attacker) {
+  public virtual bool TakeDamage (int damageAmount, SpellController attacker = null) {
     if (!isDead) {
       DamagePopUpController.CreateDamagePopUp (damageAmount.ToString (), body, "red");
 
@@ -173,7 +175,7 @@ public class HealthSimple : MonoBehaviour {
     }
   }
 
-  public void Die (GameObject attacker) {
+  public void Die (SpellController attacker) {
     if (!isDead) {
       currentHealth = 0;
       if (isHeaderVisible)

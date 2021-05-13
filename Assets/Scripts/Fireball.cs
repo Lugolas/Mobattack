@@ -174,7 +174,7 @@ public class Fireball : MonoBehaviour
         }
         else
         {
-          Tools.InflictDamage(collider.transform, damage, characterWallet, gameObject);
+          Tools.InflictDamage(collider.transform, damage, characterWallet);
           if (emitter) {
             emitter.targetUpdateWanted = true;
           }

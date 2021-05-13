@@ -135,7 +135,7 @@ public class EnemyController : MonoBehaviour {
     hasDied = true;
     Destroy (gameObject);
 
-    objectiveHealth.TakeDamage (health.currentHealth, gameObject);
+    objectiveHealth.TakeDamage (health.currentHealth);
   }
 
   protected bool HasTouchedObjective()
