@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIBarsController : MonoBehaviour
 {
   HealthDamage health;
+  SpellController spellController;
   int lastMaxHealthKnown;
   int lastMaxManaKnown;
   int lastMaxExpKnown;
@@ -14,6 +16,7 @@ public class UIBarsController : MonoBehaviour
   public UIBarController healthBar;
   public UIBarController manaBar;
   public UIExpBarController expBar;
+  public TMP_Text levelText;
 
   void Update()
   {
@@ -25,6 +28,7 @@ public class UIBarsController : MonoBehaviour
           character = player.GetComponent<PlayerInputManager>().character;
         } else {
           health = character.GetComponent<HealthDamage>();
+          spellController = health.GetComponent<SpellController>();
           lastMaxHealthKnown = health.maxHealth;
         }
       }
@@ -58,6 +62,8 @@ public class UIBarsController : MonoBehaviour
         lastMaxExpKnown = health.maxExp;
         expBar.UpdateBar(health.maxExp);
       }
+
+      levelText.text = spellController.level.ToString();
     }
   }
 }

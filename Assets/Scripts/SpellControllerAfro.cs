@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class SpellControllerAfro : SpellController {
   public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
-  public HealthDamage healthScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;
   public LayerMask layerMaskMove;
@@ -312,6 +311,8 @@ public class SpellControllerAfro : SpellController {
       armRight3ActiveCheck = armRight3Active;
       ArmSetActive(armRight3Active, handR3);
     }
+
+    LevelUpProcess();
   }
 
   void LateUpdate () {

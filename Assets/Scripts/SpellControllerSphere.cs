@@ -6,7 +6,6 @@ public class SpellControllerSphere : SpellController
 {
   MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
-  HealthDamage healthScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;
   public LayerMask layerMaskMove;

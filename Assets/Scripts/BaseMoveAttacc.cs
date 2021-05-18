@@ -7,6 +7,7 @@ public class BaseMoveAttacc : MonoBehaviour
   public float moveSpeed;
   float walkSpeed;
   float runSpeed;
+  public SpellController spellController;
 
   public float walkBaseDistancePerSecond = -1f;
   public float runBaseDistancePerSecond = -1f;
@@ -52,6 +53,9 @@ public class BaseMoveAttacc : MonoBehaviour
 
   void Start()
   {
+    if (!spellController) {
+      spellController = GetComponent<SpellController>();
+    }
     GameObject character = Tools.FindObjectOrParentWithTag(gameObject, "Character");
     if (character)
     {
@@ -140,7 +144,7 @@ public class BaseMoveAttacc : MonoBehaviour
         switch (baseAttackType)
         {
           case BaseAttackType.TargetSolo:
-            Tools.InflictDamage(targetedEnemy, health.damageFinal, moneyManager);
+            Tools.InflictDamage(targetedEnemy, health.damageFinal, moneyManager, spellController);
             break;
           case BaseAttackType.TargetGroup:
             break;

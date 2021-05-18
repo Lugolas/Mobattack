@@ -7,7 +7,7 @@ public class WolfController : SpellController
   public int id;
   public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
-  HealthSimple healthScript;
+  HealthSimple health;
   bool createModeOn = false;
   Vector3 turretCreationPoint;
   GameObject previewTurret;
@@ -48,7 +48,7 @@ public class WolfController : SpellController
       moveScript.moneyManager = moneyManager;
     }
 
-    healthScript = GetComponent<HealthSimple>();
+    health = GetComponent<HealthSimple>();
 
     enemiesManager = GameObject.Find("EnemiesManager");
 
@@ -64,7 +64,7 @@ public class WolfController : SpellController
     if (den) {
       attackTarget = den.target;
       gunDamage = statManager.damage;
-      healthScript.damageBase = gunDamage;
+      health.damageBase = gunDamage;
       moveScript.timeBetweenShots = delay;
       delay = statManager.delay;
     }
@@ -100,8 +100,8 @@ public class WolfController : SpellController
   }
 
   void Attack () {
-    if (moveScript && healthScript) {
-      if (!healthScript.isDead) {
+    if (moveScript && health) {
+      if (!health.isDead) {
         moveScript.moveSpeed = runBaseDistancePerSecond;
         moveScript.hasNavigationTarget = true;
         moveScript.navigationTargetMovable = attackTarget.transform;
@@ -111,8 +111,8 @@ public class WolfController : SpellController
   }
 
   void WalkTo (Vector3 point) {
-    if (moveScript && healthScript) {
-      if (!healthScript.isDead) {
+    if (moveScript && health) {
+      if (!health.isDead) {
         moveScript.moveSpeed = walkBaseDistancePerSecond;
         moveScript.hasNavigationTarget = true;
         moveScript.navigationTarget = point;

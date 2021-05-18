@@ -5,7 +5,6 @@ using UnityEngine;
 public class SpellControllerBear : SpellController {
   public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
-  HealthDamage healthScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;
   public LayerMask layerMaskMove;

@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour {
   protected GameObject enemyManager;
   public bool isCharred = false;
   public bool isRunner = false;
+  public int expValue = 1;
   public int maxHealthNormal = 5;
   protected float maxHealthCharredRatio = 4;
   protected int maxHealthCharred = 20;
@@ -150,6 +151,9 @@ public class EnemyController : MonoBehaviour {
   protected void DyingProcess()
   {
     hasDied = true;
+    if (health.fatalAttacker) {
+      health.fatalAttacker.GotAKill(expValue);
+    }
     managersManager.rangeSnapshotWanted = true;
     anim.SetBool("IsDead", true);
     anim.enabled = false;
