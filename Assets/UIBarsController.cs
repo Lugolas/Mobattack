@@ -17,6 +17,7 @@ public class UIBarsController : MonoBehaviour
   public UIBarController manaBar;
   public UIExpBarController expBar;
   public TMP_Text levelText;
+  public LvlUpGroupController lvlUpGroup;
 
   void Update()
   {
@@ -30,6 +31,7 @@ public class UIBarsController : MonoBehaviour
           health = character.GetComponent<HealthDamage>();
           spellController = health.GetComponent<SpellController>();
           lastMaxHealthKnown = health.maxHealth;
+          lvlUpGroup.spellController = spellController;
         }
       }
     } else {
