@@ -19,6 +19,7 @@ public class LvlUpChoicesController : MonoBehaviour
   public List<TMP_Text> titles = new List<TMP_Text>();
   public List<TMP_Text> descriptions = new List<TMP_Text>();
   public int level;
+  int choiceChosen = -1;
 
   void Start() {
     UpdateTextColor();
@@ -65,13 +66,29 @@ public class LvlUpChoicesController : MonoBehaviour
         colorText = lockedColorText;
       }
     }
-    foreach (TMP_Text title in titles)
+
+    for (var i = 0; i < titles.Count; i++)
     {
-      title.color = colorTitle;
+      if (i == choiceChosen -1) {
+        titles[i].color = activeColorTitle;
+      } else {
+        titles[i].color = colorTitle;
+      }
     }
-    foreach (TMP_Text description in descriptions)
+    for (var i = 0; i < descriptions.Count; i++)
     {
-      description.color = colorText;
+      if (i == choiceChosen -1) {
+        descriptions[i].color = activeColorText;
+      } else {
+        descriptions[i].color = colorText;
+      }
+    }
+  }
+
+  public void SetActivatedChoice(int choice) {
+    if (choiceChosen == -1) {
+      choiceChosen = choice;
+      UpdateTextColor();
     }
   }
 }

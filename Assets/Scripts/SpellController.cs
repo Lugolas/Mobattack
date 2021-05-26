@@ -86,14 +86,28 @@ public abstract class SpellController : MonoBehaviour
   }
 
   virtual public void GotAKill(int expValue) {
-    healthScript.currentExp += expValue;
+    AddExp(expValue);
   }
 
   virtual public void LevelUpProcess() {
     if (healthScript.currentExp >= healthScript.maxExp) {
-      healthScript.currentExp = 0;
-      level++;
-      healthScript.maxExp = Mathf.RoundToInt(healthScript.maxExp * 1.25f);
+      if (level < 19) {
+        healthScript.currentExp = 0;
+        level++;
+        healthScript.maxExp = Mathf.RoundToInt(healthScript.maxExp * 1.25f);
+      } else {
+        healthScript.currentExp = 1;
+        healthScript.maxExp = 1;
+        level = 20;
+      }
+    }
+  }
+
+  virtual public void AddExp(int expValue) {
+    if (healthScript.currentExp + expValue > healthScript.maxExp) {
+      healthScript.currentExp = healthScript.maxExp;
+    } else {
+      healthScript.currentExp += expValue;
     }
   }
 }
