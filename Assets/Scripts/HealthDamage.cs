@@ -15,6 +15,7 @@ public class HealthDamage : HealthSimple
   private TextMeshProUGUI headerText;
   public int currentMana = 0;
   public int maxMana = 100;
+  public bool isManaDecreasingOnItsOwn = false;
   float lastManaUpdate = 0;
   float manaDecreasingDelay = 2;
   private int SPAWNING_LAYER = 9;
@@ -83,7 +84,7 @@ public class HealthDamage : HealthSimple
 
   void FixedUpdate()
   {
-    if (currentMana > 0 && Time.time >= lastManaUpdate + manaDecreasingDelay) {
+    if (isManaDecreasingOnItsOwn && currentMana > 0 && Time.time >= lastManaUpdate + manaDecreasingDelay) {
       if (lastManaDecrease != -1) {
         float timeSinceLastDecrease = Time.time - lastManaDecrease;
         float manaToDecreaseSinceLastDecrease = timeSinceLastDecrease * manaLostPerSecond;
