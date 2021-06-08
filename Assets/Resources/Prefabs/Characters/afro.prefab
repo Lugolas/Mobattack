@@ -6963,7 +6963,7 @@ MonoBehaviour:
   body: {fileID: 3287268165450496745}
   headerAnchor: {fileID: 424896266204939562}
   currentMana: 0
-  maxMana: 20
+  maxMana: 100
   currentExp: 0
   maxExp: 25
 --- !u!114 &5912606073140519939

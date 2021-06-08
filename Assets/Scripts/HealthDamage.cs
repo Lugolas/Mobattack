@@ -30,6 +30,9 @@ public class HealthDamage : HealthSimple
   int lastMaxManaKnown;
   public int currentExp = 0;
   public int maxExp = 100;
+  float lastManaDecrease = -1;
+  float manaLostPerSecond = 10;
+  float manaToDecrease = 0;
 
   // Start is called before the first frame update
   void Start()
@@ -81,12 +84,19 @@ public class HealthDamage : HealthSimple
   void FixedUpdate()
   {
     if (currentMana > 0 && Time.time >= lastManaUpdate + manaDecreasingDelay) {
-      if (manaDecreasingCounter < manaDecreasingRate) {
-        manaDecreasingCounter++;
-      } else {
-        manaDecreasingCounter = 1;
-        UpdateMana(currentMana - 1);
+      if (lastManaDecrease != -1) {
+        float timeSinceLastDecrease = Time.time - lastManaDecrease;
+        float manaToDecreaseSinceLastDecrease = timeSinceLastDecrease * manaLostPerSecond;
+        manaToDecrease += manaToDecreaseSinceLastDecrease;
+        int manaDecreasing = Mathf.FloorToInt(manaToDecrease);
+        if (manaDecreasing > 0) {
+          manaToDecrease -= manaDecreasing;
+          UpdateMana(Mathf.RoundToInt(currentMana - manaDecreasing));
+        }
       }
+      lastManaDecrease = Time.time;
+    } else if (lastManaDecrease != -1) {
+      lastManaDecrease = -1;
     }
   }
 
