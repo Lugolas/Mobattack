@@ -152,7 +152,7 @@ public class EnemyController : MonoBehaviour {
   {
     hasDied = true;
     if (health.fatalAttacker) {
-      health.fatalAttacker.GotAKill(expValue);
+      health.fatalAttacker.GotAKill(expValue, body.position);
     }
     managersManager.rangeSnapshotWanted = true;
     anim.SetBool("IsDead", true);

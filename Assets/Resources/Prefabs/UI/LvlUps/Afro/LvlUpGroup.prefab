@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 780620619861651960}
   - component: {fileID: 780620619861651963}
   - component: {fileID: 780620619861651962}
-  - component: {fileID: 5809174778525635802}
+  - component: {fileID: -1269825957021001186}
   m_Layer: 5
   m_Name: LvlUpGroup
   m_TagString: Untagged
@@ -146,7 +146,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5809174778525635802
+--- !u!114 &-1269825957021001186
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 780620619861651964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5868ef8280e8d2f47b4d84a7c5efe555, type: 3}
+  m_Script: {fileID: 11500000, guid: 697058e1c5fb9b848a0ad50b3a7e3d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spellController: {fileID: 0}
@@ -180,7 +180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -220,7 +220,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -395,7 +395,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -435,7 +435,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -610,7 +610,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -650,7 +650,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -825,7 +825,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -870,7 +870,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1045,7 +1045,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1085,7 +1085,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1260,7 +1260,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1300,7 +1300,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1475,7 +1475,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 245308400653055150, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1515,7 +1515,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: 0}
     - target: {fileID: 1611349734065664420, guid: 10cf2d6049ffcd740a794b55facda270,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1690,7 +1690,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1704,7 +1704,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
@@ -1725,7 +1725,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1739,7 +1739,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
@@ -1885,7 +1885,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1899,7 +1899,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: 8464bfb50b5af494ca8e874dcf97f0b6,
         type: 3}
@@ -1935,7 +1935,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1949,7 +1949,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
@@ -1970,7 +1970,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1984,7 +1984,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
@@ -2130,7 +2130,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2144,7 +2144,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: ae04f65c6c04abc4e9a3d5e33023f4ab,
         type: 3}
@@ -2180,7 +2180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2194,7 +2194,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
@@ -2215,7 +2215,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2229,7 +2229,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
@@ -2375,7 +2375,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2389,7 +2389,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: e605b6bcc543cdc4792c37d497303b44,
         type: 3}
@@ -2425,7 +2425,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2439,7 +2439,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
@@ -2460,7 +2460,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2474,7 +2474,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
@@ -2620,7 +2620,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2634,7 +2634,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: d26faba3b88925449862599c55cd92c7,
         type: 3}
@@ -2670,7 +2670,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2684,7 +2684,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
@@ -2705,7 +2705,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2719,7 +2719,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
@@ -2870,7 +2870,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2884,7 +2884,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: a99483cf6ce57554395e821c54b7bf31,
         type: 3}
@@ -2920,7 +2920,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2934,7 +2934,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
@@ -2955,7 +2955,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2969,7 +2969,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
@@ -3115,7 +3115,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3129,7 +3129,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: b19aae41e4f92be4bafa40c0061f32f7,
         type: 3}
@@ -3165,7 +3165,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 924603323954678692, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3179,7 +3179,7 @@ PrefabInstance:
     - target: {fileID: 924603323954678692, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 924603323954678692, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
@@ -3200,7 +3200,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 3232062625553440182, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3214,7 +3214,7 @@ PrefabInstance:
     - target: {fileID: 3232062625553440182, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3232062625553440182, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
@@ -3360,7 +3360,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5809174778525635802}
+      objectReference: {fileID: -1269825957021001186}
     - target: {fileID: 8604773881176220219, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3374,7 +3374,7 @@ PrefabInstance:
     - target: {fileID: 8604773881176220219, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LvlUpGroupController, Assembly-CSharp
+      value: LvlUpGroupControllerAfro, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8604773881176220219, guid: 80757394b13ac264bbaaacf7ae3741d4,
         type: 3}

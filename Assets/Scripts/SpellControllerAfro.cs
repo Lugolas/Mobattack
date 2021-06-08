@@ -90,6 +90,9 @@ public class SpellControllerAfro : SpellController {
   public bool rageHealthRegenPerSecond = false;
   public bool speedAffectsFists = false;
   public bool fistBounceUp = false;
+  public bool trailUnlocked = false;
+  public bool fistBigger1 = false;
+  public bool fistBigger1Control = true;
   bool fistBounceUpControl = true;
   AnimatorNavAgentRootMotion rootMotion;
   float defaultSpeed;
@@ -97,9 +100,26 @@ public class SpellControllerAfro : SpellController {
   float defaultAngularSpeed;
   float defaultStoppingDistance;
   bool defaultAutoBraking;
+  int skelettsKilledControl;
+  public bool armsQuestOn = false;
+  int armsQuestLimit1 = 50;
+  int armsQuestLimit2 = 150;
+  bool armsQuestLimit1Achieved = false;
+  bool armsQuestLimit2Achieved = false;
+  public bool rageQuestOn = false;
+  int rageTimerDelay = 5;
+  int rageTimerSeconds = 0;
+  bool rageTimerOn = false;
+  float rageMaxTime = -1;
+  public float fistWeightInitial = 10;
+  float fistLaunchForceInitial = 100;
+  public float fistLaunchForce = 100;
+  public bool fistLaunchUp = false;
+  bool fistLaunchUpControl = true;
 
   // Start is called before the first frame update
   void Start () {
+    Init();
     spawnPoint = GameObject.Find("Spawn").transform.position;
     togglableRagdollControllers = GetComponentsInChildren<TogglableRagdollController> ();
     moneyManager = GetComponent<MoneyManager> ();
@@ -112,6 +132,7 @@ public class SpellControllerAfro : SpellController {
     }
 
     healthScript = GetComponent<HealthDamage> ();
+    skelettsKilledControl = skelettsKilled;
 
     enemiesManager = GameObject.Find ("EnemiesManager");
 
@@ -197,6 +218,39 @@ public class SpellControllerAfro : SpellController {
       fistMaterial.bounciness = 0.333f;
       fistMaterial.staticFriction = 0.333f;
       fistMaterial.dynamicFriction = 0.333f;
+    }
+    if (fistLaunchUp && !fistLaunchUpControl) {
+      fistLaunchUpControl = fistLaunchUp;
+      fistLaunchForce = fistLaunchForceInitial * 1.5f;
+    } else if (!fistLaunchUp && fistLaunchUpControl) {
+      fistLaunchUpControl = fistLaunchUp;
+      fistLaunchForce = fistLaunchForceInitial;
+    }
+    if (rageQuestOn && healthScript.currentMana == healthScript.maxMana) {
+      if (!rageTimerOn) {
+        rageTimerOn = true;
+        rageMaxTime = Time.time;
+      }
+      if (rageTimerOn && rageTimerSeconds <= rageTimerDelay) {
+        if (Time.time >= rageMaxTime + rageTimerSeconds) {
+          rageTimerSeconds++;
+          GenerateQuestDing(body.transform.position);
+          if (rageTimerSeconds == rageTimerDelay) {
+            manaReceivedOnKill = Mathf.RoundToInt(manaReceivedOnKill * 1.5f);
+            rageQuestOn = false;
+          }
+        }
+      }
+    } else if (rageTimerOn && healthScript.currentMana < healthScript.maxMana) {
+      rageTimerOn = false;
+      rageTimerSeconds = 0;
+    }
+    if (fistBigger1 && !fistBigger1Control) {
+      fistBigger1Control = true;
+      healthScript.AddDamageBaseMultiplier(1.2f, "bigger1");
+    } else if (!fistBigger1 && fistBigger1Control) {
+      fistBigger1Control = false;
+      healthScript.RemoveDamageBaseMultiplier("bigger1");
     }
     if (rageArmor) {
       healthScript.AddArmorAddition(healthScript.currentMana, "rageArmor");
@@ -507,7 +561,7 @@ public class SpellControllerAfro : SpellController {
   }
 
   void SetHandTrail(AfroHandController hand, bool state) {
-    if (hand.fist.gameObject.activeSelf) {
+    if (hand.fist.gameObject.activeSelf && trailUnlocked) {
       hand.fist.trail.emitting = state;
       // hand.fist.trailIN.emitting = state;
       // hand.fist.trailOUT.emitting = state;
@@ -756,11 +810,32 @@ public class SpellControllerAfro : SpellController {
   }
 
   public void SpeedUpSpell3 () {
-    spell3AttackSpeedMultiplier *= 1.05f;
+    // spell3AttackSpeedMultiplier *= 1.05f;
   }
 
   public void FistKilledEnemy() {
     SpeedUpSpell3();
     healthScript.ReceiveMana(manaReceivedOnKill);
   }
+
+  override public void GotAKill(int expValue, Vector3 position) {
+    skelettsKilled++;
+
+    if (armsQuestOn) {
+      GenerateQuestDing(position);
+
+      if (!armsQuestLimit1Achieved && skelettsKilled >= armsQuestLimit1) {
+        armsQuestLimit1Achieved = true;
+        armRight2Active = true;
+      } else if (armsQuestLimit1Achieved && !armsQuestLimit2Achieved && skelettsKilled >= armsQuestLimit2) {
+        armsQuestLimit2Achieved = true;
+        armLeft2Active = true;
+        armsQuestOn = false;
+      }
+    }
+
+    AddExp(expValue);
+  }
+
+
 }

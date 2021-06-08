@@ -22,7 +22,7 @@ public class AfroFistController : MonoBehaviour {
   private SphereCollider sphereCollider;
   private MeshRenderer meshRenderer;
   Material material;
-  private Rigidbody rigidbodyFist;
+  public Rigidbody rigidbodyFist;
   public RigidbodyConstraints constraints;
 
   private float startTime;
@@ -60,6 +60,7 @@ public class AfroFistController : MonoBehaviour {
   List<TrailColliderController> trailColliders = new List<TrailColliderController>();
   float lastHit = 0;
   float hitDelay = 0.25f;
+  float launchForce = 100;
 
   void Start () {
     startTime = Time.time;
@@ -74,7 +75,6 @@ public class AfroFistController : MonoBehaviour {
     meshRenderer = GetComponent<MeshRenderer> ();
     material = meshRenderer.material;
     outlineColor = Color.HSVToRGB(50, 0, 0);
-    rigidbodyFist = GetComponent<Rigidbody> ();
     sprites = GetComponentsInChildren<SpriteRenderer>();
     trailColliderRadius = trailColliderPrefab.GetComponent<CapsuleCollider>().radius;
 
@@ -82,6 +82,7 @@ public class AfroFistController : MonoBehaviour {
     if (useLifeTimeLimit) {
       Destroy (gameObject, lifeTimeLimit);
     }
+    UpdateDamage();
   }
   void Update () {
     if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction) {
@@ -245,7 +246,7 @@ public class AfroFistController : MonoBehaviour {
   }
 
   void SpawnTrailCollider() {
-    if (trail.emitting && !initiatedSelfDestruction) {
+    if (trail.emitting && !initiatedSelfDestruction && spellController.trailUnlocked) {
       if (Vector3.Distance(trailColliderSpawn.position, lastTrailColliderSpawnPosition) >= trailColliderRadius * 2) {
         GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
         lastTrailColliderSpawnPosition = trailColliderSpawn.position;
@@ -256,19 +257,23 @@ public class AfroFistController : MonoBehaviour {
     }
   }
 
-  public void Fire () {
+  public void Fire (float fistSize) {
     damageBase = spellController.healthScript.damageFinal;
     sphereCollider.enabled = true;
     rigidbodyFist.isKinematic = false;
     rigidbodyFist.constraints = constraints;
-    transform.localScale = Vector3.one;
+    transform.localScale = Vector3.one * fistSize;
+    trail.startWidth = fistSize;
     fired = true;
-    trail.emitting = true;
+    if (spellController.trailUnlocked) {
+      trail.emitting = true;
+    }
     // trailIN.emitting = true;
     // trailOUT.emitting = true;
 
-    rigidbodyFist.AddForce (spellController.body.transform.forward * 250f * 2, ForceMode.Impulse);
+    rigidbodyFist.AddForce (spellController.body.transform.forward * launchForce, ForceMode.Impulse);
     velocityLast = rigidbodyFist.velocity;
+    UpdateDamage();
   }
 
   void OnCollisionEnter (Collision collision) {
@@ -326,5 +331,13 @@ public class AfroFistController : MonoBehaviour {
     if (Tools.RemoveStatModifier(damageMultipliers, identifier)) {
       UpdateDamage();
     }
+  }
+
+  public void SetFistMass(float newMass) {
+    rigidbodyFist.mass = newMass;
+  }
+  public void SetLaunchForce(float newLaunchForce)
+  {
+    launchForce = newLaunchForce;
   }
 }

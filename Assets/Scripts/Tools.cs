@@ -342,4 +342,16 @@ public class Tools : MonoBehaviour
     }
     return updateNeeded;
   }
+
+  public static Transform GetMainCanvasTransform() {
+    GameObject canvas = GetMainCanvasObject();
+    Transform canvasTransform = null;
+    if (canvas) {
+      canvasTransform = canvas.transform;
+    }
+    return canvasTransform;
+  }
+  public static GameObject GetMainCanvasObject() {
+    return GameObject.Find ("Canvas");
+  }
 }

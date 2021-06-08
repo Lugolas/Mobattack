@@ -78,6 +78,9 @@ public class HealthSimple : MonoBehaviour {
     if (!body) {
       body = transform;
     }
+    UpdateHealthRegenPerSecond();
+    UpdateArmor();
+    UpdateDamage();
   }
 
   // Update is called once per frame
@@ -139,7 +142,7 @@ public class HealthSimple : MonoBehaviour {
     if (!isDead) {
       DamagePopUpController.CreateDamagePopUp (damageAmount.ToString (), body, "red");
 
-      UpdateDamage (currentHealth - damageAmount);
+      UpdateHealth (currentHealth - damageAmount);
 
       if (currentHealth <= 0) {
         currentHealth = 0;
@@ -151,7 +154,7 @@ public class HealthSimple : MonoBehaviour {
     return false;
   }
 
-  protected void UpdateDamage (int newHealth) {
+  protected void UpdateHealth (int newHealth) {
     currentHealth = newHealth;
     if (currentHealth <= 0) {
       currentHealth = 0;
@@ -167,7 +170,7 @@ public class HealthSimple : MonoBehaviour {
       if (showText)
         DamagePopUpController.CreateDamagePopUp (healingAmount.ToString (), body, "green");
 
-      UpdateDamage (currentHealth + healingAmount);
+      UpdateHealth (currentHealth + healingAmount);
 
       if (currentHealth >= maxHealth) {
         currentHealth = maxHealth;
@@ -356,5 +359,33 @@ public class HealthSimple : MonoBehaviour {
     if (Tools.RemoveStatModifier(damageMultipliers, identifier)) {
       UpdateDamage();
     }
+  }
+
+  public List<Tools.StatModifier> GetHealthRegenPerSecondBaseMultipliers() {
+    return healthRegenPerSecondBaseMultipliers;
+  }
+  public List<Tools.StatModifier> GetHealthRegenPerSecondAdditions() {
+    return healthRegenPerSecondAdditions;
+  }
+  public List<Tools.StatModifier> GetHealthRegenPerSecondMultipliers() {
+    return healthRegenPerSecondMultipliers;
+  }
+  public List<Tools.StatModifier> GetArmorBaseMultipliers() {
+    return armorBaseMultipliers;
+  }
+  public List<Tools.StatModifier> GetArmorAdditions() {
+    return armorAdditions;
+  }
+  public List<Tools.StatModifier> GetArmorMultipliers() {
+    return armorMultipliers;
+  }
+  public List<Tools.StatModifier> GetDamageBaseMultipliers() {
+    return damageBaseMultipliers;
+  }
+  public List<Tools.StatModifier> GetDamageAdditions() {
+    return damageAdditions;
+  }
+  public List<Tools.StatModifier> GetDamageMultipliers() {
+    return damageMultipliers;
   }
 }

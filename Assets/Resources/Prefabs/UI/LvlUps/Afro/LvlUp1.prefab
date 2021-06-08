@@ -155,8 +155,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
+      propertyPath: quest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: title
+      value: Fureur en sommeil
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
       propertyPath: spellInput
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: Garde ta barre de rage pleine pendant 5s, elle montera plus vite ensuite
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: title
+      value: "Le poids de l'exp\xE9rience"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: spellInput
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Les poings grossissent pour plus de d\xE9g\xE2ts"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: title
+      value: Envie de chocolat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: 50 squelettes = +1 bras, 150 = 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860ac4460c617354795e881a089b707b, type: 3}

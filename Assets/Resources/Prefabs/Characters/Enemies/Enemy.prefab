@@ -2204,9 +2204,9 @@ MonoBehaviour:
   canHaveHeadband: 1
   isCharred: 0
   isRunner: 0
+  expValue: 5
   maxHealthNormal: 5
   headband: {fileID: 2917134880567365250}
-  headbandColliders: {fileID: 0}
   bone: {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
   inBone: {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}
   boneCharred: {fileID: 2100000, guid: 3a105b438db340b4b9813bbbb0fd4737, type: 2}
@@ -2271,7 +2271,7 @@ MonoBehaviour:
   isDead: 0
   headerPrefab: {fileID: 0}
   healthFrame: {fileID: 0}
-  healthBar: {fileID: 0}
+  healthBarImage: {fileID: 0}
   entityName: 
   corpse: {fileID: 0}
   destroyOnDie: 0

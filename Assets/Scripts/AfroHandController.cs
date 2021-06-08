@@ -8,6 +8,8 @@ public class AfroHandController : MonoBehaviour
   public GameObject fistPrefab;
   public bool fire = false;
   public SphereCollider sphereCollider;
+  Rigidbody rigidbodyRagdoll;
+  SphereCollider sphereColliderLocal;
   public GameObject armModel;
   public MoneyManager characterWallet;
   bool fireFired = false;
@@ -15,11 +17,15 @@ public class AfroHandController : MonoBehaviour
   public SpellControllerAfro spellController;
   public bool punchAttempted = false;
   float fireTime;
-  float disabledDelay = 0.2f;
+  float disabledDelay = 0.5f;
   bool breakerUlt = false;
   public List<HealthSimple> alreadyHit = new List<HealthSimple>();
   float clearTime;
   float clearDelay = 0.1f;
+  float fistSize = 1;
+  float fistRadius = 0.5f;
+  int damageFinalLast;
+  float lauchForceLast = 10;
 
   void Start()
   {
@@ -27,6 +33,8 @@ public class AfroHandController : MonoBehaviour
     if (!fist) {
       fist = GetComponentInChildren<AfroFistController>(true);
     }
+    sphereColliderLocal = GetComponent<SphereCollider>();
+    UpdateFist();
   }
 
   void ClearHitList() {
@@ -42,7 +50,7 @@ public class AfroHandController : MonoBehaviour
       fireFired = true;
       sphereCollider.enabled = false;
       fist.transform.SetParent(afroParent.transform);
-      fist.Fire();
+      fist.Fire(fistSize);
 
       fist = null;
       transform.localScale = Vector3.zero;
@@ -52,12 +60,13 @@ public class AfroHandController : MonoBehaviour
       fist.transform.localRotation = Quaternion.Euler(-90, 0, 0);
       fist.transform.localPosition = new Vector3(
         fist.transform.localPosition.x,
-        fist.transform.localPosition.y + 0.5f,
+        fist.transform.localPosition.y + fistRadius,
         fist.transform.localPosition.z
       );
-      fist.transform.localScale = Vector3.one;
+      fist.transform.localScale = new Vector3(fistSize, fistSize, fistSize);
       fist.spellController = spellController;
       fist.characterWallet = characterWallet;
+      UpdateFist();
     } else if (!fire && fireFired) {
       fireFired = false;
     }
@@ -93,5 +102,45 @@ public class AfroHandController : MonoBehaviour
         }
       }
     }
+  }
+
+  void Update()
+  {
+    if (spellController.healthScript.damageFinal != damageFinalLast) {
+      damageFinalLast = spellController.healthScript.damageFinal;
+      UpdateFistSize();
+    }
+    if (spellController.fistLaunchForce != lauchForceLast) {
+      lauchForceLast = spellController.fistLaunchForce;
+      UpdateFistLaunchForce();
+    }
+  }
+
+  void UpdateFistSize() {
+    float fistAugmentation = (float)spellController.healthScript.damageFinal / spellController.healthScript.damageBase;
+    float fistAugmentationHalved = ((fistAugmentation - 1) / 2) + 1;
+    fistSize = fistAugmentationHalved;
+    fistRadius = fistSize / 2;
+    fist.transform.localScale = new Vector3(fistSize, fistSize, fistSize);
+    fist.transform.localPosition = new Vector3(0, fistRadius, 0);
+    sphereCollider.radius = fistRadius;
+    sphereCollider.center = new Vector3(0, fistRadius, 0);
+    sphereColliderLocal.radius = fistRadius;
+    sphereColliderLocal.center = new Vector3(0, fistRadius, 0);
+    fist.trail.startWidth = fistSize;
+
+    float weight = fistAugmentationHalved * spellController.fistWeightInitial;
+    if (!rigidbodyRagdoll) {
+      rigidbodyRagdoll = sphereCollider.GetComponent<Rigidbody>();
+    }
+    rigidbodyRagdoll.mass = weight;
+    fist.SetFistMass(weight);
+  }
+  void UpdateFistLaunchForce() {
+    fist.SetLaunchForce(spellController.fistLaunchForce);
+  }
+  void UpdateFist() {
+    UpdateFistSize();
+    UpdateFistLaunchForce();
   }
 }

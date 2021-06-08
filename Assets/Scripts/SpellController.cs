@@ -14,6 +14,8 @@ public abstract class SpellController : MonoBehaviour
   protected bool spell2Available = false;
   protected bool spell3Available = false;
   protected bool spell4Available = false;
+  protected GameObject questDingPrefab;
+  protected int skelettsKilled = 0;
   public int level = 1;
   public List<LevelUpChoice> levelUpChoices = new List<LevelUpChoice>();
   public struct LevelUpChoice
@@ -22,6 +24,9 @@ public abstract class SpellController : MonoBehaviour
     int level;
   }
 
+  public int GetSkelettsKilled() {
+    return skelettsKilled;
+  }
   public bool GetSpell1Active() {
     return spell1Active;
   }
@@ -58,6 +63,10 @@ public abstract class SpellController : MonoBehaviour
 
   }
 
+  protected void Init() {
+    questDingPrefab = Resources.Load<GameObject>("Prefabs/UI/QuestDing");
+  }
+
   virtual public void Spell1()
   {
     Debug.Log("Default Spell1 Behaviour");
@@ -85,7 +94,8 @@ public abstract class SpellController : MonoBehaviour
     Debug.Log("Default Fire2 Behaviour");
   }
 
-  virtual public void GotAKill(int expValue) {
+  virtual public void GotAKill(int expValue, Vector3 position) {
+    skelettsKilled++;
     AddExp(expValue);
   }
 
@@ -109,5 +119,13 @@ public abstract class SpellController : MonoBehaviour
     } else {
       healthScript.currentExp += expValue;
     }
+  }
+
+  virtual public void GenerateQuestDing(Vector3 worldPosition) {
+    GameObject questDing = Instantiate(questDingPrefab);
+    questDing.transform.SetParent(Tools.GetMainCanvasTransform());
+    RectTransform questDingRect = questDing.GetComponent<RectTransform>();
+    questDingRect.anchoredPosition = Camera.main.WorldToScreenPoint(worldPosition);
+    Destroy(questDing, 2);
   }
 }

@@ -11,9 +11,9 @@ public class TurateShootController : MonoBehaviour
   bool HURT = false;
   public int team;
   private List<GameObject> alreadyShotAt = new List<GameObject>();
-  public bool collapseTrigger = false;
-  bool hasCollapsed = false;
-  public GameObject[] parts;
+  // public bool collapseTrigger = false;
+  // bool hasCollapsed = false;
+  // public GameObject[] parts;
   GameController gameController;
 
   // Start is called before the first frame update

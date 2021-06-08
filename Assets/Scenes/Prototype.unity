@@ -641,6 +641,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &82660258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1269825957021001186, guid: 2d0e16e321c9abc4ba306ce8bf04bbf9,
+    type: 3}
+  m_PrefabInstance: {fileID: 780620618986320694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697058e1c5fb9b848a0ad50b3a7e3d3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &87287837
 GameObject:
   m_ObjectHideFlags: 0
@@ -4686,7 +4698,7 @@ MonoBehaviour:
   manaBar: {fileID: 33416646}
   expBar: {fileID: 2083888857}
   levelText: {fileID: 276556883}
-  lvlUpGroup: {fileID: 1949598415}
+  lvlUpGroup: {fileID: 82660258}
 --- !u!1 &1215809376
 GameObject:
   m_ObjectHideFlags: 0
@@ -6729,7 +6741,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1949598415}
+      - m_Target: {fileID: 82660258}
         m_TargetAssemblyTypeName: LvlUpGroupController, Assembly-CSharp
         m_MethodName: ToggleVisible
         m_Mode: 1
@@ -7372,18 +7384,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 780620618986320694}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1949598415 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5809174778525635802, guid: 2d0e16e321c9abc4ba306ce8bf04bbf9,
-    type: 3}
-  m_PrefabInstance: {fileID: 780620618986320694}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5868ef8280e8d2f47b4d84a7c5efe555, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2057340920
 GameObject:
   m_ObjectHideFlags: 0

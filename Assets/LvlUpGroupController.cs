@@ -22,7 +22,11 @@ public class LvlUpGroupController : MonoBehaviour
   bool choice16Chosen = false;
   bool choice20Chosen = false;
 
-  void Start() {
+  private void Start() {
+    StartProcess();
+  }
+
+  protected void StartProcess() {
     animator = GetComponent<Animator>();
     visibleLast = visible;
     UpdateVisibility();
@@ -30,7 +34,11 @@ public class LvlUpGroupController : MonoBehaviour
     lvlUpChoices = GetComponentsInChildren<LvlUpChoicesController>();
   }
 
-  void Update() {
+  void Update()
+  {
+    UpdateProcess();
+  }
+  protected void UpdateProcess() {
     if (spellController && levelLast != spellController.level) {
       levelLast = spellController.level;
       UpdateLevel();
@@ -135,7 +143,7 @@ public class LvlUpGroupController : MonoBehaviour
     }
   }
 
-  void SetActivatedChoice(int choiceGroup, int choice) {
+  protected void SetActivatedChoice(int choiceGroup, int choice) {
     bool validChoice = false;
     if (waitingChoices.Count >= 1 && waitingChoices[0] == choiceGroup)
     {
@@ -203,73 +211,73 @@ public class LvlUpGroupController : MonoBehaviour
     }
   }
 
-  public void Choice1_1() {
+  public virtual void Choice1_1() {
     SetActivatedChoice(1, 1);
   }
-  public void Choice1_2() {
+  public virtual void Choice1_2() {
     SetActivatedChoice(1, 2);
   }
-  public void Choice1_3() {
+  public virtual void Choice1_3() {
     SetActivatedChoice(1, 3);
   }
 
-  public void Choice4_1() {
+  public virtual void Choice4_1() {
     SetActivatedChoice(4, 1);
   }
-  public void Choice4_2() {
+  public virtual void Choice4_2() {
     SetActivatedChoice(4, 2);
   }
-  public void Choice4_3() {
+  public virtual void Choice4_3() {
     SetActivatedChoice(4, 3);
   }
 
-  public void Choice7_1() {
+  public virtual void Choice7_1() {
     SetActivatedChoice(7, 1);
   }
-  public void Choice7_2() {
+  public virtual void Choice7_2() {
     SetActivatedChoice(7, 2);
   }
-  public void Choice7_3() {
+  public virtual void Choice7_3() {
     SetActivatedChoice(7, 3);
   }
 
-  public void Choice10_1() {
+  public virtual void Choice10_1() {
     SetActivatedChoice(10, 1);
   }
-  public void Choice10_2() {
+  public virtual void Choice10_2() {
     SetActivatedChoice(10, 2);
   }
-  public void Choice10_3() {
+  public virtual void Choice10_3() {
     SetActivatedChoice(10, 3);
   }
 
-  public void Choice13_1() {
+  public virtual void Choice13_1() {
     SetActivatedChoice(13, 1);
   }
-  public void Choice13_2() {
+  public virtual void Choice13_2() {
     SetActivatedChoice(13, 2);
   }
-  public void Choice13_3() {
+  public virtual void Choice13_3() {
     SetActivatedChoice(13, 3);
   }
 
-  public void Choice16_1() {
+  public virtual void Choice16_1() {
     SetActivatedChoice(16, 1);
   }
-  public void Choice16_2() {
+  public virtual void Choice16_2() {
     SetActivatedChoice(16, 2);
   }
-  public void Choice16_3() {
+  public virtual void Choice16_3() {
     SetActivatedChoice(16, 3);
   }
 
-  public void Choice20_1() {
+  public virtual void Choice20_1() {
     SetActivatedChoice(20, 1);
   }
-  public void Choice20_2() {
+  public virtual void Choice20_2() {
     SetActivatedChoice(20, 2);
   }
-  public void Choice20_3() {
+  public virtual void Choice20_3() {
     SetActivatedChoice(20, 3);
   }
 }
