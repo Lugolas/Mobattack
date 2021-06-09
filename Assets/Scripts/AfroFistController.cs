@@ -61,6 +61,10 @@ public class AfroFistController : MonoBehaviour {
   float lastHit = 0;
   float hitDelay = 0.25f;
   float launchForce = 100;
+  int enemyBounce = 0;
+  int enemyBounceMax = 0;
+  List<EnemyController> enemiesHit = new List<EnemyController>();
+
 
   void Start () {
     startTime = Time.time;
@@ -165,37 +169,62 @@ public class AfroFistController : MonoBehaviour {
   void LateUpdate () {
     if (hasCollided && !hasHit && !initiatedSelfDestruction) {
       hasCollided = false;
+      EnemyController enemyHit = lastCollision.collider.GetComponent<EnemyController>();
+      if (!enemyHit) {
+        enemyHit = lastCollision.collider.GetComponentInParent<EnemyController>();
+        if (!enemyHit) {
+          enemyHit = lastCollision.collider.GetComponentInChildren<EnemyController>();
+        }
+      }
       GameObject objectHit = Tools.FindObjectOrParentWithTag (lastCollision.collider.gameObject, "EnemyCharacter");
-      if (objectHit && objectHit != attacker) {
-        if (trail) {
-        // if (trailIN && trailOUT) {
-          trail.emitting = false;
-          // trailIN.emitting = false;
-          // trailOUT.emitting = false;
-        }
-        foreach (SpriteRenderer sprite in sprites)
-        {
-          sprite.enabled = false;
-        }
-        sphereCollider.enabled = false;
-        meshRenderer.enabled = false;
-        hasHit = true;
-        initiatedSelfDestruction = true;
-        if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet, spellController)) {
-          spellController.FistKilledEnemy();
-        }
-        if (fistBurstPrefab) {
-          GameObject burst = Instantiate (fistBurstPrefab, transform.position, transform.rotation) as GameObject;
-          // GameObject burst = Instantiate(fistBurstPrefab, collision.GetContact(0).point, transform.rotation) as GameObject;
-
-          Destroy (burst, 2f);
-          Destroy (gameObject, 5.5f);
+      // if (objectHit && objectHit != attacker) {
+      if (enemyHit && !enemyHit.GetIsDead()) {
+        HitEnemy(enemyHit);
+        if (enemyBounce < enemyBounceMax) {
+          enemyBounce++;
         } else {
-          Destroy (gameObject, 5.5f);
-          for (int i = 0; i < transform.childCount; i++) {
-            Destroy (transform.GetChild (i).gameObject);
-          }
+          DestroySelf();
         }
+      }
+    }
+  }
+
+  void HitEnemy(EnemyController enemyHit) {
+    if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet, spellController)) {
+      spellController.FistKilledEnemy();
+    }
+    if (spellController.fistEnemyBouncesQuest && enemiesHit.Contains(enemyHit)) {
+      spellController.GenerateQuestDing(transform.position);
+      spellController.enemyHitTwiceBySameFist++;
+    }
+    enemiesHit.Add(enemyHit);
+  }
+  void DestroySelf() {
+    if (trail) {
+    // if (trailIN && trailOUT) {
+      trail.emitting = false;
+      // trailIN.emitting = false;
+      // trailOUT.emitting = false;
+    }
+    foreach (SpriteRenderer sprite in sprites)
+    {
+      sprite.enabled = false;
+    }
+    sphereCollider.enabled = false;
+    meshRenderer.enabled = false;
+    hasHit = true;
+    initiatedSelfDestruction = true;
+
+    if (fistBurstPrefab) {
+      GameObject burst = Instantiate (fistBurstPrefab, transform.position, transform.rotation) as GameObject;
+      // GameObject burst = Instantiate(fistBurstPrefab, collision.GetContact(0).point, transform.rotation) as GameObject;
+
+      Destroy (burst, 2f);
+      Destroy (gameObject, 5.5f);
+    } else {
+      Destroy (gameObject, 5.5f);
+      for (int i = 0; i < transform.childCount; i++) {
+        Destroy (transform.GetChild (i).gameObject);
       }
     }
   }
@@ -339,5 +368,9 @@ public class AfroFistController : MonoBehaviour {
   public void SetLaunchForce(float newLaunchForce)
   {
     launchForce = newLaunchForce;
+  }
+  public void SetEnemyBounceMax(int newEnemyBounceMax)
+  {
+    enemyBounceMax = newEnemyBounceMax;
   }
 }

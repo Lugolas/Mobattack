@@ -116,6 +116,16 @@ public class SpellControllerAfro : SpellController {
   public float fistLaunchForce = 100;
   public bool fistLaunchUp = false;
   bool fistLaunchUpControl = true;
+  public bool rageDecreaseDecreased = false;
+  bool rageDecreaseDecreasedControl = true;
+  public int fistEnemyBounces = 1;
+  public bool fistEnemyBounces1 = false;
+  bool fistEnemyBounces1Control = false;
+  public bool fistEnemyBounces2 = false;
+  bool fistEnemyBounces2Control = false;
+  public bool fistEnemyBouncesQuest = false;
+  public int enemyHitTwiceBySameFist = 0;
+  int enemyHitTwiceBySameFistGoal = 5;
 
   // Start is called before the first frame update
   void Start () {
@@ -219,12 +229,26 @@ public class SpellControllerAfro : SpellController {
       fistMaterial.staticFriction = 0.333f;
       fistMaterial.dynamicFriction = 0.333f;
     }
+    if (fistEnemyBouncesQuest) {
+      if (enemyHitTwiceBySameFist >= enemyHitTwiceBySameFistGoal) {
+        fistEnemyBouncesQuest = false;
+        fistEnemyBounces2 = true;
+      }
+    }
     if (fistLaunchUp && !fistLaunchUpControl) {
       fistLaunchUpControl = fistLaunchUp;
       fistLaunchForce = fistLaunchForceInitial * 1.5f;
     } else if (!fistLaunchUp && fistLaunchUpControl) {
       fistLaunchUpControl = fistLaunchUp;
       fistLaunchForce = fistLaunchForceInitial;
+    }
+    if (fistEnemyBounces1 && !fistEnemyBounces1Control) {
+      fistEnemyBounces++;
+      fistEnemyBounces1Control = fistEnemyBounces1;
+    }
+    if (fistEnemyBounces2 && !fistEnemyBounces2Control) {
+      fistEnemyBounces++;
+      fistEnemyBounces2Control = fistEnemyBounces2;
     }
     if (rageQuestOn && healthScript.currentMana == healthScript.maxMana) {
       if (!rageTimerOn) {
@@ -251,6 +275,10 @@ public class SpellControllerAfro : SpellController {
     } else if (!fistBigger1 && fistBigger1Control) {
       fistBigger1Control = false;
       healthScript.RemoveDamageBaseMultiplier("bigger1");
+    }
+    if (rageDecreaseDecreased && !rageDecreaseDecreasedControl) {
+      rageDecreaseDecreasedControl = rageDecreaseDecreased;
+      healthScript.manaLostPerSecond = Mathf.RoundToInt(healthScript.manaLostPerSecond * 0.75f);
     }
     if (rageArmor) {
       healthScript.AddArmorAddition(healthScript.currentMana, "rageArmor");

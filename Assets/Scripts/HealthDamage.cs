@@ -25,14 +25,12 @@ public class HealthDamage : HealthSimple
   private CinemachineVirtualCamera virtualCamera;
   private CinemachineVirtualCamera verticalCamera;
   bool hasDied = false;
-  int manaDecreasingCounter = 1;
-  int manaDecreasingRate = 3;
   UIBarController manaBar;
   int lastMaxManaKnown;
   public int currentExp = 0;
   public int maxExp = 100;
   float lastManaDecrease = -1;
-  float manaLostPerSecond = 10;
+  public float manaLostPerSecond = 10;
   float manaToDecrease = 0;
 
   // Start is called before the first frame update

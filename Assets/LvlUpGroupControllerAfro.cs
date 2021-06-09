@@ -36,9 +36,12 @@ public class LvlUpGroupControllerAfro : LvlUpGroupController
     SetActivatedChoice(4, 1);
   }
   public override void Choice4_2() {
+    spellControllerAfro.fistEnemyBounces1 = true;
+    spellControllerAfro.fistEnemyBouncesQuest = true;
     SetActivatedChoice(4, 2);
   }
   public override void Choice4_3() {
+    spellControllerAfro.rageDecreaseDecreased = true;
     SetActivatedChoice(4, 3);
   }
 

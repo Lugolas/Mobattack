@@ -223,4 +223,12 @@ public class EnemyController : MonoBehaviour {
       // Destroy(gameObject);
     }
   }
+
+  public bool GetIsDead() {
+    if (health) {
+      return health.isDead;
+    } else {
+      return true;
+    }
+  }
 }

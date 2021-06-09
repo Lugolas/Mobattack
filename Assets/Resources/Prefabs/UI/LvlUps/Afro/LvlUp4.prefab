@@ -156,17 +156,37 @@ PrefabInstance:
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 4
+      value: Fureur durable
       objectReference: {fileID: 0}
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: spellInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Quand la rage r\xE9duit, elle le fait moins vite"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: quest
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 4
+      value: Poing flexible
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: spellInput
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Touche deux fois un ennemi avec le m\xEAme poing projet\xE9 cinq fois"
       objectReference: {fileID: 0}
     - target: {fileID: 5203945864509682823, guid: 860ac4460c617354795e881a089b707b,
         type: 3}

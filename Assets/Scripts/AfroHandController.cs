@@ -26,6 +26,7 @@ public class AfroHandController : MonoBehaviour
   float fistRadius = 0.5f;
   int damageFinalLast;
   float lauchForceLast = 10;
+  int fistEnemyBouncesLast = 0;
 
   void Start()
   {
@@ -114,6 +115,10 @@ public class AfroHandController : MonoBehaviour
       lauchForceLast = spellController.fistLaunchForce;
       UpdateFistLaunchForce();
     }
+    if (spellController.fistEnemyBounces != fistEnemyBouncesLast) {
+      fistEnemyBouncesLast = spellController.fistEnemyBounces;
+      UpdateFistBounces();
+    }
   }
 
   void UpdateFistSize() {
@@ -142,5 +147,9 @@ public class AfroHandController : MonoBehaviour
   void UpdateFist() {
     UpdateFistSize();
     UpdateFistLaunchForce();
+    UpdateFistBounces();
+  }
+  void UpdateFistBounces() {
+    fist.SetEnemyBounceMax(spellController.fistEnemyBounces);
   }
 }
