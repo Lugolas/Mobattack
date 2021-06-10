@@ -2205,7 +2205,7 @@ MonoBehaviour:
   isCharred: 0
   isRunner: 0
   expValue: 5
-  maxHealthNormal: 5
+  maxHealthNormal: 12
   headband: {fileID: 2917134880567365250}
   bone: {fileID: 2100000, guid: 9c19090b15d6c1a4ea56b6d16c740022, type: 2}
   inBone: {fileID: 2100000, guid: 3cb037021de0c4c4d92cbde12901eec0, type: 2}

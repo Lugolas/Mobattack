@@ -186,7 +186,8 @@ PrefabInstance:
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: description
-      value: "Touche deux fois un ennemi avec le m\xEAme poing projet\xE9 cinq fois"
+      value: "Les poings peuvent rebondir, s'am\xE9liore si un poing touche une cible
+        plusieurs fois"
       objectReference: {fileID: 0}
     - target: {fileID: 5203945864509682823, guid: 860ac4460c617354795e881a089b707b,
         type: 3}

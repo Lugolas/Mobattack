@@ -64,6 +64,8 @@ public class AfroFistController : MonoBehaviour {
   int enemyBounce = 0;
   int enemyBounceMax = 0;
   List<EnemyController> enemiesHit = new List<EnemyController>();
+  public List<ParticleSystem> particleSystemsMove = new List<ParticleSystem>();
+  public List<GameObject> objectsToDisable = new List<GameObject>();
 
 
   void Start () {
@@ -87,6 +89,11 @@ public class AfroFistController : MonoBehaviour {
       Destroy (gameObject, lifeTimeLimit);
     }
     UpdateDamage();
+
+    foreach (ParticleSystem particleSystemMove in particleSystemsMove)
+    {
+      particleSystemMove.gameObject.SetActive(false);
+    }
   }
   void Update () {
     if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction) {
@@ -210,6 +217,14 @@ public class AfroFistController : MonoBehaviour {
     {
       sprite.enabled = false;
     }
+    foreach (GameObject objectToDisable in objectsToDisable)
+    {
+      objectToDisable.SetActive(false);
+    }
+    foreach (ParticleSystem particleSystemMove in particleSystemsMove)
+    {
+      particleSystemMove.Stop();
+    }
     sphereCollider.enabled = false;
     meshRenderer.enabled = false;
     hasHit = true;
@@ -287,6 +302,10 @@ public class AfroFistController : MonoBehaviour {
   }
 
   public void Fire (float fistSize) {
+    foreach (ParticleSystem particleSystemMove in particleSystemsMove)
+    {
+      particleSystemMove.gameObject.SetActive(true);
+    }
     damageBase = spellController.healthScript.damageFinal;
     sphereCollider.enabled = true;
     rigidbodyFist.isKinematic = false;

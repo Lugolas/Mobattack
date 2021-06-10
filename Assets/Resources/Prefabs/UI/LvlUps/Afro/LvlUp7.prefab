@@ -156,17 +156,27 @@ PrefabInstance:
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 7
+      value: "Fureur rafra\xEEchissante"
       objectReference: {fileID: 0}
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: spellInput
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "La rage stimule la r\xE9g\xE9n\xE9ration des points de vie"
       objectReference: {fileID: 0}
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 7
+      value: Fureur fracassante
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: La rage renforce directement l'attaque
       objectReference: {fileID: 0}
     - target: {fileID: 5203945864509682823, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
@@ -175,8 +185,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
+      propertyPath: quest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
       propertyPath: title
-      value: 7
+      value: Technique du poing rebondi
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: Un poing ne perd pas de vitesse en rebondissant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860ac4460c617354795e881a089b707b, type: 3}
