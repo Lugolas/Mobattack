@@ -148,6 +148,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1930096680056272673, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4201198010184151889, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: m_Name
@@ -161,7 +166,12 @@ PrefabInstance:
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 10
+      value: L'ulti
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Fait rien vu que l'ulti est d\xE9j\xE0 d\xE9bloqu\xE9 du coup"
       objectReference: {fileID: 0}
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}

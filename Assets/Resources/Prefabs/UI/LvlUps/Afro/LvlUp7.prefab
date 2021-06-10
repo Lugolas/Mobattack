@@ -191,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: Technique du poing rebondi
+      value: Le poing rebondi
       objectReference: {fileID: 0}
     - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
         type: 3}

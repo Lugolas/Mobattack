@@ -69,12 +69,14 @@ public class LvlUpGroupControllerAfro : LvlUpGroupController
   }
 
   public override void Choice13_1() {
+    spellControllerAfro.fistIgnoreFists = true;
     SetActivatedChoice(13, 1);
   }
   public override void Choice13_2() {
     SetActivatedChoice(13, 2);
   }
   public override void Choice13_3() {
+    spellControllerAfro.rageArmor = true;
     SetActivatedChoice(13, 3);
   }
 
@@ -95,6 +97,8 @@ public class LvlUpGroupControllerAfro : LvlUpGroupController
     SetActivatedChoice(20, 2);
   }
   public override void Choice20_3() {
+    spellControllerAfro.armLeft3Active = true;
+    spellControllerAfro.armRight3Active = true;
     SetActivatedChoice(20, 3);
   }
 }

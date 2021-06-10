@@ -161,12 +161,17 @@ PrefabInstance:
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 20
+      value: Le rabe de chocolat
       objectReference: {fileID: 0}
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: spellInput
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Deux bras de plus \xE7a peut pas faire de mal"
       objectReference: {fileID: 0}
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}

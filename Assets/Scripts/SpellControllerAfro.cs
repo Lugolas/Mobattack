@@ -126,6 +126,8 @@ public class SpellControllerAfro : SpellController {
   public bool fistEnemyBouncesQuest = false;
   public int enemyHitTwiceBySameFist = 0;
   int enemyHitTwiceBySameFistGoal = 5;
+  public bool fistIgnoreFists = false;
+  bool fistIgnoreFistsControl = false;
 
   // Start is called before the first frame update
   void Start () {
@@ -234,6 +236,10 @@ public class SpellControllerAfro : SpellController {
         fistEnemyBouncesQuest = false;
         fistEnemyBounces2 = true;
       }
+    }
+    if (fistIgnoreFists && !fistIgnoreFistsControl) {
+      fistIgnoreFistsControl = fistIgnoreFists;
+      Physics.IgnoreLayerCollision(19, 19, true);
     }
     if (fistLaunchUp && !fistLaunchUpControl) {
       fistLaunchUpControl = fistLaunchUp;
