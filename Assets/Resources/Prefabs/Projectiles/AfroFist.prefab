@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8827657347549707462
 Transform:
   m_ObjectHideFlags: 0
@@ -5046,7 +5046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5539641249173709852
 Transform:
   m_ObjectHideFlags: 0
@@ -5267,7 +5267,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4545635645836257022}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5370,6 +5370,8 @@ MonoBehaviour:
   - {fileID: 5044241908156340955}
   - {fileID: 3455760019089767165}
   - {fileID: 8221906566299923817}
+  explosion: {fileID: 7460899438354448550, guid: f7a78cacee9ec2a4196f1e270d7d2d89,
+    type: 3}
 --- !u!96 &7243041431151558972
 TrailRenderer:
   serializedVersion: 2
@@ -5495,7 +5497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1390996206133809850
 Transform:
   m_ObjectHideFlags: 0
@@ -5589,7 +5591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8173879531295278433
 Transform:
   m_ObjectHideFlags: 0
@@ -10475,7 +10477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7292490158176700136
 Transform:
   m_ObjectHideFlags: 0

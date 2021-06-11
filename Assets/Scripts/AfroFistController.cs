@@ -66,6 +66,7 @@ public class AfroFistController : MonoBehaviour {
   List<EnemyController> enemiesHit = new List<EnemyController>();
   public List<ParticleSystem> particleSystemsMove = new List<ParticleSystem>();
   public List<GameObject> objectsToDisable = new List<GameObject>();
+  public ParticleSystem explosion;
 
 
   void Start () {
@@ -197,6 +198,8 @@ public class AfroFistController : MonoBehaviour {
   }
 
   void HitEnemy(EnemyController enemyHit) {
+    ParticleSystem explotionObject = Instantiate(explosion, transform.position, transform.rotation);
+    Destroy(explotionObject, 1);
     if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet, spellController)) {
       spellController.FistKilledEnemy();
     }
@@ -302,10 +305,10 @@ public class AfroFistController : MonoBehaviour {
   }
 
   public void Fire (float fistSize) {
-    foreach (ParticleSystem particleSystemMove in particleSystemsMove)
-    {
-      particleSystemMove.gameObject.SetActive(true);
-    }
+    // foreach (ParticleSystem particleSystemMove in particleSystemsMove)
+    // {
+    //   particleSystemMove.gameObject.SetActive(true);
+    // }
     damageBase = spellController.healthScript.damageFinal;
     sphereCollider.enabled = true;
     rigidbodyFist.isKinematic = false;
