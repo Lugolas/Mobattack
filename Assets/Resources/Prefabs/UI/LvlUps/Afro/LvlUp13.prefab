@@ -171,7 +171,12 @@ PrefabInstance:
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 13
+      value: Le poing rebondi
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: Un poing ne perd pas de vitesse en rebondissant
       objectReference: {fileID: 0}
     - target: {fileID: 5203945864509682823, guid: 860ac4460c617354795e881a089b707b,
         type: 3}

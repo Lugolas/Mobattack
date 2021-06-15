@@ -72,7 +72,8 @@ public class BaseMoveAttacc : MonoBehaviour
       }
     }
 
-    moveSpeed = anim.GetFloat("MoveSpeed");
+    moveSpeed = health.speedBase;
+    // moveSpeed = anim.GetFloat("MoveSpeed");
 
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
     if (!moneyManager)
@@ -220,6 +221,8 @@ public class BaseMoveAttacc : MonoBehaviour
         timetoFireFired = false;
       }
     }
+
+    moveSpeed = health.speedFinal;
 
     walkSpeed = moveSpeed / walkBaseDistancePerSecond;
     runSpeed = moveSpeed / runBaseDistancePerSecond;

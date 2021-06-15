@@ -33,6 +33,7 @@ public class SpellControllerAfro : SpellController {
   List<Rigidbody> armsRigidbodies = new List<Rigidbody> ();
   bool attackTriggered = false;
   public float spell3AttackSpeedMultiplier = 1f;
+  float spell3AttackSpeedMultiplierRage = 0;
   bool previewTurretNeedsOrientation = false;
   bool previewTurretPlaced = false;
   bool attacking = false;
@@ -87,6 +88,7 @@ public class SpellControllerAfro : SpellController {
   public PhysicMaterial fistMaterial;
   public bool rageArmor = false;
   public bool rageDamage = false;
+  public bool rageSpeed = false;
   public bool rageHealthRegenPerSecond = false;
   public bool speedAffectsFists = false;
   public bool fistBounceUp = false;
@@ -128,6 +130,7 @@ public class SpellControllerAfro : SpellController {
   int enemyHitTwiceBySameFistGoal = 5;
   public bool fistIgnoreFists = false;
   bool fistIgnoreFistsControl = false;
+  float ragePercentage;
 
   // Start is called before the first frame update
   void Start () {
@@ -220,6 +223,9 @@ public class SpellControllerAfro : SpellController {
 
   // Update is called once per frame
   void Update () {
+    ragePercentage = (float)healthScript.currentMana / healthScript.maxMana;
+    spell3AttackSpeedMultiplier = (ragePercentage) + 1;
+    healthScript.AddSpeedBaseMultiplier(ragePercentage + 1, "baseRage");
     if (fistBounceUp && !fistBounceUpControl) {
       fistBounceUpControl = true;
       fistMaterial.bounciness = 1;
@@ -295,6 +301,10 @@ public class SpellControllerAfro : SpellController {
     if (rageDamage) {
       healthScript.AddDamageMultiplier(((float) healthScript.currentMana / healthScript.maxMana) + 1, "rageDamage");
     }
+    if (rageSpeed) {
+      spell3AttackSpeedMultiplierRage = (ragePercentage);
+      healthScript.AddSpeedBaseMultiplier((ragePercentage / 2) + 1, "speedRage");
+    }
     if (healthScript.isDead) {
       if (!hasDied) {
         // DIE
@@ -341,7 +351,7 @@ public class SpellControllerAfro : SpellController {
         Physics.Raycast (ray, out hit, 2500, layerMaskMove);
         body.transform.LookAt (new Vector3 (hit.point.x, body.transform.position.y, hit.point.z));
         animator.SetBool ("Attacking", attacking);
-        animator.SetFloat ("Spell3Speed", spell3AttackSpeedMultiplier);
+        animator.SetFloat ("Spell3Speed", spell3AttackSpeedMultiplier + spell3AttackSpeedMultiplierRage);
       }
 
       if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Shoot")) {

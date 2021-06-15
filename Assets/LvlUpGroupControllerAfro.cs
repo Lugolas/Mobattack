@@ -46,7 +46,7 @@ public class LvlUpGroupControllerAfro : LvlUpGroupController
   }
 
   public override void Choice7_1() {
-    spellControllerAfro.fistBounceUp = true;
+    spellControllerAfro.rageSpeed = true;
     SetActivatedChoice(7, 1);
   }
   public override void Choice7_2() {
@@ -73,6 +73,7 @@ public class LvlUpGroupControllerAfro : LvlUpGroupController
     SetActivatedChoice(13, 1);
   }
   public override void Choice13_2() {
+    spellControllerAfro.fistBounceUp = true;
     SetActivatedChoice(13, 2);
   }
   public override void Choice13_3() {

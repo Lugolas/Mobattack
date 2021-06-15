@@ -14,6 +14,11 @@ public class HealthSimple : MonoBehaviour {
   public int maxHealth = 200;
   protected int lastMaxHealthKnown = 0;
   public int currentHealth;
+  public float speedBase = 0;
+  List<Tools.StatModifier> speedBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> speedAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> speedMultipliers = new List<Tools.StatModifier>();
+  public float speedFinal;
   public int armorBase = 0;
   List<Tools.StatModifier> armorBaseMultipliers = new List<Tools.StatModifier>();
   List<Tools.StatModifier> armorAdditions = new List<Tools.StatModifier>();
@@ -81,6 +86,7 @@ public class HealthSimple : MonoBehaviour {
     UpdateHealthRegenPerSecond();
     UpdateArmor();
     UpdateDamage();
+    UpdateSpeed();
   }
 
   // Update is called once per frame
@@ -255,6 +261,22 @@ public class HealthSimple : MonoBehaviour {
     }
     damageFinal = Mathf.RoundToInt(damageTemp);
   }
+  void UpdateSpeed() {
+    float speedTemp = speedBase;
+    foreach (Tools.StatModifier speedBaseMultiplier in speedBaseMultipliers)
+    {
+      speedTemp *= speedBaseMultiplier.value;
+    }
+    foreach (Tools.StatModifier speedAddition in speedAdditions)
+    {
+      speedTemp += speedAddition.value;
+    }
+    foreach (Tools.StatModifier speedMultiplier in speedMultipliers)
+    {
+      speedTemp *= speedMultiplier.value;
+    }
+    speedFinal = speedTemp;
+  }
 
   public void AddHealthRegenPerSecondBaseMultiplier(float value, string identifier) {
     if (healthRegen) {
@@ -360,6 +382,36 @@ public class HealthSimple : MonoBehaviour {
       UpdateDamage();
     }
   }
+  public void AddSpeedBaseMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(speedBaseMultipliers, value, identifier)) {
+      UpdateSpeed();
+    }
+  }
+  public void RemoveSpeedBaseMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(speedBaseMultipliers, identifier)) {
+      UpdateSpeed();
+    }
+  }
+  public void AddSpeedAddition(int value, string identifier) {
+    if (Tools.AddStatModifier(speedAdditions, value, identifier)) {
+      UpdateSpeed();
+    }
+  }
+  public void RemoveSpeedAddition(string identifier) {
+    if (Tools.RemoveStatModifier(speedAdditions, identifier)) {
+      UpdateSpeed();
+    }
+  }
+  public void AddSpeedMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(speedMultipliers, value, identifier)) {
+      UpdateSpeed();
+    }
+  }
+  public void RemoveSpeedMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(speedMultipliers, identifier)) {
+      UpdateSpeed();
+    }
+  }
 
   public List<Tools.StatModifier> GetHealthRegenPerSecondBaseMultipliers() {
     return healthRegenPerSecondBaseMultipliers;
@@ -387,5 +439,8 @@ public class HealthSimple : MonoBehaviour {
   }
   public List<Tools.StatModifier> GetDamageMultipliers() {
     return damageMultipliers;
+  }
+  public List<Tools.StatModifier> GetSpeedMultipliers() {
+    return speedMultipliers;
   }
 }

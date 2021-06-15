@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 public class AfroFistController : MonoBehaviour {
   public int id = -1;
   public int damageBase = 0;
-  List<Tools.StatModifier> damageBaseMultipliers = new List<Tools.StatModifier>();
-  List<Tools.StatModifier> damageAdditions = new List<Tools.StatModifier>();
-  List<Tools.StatModifier> damageMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> damageBaseMultipliers = new List<Tools.StatModifier> ();
+  List<Tools.StatModifier> damageAdditions = new List<Tools.StatModifier> ();
+  List<Tools.StatModifier> damageMultipliers = new List<Tools.StatModifier> ();
   public int damageFinal;
   public GameObject attacker;
   public GameObject fistBurstPrefab;
@@ -56,18 +56,19 @@ public class AfroFistController : MonoBehaviour {
   Vector3 lastTrailColliderSpawnPosition = Vector3.zero;
   bool spawnedOneTrailCollider = false;
   public float magnitude;
-  public List<HealthSimple> trailTargetList = new List<HealthSimple>();
-  List<TrailColliderController> trailColliders = new List<TrailColliderController>();
+  public List<HealthSimple> trailTargetList = new List<HealthSimple> ();
+  List<TrailColliderController> trailColliders = new List<TrailColliderController> ();
   float lastHit = 0;
   float hitDelay = 0.25f;
   float launchForce = 100;
   int enemyBounce = 0;
   int enemyBounceMax = 0;
-  List<EnemyController> enemiesHit = new List<EnemyController>();
-  public List<ParticleSystem> particleSystemsMove = new List<ParticleSystem>();
-  public List<GameObject> objectsToDisable = new List<GameObject>();
+  List<EnemyController> enemiesHit = new List<EnemyController> ();
+  public List<ParticleSystem> particleSystemsMove = new List<ParticleSystem> ();
+  public List<GameObject> objectsToDisable = new List<GameObject> ();
+  public ParticleSystem shock;
   public ParticleSystem explosion;
-
+  bool firstContact = false;
 
   void Start () {
     startTime = Time.time;
@@ -81,25 +82,23 @@ public class AfroFistController : MonoBehaviour {
     sphereCollider = GetComponent<SphereCollider> ();
     meshRenderer = GetComponent<MeshRenderer> ();
     material = meshRenderer.material;
-    outlineColor = Color.HSVToRGB(50, 0, 0);
-    sprites = GetComponentsInChildren<SpriteRenderer>();
-    trailColliderRadius = trailColliderPrefab.GetComponent<CapsuleCollider>().radius;
-
+    outlineColor = Color.HSVToRGB (50, 0, 0);
+    sprites = GetComponentsInChildren<SpriteRenderer> ();
+    trailColliderRadius = trailColliderPrefab.GetComponent<CapsuleCollider> ().radius;
 
     if (useLifeTimeLimit) {
       Destroy (gameObject, lifeTimeLimit);
     }
-    UpdateDamage();
+    UpdateDamage ();
 
-    foreach (ParticleSystem particleSystemMove in particleSystemsMove)
-    {
-      particleSystemMove.gameObject.SetActive(false);
+    foreach (ParticleSystem particleSystemMove in particleSystemsMove) {
+      particleSystemMove.gameObject.SetActive (false);
     }
   }
   void Update () {
     if (useLifeTimeLimit && lifeTimeLimit > 5 && Time.time >= (startTime + lifeTimeLimit - 5) && !initiatedSelfDestruction) {
       if (trail) {
-      // if (trailIN && trailOUT) {
+        // if (trailIN && trailOUT) {
         trail.emitting = false;
         // trailIN.emitting = false;
         // trailOUT.emitting = false;
@@ -109,8 +108,8 @@ public class AfroFistController : MonoBehaviour {
 
     // rigidbody.velocity = transform.forward * movementSpeed;
 
-    if (fired && Vector3.Distance(transform.position, Vector3.zero) > 100) {
-      Destroy(gameObject);
+    if (fired && Vector3.Distance (transform.position, Vector3.zero) > 100) {
+      Destroy (gameObject);
     }
   }
 
@@ -124,7 +123,7 @@ public class AfroFistController : MonoBehaviour {
         lastMagnitudeChange = Time.time;
       } else {
         magnitudeTransitionPoint = (Time.time - lastMagnitudeChange) / magnitudeChangeDelay;
-        magnitude = Mathf.Lerp(lastMagnitude, newMagnitude, magnitudeTransitionPoint);
+        magnitude = Mathf.Lerp (lastMagnitude, newMagnitude, magnitudeTransitionPoint);
       }
       lastPosition = transform.position;
       lastpositionTime = Time.time;
@@ -139,94 +138,98 @@ public class AfroFistController : MonoBehaviour {
         colorMultiplier = 1;
       }
 
-      color = Color.HSVToRGB(0f/360f, 1, colorMagnitude);
+      color = Color.HSVToRGB (0f / 360f, 1, colorMagnitude);
       // trailColor = Color.HSVToRGB(0f/360f, colorMagnitude, 1);
-      color = new Color(color.r * colorMultiplier, color.g * colorMultiplier, color.b * colorMultiplier, color.a);
-      trailColor = new Color(color.r * 1000, color.g * 1000, color.b * 1000, color.a);
-      outlineColor = Color.HSVToRGB(50f/360f, 1, colorMagnitude);
-      outlineColor = new Color(outlineColor.r * colorMultiplier, outlineColor.g * colorMultiplier, outlineColor.b * colorMultiplier, outlineColor.a);
-      material.SetColor("_Color", color);
-      trail.material.SetColor("_Color", trailColor);
+      color = new Color (color.r * colorMultiplier, color.g * colorMultiplier, color.b * colorMultiplier, color.a);
+      trailColor = new Color (color.r * 1000, color.g * 1000, color.b * 1000, color.a);
+      outlineColor = Color.HSVToRGB (50f / 360f, 1, colorMagnitude);
+      outlineColor = new Color (outlineColor.r * colorMultiplier, outlineColor.g * colorMultiplier, outlineColor.b * colorMultiplier, outlineColor.a);
+      material.SetColor ("_Color", color);
+      trail.material.SetColor ("_Color", trailColor);
       // trailIN.material.SetColor("_BaseColor", trailColor);
-      material.SetColor("_OutlineColor", outlineColor);
-      trail.material.SetColor("_OutlineColor", outlineColor);
+      material.SetColor ("_OutlineColor", outlineColor);
+      trail.material.SetColor ("_OutlineColor", outlineColor);
       // trailOUT.material.SetColor("_BaseColor", outlineColor);
-      AddDamageBaseMultiplier(1 + (magnitude / 20), "speed");
+      AddDamageBaseMultiplier (1 + (magnitude / 20), "speed");
     }
 
-    velocity = new Vector3(rigidbodyFist.velocity.x, 0, rigidbodyFist.velocity.z);
+    velocity = new Vector3 (rigidbodyFist.velocity.x, 0, rigidbodyFist.velocity.z);
     // velocity = rigidbodyFist.velocity;
     if (fired && velocity != velocityLast) {
       velocityLast = velocity;
-      OnVelocityChange();
+      OnVelocityChange ();
     }
-    if (!fired && spellController.IsInBreakerUlt()) {
-      SpawnTrailCollider();
+    if (!fired && spellController.IsInBreakerUlt ()) {
+      SpawnTrailCollider ();
     }
     if (velocity != Vector3.zero) {
-      transform.rotation = Quaternion.LookRotation(velocity);
+      transform.rotation = Quaternion.LookRotation (velocity);
     }
 
     if (Time.time > lastHit + hitDelay) {
-      TrailTargetListPrep();
+      TrailTargetListPrep ();
       lastHit = Time.time;
-      TrailTargetListHit();
+      TrailTargetListHit ();
     }
   }
 
   void LateUpdate () {
     if (hasCollided && !hasHit && !initiatedSelfDestruction) {
       hasCollided = false;
-      EnemyController enemyHit = lastCollision.collider.GetComponent<EnemyController>();
+      EnemyController enemyHit = lastCollision.collider.GetComponent<EnemyController> ();
       if (!enemyHit) {
-        enemyHit = lastCollision.collider.GetComponentInParent<EnemyController>();
+        enemyHit = lastCollision.collider.GetComponentInParent<EnemyController> ();
         if (!enemyHit) {
-          enemyHit = lastCollision.collider.GetComponentInChildren<EnemyController>();
+          enemyHit = lastCollision.collider.GetComponentInChildren<EnemyController> ();
         }
       }
       GameObject objectHit = Tools.FindObjectOrParentWithTag (lastCollision.collider.gameObject, "EnemyCharacter");
       // if (objectHit && objectHit != attacker) {
-      if (enemyHit && !enemyHit.GetIsDead()) {
-        HitEnemy(enemyHit);
+      if (enemyHit && !enemyHit.GetIsDead ()) {
+        HitEnemy (enemyHit);
         if (enemyBounce < enemyBounceMax) {
           enemyBounce++;
         } else {
-          DestroySelf();
+          DestroySelf ();
+        }
+      } else {
+        if (firstContact) {
+          ParticleSystem shockObject = Instantiate (shock, lastCollision.GetContact(0).point, transform.rotation);
+          Destroy (shockObject, 1.5f);
+        } else {
+          firstContact = true;
         }
       }
     }
   }
 
-  void HitEnemy(EnemyController enemyHit) {
-    ParticleSystem explotionObject = Instantiate(explosion, transform.position, transform.rotation);
-    Destroy(explotionObject, 1);
-    if (Tools.InflictDamage(lastCollision.collider.transform, damageFinal, characterWallet, spellController)) {
-      spellController.FistKilledEnemy();
+  void HitEnemy (EnemyController enemyHit) {
+    ParticleSystem explosionObject = Instantiate (explosion, transform.position, transform.rotation);
+    Destroy (explosionObject, 1.5f);
+    if (Tools.InflictDamage (lastCollision.collider.transform, damageFinal, characterWallet, spellController)) {
+      spellController.FistKilledEnemy ();
     }
-    if (spellController.fistEnemyBouncesQuest && enemiesHit.Contains(enemyHit)) {
-      spellController.GenerateQuestDing(transform.position);
+    if (spellController.fistEnemyBouncesQuest && enemiesHit.Contains (enemyHit)) {
+      spellController.GenerateQuestDing (transform.position);
       spellController.enemyHitTwiceBySameFist++;
     }
-    enemiesHit.Add(enemyHit);
+    enemiesHit.Add (enemyHit);
   }
-  void DestroySelf() {
+  void DestroySelf () {
     if (trail) {
-    // if (trailIN && trailOUT) {
+      // if (trailIN && trailOUT) {
       trail.emitting = false;
       // trailIN.emitting = false;
       // trailOUT.emitting = false;
     }
-    foreach (SpriteRenderer sprite in sprites)
-    {
+    foreach (SpriteRenderer sprite in sprites) {
       sprite.enabled = false;
     }
-    foreach (GameObject objectToDisable in objectsToDisable)
-    {
-      objectToDisable.SetActive(false);
+    foreach (GameObject objectToDisable in objectsToDisable) {
+      objectToDisable.SetActive (false);
     }
-    foreach (ParticleSystem particleSystemMove in particleSystemsMove)
-    {
-      particleSystemMove.Stop();
+    foreach (ParticleSystem particleSystemMove in particleSystemsMove) {
+      particleSystemMove.Stop ();
     }
     sphereCollider.enabled = false;
     meshRenderer.enabled = false;
@@ -247,59 +250,58 @@ public class AfroFistController : MonoBehaviour {
     }
   }
 
-  void TrailTargetListPrep() {
-    for (int i = trailColliders.Count-1; i > -1; i--)
-    {
+  void TrailTargetListPrep () {
+    for (int i = trailColliders.Count - 1; i > -1; i--) {
       if (trailColliders[i]) {
         List<HealthSimple> targetList = trailColliders[i].targetList;
-        for (int j = targetList.Count-1; j > -1; j--)
-        {
+        for (int j = targetList.Count - 1; j > -1; j--) {
           if (targetList[j]) {
-            if (!trailTargetList.Contains(targetList[j])) {
-              trailTargetList.Add(targetList[j]);
+            if (!trailTargetList.Contains (targetList[j])) {
+              trailTargetList.Add (targetList[j]);
             }
           } else {
-            targetList.RemoveAt(j);
+            targetList.RemoveAt (j);
           }
         }
       } else {
-        trailColliders.RemoveAt(i);
+        trailColliders.RemoveAt (i);
       }
     }
   }
 
-  void TrailTargetListHit() {
-    for (int i = trailTargetList.Count-1; i > -1; i--)
-    {
-      if(trailTargetList[i]) {
-        Tools.InflictDamage(
+  void TrailTargetListHit () {
+    for (int i = trailTargetList.Count - 1; i > -1; i--) {
+      if (trailTargetList[i]) {
+        Tools.InflictDamage (
           trailTargetList[i].transform,
-          Mathf.RoundToInt(Mathf.RoundToInt(damageFinal / 2f) * hitDelay),
+          Mathf.RoundToInt (Mathf.RoundToInt (damageFinal / 2f) * hitDelay),
           characterWallet,
           spellController
         );
       } else {
-        trailTargetList.RemoveAt(i);
+        trailTargetList.RemoveAt (i);
       }
     }
   }
 
-  void OnVelocityChange() {
+  void OnVelocityChange () {
     velocityChanged = true;
     if (trailCollider) {
-      trailCollider.Detach();
+      trailCollider.Detach ();
     }
-    SpawnTrailCollider();
+    // ParticleSystem shockObject = Instantiate (shock, lastCollision.GetContact(0).point, transform.rotation);
+    // Destroy (shockObject, 1.5f);
+    SpawnTrailCollider ();
   }
 
-  void SpawnTrailCollider() {
+  void SpawnTrailCollider () {
     if (trail.emitting && !initiatedSelfDestruction && spellController.trailUnlocked) {
-      if (Vector3.Distance(trailColliderSpawn.position, lastTrailColliderSpawnPosition) >= trailColliderRadius * 2) {
-        GameObject trailObject = Instantiate(trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
+      if (Vector3.Distance (trailColliderSpawn.position, lastTrailColliderSpawnPosition) >= trailColliderRadius * 2) {
+        GameObject trailObject = Instantiate (trailColliderPrefab, trailColliderSpawn.position, trailColliderSpawn.rotation);
         lastTrailColliderSpawnPosition = trailColliderSpawn.position;
-        trailObject.transform.SetParent(trailColliderSpawn);
-        trailCollider = trailObject.GetComponent<TrailColliderController>();
-        trailColliders.Add(trailCollider);
+        trailObject.transform.SetParent (trailColliderSpawn);
+        trailCollider = trailObject.GetComponent<TrailColliderController> ();
+        trailColliders.Add (trailCollider);
       }
     }
   }
@@ -324,7 +326,7 @@ public class AfroFistController : MonoBehaviour {
 
     rigidbodyFist.AddForce (spellController.body.transform.forward * launchForce, ForceMode.Impulse);
     velocityLast = rigidbodyFist.velocity;
-    UpdateDamage();
+    UpdateDamage ();
   }
 
   void OnCollisionEnter (Collision collision) {
@@ -332,67 +334,61 @@ public class AfroFistController : MonoBehaviour {
     lastCollision = collision;
   }
 
-  public void UpdateDamage() {
-    if (!fired)
-    {
-      damageBase = Mathf.RoundToInt(spellController.healthScript.damageFinal / 4f);
+  public void UpdateDamage () {
+    if (!fired) {
+      damageBase = Mathf.RoundToInt (spellController.healthScript.damageFinal / 4f);
     }
     float damageTemp = damageBase;
-    foreach (Tools.StatModifier damageBaseMultiplier in damageBaseMultipliers)
-    {
+    foreach (Tools.StatModifier damageBaseMultiplier in damageBaseMultipliers) {
       damageTemp *= damageBaseMultiplier.value;
     }
-    foreach (Tools.StatModifier damageAddition in damageAdditions)
-    {
+    foreach (Tools.StatModifier damageAddition in damageAdditions) {
       damageTemp += damageAddition.value;
     }
-    foreach (Tools.StatModifier damageMultiplier in damageMultipliers)
-    {
+    foreach (Tools.StatModifier damageMultiplier in damageMultipliers) {
       damageTemp *= damageMultiplier.value;
     }
-    damageFinal = Mathf.RoundToInt(damageTemp);
+    damageFinal = Mathf.RoundToInt (damageTemp);
   }
 
-  public void AddDamageBaseMultiplier(float value, string identifier) {
-    if (Tools.AddStatModifier(damageBaseMultipliers, value, identifier)) {
-      UpdateDamage();
+  public void AddDamageBaseMultiplier (float value, string identifier) {
+    if (Tools.AddStatModifier (damageBaseMultipliers, value, identifier)) {
+      UpdateDamage ();
     }
   }
-  public void RemoveDamageBaseMultiplier(string identifier) {
-    if (Tools.RemoveStatModifier(damageBaseMultipliers, identifier)) {
-      UpdateDamage();
+  public void RemoveDamageBaseMultiplier (string identifier) {
+    if (Tools.RemoveStatModifier (damageBaseMultipliers, identifier)) {
+      UpdateDamage ();
     }
   }
-  public void AddDamageAddition(int value, string identifier) {
-    if (Tools.AddStatModifier(damageAdditions, value, identifier)) {
-      UpdateDamage();
+  public void AddDamageAddition (int value, string identifier) {
+    if (Tools.AddStatModifier (damageAdditions, value, identifier)) {
+      UpdateDamage ();
     }
   }
-  public void RemoveDamageAddition(string identifier) {
-    if (Tools.RemoveStatModifier(damageAdditions, identifier)) {
-      UpdateDamage();
+  public void RemoveDamageAddition (string identifier) {
+    if (Tools.RemoveStatModifier (damageAdditions, identifier)) {
+      UpdateDamage ();
     }
   }
-  public void AddDamageMultiplier(float value, string identifier) {
-    if (Tools.AddStatModifier(damageMultipliers, value, identifier)) {
-      UpdateDamage();
+  public void AddDamageMultiplier (float value, string identifier) {
+    if (Tools.AddStatModifier (damageMultipliers, value, identifier)) {
+      UpdateDamage ();
     }
   }
-  public void RemoveDamageMultiplier(string identifier) {
-    if (Tools.RemoveStatModifier(damageMultipliers, identifier)) {
-      UpdateDamage();
+  public void RemoveDamageMultiplier (string identifier) {
+    if (Tools.RemoveStatModifier (damageMultipliers, identifier)) {
+      UpdateDamage ();
     }
   }
 
-  public void SetFistMass(float newMass) {
+  public void SetFistMass (float newMass) {
     rigidbodyFist.mass = newMass;
   }
-  public void SetLaunchForce(float newLaunchForce)
-  {
+  public void SetLaunchForce (float newLaunchForce) {
     launchForce = newLaunchForce;
   }
-  public void SetEnemyBounceMax(int newEnemyBounceMax)
-  {
+  public void SetEnemyBounceMax (int newEnemyBounceMax) {
     enemyBounceMax = newEnemyBounceMax;
   }
 }
