@@ -5370,9 +5370,14 @@ MonoBehaviour:
   - {fileID: 5044241908156340955}
   - {fileID: 3455760019089767165}
   - {fileID: 8221906566299923817}
-  shock: {fileID: 7460899438354448550, guid: 8734561d0354d56418a71d28b4ac05a1, type: 3}
-  explosion: {fileID: 7460899438354448550, guid: f7a78cacee9ec2a4196f1e270d7d2d89,
+  shock: {fileID: 254776711401793259, guid: 8734561d0354d56418a71d28b4ac05a1, type: 3}
+  explosionBig: {fileID: 254776711401793259, guid: f7a78cacee9ec2a4196f1e270d7d2d89,
     type: 3}
+  explosion: {fileID: 254776711401793259, guid: 4504f95a2ac619241ae9c48e24c08806,
+    type: 3}
+  canDivide: 1
+  division: 0
+  initiated: 0
 --- !u!96 &7243041431151558972
 TrailRenderer:
   serializedVersion: 2
@@ -5381,7 +5386,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4545635645836257022}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

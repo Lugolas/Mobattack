@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +23,15 @@ public class TurretWallController : MonoBehaviour
   string attackAnimationName = "AttackSpeed";
   public List<RegisteredFist> registeredFists = new List<RegisteredFist>();
   float lastUpdate;
+  float delay = 1;
+  SpellControllerAfro spellController;
+  public GameObject targetPoint;
+  public bool power1 = false;
+  public bool targeting1 = false;
+  public bool targeting2 = false;
+  public bool targeting4 = false;
+  public bool amount1 = false;
+  bool amount1Control = false;
 
   private void Start()
   {
@@ -30,6 +39,7 @@ public class TurretWallController : MonoBehaviour
     playerLink = GetComponentInParent<TurretPlayerLink>();
     statManager = GetComponentInParent<TurretStatManager>();
     animator = GetComponent<Animator>();
+    spellController = playerLink.playerCharacter.GetComponent<SpellControllerAfro>();
 
     AnimationClip[] animationClips = animator.runtimeAnimatorController.animationClips;
     foreach (AnimationClip animationClip in animationClips)
@@ -66,6 +76,17 @@ public class TurretWallController : MonoBehaviour
 
     if (Time.time > lastUpdate + 1) {
       targetUpdateWanted = true;
+    }
+
+    if (amount1 && !amount1Control) {
+      amount1Control = amount1;
+      delay *= 0.5f;
+    } else if (!amount1 && amount1Control) {
+      amount1Control = amount1;
+      delay *= 2;
+    }
+    if (targeting4 && spellController.GetSpell3Active()) {
+      targetPoint.transform.position = spellController.spell3TargetPoint;
     }
   }
 
@@ -181,6 +202,10 @@ public class TurretWallController : MonoBehaviour
       }
       targetUpdateWanted = true;
     }
+  }
+
+  public float GetDelay() {
+    return delay;
   }
 }
 

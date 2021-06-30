@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class TurretPlayerLink : MonoBehaviour
 {
-  GameObject playerCharacter;
+  public GameObject playerCharacter;
   public MoneyManager characterWallet;
   TurretSpaceCheck turretSpaceCheck;
   NavMeshObstacle navMeshObstacle;

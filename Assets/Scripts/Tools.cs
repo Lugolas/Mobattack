@@ -159,7 +159,7 @@ public class Tools : MonoBehaviour
     return bestTarget;
   }
 
-  public static GameController getGameController()
+  public static GameController GetGameController()
   {
     GameObject gameManager = GameObject.Find("GameManager");
     GameController gameController = null;
@@ -315,7 +315,7 @@ public class Tools : MonoBehaviour
     bool updateNeeded = true;
     foreach (StatModifier statModifier in statModifiers)
     {
-      if (statModifier.identifier == identifier) {
+      if (identifier != null && statModifier.identifier == identifier) {
         if (statModifier.value == value) {
           updateNeeded = false;
         } else {

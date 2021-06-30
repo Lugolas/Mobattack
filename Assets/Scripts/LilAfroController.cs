@@ -14,7 +14,9 @@ public class LilAfroController : MonoBehaviour
   TurretWallController wallController;
   int attackAnimationMode = -1;
   List<GameObject> fistsInRange = new List<GameObject>();
-
+  int damageBase = 1;
+  int damageFinal = 1;
+  float punchTime = 0;
 
   private void Start()
   {
@@ -48,6 +50,10 @@ public class LilAfroController : MonoBehaviour
   void LateUpdate()
   {
     if (playerLink.activated) {
+      if (wallController.targeting2) {
+        Vector3 point = wallController.targetPoint.transform.position;
+        transform.LookAt(new Vector3(point.x, transform.position.y, point.z));
+      }
       if (fistsInRange.Count > 0) {
         bool invalidRigidbodyDetected = false;
         Rigidbody invalidRigidbody = new Rigidbody();
@@ -72,26 +78,39 @@ public class LilAfroController : MonoBehaviour
           fistsInRange.Remove(invalidRigidbody.gameObject);
         }
       }
-      if (target)
+      if (target && Time.time > punchTime + wallController.GetDelay())
       {
         Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
+        AfroFistController targetController = target.GetComponent<AfroFistController>();
         if (targetRigidbody) {
           if (!targetRigidbody.isKinematic) {
             target.transform.position = new Vector3(fistPropulsionPoint.position.x, target.transform.position.y, fistPropulsionPoint.position.z);
 
             float magnitude = targetRigidbody.velocity.magnitude;
-            float force;
-            if (magnitude < 250f) {
-              force = 250f;
-            } else {
-              force = magnitude * 1.05f;
+            float speedBoost = 1;
+            if (targetController) {
+              if (wallController.power1) {
+                targetController.AddDamageAddition(damageFinal);
+              }
+              if (wallController.targeting1) {
+                speedBoost = 1.05f;
+              }
             }
+            float baseForce = (magnitude * targetController.GetFistMass());
+            if (baseForce < targetController.GetLaunchForce()) {
+              baseForce = targetController.GetLaunchForce();
+            }
+
+            float force = (baseForce + damageFinal) * speedBoost;
+
             targetRigidbody.Sleep();
             targetRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
           }
         }
 
         TriggerFireAnimation();
+
+        punchTime = Time.time;
       }
       target = null;
     }

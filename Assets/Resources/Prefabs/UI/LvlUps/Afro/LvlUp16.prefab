@@ -156,17 +156,27 @@ PrefabInstance:
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 16
+      value: Poing explosif
       objectReference: {fileID: 0}
     - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: spellInput
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4525101611030283179, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Les poings explosent et font des d\xE9g\xE2ts de zone"
+      objectReference: {fileID: 0}
     - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
       propertyPath: title
-      value: 16
+      value: Rage contagieuse
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004333040896682548, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: Les effets de rage son transmis en partie aux tourelles proches
       objectReference: {fileID: 0}
     - target: {fileID: 5203945864509682823, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
@@ -175,8 +185,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
         type: 3}
+      propertyPath: quest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
       propertyPath: title
-      value: 16
+      value: Poing dichotomique
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312922637229800486, guid: 860ac4460c617354795e881a089b707b,
+        type: 3}
+      propertyPath: description
+      value: "Le poing se divise en deux \xE0 sa destruction"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860ac4460c617354795e881a089b707b, type: 3}

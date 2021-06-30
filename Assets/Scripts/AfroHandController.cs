@@ -99,7 +99,10 @@ public class AfroHandController : MonoBehaviour
         if (targetHealth && !alreadyHit.Contains(targetHealth)) {
           alreadyHit.Add(targetHealth);
           fist.UpdateDamage();
-          Tools.InflictDamage(targetHealth.transform, fist.damageFinal, spellController.moneyManager, spellController);
+          fist.HitEnemy(targetHealth.GetComponent<EnemyController>(), false);
+          GameObject shockObject = Instantiate (fist.shock, transform.position, transform.rotation);
+          shockObject.transform.localScale *= 2;
+          Destroy (shockObject, 1.5f);
         }
       }
     }
@@ -126,20 +129,17 @@ public class AfroHandController : MonoBehaviour
     float fistAugmentationHalved = ((fistAugmentation - 1) / 2) + 1;
     fistSize = fistAugmentationHalved;
     fistRadius = fistSize / 2;
-    fist.transform.localScale = new Vector3(fistSize, fistSize, fistSize);
-    fist.transform.localPosition = new Vector3(0, fistRadius, 0);
     sphereCollider.radius = fistRadius;
     sphereCollider.center = new Vector3(0, fistRadius, 0);
     sphereColliderLocal.radius = fistRadius;
     sphereColliderLocal.center = new Vector3(0, fistRadius, 0);
-    fist.trail.startWidth = fistSize;
 
     float weight = fistAugmentationHalved * spellController.fistWeightInitial;
     if (!rigidbodyRagdoll) {
       rigidbodyRagdoll = sphereCollider.GetComponent<Rigidbody>();
     }
     rigidbodyRagdoll.mass = weight;
-    fist.SetFistMass(weight);
+    fist.UpdateSize(false);
   }
   void UpdateFistLaunchForce() {
     fist.SetLaunchForce(spellController.fistLaunchForce);

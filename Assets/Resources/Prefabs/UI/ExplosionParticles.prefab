@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7675101705410273922}
   - component: {fileID: 7460899438354448550}
   - component: {fileID: 682170209397379310}
+  - component: {fileID: 4712563430963792419}
   m_Layer: 0
   m_Name: ExplosionParticles
   m_TagString: Untagged
@@ -284,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
+      scalar: 2
       minScalar: 0.5
       maxCurve:
         serializedVersion: 2
@@ -974,9 +975,9 @@ ParticleSystem:
       time: 0
       countCurve:
         serializedVersion: 2
-        minMaxState: 0
-        scalar: 10
-        minScalar: 30
+        minMaxState: 3
+        scalar: 7
+        minScalar: 3
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -4875,3 +4876,23 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4712563430963792419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254776711401793259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1244f426f97b4d4db6e0ed877d68e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5.55
+  damage: 6
+  moneyManager: {fileID: 0}
+  spellController: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 41943040
+  enemyToAvoid: {fileID: 0}

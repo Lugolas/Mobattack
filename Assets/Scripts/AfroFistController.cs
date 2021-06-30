@@ -10,6 +10,7 @@ public class AfroFistController : MonoBehaviour {
   List<Tools.StatModifier> damageAdditions = new List<Tools.StatModifier> ();
   List<Tools.StatModifier> damageMultipliers = new List<Tools.StatModifier> ();
   public int damageFinal;
+  int damageFinalControl;
   public GameObject attacker;
   public GameObject fistBurstPrefab;
   public bool useLifeTimeLimit = false;
@@ -66,33 +67,45 @@ public class AfroFistController : MonoBehaviour {
   List<EnemyController> enemiesHit = new List<EnemyController> ();
   public List<ParticleSystem> particleSystemsMove = new List<ParticleSystem> ();
   public List<GameObject> objectsToDisable = new List<GameObject> ();
-  public ParticleSystem shock;
-  public ParticleSystem explosion;
+  public GameObject shock;
+  public GameObject explosionBig;
+  public GameObject explosion;
   bool firstContact = false;
+  EnemyController lastEnemyHit;
+  public bool canDivide = true;
+  public int division = 0;
+  public bool initiated = false;
 
   void Start () {
-    startTime = Time.time;
-    lastPosition = transform.position;
-    lastpositionTime = Time.time;
-    trail.emitting = false;
-    // trailIN.emitting = false;
-    // trailOUT.emitting = false;
-    trailTime = trail.time;
-    // trailTime = trailIN.time;
-    sphereCollider = GetComponent<SphereCollider> ();
-    meshRenderer = GetComponent<MeshRenderer> ();
-    material = meshRenderer.material;
-    outlineColor = Color.HSVToRGB (50, 0, 0);
-    sprites = GetComponentsInChildren<SpriteRenderer> ();
-    trailColliderRadius = trailColliderPrefab.GetComponent<CapsuleCollider> ().radius;
+    Init();
+  }
 
-    if (useLifeTimeLimit) {
-      Destroy (gameObject, lifeTimeLimit);
-    }
-    UpdateDamage ();
+  public void Init() {
+    if (!initiated) {
+      initiated = true;
+      startTime = Time.time;
+      lastPosition = transform.position;
+      lastpositionTime = Time.time;
+      trail.emitting = false;
+      // trailIN.emitting = false;
+      // trailOUT.emitting = false;
+      trailTime = trail.time;
+      // trailTime = trailIN.time;
+      sphereCollider = GetComponent<SphereCollider> ();
+      meshRenderer = GetComponent<MeshRenderer> ();
+      material = meshRenderer.material;
+      outlineColor = Color.HSVToRGB (50, 0, 0);
+      sprites = GetComponentsInChildren<SpriteRenderer> ();
+      trailColliderRadius = trailColliderPrefab.GetComponent<CapsuleCollider> ().radius;
 
-    foreach (ParticleSystem particleSystemMove in particleSystemsMove) {
-      particleSystemMove.gameObject.SetActive (false);
+      if (useLifeTimeLimit) {
+        Destroy (gameObject, lifeTimeLimit);
+      }
+      UpdateDamage (division);
+
+      foreach (ParticleSystem particleSystemMove in particleSystemsMove) {
+        particleSystemMove.gameObject.SetActive (false);
+      }
     }
   }
   void Update () {
@@ -114,6 +127,7 @@ public class AfroFistController : MonoBehaviour {
   }
 
   void FixedUpdate () {
+    if(fired)
     if (spellController.speedAffectsFists) {
       // magnitude = 0;
       if (Time.time > lastMagnitudeChange + magnitudeChangeDelay) {
@@ -183,7 +197,7 @@ public class AfroFistController : MonoBehaviour {
           enemyHit = lastCollision.collider.GetComponentInChildren<EnemyController> ();
         }
       }
-      GameObject objectHit = Tools.FindObjectOrParentWithTag (lastCollision.collider.gameObject, "EnemyCharacter");
+      // GameObject objectHit = Tools.FindObjectOrParentWithTag (lastCollision.collider.gameObject, "EnemyCharacter");
       // if (objectHit && objectHit != attacker) {
       if (enemyHit && !enemyHit.GetIsDead ()) {
         HitEnemy (enemyHit);
@@ -194,19 +208,55 @@ public class AfroFistController : MonoBehaviour {
         }
       } else {
         if (firstContact) {
-          ParticleSystem shockObject = Instantiate (shock, lastCollision.GetContact(0).point, transform.rotation);
-          Destroy (shockObject, 1.5f);
+          InstantiateImpact(false);
         } else {
           firstContact = true;
         }
       }
     }
+    if (fired && damageFinal != damageFinalControl) {
+      damageFinalControl = damageFinal;
+      UpdateSize();
+    }
   }
 
-  void HitEnemy (EnemyController enemyHit) {
-    ParticleSystem explosionObject = Instantiate (explosion, transform.position, transform.rotation);
-    Destroy (explosionObject, 1.5f);
-    if (Tools.InflictDamage (lastCollision.collider.transform, damageFinal, characterWallet, spellController)) {
+  public void InstantiateImpact(bool enemy, bool useLastCollision = true) {
+    Vector3 position;
+    EnemyController enemyToAvoid = null;
+    if (useLastCollision)
+    {
+      position = lastCollision.GetContact(0).point;
+      enemyToAvoid = lastEnemyHit;
+    } else {
+      position = transform.position;
+    }
+
+    GameObject impact;
+    if (enemy) {
+      if (spellController.fistExplode) {
+        impact = explosionBig;
+        ExplosionController explosionBigController = impact.GetComponent<ExplosionController>();
+        explosionBigController.damage = Mathf.RoundToInt((float)damageFinal / 2);
+        explosionBigController.radius = (transform.localScale.x / 2) + 5;
+        // explosionBigController.radius = 20;
+        explosionBigController.enemyToAvoid = enemyToAvoid;
+        explosionBigController.moneyManager = characterWallet;
+        explosionBigController.spellController = spellController;
+      } else {
+        impact = explosion;
+      }
+    } else {
+      impact = shock;
+    }
+
+
+    GameObject impactObject = Instantiate (impact, position, transform.rotation);
+    Destroy (impactObject, 1.5f);
+  }
+  public void HitEnemy (EnemyController enemyHit, bool useLastCollision = true) {
+    lastEnemyHit = enemyHit;
+    InstantiateImpact(true, useLastCollision);
+    if (Tools.InflictDamage (enemyHit.transform, damageFinal, characterWallet, spellController)) {
       spellController.FistKilledEnemy ();
     }
     if (spellController.fistEnemyBouncesQuest && enemiesHit.Contains (enemyHit)) {
@@ -216,6 +266,10 @@ public class AfroFistController : MonoBehaviour {
     enemiesHit.Add (enemyHit);
   }
   void DestroySelf () {
+    if (spellController.fistDivide) {
+      Divide();
+    }
+
     if (trail) {
       // if (trailIN && trailOUT) {
       trail.emitting = false;
@@ -306,7 +360,7 @@ public class AfroFistController : MonoBehaviour {
     }
   }
 
-  public void Fire (float fistSize) {
+  public void Fire(float fistSize, bool ownDirection = false) {
     // foreach (ParticleSystem particleSystemMove in particleSystemsMove)
     // {
     //   particleSystemMove.gameObject.SetActive(true);
@@ -323,10 +377,18 @@ public class AfroFistController : MonoBehaviour {
     }
     // trailIN.emitting = true;
     // trailOUT.emitting = true;
+    Vector3 forceDirection;
+    if (ownDirection) {
+      forceDirection = transform.forward;
+      // transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z));
+      // Debug.Log(transform.forward);
+    } else {
+      forceDirection = spellController.body.transform.forward;
+    }
 
-    rigidbodyFist.AddForce (spellController.body.transform.forward * launchForce, ForceMode.Impulse);
+    rigidbodyFist.AddForce(forceDirection * launchForce, ForceMode.Impulse);
     velocityLast = rigidbodyFist.velocity;
-    UpdateDamage ();
+    UpdateDamage (division);
   }
 
   void OnCollisionEnter (Collision collision) {
@@ -334,11 +396,17 @@ public class AfroFistController : MonoBehaviour {
     lastCollision = collision;
   }
 
-  public void UpdateDamage () {
+  public void UpdateDamage (int division = 0) {
     if (!fired) {
-      damageBase = Mathf.RoundToInt (spellController.healthScript.damageFinal / 4f);
+      damageBase = Mathf.RoundToInt(spellController.healthScript.damageFinal / 4f);
     }
+    float ratio = division * 2;
     float damageTemp = damageBase;
+    if (ratio > 0) {
+      damageTemp = Mathf.RoundToInt((float) damageBase / ratio);
+    } else {
+      damageTemp = damageBase;
+    }
     foreach (Tools.StatModifier damageBaseMultiplier in damageBaseMultipliers) {
       damageTemp *= damageBaseMultiplier.value;
     }
@@ -353,32 +421,32 @@ public class AfroFistController : MonoBehaviour {
 
   public void AddDamageBaseMultiplier (float value, string identifier) {
     if (Tools.AddStatModifier (damageBaseMultipliers, value, identifier)) {
-      UpdateDamage ();
+      UpdateDamage (division);
     }
   }
   public void RemoveDamageBaseMultiplier (string identifier) {
     if (Tools.RemoveStatModifier (damageBaseMultipliers, identifier)) {
-      UpdateDamage ();
+      UpdateDamage (division);
     }
   }
-  public void AddDamageAddition (int value, string identifier) {
+  public void AddDamageAddition (int value, string identifier = null) {
     if (Tools.AddStatModifier (damageAdditions, value, identifier)) {
-      UpdateDamage ();
+      UpdateDamage (division);
     }
   }
   public void RemoveDamageAddition (string identifier) {
     if (Tools.RemoveStatModifier (damageAdditions, identifier)) {
-      UpdateDamage ();
+      UpdateDamage (division);
     }
   }
   public void AddDamageMultiplier (float value, string identifier) {
     if (Tools.AddStatModifier (damageMultipliers, value, identifier)) {
-      UpdateDamage ();
+      UpdateDamage (division);
     }
   }
   public void RemoveDamageMultiplier (string identifier) {
     if (Tools.RemoveStatModifier (damageMultipliers, identifier)) {
-      UpdateDamage ();
+      UpdateDamage (division);
     }
   }
 
@@ -390,5 +458,92 @@ public class AfroFistController : MonoBehaviour {
   }
   public void SetEnemyBounceMax (int newEnemyBounceMax) {
     enemyBounceMax = newEnemyBounceMax;
+  }
+  public float GetFistMass () {
+    return rigidbodyFist.mass;
+  }
+  public float GetLaunchForce () {
+    return launchForce;
+  }
+  public int GetEnemyBounceMax () {
+    return enemyBounceMax;
+  }
+
+  public SphereCollider GetSphereCollider() {
+    return sphereCollider;
+  }
+  public void SetSphereCollider(SphereCollider collider) {
+    sphereCollider = collider;
+  }
+
+  void FireCopy(bool left) {
+    float angle = 180;
+    float xPos;
+    GameObject fistCopy = Instantiate(gameObject, transform.position, transform.rotation);
+    if (left) {
+      angle += 45/2;
+      xPos = -fistCopy.transform.localScale.x;
+    } else {
+      angle -= 45/2;
+      xPos = fistCopy.transform.localScale.x;
+    }
+    // fistCopy.transform.position = new Vector3(
+    //   fistCopy.transform.position.x + xPos, 
+    //   fistCopy.transform.position.y, 
+    //   fistCopy.transform.position.z
+    // );
+    fistCopy.transform.rotation = Quaternion.Euler(new Vector3(
+      transform.rotation.eulerAngles.x, 
+      transform.rotation.eulerAngles.y + angle, 
+      transform.rotation.eulerAngles.z
+    ));
+    fistCopy.transform.localScale /= 2;
+    AfroFistController fistCopyController = fistCopy.GetComponent<AfroFistController>();
+    fistCopyController.Init();
+    if (!fistCopyController.GetSphereCollider()) {
+      fistCopyController.SetSphereCollider(fistCopyController.GetComponent<SphereCollider>());
+    }
+    fistCopyController.division = division + 1;
+    fistCopyController.canDivide = false;
+    fistCopyController.damageBase /= 2;
+    fistCopyController.SetFistMass(fistCopyController.GetFistMass() / 2);
+    fistCopyController.SetLaunchForce(fistCopyController.GetLaunchForce() / 2);
+    fistCopyController.initiated = false;
+    fistCopyController.rigidbodyFist.Sleep();
+    fistCopyController.Fire(transform.localScale.x / 2, true);
+  }
+
+  void Divide() {
+    if (canDivide) {
+      FireCopy(true);
+      FireCopy(false);
+    }
+  }
+
+  public void UpdateSize(bool checkSelf = true) {
+    float augmentation = (float)damageFinal / spellController.healthScript.damageBase;
+    if (checkSelf) {
+      augmentation = (float)damageFinal / spellController.healthScript.damageBase;
+    } else {
+      augmentation = (float)spellController.healthScript.damageFinal / spellController.healthScript.damageBase;
+    }
+    float augmentationHalved = ((augmentation - 1) / 2) + 1;
+    float size = augmentationHalved;
+    float radius = size / 2;
+    transform.localScale = new Vector3(size, size, size);
+    trail.startWidth = size;
+
+    float weight = augmentationHalved * spellController.fistWeightInitial;
+    SetFistMass(weight);
+  }
+  void UpdateLaunchForce() {
+    SetLaunchForce(spellController.fistLaunchForce);
+  }
+  public void UpdateFist() {
+    UpdateLaunchForce();
+    UpdateBounces();
+  }
+  void UpdateBounces() {
+    SetEnemyBounceMax(spellController.fistEnemyBounces);
   }
 }

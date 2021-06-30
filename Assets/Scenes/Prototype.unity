@@ -6521,6 +6521,8 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 1000
   currentHealth: 0
+  speedBase: 0
+  speedFinal: 0
   armorBase: 0
   armorFinal: 0
   damageBase: 0
@@ -8183,7 +8185,7 @@ PrefabInstance:
     - target: {fileID: 3423119868216658558, guid: fd62a25a09bacc346847521d53834afe,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3423119868216658558, guid: fd62a25a09bacc346847521d53834afe,
         type: 3}
@@ -8193,7 +8195,7 @@ PrefabInstance:
     - target: {fileID: 3423119868216658558, guid: fd62a25a09bacc346847521d53834afe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3423119868216658558, guid: fd62a25a09bacc346847521d53834afe,
         type: 3}

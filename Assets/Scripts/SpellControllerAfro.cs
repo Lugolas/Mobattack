@@ -84,6 +84,7 @@ public class SpellControllerAfro : SpellController {
 
   protected int turret1Price;
   protected int turret2Price;
+  public Vector3 spell3TargetPoint;
 
   public PhysicMaterial fistMaterial;
   public bool rageArmor = false;
@@ -131,6 +132,9 @@ public class SpellControllerAfro : SpellController {
   public bool fistIgnoreFists = false;
   bool fistIgnoreFistsControl = false;
   float ragePercentage;
+  public bool fistExplode = false;
+  public bool fistDivide = false;
+  public bool rageContagion = false;
 
   // Start is called before the first frame update
   void Start () {
@@ -348,10 +352,11 @@ public class SpellControllerAfro : SpellController {
       if (isInAttackStance) {
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
-        Physics.Raycast (ray, out hit, 2500, layerMaskMove);
-        body.transform.LookAt (new Vector3 (hit.point.x, body.transform.position.y, hit.point.z));
-        animator.SetBool ("Attacking", attacking);
-        animator.SetFloat ("Spell3Speed", spell3AttackSpeedMultiplier + spell3AttackSpeedMultiplierRage);
+        Physics.Raycast(ray, out hit, 2500, layerMaskMove);
+        spell3TargetPoint = new Vector3(hit.point.x, body.transform.position.y, hit.point.z);
+        body.transform.LookAt(spell3TargetPoint);
+        animator.SetBool("Attacking", attacking);
+        animator.SetFloat("Spell3Speed", spell3AttackSpeedMultiplier + spell3AttackSpeedMultiplierRage);
       }
 
       if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Shoot")) {

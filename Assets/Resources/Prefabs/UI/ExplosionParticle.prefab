@@ -116,7 +116,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.5
-      minScalar: 0.25
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -168,8 +168,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0
-      minScalar: 0
+      scalar: 1.5
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
+      scalar: 1
       minScalar: 0.5
       maxCurve:
         serializedVersion: 2
@@ -659,7 +659,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 0
     angle: 0
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -803,7 +803,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 0
+      value: 360
       mode: 0
       spread: 0
       speed:
@@ -974,9 +974,9 @@ ParticleSystem:
       time: 0
       countCurve:
         serializedVersion: 2
-        minMaxState: 0
+        minMaxState: 3
         scalar: 1
-        minScalar: 30
+        minScalar: 1
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -1538,15 +1538,19 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 2755667993367850849, guid: 3350593ea9d6f0040af4a8a20631d538,
+    - sprite: {fileID: -5966114012487229146, guid: d83f5a23037d56f4f885d1669ce53141,
         type: 3}
-    - sprite: {fileID: -4980949550761737635, guid: 3350593ea9d6f0040af4a8a20631d538,
+    - sprite: {fileID: 8901960084559013156, guid: d83f5a23037d56f4f885d1669ce53141,
         type: 3}
-    - sprite: {fileID: -167490910300203488, guid: 3350593ea9d6f0040af4a8a20631d538,
+    - sprite: {fileID: -267164255502186064, guid: d83f5a23037d56f4f885d1669ce53141,
         type: 3}
-    - sprite: {fileID: 8741705398205171224, guid: 3350593ea9d6f0040af4a8a20631d538,
+    - sprite: {fileID: -1919139918207171098, guid: d83f5a23037d56f4f885d1669ce53141,
         type: 3}
-    - sprite: {fileID: 5992623780137959614, guid: 3350593ea9d6f0040af4a8a20631d538,
+    - sprite: {fileID: -200125808976407514, guid: d83f5a23037d56f4f885d1669ce53141,
+        type: 3}
+    - sprite: {fileID: 7827286645970424197, guid: d83f5a23037d56f4f885d1669ce53141,
+        type: 3}
+    - sprite: {fileID: 1894996529102351450, guid: d83f5a23037d56f4f885d1669ce53141,
         type: 3}
     flipU: 0
     flipV: 0
@@ -2137,7 +2141,7 @@ ParticleSystem:
         m_RotationOrder: 4
     inWorldSpace: 0
   InheritVelocityModule:
-    enabled: 1
+    enabled: 0
     m_Mode: 0
     m_Curve:
       serializedVersion: 2

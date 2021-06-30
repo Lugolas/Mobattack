@@ -31,7 +31,7 @@ public class ScorePanelController : MonoBehaviour
 
     charactersManager = GameObject.Find("CharactersManager");
 
-    gameController = Tools.getGameController();
+    gameController = Tools.GetGameController();
   }
 
   // Update is called once per frame

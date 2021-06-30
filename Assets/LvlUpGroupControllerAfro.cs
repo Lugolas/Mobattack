@@ -82,12 +82,15 @@ public class LvlUpGroupControllerAfro : LvlUpGroupController
   }
 
   public override void Choice16_1() {
+    spellControllerAfro.fistDivide = true;
     SetActivatedChoice(16, 1);
   }
   public override void Choice16_2() {
+    spellControllerAfro.rageContagion = true;
     SetActivatedChoice(16, 2);
   }
   public override void Choice16_3() {
+    spellControllerAfro.fistExplode = true;
     SetActivatedChoice(16, 3);
   }
 

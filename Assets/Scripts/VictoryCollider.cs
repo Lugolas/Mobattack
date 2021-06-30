@@ -10,14 +10,14 @@ public class VictoryCollider : MonoBehaviour
   void Start()
   {
     team = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-    gameController = Tools.getGameController();
+    gameController = Tools.GetGameController();
   }
 
   void Update()
   {
     if (!gameController)
     {
-      gameController = Tools.getGameController();
+      gameController = Tools.GetGameController();
     }
   }
   void OnTriggerEnter(Collider collider)

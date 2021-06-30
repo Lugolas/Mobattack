@@ -22,7 +22,7 @@ public class TurateShootController : MonoBehaviour
     shootPoints = GetComponentsInChildren<TurateShootPoint>();
     Physics.IgnoreLayerCollision(9, 16, true);
     Physics.IgnoreLayerCollision(10, 16, true);
-    gameController = Tools.getGameController();
+    gameController = Tools.GetGameController();
   }
 
   // Update is called once per frame
@@ -47,7 +47,7 @@ public class TurateShootController : MonoBehaviour
   //   }
   //   else
   //   {
-  //     gameController = Tools.getGameController();
+  //     gameController = Tools.GetGameController();
   //   }
 
   //   if (collapseTrigger && !hasCollapsed)
