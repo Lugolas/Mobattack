@@ -30,7 +30,7 @@ public class UIBarsController : MonoBehaviour
         } else {
           health = character.GetComponent<HealthDamage>();
           spellController = health.GetComponent<SpellController>();
-          lastMaxHealthKnown = health.maxHealth;
+          lastMaxHealthKnown = health.maxHealthFinal;
           lvlUpGroup.spellController = spellController;
         }
       }
@@ -38,11 +38,11 @@ public class UIBarsController : MonoBehaviour
       if (healthBar.IsInitiated()) {
         healthBar.SetCurrentValue(health.currentHealth);
       } else {
-        healthBar.Init(health.maxHealth);
+        healthBar.Init(health.maxHealthFinal);
       }
-      if (health.maxHealth != lastMaxHealthKnown) {
-        lastMaxHealthKnown = health.maxHealth;
-        healthBar.UpdateBar(health.maxHealth);
+      if (health.maxHealthFinal != lastMaxHealthKnown) {
+        lastMaxHealthKnown = health.maxHealthFinal;
+        healthBar.UpdateBar(health.maxHealthFinal);
       }
 
       if (manaBar.IsInitiated()) {

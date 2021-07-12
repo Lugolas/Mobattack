@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpellControllerSphere : SpellController
 {
-  MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;

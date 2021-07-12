@@ -6941,14 +6941,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 5408453164450830279}
-  maxHealth: 1947
   currentHealth: 0
+  maxHealthBase: 100
+  maxHealthFinal: 0
   speedBase: 5
   speedFinal: 0
   armorBase: 0
   armorFinal: 0
   damageBase: 10
   damageFinal: 0
+  delayBase: 0
+  delayFinal: 0
+  rangeBase: 0
+  rangeFinal: 0
   healthRegen: 1
   healthRegenPerSecondBase: 0
   healthRegenPerSecondFinal: 0
@@ -7036,6 +7041,7 @@ MonoBehaviour:
   armRight3Active: 0
   respawnDelay: 5
   armRagdollListener: {fileID: 5600990873338449845}
+  spell3TargetPoint: {x: 0, y: 0, z: 0}
   fistMaterial: {fileID: 13400000, guid: bbd130e9da9a26e4f84a3bd2c222e31a, type: 2}
   rageArmor: 0
   rageDamage: 0
@@ -7058,6 +7064,9 @@ MonoBehaviour:
   fistEnemyBouncesQuest: 0
   enemyHitTwiceBySameFist: 0
   fistIgnoreFists: 0
+  fistExplode: 0
+  fistDivide: 0
+  rageContagion: 0
 --- !u!1 &5742255602758483850
 GameObject:
   m_ObjectHideFlags: 0

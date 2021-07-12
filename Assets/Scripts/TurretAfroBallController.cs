@@ -16,7 +16,6 @@ public class TurretAfroBallController : TurretController
   TurretStatManager statManager;
   float oldDelay;
   TurretPlayerLink playerLink;
-  public bool activated = false;
   Animator animator;
   public bool fireTrigger = false;
   public bool fireTriggerControl = true;
@@ -99,15 +98,15 @@ public class TurretAfroBallController : TurretController
       rigidbodyAfro.GetComponent<Collider>().enabled = true;
     }
 
-    if (statManager.delay != oldDelay)
-    {
-      oldDelay = statManager.delay;
-      if (attackAnimationLength > statManager.delay)
-      {
-        attackAnimationSpeed = (attackAnimationLength / statManager.delay);
-        animator.SetFloat(attackAnimationName, attackAnimationSpeed);
-      }
-    }
+    // if (statManager.delay != oldDelay)
+    // {
+    //   oldDelay = statManager.delay;
+    //   if (attackAnimationLength > statManager.delay)
+    //   {
+    //     attackAnimationSpeed = (attackAnimationLength / statManager.delay);
+    //     animator.SetFloat(attackAnimationName, attackAnimationSpeed);
+    //   }
+    // }
 
     if (playerLink && playerLink.activated && !hasExtortedCharacter)
     {
@@ -122,7 +121,8 @@ public class TurretAfroBallController : TurretController
 
   void TriggerFireAnimation()
   {
-    if (playerLink && playerLink.activated && enemiesInRange.Count > 0 && Time.time >= fireTime + statManager.delay)
+    if (playerLink && playerLink.activated && enemiesInRange.Count > 0 && Time.time >= fireTime + 1)
+    // if (playerLink && playerLink.activated && enemiesInRange.Count > 0 && Time.time >= fireTime + statManager.delay)
     {
       fireTime = Time.time;
       animator.SetTrigger("Fire");
@@ -133,7 +133,7 @@ public class TurretAfroBallController : TurretController
   {
     if (targetUpdateWanted)
     {
-      UpdateTarget(statManager.range);
+      // UpdateTarget(statManager.range);
     }
     fireTrigger = fireMomentListener.timeToFire;
     if (fireTrigger && fireTriggerControl && enemiesInRange.Count > 0)
@@ -270,15 +270,15 @@ public class TurretAfroBallController : TurretController
       }
       targetUpdateWanted = true;
     }
-    Collider[] enemyParts = Physics.OverlapSphere(transform.position, statManager.range, Tools.GetEnemyPartsDetectionMask());
+    // Collider[] enemyParts = Physics.OverlapSphere(transform.position, statManager.range, Tools.GetEnemyPartsDetectionMask());
 
-    foreach (Collider enemyPart in enemyParts)
-    {
-      GameObject corpseHit = Tools.FindObjectOrParentWithTag(enemyPart.gameObject, "Corpse");
-      if (corpseHit)
-      {
-        corpseHit.GetComponent<Rigidbody>().AddExplosionForce(caneDamage, transform.position, statManager.range, 0, ForceMode.Impulse);
-      }
-    }
+    // foreach (Collider enemyPart in enemyParts)
+    // {
+    //   GameObject corpseHit = Tools.FindObjectOrParentWithTag(enemyPart.gameObject, "Corpse");
+    //   if (corpseHit)
+    //   {
+    //     // corpseHit.GetComponent<Rigidbody>().AddExplosionForce(caneDamage, transform.position, statManager.range, 0, ForceMode.Impulse);
+    //   }
+    // }
   }
 }

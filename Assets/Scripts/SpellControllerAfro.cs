@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class SpellControllerAfro : SpellController {
-  public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;
@@ -13,7 +12,7 @@ public class SpellControllerAfro : SpellController {
   public GameObject turret2Prefab;
   Vector3 turretCreationPoint;
   GameObject previewTurret;
-  TurretPlayerLink previewTurretPlayerLink;
+  TurretController previewTurretController;
   GameObject enemiesManager;
   bool moveClickDown = false;
   public GameObject targetPointerPrefab;
@@ -208,8 +207,10 @@ public class SpellControllerAfro : SpellController {
       defaultAutoBraking = navAgent.autoBraking;
     }
 
-    turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
-    turret2Price = turret2Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
+    turret1Price = 1;
+    // turret1Price = turret1Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
+    turret2Price = 1;
+    // turret2Price = turret2Prefab.GetComponentInChildren<TurretUpgradeManager> ().baseTurret.GetComponent<TurretStatManager> ().price;
 
     GameObject canvas = GameObject.Find ("Canvas");
     GameObject spells = canvas.transform.Find ("Spells").gameObject;
@@ -474,8 +475,15 @@ public class SpellControllerAfro : SpellController {
             foreach (RaycastHit hit in hits) {
               turretCreationPoint = hit.point;
               previewTurret = Instantiate (turret1Prefab, turretCreationPoint, new Quaternion ());
-              previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
-              previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
+              TurretController[] previewTurretControllers = previewTurret.GetComponentsInChildren<TurretController>();
+              foreach (TurretController turretController in previewTurretControllers)
+              {
+                turretController.owner = this;
+                if (turretController.headTurret) {
+                  previewTurretController = turretController;
+                  Debug.Log("found head turret");
+                }
+              }
               createModeOn = true;
               previewTurretNeedsOrientation = true;
               previewTurret1 = true;
@@ -507,8 +515,13 @@ public class SpellControllerAfro : SpellController {
             foreach (RaycastHit hit in hits) {
               turretCreationPoint = hit.point;
               previewTurret = Instantiate (turret2Prefab, turretCreationPoint, new Quaternion ());
-              previewTurretPlayerLink = previewTurret.GetComponentInChildren<TurretPlayerLink> ();
-              previewTurretPlayerLink.InitialLink (gameObject, moneyManager);
+              TurretController[] previewTurretControllers = previewTurret.GetComponentsInChildren<TurretController>();
+              foreach (TurretController turretController in previewTurretControllers)
+              {
+                if (turretController.headTurret) {
+                  previewTurretController = turretController;
+                }
+              }
               createModeOn = true;
               previewTurretNeedsOrientation = true;
               previewTurret2 = true;
@@ -643,7 +656,7 @@ public class SpellControllerAfro : SpellController {
     createModeOn = false;
     Destroy (previewTurret);
     previewTurret = null;
-    previewTurretPlayerLink = null;
+    previewTurretController = null;
     previewTurretPlaced = false;
     previewTurret1 = false;
     previewTurret2 = false;
@@ -662,16 +675,15 @@ public class SpellControllerAfro : SpellController {
       if (previewTurret) {
         returnValue = true;
       }
-      if (previewTurret && (previewTurretPlayerLink.HasEnoughSpace () || previewTurretNeedsOrientation) &&
-        previewTurretPlayerLink.characterWallet.GetMoney () >= previewTurret.GetComponentInChildren<TurretStatManager> ().price &&
+      if (previewTurret && (previewTurretController.HasEnoughSpace() || previewTurretNeedsOrientation) &&
+        previewTurretController.owner.moneyManager.GetMoney() >= previewTurret.GetComponentInChildren<TurretStatManager>().price &&
         createModeOn) {
-
         if (previewTurretNeedsOrientation) {
           previewTurretPlaced = true;
         } else {
           createModeOn = false;
 
-          previewTurretPlayerLink.Activate ();
+          previewTurretController.Activate ();
           previewTurret = null;
           previewTurret1 = false;
           previewTurret2 = false;
@@ -688,9 +700,9 @@ public class SpellControllerAfro : SpellController {
       if (
         spawned &&
         previewTurretNeedsOrientation && 
-        previewTurretPlayerLink && 
-        previewTurretPlayerLink.HasEnoughSpace() &&
-        previewTurretPlayerLink.characterWallet.GetMoney() >= previewTurret.GetComponentInChildren<TurretStatManager>().price &&
+        previewTurretController && 
+        previewTurretController.HasEnoughSpace() &&
+        previewTurretController.owner.moneyManager.GetMoney() >= previewTurret.GetComponentInChildren<TurretStatManager>().price &&
         createModeOn
       ) {
         previewTurretPlaced = false;
@@ -701,7 +713,7 @@ public class SpellControllerAfro : SpellController {
         previewTurret1 = false;
         previewTurret2 = false;
 
-        previewTurretPlayerLink.Activate ();
+        previewTurretController.Activate ();
 
         TurretAfroBallController afroBallController = previewTurret.GetComponentInChildren<TurretAfroBallController> ();
         if (afroBallController) {
@@ -778,7 +790,8 @@ public class SpellControllerAfro : SpellController {
         float ballX = afroBallClicked.transform.position.x;
         float ballZ = afroBallClicked.transform.position.z;
         float spaceToPointRatio = (
-          (afroBallClickedStats.space + navAgent.stoppingDistance) /
+          // (afroBallClickedStats.space + navAgent.stoppingDistance) /
+          (1.5f + navAgent.stoppingDistance) /
           Vector3.Distance (currentArrowPoint.transform.position, afroBallClicked.transform.position)
         );
         float targetX = currentArrowPoint.transform.position.x;

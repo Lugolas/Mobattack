@@ -75,6 +75,9 @@ public class AfroFistController : MonoBehaviour {
   public bool canDivide = true;
   public int division = 0;
   public bool initiated = false;
+  public bool fireWanted = false;
+  public float fireWantedSize = -1;
+  public bool freeBall = false;
 
   void Start () {
     Init();
@@ -117,6 +120,10 @@ public class AfroFistController : MonoBehaviour {
         // trailOUT.emitting = false;
       }
       initiatedSelfDestruction = true;
+    }
+    if (fireWanted && fireWantedSize != -1) {
+      fireWanted = false;
+      Fire(fireWantedSize, true);
     }
 
     // rigidbody.velocity = transform.forward * movementSpeed;
@@ -256,14 +263,14 @@ public class AfroFistController : MonoBehaviour {
   public void HitEnemy (EnemyController enemyHit, bool useLastCollision = true) {
     lastEnemyHit = enemyHit;
     InstantiateImpact(true, useLastCollision);
-    if (Tools.InflictDamage (enemyHit.transform, damageFinal, characterWallet, spellController)) {
-      spellController.FistKilledEnemy ();
+    if (Tools.InflictDamage(enemyHit.transform, damageFinal, characterWallet, spellController)) {
+      spellController.FistKilledEnemy();
     }
-    if (spellController.fistEnemyBouncesQuest && enemiesHit.Contains (enemyHit)) {
-      spellController.GenerateQuestDing (transform.position);
+    if (spellController.fistEnemyBouncesQuest && enemiesHit.Contains(enemyHit)) {
+      spellController.GenerateQuestDing(transform.position);
       spellController.enemyHitTwiceBySameFist++;
     }
-    enemiesHit.Add (enemyHit);
+    enemiesHit.Add(enemyHit);
   }
   void DestroySelf () {
     if (spellController.fistDivide) {
@@ -280,10 +287,10 @@ public class AfroFistController : MonoBehaviour {
       sprite.enabled = false;
     }
     foreach (GameObject objectToDisable in objectsToDisable) {
-      objectToDisable.SetActive (false);
+      objectToDisable.SetActive(false);
     }
     foreach (ParticleSystem particleSystemMove in particleSystemsMove) {
-      particleSystemMove.Stop ();
+      particleSystemMove.Stop();
     }
     sphereCollider.enabled = false;
     meshRenderer.enabled = false;
@@ -397,7 +404,7 @@ public class AfroFistController : MonoBehaviour {
   }
 
   public void UpdateDamage (int division = 0) {
-    if (!fired) {
+    if (!fired && !freeBall) {
       damageBase = Mathf.RoundToInt(spellController.healthScript.damageFinal / 4f);
     }
     float ratio = division * 2;

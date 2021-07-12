@@ -61,12 +61,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3550f306c199880458bebfa2bc0bc756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0
-  damage: 0
+  health: {fileID: 0}
   price: 3
-  range: 0
-  space: 1.3333333
   turretName: Cylindrox
+  lifeTimeBase: 10
+  lifeTimeFinal: 0
 --- !u!95 &2210646197625866349
 Animator:
   serializedVersion: 3
@@ -111,19 +110,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2baac2bb8cd9ec4da3b2615f391ff9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   enemiesInRange: []
+  target: {fileID: 0}
+  targetUpdateWanted: 0
+  snapshotWanted: 0
+  lastTargetUpdate: 0
+  sphereSnapshot: 1
+  visualSpace: {fileID: 0}
+  visualRange: {fileID: 0}
+  rangeControllers: []
+  owner: {fileID: 0}
+  turretSpaceCheck: {fileID: 0}
+  navMeshObstacle: {fileID: 0}
+  activated: 0
+  headTurret: 1
   projectileSpawnPoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
-  targetUpdateWanted: 0
   fireTrigger: 0
   fireTriggerControl: 1
   attackAnimationSpeed: 1
+  spellController: {fileID: 0}
   targetPoint: {fileID: 6738546409138068028}
   power1: 0
-  targeting1: 0
-  targeting2: 0
+  targeting1: 1
+  targeting2: 1
+  targeting3: 1
+  targeting4: 1
+  targeting5: 1
   amount1: 0
+  fistLilPrefab: {fileID: 4545635645836257022, guid: e2dc51de5f2e9de4e98e4a601f5789eb,
+    type: 3}
 --- !u!1 &5203360324027416631
 GameObject:
   m_ObjectHideFlags: 0

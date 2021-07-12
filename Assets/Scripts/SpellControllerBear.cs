@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellControllerBear : SpellController {
-  public MoneyManager moneyManager;
   BaseMoveAttacc moveScript;
   bool createModeOn = false;
   public LayerMask layerMaskGround;

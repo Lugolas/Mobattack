@@ -11,9 +11,13 @@ public class HealthSimple : MonoBehaviour {
   public Animator anim;
   protected UnityEngine.AI.NavMeshAgent navAgent;
 
-  public int maxHealth = 200;
   protected int lastMaxHealthKnown = 0;
   public int currentHealth;
+  public int maxHealthBase = 100;
+  List<Tools.StatModifier> maxHealthBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> maxHealthAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> maxHealthMultipliers = new List<Tools.StatModifier>();
+  public int maxHealthFinal;
   public float speedBase = 0;
   List<Tools.StatModifier> speedBaseMultipliers = new List<Tools.StatModifier>();
   List<Tools.StatModifier> speedAdditions = new List<Tools.StatModifier>();
@@ -29,6 +33,16 @@ public class HealthSimple : MonoBehaviour {
   List<Tools.StatModifier> damageAdditions = new List<Tools.StatModifier>();
   List<Tools.StatModifier> damageMultipliers = new List<Tools.StatModifier>();
   public int damageFinal;
+  public float delayBase = 0;
+  List<Tools.StatModifier> delayBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> delayAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> delayMultipliers = new List<Tools.StatModifier>();
+  public float delayFinal;
+  public float rangeBase = 0;
+  List<Tools.StatModifier> rangeBaseMultipliers = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> rangeAdditions = new List<Tools.StatModifier>();
+  List<Tools.StatModifier> rangeMultipliers = new List<Tools.StatModifier>();
+  public float rangeFinal;
   public bool healthRegen = false;
   public float healthRegenPerSecondBase = 0;
   List<Tools.StatModifier> healthRegenPerSecondBaseMultipliers = new List<Tools.StatModifier>();
@@ -65,13 +79,14 @@ public class HealthSimple : MonoBehaviour {
     navAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent> ();
 
     canvas = GameObject.Find ("Canvas");
-    lastMaxHealthKnown = maxHealth;
+    UpdateMaxHealth();
+    lastMaxHealthKnown = maxHealthFinal;
 
     if (headerPrefab)
       HeaderInstantiate ();
 
     DamagePopUpController.Initialize ();
-    currentHealth = maxHealth;
+    currentHealth = maxHealthFinal;
     anim = GetComponent<Animator> ();
     if (!anim) {
       anim = GetComponent<Animator> ();
@@ -102,19 +117,26 @@ public class HealthSimple : MonoBehaviour {
         if (healthBar.IsInitiated()) {
           healthBar.SetCurrentValue(currentHealth);
         } else {
-          healthBar.Init(maxHealth);
+          healthBar.Init(maxHealthFinal);
         }
-        if (maxHealth != lastMaxHealthKnown) {
-          lastMaxHealthKnown = maxHealth;
-          healthBar.UpdateBar(maxHealth);
+        if (maxHealthFinal != lastMaxHealthKnown) {
+          lastMaxHealthKnown = maxHealthFinal;
+          healthBar.UpdateBar(maxHealthFinal);
         }
       }
     }
 
-    if (healthRegen) {
-      if (currentHealth < maxHealth && Time.time > healthRegenLast + healthRegenDelay) {
-        ReceiveHealing(healthRegenPerRegen, false);
-        healthRegenLast = Time.time;
+    if (healthRegen && Time.time > healthRegenLast + healthRegenDelay) {
+      if (healthRegenPerRegen > 0) {
+        if (currentHealth < maxHealthFinal) {
+          ReceiveHealing(healthRegenPerRegen, false);
+          healthRegenLast = Time.time;
+        }
+      } else if (healthRegenPerRegen < 0) {
+        if (currentHealth > 0) {
+          TakeDamage(Mathf.Abs(healthRegenPerRegen), null, false);
+          healthRegenLast = Time.time;
+        }
       }
     }
 
@@ -144,9 +166,10 @@ public class HealthSimple : MonoBehaviour {
     isHeaderVisible = true;
   }
 
-  public virtual bool TakeDamage (int damageAmount, SpellController attacker = null) {
+  public virtual bool TakeDamage (int damageAmount, SpellController attacker = null, bool showText = true) {
     if (!isDead) {
-      DamagePopUpController.CreateDamagePopUp (damageAmount.ToString (), body, "red");
+      if (showText)
+        DamagePopUpController.CreateDamagePopUp (damageAmount.ToString (), body, "red");
 
       UpdateHealth (currentHealth - damageAmount);
 
@@ -166,20 +189,20 @@ public class HealthSimple : MonoBehaviour {
       currentHealth = 0;
     }
 
-    if (currentHealth >= maxHealth) {
-      currentHealth = maxHealth;
+    if (currentHealth >= maxHealthFinal) {
+      currentHealth = maxHealthFinal;
     }
   }
 
-  public void ReceiveHealing (int healingAmount, bool showText) {
+  public void ReceiveHealing (int healingAmount, bool showText = true) {
     if (!isDead) {
       if (showText)
         DamagePopUpController.CreateDamagePopUp (healingAmount.ToString (), body, "green");
 
       UpdateHealth (currentHealth + healingAmount);
 
-      if (currentHealth >= maxHealth) {
-        currentHealth = maxHealth;
+      if (currentHealth >= maxHealthFinal) {
+        currentHealth = maxHealthFinal;
       }
     }
   }
@@ -210,7 +233,7 @@ public class HealthSimple : MonoBehaviour {
       Destroy (header);
   }
 
-  void UpdateHealthRegenPerSecond() {
+  public void UpdateHealthRegenPerSecond() {
     float healthRegenPerSecondTemp = healthRegenPerSecondBase;
     foreach (Tools.StatModifier healthRegenPerSecondBaseMultiplier in healthRegenPerSecondBaseMultipliers)
     {
@@ -229,7 +252,7 @@ public class HealthSimple : MonoBehaviour {
     healthRegenPerRegen = Mathf.CeilToInt(healthRegenPerSecondFinal / 2);
     healthRegenDelay = healthRegenPerRegen / healthRegenPerSecondFinal;
   }
-  void UpdateArmor() {
+  public void UpdateArmor() {
     float armorTemp = armorBase;
     foreach (Tools.StatModifier armorBaseMultiplier in armorBaseMultipliers)
     {
@@ -245,7 +268,7 @@ public class HealthSimple : MonoBehaviour {
     }
     armorFinal = Mathf.RoundToInt(armorTemp);
   }
-  void UpdateDamage() {
+  public void UpdateDamage() {
     float damageTemp = damageBase;
     foreach (Tools.StatModifier damageBaseMultiplier in damageBaseMultipliers)
     {
@@ -261,7 +284,55 @@ public class HealthSimple : MonoBehaviour {
     }
     damageFinal = Mathf.RoundToInt(damageTemp);
   }
-  void UpdateSpeed() {
+  public void UpdateMaxHealth() {
+    float maxHealthTemp = maxHealthBase;
+    foreach (Tools.StatModifier maxHealthBaseMultiplier in maxHealthBaseMultipliers)
+    {
+      maxHealthTemp *= maxHealthBaseMultiplier.value;
+    }
+    foreach (Tools.StatModifier maxHealthAddition in maxHealthAdditions)
+    {
+      maxHealthTemp += maxHealthAddition.value;
+    }
+    foreach (Tools.StatModifier maxHealthMultiplier in maxHealthMultipliers)
+    {
+      maxHealthTemp *= maxHealthMultiplier.value;
+    }
+    maxHealthFinal = Mathf.RoundToInt(maxHealthTemp);
+  }
+  public void UpdateDelay() {
+    float delayTemp = delayBase;
+    foreach (Tools.StatModifier delayBaseMultiplier in delayBaseMultipliers)
+    {
+      delayTemp *= delayBaseMultiplier.value;
+    }
+    foreach (Tools.StatModifier delayAddition in delayAdditions)
+    {
+      delayTemp += delayAddition.value;
+    }
+    foreach (Tools.StatModifier delayMultiplier in delayMultipliers)
+    {
+      delayTemp *= delayMultiplier.value;
+    }
+    delayFinal = delayTemp;
+  }
+  public void UpdateRange() {
+    float rangeTemp = rangeBase;
+    foreach (Tools.StatModifier rangeBaseMultiplier in rangeBaseMultipliers)
+    {
+      rangeTemp *= rangeBaseMultiplier.value;
+    }
+    foreach (Tools.StatModifier rangeAddition in rangeAdditions)
+    {
+      rangeTemp += rangeAddition.value;
+    }
+    foreach (Tools.StatModifier rangeMultiplier in rangeMultipliers)
+    {
+      rangeTemp *= rangeMultiplier.value;
+    }
+    rangeFinal = rangeTemp;
+  }
+  public void UpdateSpeed() {
     float speedTemp = speedBase;
     foreach (Tools.StatModifier speedBaseMultiplier in speedBaseMultipliers)
     {
@@ -380,6 +451,96 @@ public class HealthSimple : MonoBehaviour {
   public void RemoveDamageMultiplier(string identifier) {
     if (Tools.RemoveStatModifier(damageMultipliers, identifier)) {
       UpdateDamage();
+    }
+  }
+public void AddMaxHealthBaseMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(maxHealthBaseMultipliers, value, identifier)) {
+      UpdateMaxHealth();
+    }
+  }
+  public void RemoveMaxHealthBaseMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(maxHealthBaseMultipliers, identifier)) {
+      UpdateMaxHealth();
+    }
+  }
+  public void AddMaxHealthAddition(int value, string identifier) {
+    if (Tools.AddStatModifier(maxHealthAdditions, value, identifier)) {
+      UpdateMaxHealth();
+    }
+  }
+  public void RemoveMaxHealthAddition(string identifier) {
+    if (Tools.RemoveStatModifier(maxHealthAdditions, identifier)) {
+      UpdateMaxHealth();
+    }
+  }
+  public void AddMaxHealthMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(maxHealthMultipliers, value, identifier)) {
+      UpdateMaxHealth();
+    }
+  }
+  public void RemoveMaxHealthMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(maxHealthMultipliers, identifier)) {
+      UpdateMaxHealth();
+    }
+  }
+  public void AddDelayBaseMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(delayBaseMultipliers, value, identifier)) {
+      UpdateDelay();
+    }
+  }
+  public void RemoveDelayBaseMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(delayBaseMultipliers, identifier)) {
+      UpdateDelay();
+    }
+  }
+  public void AddDelayAddition(float value, string identifier) {
+    if (Tools.AddStatModifier(delayAdditions, value, identifier)) {
+      UpdateDelay();
+    }
+  }
+  public void RemoveDelayAddition(string identifier) {
+    if (Tools.RemoveStatModifier(delayAdditions, identifier)) {
+      UpdateDelay();
+    }
+  }
+  public void AddDelayMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(delayMultipliers, value, identifier)) {
+      UpdateDelay();
+    }
+  }
+  public void RemoveDelayMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(delayMultipliers, identifier)) {
+      UpdateDelay();
+    }
+  }
+  public void AddRangeBaseMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(rangeBaseMultipliers, value, identifier)) {
+      UpdateRange();
+    }
+  }
+  public void RemoveRangeBaseMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(rangeBaseMultipliers, identifier)) {
+      UpdateRange();
+    }
+  }
+  public void AddRangeAddition(float value, string identifier) {
+    if (Tools.AddStatModifier(rangeAdditions, value, identifier)) {
+      UpdateRange();
+    }
+  }
+  public void RemoveRangeAddition(string identifier) {
+    if (Tools.RemoveStatModifier(rangeAdditions, identifier)) {
+      UpdateRange();
+    }
+  }
+  public void AddRangeMultiplier(float value, string identifier) {
+    if (Tools.AddStatModifier(rangeMultipliers, value, identifier)) {
+      UpdateRange();
+    }
+  }
+  public void RemoveRangeMultiplier(string identifier) {
+    if (Tools.RemoveStatModifier(rangeMultipliers, identifier)) {
+      UpdateRange();
     }
   }
   public void AddSpeedBaseMultiplier(float value, string identifier) {

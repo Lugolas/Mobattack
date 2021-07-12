@@ -106,7 +106,7 @@ public class EnemyController : MonoBehaviour {
     {
       maxHealth = maxHealthNormal;
     }
-    health.maxHealth = maxHealth;
+    health.maxHealthBase = maxHealth;
     if (canHaveHeadband)
       anim.SetBool("IsRunner", isRunner);
     anim.SetBool("IsRunning", true);

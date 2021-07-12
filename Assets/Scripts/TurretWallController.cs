@@ -2,19 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretWallController : MonoBehaviour
+public class TurretWallController : TurretController
 {
-  public GameObject target;
-  public List<GameObject> enemiesInRange = new List<GameObject>();
   public Transform projectileSpawnPoint;
   public GameObject projectilePrefab;
-  public bool targetUpdateWanted = false;
   private bool hasExtortedCharacter = false;
   private float fireTime;
   TurretStatManager statManager;
   float oldDelay;
-  TurretPlayerLink playerLink;
-  Animator animator;
   public bool fireTrigger = false;
   public bool fireTriggerControl = true;
   bool animatingAttack = false;
@@ -24,55 +19,35 @@ public class TurretWallController : MonoBehaviour
   public List<RegisteredFist> registeredFists = new List<RegisteredFist>();
   float lastUpdate;
   float delay = 1;
-  SpellControllerAfro spellController;
+  public SpellControllerAfro afrOwner;
   public GameObject targetPoint;
   public bool power1 = false;
   public bool targeting1 = false;
   public bool targeting2 = false;
+  public bool targeting3 = false;
   public bool targeting4 = false;
+  public bool targeting5 = false;
+  bool targeting5Control = false;
   public bool amount1 = false;
   bool amount1Control = false;
+  public GameObject fistLilPrefab;
 
   private void Start()
   {
     lastUpdate = Time.time;
-    playerLink = GetComponentInParent<TurretPlayerLink>();
     statManager = GetComponentInParent<TurretStatManager>();
-    animator = GetComponent<Animator>();
-    spellController = playerLink.playerCharacter.GetComponent<SpellControllerAfro>();
-
-    AnimationClip[] animationClips = animator.runtimeAnimatorController.animationClips;
-    foreach (AnimationClip animationClip in animationClips)
-    {
-      if (animationClip.name == "Attack")
-      {
-        attackAnimationLength = animationClip.length;
-      }
-    }
-    attackAnimationSpeed = animator.GetFloat(attackAnimationName);
+    afrOwner = owner.GetComponent<SpellControllerAfro>();
 
     fireTime = Time.time;
   }
 
   void Update()
   {
-    if (statManager.delay != oldDelay)
+    if (activated && !hasExtortedCharacter)
     {
-      oldDelay = statManager.delay;
-      if (attackAnimationLength > statManager.delay)
-      {
-        attackAnimationSpeed = (attackAnimationLength / statManager.delay);
-        animator.SetFloat(attackAnimationName, attackAnimationSpeed);
-      }
-    }
-
-    if (playerLink.activated && !hasExtortedCharacter)
-    {
-      playerLink.characterWallet.SubstractMoney(statManager.price);
+      afrOwner.moneyManager.SubstractMoney(statManager.price);
       hasExtortedCharacter = true;
     }
-
-    TriggerFireAnimation();
 
     if (Time.time > lastUpdate + 1) {
       targetUpdateWanted = true;
@@ -85,17 +60,15 @@ public class TurretWallController : MonoBehaviour
       amount1Control = amount1;
       delay *= 2;
     }
-    if (targeting4 && spellController.GetSpell3Active()) {
-      targetPoint.transform.position = spellController.spell3TargetPoint;
+    if (targeting5 && !targeting5Control) {
+      targeting5Control = targeting5;
+      delay *= 0.1f;
+    } else if (!targeting5 && targeting5Control) {
+      targeting5Control = targeting5;
+      delay *= 10;
     }
-  }
-
-  void TriggerFireAnimation()
-  {
-    if (playerLink.activated && target && Time.time >= fireTime + statManager.delay)
-    {
-      fireTime = Time.time;
-      animator.SetTrigger("Fire");
+    if (targeting4 && afrOwner.GetSpell3Active()) {
+      targetPoint.transform.position = afrOwner.spell3TargetPoint;
     }
   }
 
@@ -104,22 +77,6 @@ public class TurretWallController : MonoBehaviour
     if (targetUpdateWanted)
     {
       UpdateTarget();
-    }
-    if (fireTrigger && fireTriggerControl && target)
-    {
-      fireTrigger = false;
-      fireTriggerControl = false;
-    }
-
-
-    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-    {
-      animatingAttack = true;
-    }
-    else if (animatingAttack)
-    {
-      fireTriggerControl = true;
-      TriggerFireAnimation();
     }
   }
 

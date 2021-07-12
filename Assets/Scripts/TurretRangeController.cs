@@ -29,14 +29,14 @@ public class TurretRangeController : MonoBehaviour
   public void UpdateRange()
   {
     float scaleY = rangeCollider.transform.localScale.y;
-    float scaleZ = statManager.range * scaleRatio;
+    // float scaleZ = statManager.range * scaleRatio;
 
     if (zIsUp) {
-      scaleY = statManager.range * scaleRatio;
-      scaleZ = rangeCollider.transform.localScale.y;
+      // scaleY = statManager.range * scaleRatio;
+      // scaleZ = rangeCollider.transform.localScale.y;
     }
 
-    transform.localScale = new Vector3(statManager.range * scaleRatio, scaleY, scaleZ);
+    // transform.localScale = new Vector3(statManager.range * scaleRatio, scaleY, scaleZ);
   }
 
   public void subscribeToRange(TurretController turretController)

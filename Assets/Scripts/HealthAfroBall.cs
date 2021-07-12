@@ -28,7 +28,7 @@ public class HealthAfroBall : HealthSimple
     }
   }
 
-  public override bool TakeDamage(int damageAmount, SpellController attacker = null)
+  public override bool TakeDamage(int damageAmount, SpellController attacker = null, bool showText = true)
   {
     if (!isDead)
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TurretSpaceCheck : MonoBehaviour
 {
   public List<SpaceCheck> spaceChecks = new List<SpaceCheck>();
-  TurretPlayerLink turretPlayerLink;
+  TurretController turretController;
   public bool enoughSpace = true;
   public GameObject visualSpace;
   private bool activated = false;
@@ -13,13 +13,13 @@ public class TurretSpaceCheck : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    turretPlayerLink = GetComponent<TurretPlayerLink>();
+    turretController = GetComponent<TurretController>();
   }
 
   // Update is called once per frame
   void Update()
   {
-    if (!turretPlayerLink.activated)
+    if (!turretController.activated)
     {
       enoughSpace = true;
       foreach (SpaceCheck spaceCheck in spaceChecks)

@@ -51,7 +51,7 @@ public class HealthDamage : HealthSimple
   void Update() {
     UpdateProcess();
     if (healthRegen) {
-      AddHealthRegenPerSecondAddition(maxHealth * 0.005f, "0.5%NaturalRegen");
+      AddHealthRegenPerSecondAddition(maxHealthFinal * 0.005f, "0.5%NaturalRegen");
     }
     if (header) {
       // currentExp = currentMana;
@@ -63,7 +63,7 @@ public class HealthDamage : HealthSimple
     if (!isDead && hasDied) {
       hasDied = false;
       headerEnhancedToggle(true);
-      currentHealth = maxHealth;
+      currentHealth = maxHealthFinal;
       currentMana = 0;
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class SpellController : MonoBehaviour
 {
+  public MoneyManager moneyManager;
   public GameObject body;
   public HealthDamage healthScript;
   protected bool spell1Active = false;

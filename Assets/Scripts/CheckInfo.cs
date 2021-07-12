@@ -10,7 +10,7 @@ public class CheckInfo : MonoBehaviour
   GameObject canvas;
   GameObject infoPanel;
   InfoPanelController infoPanelController;
-  TurretStatManager statManager;
+  public TurretStatManager statManager;
   TurretUpgradeManager upgradeManager;
 
   string objectName;
@@ -22,10 +22,12 @@ public class CheckInfo : MonoBehaviour
 
   void Start()
   {
-    statManager = GetComponent<TurretStatManager>();
-    if (!statManager)
-    {
-      statManager = transform.parent.GetComponent<TurretStatManager>();
+    if (!statManager) {
+      statManager = GetComponent<TurretStatManager>();
+      if (!statManager)
+      {
+        statManager = transform.parent.GetComponent<TurretStatManager>();
+      }
     }
 
     upgradeManager = GetComponent<TurretUpgradeManager>();
@@ -35,10 +37,10 @@ public class CheckInfo : MonoBehaviour
     }
 
     objectName = statManager.turretName;
-    damage = statManager.damage;
-    attackPerSecond = 1f / statManager.delay;
+    // damage = statManager.damage;
+    // attackPerSecond = 1f / statManager.delay;
     price = statManager.price;
-    range = statManager.range;
+    // range = statManager.range;
     canvas = GameObject.Find("Canvas");
   }
 
@@ -55,9 +57,11 @@ public class CheckInfo : MonoBehaviour
   {
     if (infoPanel)
     {
-      infoPanelController.damage = statManager.damage;
-      infoPanelController.attackPerSecond = Mathf.Round((1f / statManager.delay) * 100.0f) / 100.0f;
-      infoPanelController.range = statManager.range;
+      infoPanelController.damage = 1;
+      // infoPanelController.damage = statManager.damage;
+      infoPanelController.attackPerSecond = Mathf.Round((1f / 2) * 100.0f) / 100.0f;
+      // infoPanelController.attackPerSecond = Mathf.Round((1f / statManager.delay) * 100.0f) / 100.0f;
+      // infoPanelController.range = statManager.range;
       infoPanelController.price = statManager.price;
       infoPanelController.objectName = statManager.turretName;
       infoPanelController.priceTitle = priceTitle;

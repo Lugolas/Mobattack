@@ -9,7 +9,6 @@ public class TurretVersionManager : MonoBehaviour
   TurretStatManager turretStats;
   bool hasTransferedStats = false;
   TurretRangeController rangeController;
-  TurretSpaceController spaceController;
   TurretController[] turretControllers;
   CheckInfo checkInfo;
 
@@ -29,7 +28,6 @@ public class TurretVersionManager : MonoBehaviour
 
     if (turretStats)
     {
-      TransferStats(versionStats, turretStats);
       rangeController = turretStats.GetComponentInChildren<TurretRangeController>();
       rangeController.UpdateRange();
       foreach (TurretController turretController in turretControllers)
@@ -38,8 +36,6 @@ public class TurretVersionManager : MonoBehaviour
       }
       checkInfo = turretStats.GetComponentInChildren<CheckInfo>();
       checkInfo.UpdateValues();
-      spaceController = turretStats.GetComponentInChildren<TurretSpaceController>();
-      spaceController.UpdateSpace();
     }
   }
 
@@ -48,18 +44,7 @@ public class TurretVersionManager : MonoBehaviour
   {
     if (!hasTransferedStats && turretStats)
     {
-      TransferStats(versionStats, turretStats);
+      // TransferStats(versionStats, turretStats);
     }
-  }
-
-  void TransferStats(TurretStatManager from, TurretStatManager to)
-  {
-    to.delay = from.delay;
-    to.damage = from.damage;
-    to.price = from.price;
-    to.range = from.range;
-    to.space = from.space;
-    to.turretName = from.turretName;
-    hasTransferedStats = true;
   }
 }

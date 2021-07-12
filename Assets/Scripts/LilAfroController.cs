@@ -7,7 +7,6 @@ public class LilAfroController : MonoBehaviour
   public GameObject target;
   public Transform fistPropulsionPoint;
   public bool targetUpdateWanted = false;
-  TurretPlayerLink playerLink;
   Animator animator;
   string attackTriggerName = "Attack";
   string attackModeName = "AttackSelector";
@@ -17,10 +16,12 @@ public class LilAfroController : MonoBehaviour
   int damageBase = 1;
   int damageFinal = 1;
   float punchTime = 0;
+  float fireTime = 0;
+  float personnalDelay;
 
   private void Start()
   {
-    playerLink = GetComponentInParent<TurretPlayerLink>();
+    personnalDelay = Random.Range(0.8f, 1.2f);
     animator = GetComponent<Animator>();
     wallController = GetComponentInParent<TurretWallController>();
   }
@@ -49,7 +50,7 @@ public class LilAfroController : MonoBehaviour
 
   void LateUpdate()
   {
-    if (playerLink.activated) {
+    if (wallController.activated) {
       if (wallController.targeting2) {
         Vector3 point = wallController.targetPoint.transform.position;
         transform.LookAt(new Vector3(point.x, transform.position.y, point.z));
@@ -82,59 +83,53 @@ public class LilAfroController : MonoBehaviour
       {
         Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
         AfroFistController targetController = target.GetComponent<AfroFistController>();
-        if (targetRigidbody) {
-          if (!targetRigidbody.isKinematic) {
-            target.transform.position = new Vector3(fistPropulsionPoint.position.x, target.transform.position.y, fistPropulsionPoint.position.z);
-
-            float magnitude = targetRigidbody.velocity.magnitude;
-            float speedBoost = 1;
-            if (targetController) {
-              if (wallController.power1) {
-                targetController.AddDamageAddition(damageFinal);
-              }
-              if (wallController.targeting1) {
-                speedBoost = 1.05f;
-              }
-            }
-            float baseForce = (magnitude * targetController.GetFistMass());
-            if (baseForce < targetController.GetLaunchForce()) {
-              baseForce = targetController.GetLaunchForce();
-            }
-
-            float force = (baseForce + damageFinal) * speedBoost;
-
-            targetRigidbody.Sleep();
-            targetRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+        if (targetController) {
+          if (!targetController.rigidbodyFist.isKinematic) {
+            Fire(targetController);
+            punchTime = Time.time;
           }
         }
 
-        TriggerFireAnimation();
-
-        punchTime = Time.time;
+      } else if (wallController.targeting3 && Time.time > fireTime + ((wallController.GetDelay() * personnalDelay) * 5f)) {
+        GameObject fistLil = Instantiate(wallController.fistLilPrefab, fistPropulsionPoint.position, fistPropulsionPoint.rotation);
+        AfroFistController fistLilController = fistLil.GetComponent<AfroFistController>();
+        fistLilController.spellController = wallController.afrOwner;
+        fistLilController.characterWallet = wallController.afrOwner.moneyManager;
+        fistLilController.freeBall = true;
+        // fistLilController.fireWanted = true;
+        // fistLilController.fireWantedSize = 0.48f;
+        // fistLilController.Fire(0.48f, true);
+        Fire(fistLilController);
+        fireTime = Time.time;
       }
       target = null;
     }
   }
 
-  void Fire()
+  void Fire(AfroFistController fist)
   {
-    // GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation) as GameObject;
-    // Fireball fireballScript = projectile.GetComponent<Fireball>();
-    // if (fireballScript)
-    // {
-    //   fireballScript.damage = statManager.damage;
-    //   fireballScript.emitter = this;
-    //   fireballScript.target = target.transform;
-    //   fireballScript.characterWallet = playerLink.characterWallet;
-    // }
-    // else
-    // {
-    //   TriangloxSlamController slamController = projectile.GetComponent<TriangloxSlamController>();
-    //   if (slamController)
-    //   {
-    //     slamController.damage = statManager.damage;
-    //     slamController.characterWallet = playerLink.characterWallet;
-    //   }
-    // }
+    fist.transform.position = new Vector3(fistPropulsionPoint.position.x, fist.transform.position.y, fistPropulsionPoint.position.z);
+
+    float magnitude = fist.rigidbodyFist.velocity.magnitude;
+    float speedBoost = 1;
+    if (fist) {
+      if (wallController.power1) {
+        fist.AddDamageAddition(damageFinal);
+      }
+      if (wallController.targeting1) {
+        speedBoost = 1.05f;
+      }
+    }
+    float baseForce = (magnitude * fist.GetFistMass());
+    if (baseForce < fist.GetLaunchForce()) {
+      baseForce = fist.GetLaunchForce();
+    }
+
+    float force = (baseForce + damageFinal) * speedBoost;
+
+    fist.rigidbodyFist.Sleep();
+    fist.rigidbodyFist.AddForce(transform.forward * force, ForceMode.Impulse);
+    
+    TriggerFireAnimation();
   }
 }
