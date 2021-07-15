@@ -18,7 +18,7 @@ public class SpaceCheck : MonoBehaviour
   }
   void OnTriggerEnter(Collider collider)
   {
-    if (collider.tag == "Space")
+    if (collider.tag == "Space" || collider.tag == "CharacterBodyPart" || collider.tag == "Fist" || collider.tag == "Character")
     {
       enoughSpace = false;
       obstacles.Add(collider);
@@ -27,7 +27,7 @@ public class SpaceCheck : MonoBehaviour
 
   void OnTriggerExit(Collider collider)
   {
-    if (collider.tag == "Space")
+    if (collider.tag == "Space" || collider.tag == "CharacterBodyPart" || collider.tag == "Fist" || collider.tag == "Character")
     {
       obstacles.Remove(collider);
       if (obstacles.Count == 0)

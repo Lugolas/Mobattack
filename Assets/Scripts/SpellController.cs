@@ -17,6 +17,8 @@ public abstract class SpellController : MonoBehaviour
   protected bool spell4Available = false;
   protected GameObject questDingPrefab;
   protected int skelettsKilled = 0;
+  protected float turretPlacementRange = 10;
+  protected float turretPlacementRangeMin = 1.5f;
   public int level = 1;
   public List<LevelUpChoice> levelUpChoices = new List<LevelUpChoice>();
   public struct LevelUpChoice

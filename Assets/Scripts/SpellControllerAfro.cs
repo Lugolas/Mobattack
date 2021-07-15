@@ -134,6 +134,12 @@ public class SpellControllerAfro : SpellController {
   public bool fistExplode = false;
   public bool fistDivide = false;
   public bool rageContagion = false;
+  public GameObject circleFull;
+  public GameObject circleOriented;
+  public GameObject circleOriented1;
+  public GameObject circleOriented2;
+  public GameObject circleOriented3;
+  public GameObject circleOriented4;
 
   // Start is called before the first frame update
   void Start () {
@@ -337,7 +343,38 @@ public class SpellControllerAfro : SpellController {
           System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
           foreach (RaycastHit hit in hits) {
             if (!previewTurretPlaced) {
-              previewTurret.transform.position = hit.point;
+              Vector3 flooredHitPoint = new Vector3(hit.point.x, body.transform.position.y, hit.point.z);
+              if (Vector3.Distance(body.transform.position, hit.point) > turretPlacementRange) {
+                previewTurret.transform.position = Vector3.MoveTowards(body.transform.position, flooredHitPoint, turretPlacementRange);
+              } else {
+                previewTurret.transform.position = flooredHitPoint;
+              }
+              float distanceFinal = Vector3.Distance(body.transform.position, previewTurret.transform.position);
+              Debug.Log(distanceFinal);
+              float rangeFraction = turretPlacementRange / 5;
+              float distanceTier = (distanceFinal - turretPlacementRangeMin) / rangeFraction;
+              if (distanceTier >= 1) {
+                circleOriented1.SetActive(true);
+                if (distanceTier >= 2) {
+                  circleOriented2.SetActive(true);
+                  if (distanceTier >= 3) {
+                    circleOriented3.SetActive(true);
+                    if (distanceTier >= 4) {
+                      circleOriented4.SetActive(true);
+                    } else {
+                      circleOriented4.SetActive(false);
+                    }
+                  } else {
+                    circleOriented3.SetActive(false);
+                  }
+                } else {
+                  circleOriented2.SetActive(false);
+                }
+              } else {
+                circleOriented1.SetActive(false);
+              }
+              body.transform.LookAt(flooredHitPoint);
+              previewTurret.transform.rotation = body.transform.rotation;
             } else {
               previewTurret.transform.LookAt (new Vector3 (hit.point.x, previewTurret.transform.position.y, hit.point.z));
             }
@@ -467,14 +504,21 @@ public class SpellControllerAfro : SpellController {
         }
         if (spell1Available) {
           spell1Active = true;
+          moveScript.stopMoving();
           Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
           RaycastHit[] hits = Physics.RaycastAll (ray, 2500, layerMaskGround);
 
           if (hits.Length > 0) {
             System.Array.Sort (hits, (x, y) => x.distance.CompareTo (y.distance));
             foreach (RaycastHit hit in hits) {
-              turretCreationPoint = hit.point;
-              previewTurret = Instantiate (turret1Prefab, turretCreationPoint, new Quaternion ());
+              Vector3 flooredHitPoint = new Vector3(hit.point.x, body.transform.position.y, hit.point.z);
+              if (Vector3.Distance(body.transform.position, hit.point) > turretPlacementRange) {
+                turretCreationPoint = Vector3.MoveTowards(body.transform.position, flooredHitPoint, turretPlacementRange);
+              } else {
+                turretCreationPoint = flooredHitPoint;
+              }
+              body.transform.LookAt(flooredHitPoint);
+              previewTurret = Instantiate (turret1Prefab, turretCreationPoint, body.transform.rotation);
               TurretController[] previewTurretControllers = previewTurret.GetComponentsInChildren<TurretController>();
               foreach (TurretController turretController in previewTurretControllers)
               {
@@ -485,6 +529,8 @@ public class SpellControllerAfro : SpellController {
                 }
               }
               createModeOn = true;
+              circleOriented.SetActive(true);
+              circleFull.SetActive(false);
               previewTurretNeedsOrientation = true;
               previewTurret1 = true;
               break;
@@ -654,6 +700,12 @@ public class SpellControllerAfro : SpellController {
     spell1Active = false;
     spell2Active = false;
     createModeOn = false;
+    circleOriented.SetActive(false);
+    circleOriented1.SetActive(false);
+    circleOriented2.SetActive(false);
+    circleOriented3.SetActive(false);
+    circleOriented4.SetActive(false);
+    circleFull.SetActive(true);
     Destroy (previewTurret);
     previewTurret = null;
     previewTurretController = null;
