@@ -350,8 +350,7 @@ public class SpellControllerAfro : SpellController {
                 previewTurret.transform.position = flooredHitPoint;
               }
               float distanceFinal = Vector3.Distance(body.transform.position, previewTurret.transform.position);
-              Debug.Log(distanceFinal);
-              float rangeFraction = turretPlacementRange / 5;
+              float rangeFraction = (turretPlacementRange - turretPlacementRangeMin) / 5;
               float distanceTier = (distanceFinal - turretPlacementRangeMin) / rangeFraction;
               if (distanceTier >= 1) {
                 circleOriented1.SetActive(true);
@@ -525,7 +524,6 @@ public class SpellControllerAfro : SpellController {
                 turretController.owner = this;
                 if (turretController.headTurret) {
                   previewTurretController = turretController;
-                  Debug.Log("found head turret");
                 }
               }
               createModeOn = true;
@@ -764,6 +762,12 @@ public class SpellControllerAfro : SpellController {
         spell2Active = false;
         previewTurret1 = false;
         previewTurret2 = false;
+        circleOriented.SetActive(false);
+        circleOriented1.SetActive(false);
+        circleOriented2.SetActive(false);
+        circleOriented3.SetActive(false);
+        circleOriented4.SetActive(false);
+        circleFull.SetActive(true);
 
         previewTurretController.Activate ();
 

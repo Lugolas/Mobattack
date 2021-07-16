@@ -8,7 +8,7 @@ public class TurretWallController : TurretController
   public GameObject projectilePrefab;
   private bool hasExtortedCharacter = false;
   private float fireTime;
-  TurretStatManager statManager;
+  public TurretStatManager statManager;
   float oldDelay;
   public bool fireTrigger = false;
   public bool fireTriggerControl = true;

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LilAfroController : MonoBehaviour
+public class LilAfroController : TurretController
 {
-  public GameObject target;
   public Transform fistPropulsionPoint;
-  public bool targetUpdateWanted = false;
   Animator animator;
   string attackTriggerName = "Attack";
   string attackModeName = "AttackSelector";
@@ -24,6 +22,7 @@ public class LilAfroController : MonoBehaviour
     personnalDelay = Random.Range(0.8f, 1.2f);
     animator = GetComponent<Animator>();
     wallController = GetComponentInParent<TurretWallController>();
+    subscribeToRangeControllers();
   }
 
   void OnTriggerExit(Collider collider)
@@ -51,6 +50,9 @@ public class LilAfroController : MonoBehaviour
   void LateUpdate()
   {
     if (wallController.activated) {
+      if (targetUpdateWanted) {
+        UpdateTarget();
+      }
       if (wallController.targeting2) {
         Vector3 point = wallController.targetPoint.transform.position;
         transform.LookAt(new Vector3(point.x, transform.position.y, point.z));
@@ -77,6 +79,17 @@ public class LilAfroController : MonoBehaviour
         }
         if (invalidRigidbodyDetected) {
           fistsInRange.Remove(invalidRigidbody.gameObject);
+        }
+      }
+      if (enemiesInRange.Count > 0) {
+        if (Time.time > punchTime + wallController.GetDelay()) {
+          foreach (GameObject enemy in enemiesInRange)
+          {
+            Tools.InflictDamage(enemy.transform, wallController.statManager.health.damageFinal, wallController.owner.moneyManager, wallController.owner);
+            targetUpdateWanted = true;
+          }
+          punchTime = Time.time;
+          TriggerFireAnimation();
         }
       }
       if (target && Time.time > punchTime + wallController.GetDelay())

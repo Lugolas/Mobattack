@@ -8,9 +8,7 @@ public class TurretRangeController : MonoBehaviour
   Transform rangeMesh;
   TurretStatManager statManager;
   TurretPlayerLink playerLink;
-  public bool zIsUp = false;
   List<TurretController> turretControllers = new List<TurretController>();
-  public float scaleRatio = 5f;
 
   private void Start()
   {
@@ -30,11 +28,6 @@ public class TurretRangeController : MonoBehaviour
   {
     float scaleY = rangeCollider.transform.localScale.y;
     // float scaleZ = statManager.range * scaleRatio;
-
-    if (zIsUp) {
-      // scaleY = statManager.range * scaleRatio;
-      // scaleZ = rangeCollider.transform.localScale.y;
-    }
 
     // transform.localScale = new Vector3(statManager.range * scaleRatio, scaleY, scaleZ);
   }

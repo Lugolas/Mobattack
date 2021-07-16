@@ -12,8 +12,8 @@ public abstract class TurretController : MonoBehaviour
   public bool snapshotWanted = false;
   public float lastTargetUpdate;
   public bool sphereSnapshot = true;
-  public GameObject visualSpace;
-  public GameObject visualRange;
+  public List<GameObject> visualSpaces = new List<GameObject>();
+  public List<GameObject> visualRanges = new List<GameObject>();
   public List<TurretRangeController> rangeControllers = new List<TurretRangeController>();
   public SpellController owner;
   public TurretSpaceCheck turretSpaceCheck;
@@ -31,9 +31,9 @@ public abstract class TurretController : MonoBehaviour
       rangeController.subscribeToRange(this);
     }
   }
-  public void UpdateTarget(float range)
+  public void UpdateTarget(float range = -1)
   {
-    if (snapshotWanted && sphereSnapshot)
+    if (snapshotWanted && sphereSnapshot && range != -1)
     {
       enemiesInRange.Clear();
       Collider[] objectsHit = Physics.OverlapSphere(transform.position, range, Tools.GetEnemyDetectionMask(), QueryTriggerInteraction.Collide);
@@ -94,7 +94,13 @@ public abstract class TurretController : MonoBehaviour
 
   void SetVisuals(bool range, bool space)
   {
-    visualRange.SetActive(range);
-    visualSpace.SetActive(space);
+    foreach (var visualRange in visualRanges)
+    {
+      visualRange.SetActive(range);
+    }
+    foreach (var visualSpace in visualSpaces)
+    {
+      visualSpace.SetActive(space);
+    }
   }
 }
